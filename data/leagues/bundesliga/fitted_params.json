@@ -1,0 +1,47 @@
+{
+  "league_id": "bundesliga",
+  "best": {
+    "half_life_days": 365.0,
+    "rho": -0.06,
+    "blend_k": 12.0
+  },
+  "selected_on": "DEV region only",
+  "dev_window": [
+    "2014-08-22",
+    "2022-04-09"
+  ],
+  "inner_log_loss": 0.995098407989324,
+  "stability": {
+    "log_loss_spread": 0.008311682917876317,
+    "top3": [
+      {
+        "half_life_days": 365,
+        "rho": -0.06,
+        "blend_k": 12.0,
+        "log_loss": 0.995098407989324,
+        "rps": 0.20619852637862407,
+        "n": 1140,
+        "n_unknown_team": 31
+      },
+      {
+        "half_life_days": 365,
+        "rho": -0.06,
+        "blend_k": 8.0,
+        "log_loss": 0.9951849376723111,
+        "rps": 0.20622116973107724,
+        "n": 1140,
+        "n_unknown_team": 31
+      },
+      {
+        "half_life_days": 365,
+        "rho": -0.1,
+        "blend_k": 12.0,
+        "log_loss": 0.9951954473111898,
+        "rps": 0.20621646669271781,
+        "n": 1140,
+        "n_unknown_team": 31
+      }
+    ]
+  },
+  "caveat": "selection score, not a performance estimate"
+}

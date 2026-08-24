@@ -1,0 +1,31 @@
+{
+  "_notes": [
+    "2026 FIFA World Cup format and knockout bracket structure.",
+    "48 teams, 12 groups of 4. Top 2 of each group + 8 best third-placed teams",
+    "advance to a 32-team single-elimination knockout (Round of 32 -> ... -> Final).",
+    "",
+    "knockout_bracket encodes the OFFICIAL adjacency (Wikipedia: 2026 FIFA World Cup",
+    "knockout stage, matches 73-104). Each round is a list of [i, j] index pairs into",
+    "the WINNERS of the previous round. The Round of 32 winners are indexed 0..15 in",
+    "match-number order (match 73 -> slot 0, ..., match 88 -> slot 15).",
+    "",
+    "ASSUMPTION: the simulator seeds the 16 Round-of-32 ties (read live from the",
+    "results dataset) into slots 0..15 in the dataset's chronological order, which is",
+    "assumed to equal match-number order 73..88. If the official slot ordering differs,",
+    "edit r32_slot_fixtures below to pin each slot to a specific team pair.",
+    "",
+    "groups is intentionally empty: the live model runs forward from the knockout state",
+    "present in the data (group stage already complete). Populate it only to simulate",
+    "from before/within the group stage."
+  ],
+  "host_nations": ["United States", "Mexico", "Canada"],
+  "groups": {},
+  "group_stage_matches": 72,
+  "knockout_bracket": {
+    "round_of_16":    [[1, 4], [0, 2], [3, 5], [6, 7], [10, 11], [8, 9], [13, 15], [12, 14]],
+    "quarter_finals": [[0, 1], [4, 5], [2, 3], [6, 7]],
+    "semi_finals":    [[0, 1], [2, 3]],
+    "final":          [[0, 1]]
+  },
+  "r32_slot_fixtures": null
+}

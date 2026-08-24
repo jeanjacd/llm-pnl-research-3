@@ -1,0 +1,53 @@
+# ---------------------------------------------------------------------------
+# PRIVATE / LIVE-TRADING STATE -- never publish.
+# Real bankroll, positions, realized P&L, order history, board transcripts.
+# ---------------------------------------------------------------------------
+data/betting/
+data/private/
+*.bak-*
+*.pre-democlean-*
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+.claude/settings.local.json
+.claude/credentials*
+
+# Raw authenticated API responses and full model transcripts
+data/raw_snapshots/
+**/transcripts/
+*.transcript.json
+
+# Cached/large per-league market snapshots (regenerable; may be large)
+data/leagues/*/raw/
+data/snapshots/
+
+# Superseded single-league layout. Kept locally for reference; nothing
+# reads it (see docs/MIGRATION.md). Regenerate with `wc2026 update --all`.
+data/mls/
+
+# Local databases / temp research
+*.sqlite
+*.sqlite3
+*.db
+tmp/
+scratch/
+
+# Environments and build
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/

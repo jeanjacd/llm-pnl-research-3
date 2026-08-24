@@ -1,0 +1,35 @@
+name: daily-data
+
+on:
+  schedule:
+    - cron: "40 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - name: Refresh every league
+        run: python -m wc2026 update --all
+      - name: Validate manifests
+        run: python scripts/validate_manifests.py
+      - name: Upload datasets as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: league-data-${{ github.run_id }}
+          path: data/leagues/*/raw/
+          retention-days: 14

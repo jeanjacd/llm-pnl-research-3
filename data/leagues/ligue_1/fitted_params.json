@@ -1,0 +1,47 @@
+{
+  "league_id": "ligue_1",
+  "best": {
+    "half_life_days": 180.0,
+    "rho": -0.06,
+    "blend_k": 8.0
+  },
+  "selected_on": "DEV region only",
+  "dev_window": [
+    "2014-08-08",
+    "2022-06-08"
+  ],
+  "inner_log_loss": 1.0190080310842937,
+  "stability": {
+    "log_loss_spread": 0.003206620122295778,
+    "top3": [
+      {
+        "half_life_days": 180,
+        "rho": -0.06,
+        "blend_k": 8.0,
+        "log_loss": 1.0190080310842937,
+        "rps": 0.2096938250981557,
+        "n": 1395,
+        "n_unknown_team": 24
+      },
+      {
+        "half_life_days": 180,
+        "rho": -0.03,
+        "blend_k": 8.0,
+        "log_loss": 1.0191616747619852,
+        "rps": 0.20971721736608986,
+        "n": 1395,
+        "n_unknown_team": 24
+      },
+      {
+        "half_life_days": 180,
+        "rho": -0.1,
+        "blend_k": 8.0,
+        "log_loss": 1.0192353047476415,
+        "rps": 0.20970263293136532,
+        "n": 1395,
+        "n_unknown_team": 24
+      }
+    ]
+  },
+  "caveat": "selection score, not a performance estimate"
+}

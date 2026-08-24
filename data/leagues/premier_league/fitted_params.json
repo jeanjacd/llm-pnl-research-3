@@ -1,0 +1,47 @@
+{
+  "league_id": "premier_league",
+  "best": {
+    "half_life_days": 365.0,
+    "rho": -0.03,
+    "blend_k": 8.0
+  },
+  "selected_on": "DEV region only",
+  "dev_window": [
+    "2014-08-16",
+    "2022-06-10"
+  ],
+  "inner_log_loss": 0.9580428929592292,
+  "stability": {
+    "log_loss_spread": 0.010316922793692562,
+    "top3": [
+      {
+        "half_life_days": 365,
+        "rho": -0.03,
+        "blend_k": 8.0,
+        "log_loss": 0.9580428929592292,
+        "rps": 0.19952123401478408,
+        "n": 1483,
+        "n_unknown_team": 37
+      },
+      {
+        "half_life_days": 365,
+        "rho": -0.03,
+        "blend_k": 12.0,
+        "log_loss": 0.9581381528934316,
+        "rps": 0.19955499857440623,
+        "n": 1483,
+        "n_unknown_team": 37
+      },
+      {
+        "half_life_days": 365,
+        "rho": -0.03,
+        "blend_k": 20.0,
+        "log_loss": 0.9584798980793644,
+        "rps": 0.19966740574530448,
+        "n": 1483,
+        "n_unknown_team": 37
+      }
+    ]
+  },
+  "caveat": "selection score, not a performance estimate"
+}

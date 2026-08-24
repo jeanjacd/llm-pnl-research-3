@@ -1,0 +1,47 @@
+{
+  "league_id": "la_liga",
+  "best": {
+    "half_life_days": 365.0,
+    "rho": -0.1,
+    "blend_k": 8.0
+  },
+  "selected_on": "DEV region only",
+  "dev_window": [
+    "2014-08-23",
+    "2022-06-13"
+  ],
+  "inner_log_loss": 1.0043478065060987,
+  "stability": {
+    "log_loss_spread": 0.008816520661744764,
+    "top3": [
+      {
+        "half_life_days": 365,
+        "rho": -0.1,
+        "blend_k": 8.0,
+        "log_loss": 1.0043478065060987,
+        "rps": 0.19955499452252046,
+        "n": 1496,
+        "n_unknown_team": 24
+      },
+      {
+        "half_life_days": 365,
+        "rho": -0.1,
+        "blend_k": 12.0,
+        "log_loss": 1.004444222828772,
+        "rps": 0.19957509474166985,
+        "n": 1496,
+        "n_unknown_team": 24
+      },
+      {
+        "half_life_days": 365,
+        "rho": -0.1,
+        "blend_k": 20.0,
+        "log_loss": 1.0047389145613608,
+        "rps": 0.19964224632776148,
+        "n": 1496,
+        "n_unknown_team": 24
+      }
+    ]
+  },
+  "caveat": "selection score, not a performance estimate"
+}

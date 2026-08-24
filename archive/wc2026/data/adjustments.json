@@ -1,0 +1,21 @@
+{
+  "_notes": [
+    "Transparent soft-factor adjustment layer (injuries, key-player availability,",
+    "lineup/tactical changes, motivation). These factors are NOT available from any",
+    "free, verifiable, auto-updating feed, so they are explicit, dated, human-curated",
+    "inputs -- never fabricated as automation.",
+    "",
+    "Each entry multiplies a team's expected goals: attack_mult scales the goals the",
+    "team is expected to SCORE; defense_mult scales the goals it is expected to CONCEDE",
+    "(>1 = leakier defense). 1.0 = no change. Keep deltas modest (typically 0.85-1.15)",
+    "and ALWAYS include a dated, sourced 'note' so every assumption is auditable.",
+    "",
+    "An empty 'teams' object => pure quantitative model (recommended default unless you",
+    "have specific, sourced information).",
+    "",
+    "Example (commented-out style, remove to activate):",
+    "  \"Brazil\": {\"attack_mult\": 0.93, \"defense_mult\": 1.0,",
+    "             \"note\": \"2026-06-20: Neymar ruled out (hamstring), per team announcement\"}"
+  ],
+  "teams": {}
+}

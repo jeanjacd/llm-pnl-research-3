@@ -1,0 +1,47 @@
+{
+  "league_id": "mls",
+  "best": {
+    "half_life_days": 365.0,
+    "rho": -0.03,
+    "blend_k": 8.0
+  },
+  "selected_on": "DEV region only",
+  "dev_window": [
+    "2010-03-26",
+    "2020-11-25"
+  ],
+  "inner_log_loss": 1.0128726785557178,
+  "stability": {
+    "log_loss_spread": 0.007834357717511953,
+    "top3": [
+      {
+        "half_life_days": 365,
+        "rho": -0.03,
+        "blend_k": 8.0,
+        "log_loss": 1.0128726785557178,
+        "rps": 0.2128392667294471,
+        "n": 2038,
+        "n_unknown_team": 8
+      },
+      {
+        "half_life_days": 365,
+        "rho": -0.03,
+        "blend_k": 12.0,
+        "log_loss": 1.0130350708653733,
+        "rps": 0.21290104431251855,
+        "n": 2038,
+        "n_unknown_team": 8
+      },
+      {
+        "half_life_days": 365,
+        "rho": -0.06,
+        "blend_k": 8.0,
+        "log_loss": 1.013066359163698,
+        "rps": 0.21286099849466875,
+        "n": 2038,
+        "n_unknown_team": 8
+      }
+    ]
+  },
+  "caveat": "selection score, not a performance estimate"
+}

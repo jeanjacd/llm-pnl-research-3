@@ -1,0 +1,38 @@
+name: weekly-evaluation
+
+on:
+  schedule:
+    - cron: "20 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: weekly-evaluation
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - run: python -m wc2026 update --all
+      - name: Nested evaluation (holdout opened once per league)
+        run: python -m wc2026 evaluate --all
+      - name: Publish the report
+        run: python scripts/build_report.py --out public_report.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: evaluation-${{ github.run_id }}
+          path: |
+            data/leagues/*/evaluation.json
+            data/leagues/*/calibration/
+            public_report.md
+          retention-days: 90
