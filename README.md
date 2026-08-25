@@ -122,7 +122,8 @@ wc2026/
   paper/    broker.py · cycle.py          paper trading + scheduled cycle
 data/leagues/<id>/    raw · fitted_params · calibration · evaluation
 docs/                 BASELINE · EVALUATION · VENUES · STATUS · MIGRATION
-.github/workflows/    ci · hourly-board · daily-data · weekly-evaluation
+.github/workflows/    ci · matchday-board · paper-maintenance · daily-data ·
+                      weekly-evaluation
 ```
 
 ## Privacy

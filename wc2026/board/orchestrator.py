@@ -114,7 +114,8 @@ def run_board(case, fixture: dict, invoke=invoke_member,
               coach_model: str = "claude-haiku-4-5",
               judge_model: str = "claude-haiku-4-5",
               timeout: float = _DEFAULT_TIMEOUT,
-              log_path: str | None = None) -> dict:
+              log_path: str | None = None,
+              coach_cache: dict | None = None) -> dict:
     """Evaluate one deterministic case through the full board.
 
     Returns a decision dict. `action` is a judge action; anything other than
@@ -150,13 +151,30 @@ def run_board(case, fixture: dict, invoke=invoke_member,
         audit("board_failed_closed", result, log_path)
         return result
 
+    # The coach researches the FIXTURE, not the market. Verified by diffing
+    # two packets for the same match: they agree on home, away, league and
+    # kick-off and differ only in case_id, claim, instrument_id, observed_at
+    # and hours_to_kickoff. Re-running it per market therefore repeats the
+    # same web research -- 180s of it, the dominant cost of a board call --
+    # and can return CONTRADICTORY findings for two markets on one match.
+    cache_key = "%s|%s|%s|%s" % (fixture.get("league_id"), fixture.get("home"),
+                                 fixture.get("away"),
+                                 str(fixture.get("kickoff_utc") or "")[:10])
+    cached = coach_cache.get(cache_key) if coach_cache is not None else None
     packet = coach_packet(case, fixture)
     try:
         assert_no_price_leak(packet)
-        coach_raw = invoke(build_coach_prompt(packet), coach_model,
-                           allowed_tools=("WebSearch", "WebFetch"),
-                           timeout=timeout)
-        coach = validate_coach(coach_raw, case_id)
+        if cached is not None:
+            # Re-stamped with this case's id so downstream validation and the
+            # audit log still tie the verdict to the case it was applied to.
+            coach = dict(cached, case_id=case_id, reused_for_fixture=cache_key)
+        else:
+            coach_raw = invoke(build_coach_prompt(packet), coach_model,
+                               allowed_tools=("WebSearch", "WebFetch"),
+                               timeout=timeout)
+            coach = validate_coach(coach_raw, case_id)
+            if coach_cache is not None:
+                coach_cache[cache_key] = coach
     except (BoardFailure, SchemaError) as exc:
         result["failure"] = "coach: %s" % exc
         result["quant"] = quant

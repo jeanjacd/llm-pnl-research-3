@@ -65,6 +65,7 @@ unquoted combo is reported as DEFER/UNSUPPORTED, never as a fill.
 """
 from __future__ import annotations
 
+import datetime as dt
 import re
 
 from ..betting.kalshi import KalshiClient
@@ -78,6 +79,7 @@ from .base import (
     MarketInstrument,
     utcnow_iso,
 )
+from .naming import name_similarity, resolve_fixture
 
 COLLECTIONS_PATH = "/multivariate_event_collections"
 
@@ -125,6 +127,124 @@ def is_supported_family(family: str) -> bool:
     return family in set(SUPPORTED_KALSHI_SUFFIXES)
 
 
+# --- fixture identity ---------------------------------------------------------
+# The event ticker (KXEPLGAME-26SEP06ARSCFC) encodes the two clubs as variable
+# length codes -- RSLLAFC is RSL+LAFC, not RSL+LAF -- so it CANNOT be split
+# reliably. The rules text names both clubs in full and is used instead.
+#
+# Ordering: the rules list the HOME side first. Verified two independent ways
+# on 2026-08-24: (a) against Kalshi's own structured `custom_strike`
+# home_team_id/away_team_id on SCORE markets, 4/4 agree; (b) against our ESPN
+# fixture table across all five leagues, 255/255 agree with zero counter-
+# examples. `resolve_fixture` still reports `flipped` and callers still honour
+# it, so a future convention change degrades to a corrected claim, not a wrong
+# one.
+KALSHI_LEAGUE_LABEL = {"premier_league": "EPL", "mls": "MLS",
+                       "bundesliga": "Bundesliga", "la_liga": "La Liga",
+                       "ligue_1": "Ligue 1"}
+
+# Note the leading greedy `.*`: it forces `the` to bind to the LAST occurrence
+# before "vs", because the sentence usually opens "If Tie is the result of the
+# <A> vs <B>...". Anchoring on the first `the` captures "result of the <A>".
+_RULES_CACHE: dict = {}
+
+
+def _rules_re(label: str):
+    if label not in _RULES_CACHE:
+        _RULES_CACHE[label] = re.compile(
+            r".*\bthe\s+(?P<home>.+?)\s+vs\.?\s+(?P<away>.+?)\s+"
+            r"(?:professional\s+)?" + re.escape(label) +
+            r"\s+(?:soccer\s+)?(?:game|match)\s+originally scheduled for\s+"
+            r"(?P<date>[A-Z][a-z]{2}\s+\d{1,2},\s+\d{4})", re.IGNORECASE)
+    return _RULES_CACHE[label]
+
+
+def rules_fixture(rules_text: str, league_id: str):
+    """(home, away, date) as the venue's own rules text names them, or None.
+
+    Parsed rather than assumed: this is the only field on a Kalshi soccer
+    market that carries full club names and the scheduled date together.
+    """
+    label = KALSHI_LEAGUE_LABEL.get(league_id)
+    if not label or not rules_text:
+        return None
+    mo = _rules_re(label).search(rules_text)
+    if not mo:
+        return None
+    try:
+        when = dt.datetime.strptime(mo.group("date"), "%b %d, %Y")
+    except ValueError:
+        return None
+    return mo.group("home").strip(), mo.group("away").strip(), when
+
+
+# --- claims -------------------------------------------------------------------
+_TIE_RE = re.compile(r"^tie$", re.I)
+_TOTAL_RE = re.compile(r"^over\s+(?P<line>[\d.]+)\s+goals?\s+scored$", re.I)
+_SPREAD_RE = re.compile(r"^(?P<team>.+?)\s+wins?\s+by\s+more\s+than\s+"
+                        r"(?P<line>[\d.]+)\s+goals?$", re.I)
+_TEAMTOTAL_RE = re.compile(r"^(?P<team>.+?)\s+over\s+(?P<line>[\d.]+)\s+goals?$", re.I)
+_BTTS_RE = re.compile(r"^both\s+teams\s+to\s+score$", re.I)
+_SCORE_RE = re.compile(r"^(?P<team>.+?)\s+wins?\s+(?P<a>\d+)\s*-\s*(?P<b>\d+)$", re.I)
+
+
+def claim_for(family: str, yes_sub_title: str, home: str, away: str,
+              floor_strike=None):
+    """The claim a market's YES side pays on, in the model's vocabulary.
+
+    Returns None for anything the exact-scoreline grid cannot price, which the
+    caller records as an explicit abstention rather than dropping.
+    """
+    sub = (yes_sub_title or "").strip()
+    if not sub:
+        return None
+
+    def side(team):
+        if name_similarity(team, home) >= 0.6:
+            return "home"
+        if name_similarity(team, away) >= 0.6:
+            return "away"
+        return None
+
+    if family == "GAME":
+        if _TIE_RE.match(sub):
+            return "draw"
+        which = side(sub)
+        return "%s_win" % which if which else None
+    if family == "TOTAL":
+        mo = _TOTAL_RE.match(sub)
+        line = mo.group("line") if mo else floor_strike
+        return "total_over_%s" % line if line is not None else None
+    if family == "SPREAD":
+        mo = _SPREAD_RE.match(sub)
+        if not mo:
+            return None
+        which = side(mo.group("team"))
+        return ("%s_wins_by_over_%s" % (which, mo.group("line"))
+                if which else None)
+    if family == "BTTS":
+        return "btts" if _BTTS_RE.match(sub) else None
+    if family == "TEAMTOTAL":
+        mo = _TEAMTOTAL_RE.match(sub)
+        if not mo:
+            return None
+        which = side(mo.group("team"))
+        return "%s_over_%s" % (which, mo.group("line")) if which else None
+    if family == "SCORE":
+        mo = _SCORE_RE.match(sub)
+        if not mo:
+            return None
+        which = side(mo.group("team"))
+        a, b = int(mo.group("a")), int(mo.group("b"))
+        # "Fulham FC wins 4-3" states the NAMED team's goals first.
+        if which == "home":
+            return "score_%d-%d" % (a, b)
+        if which == "away":
+            return "score_%d-%d" % (b, a)
+        return None
+    return None
+
+
 class KalshiProvider(MarketDataProvider):
     venue = "kalshi"
 
@@ -134,7 +254,8 @@ class KalshiProvider(MarketDataProvider):
 
     # ---- single contracts ----
     def discover(self, spec, status: str = "open", with_books: bool = True,
-                 include_unsupported: bool = True, strict: bool = True) -> list:
+                 include_unsupported: bool = True, strict: bool = True,
+                 fixtures=None) -> list:
         """Every market in this league's verified series.
 
         `include_unsupported` keeps out-of-model families in the returned set so
@@ -146,6 +267,12 @@ class KalshiProvider(MarketDataProvider):
         no 1X2 markets today" -- an error that already produced a wrong
         coverage report once. Callers that genuinely tolerate partial data must
         opt out explicitly and inspect `last_errors`.
+
+        `fixtures` is this league's own fixture table. Without it a leg
+        carries no home/away and therefore no priceable claim, so the
+        instrument is returned marked unsupported rather than silently
+        looking tradeable -- omitting fixtures previously produced 223
+        "supported" Kalshi instruments that could not yield a single case.
         """
         prefix = league_prefix(spec)
         if not prefix:
@@ -169,11 +296,12 @@ class KalshiProvider(MarketDataProvider):
                 continue
             for market in markets:
                 out.append(self._instrument(market, spec, prefix,
-                                            with_books=with_books))
+                                            with_books=with_books,
+                                            fixtures=fixtures))
         return out
 
     def _instrument(self, market: dict, spec, prefix: str,
-                    with_books: bool) -> MarketInstrument:
+                    with_books: bool, fixtures=None) -> MarketInstrument:
         event = market.get("event_ticker", "") or ""
         family = family_of(event, prefix)
         supported_family = is_supported_family(family)
@@ -181,31 +309,60 @@ class KalshiProvider(MarketDataProvider):
                  + (market.get("rules_secondary") or ""))
         regulation = bool(_REGULATION_RE.search(rules))
         sub = market.get("yes_sub_title") or ""
+        ticker = market.get("ticker", "")
+
+        parsed = rules_fixture(rules, spec.league_id)
+        resolved = None
+        if parsed and fixtures is not None:
+            resolved = resolve_fixture(parsed[0], parsed[1], parsed[2], fixtures)
+        home = resolved["home"] if resolved else None
+        away = resolved["away"] if resolved else None
+        # NOT `expected_expiration_time`: measured 2026-08-24 across 63 EPL
+        # markets, that field equals `occurrence_datetime` and sits exactly 3h
+        # AFTER kick-off -- it is when the market settles. Reading it as the
+        # kick-off offered a match already 72 minutes old as a pre-match trade.
+        # Our fixture table carries the real kick-off, so it governs.
+        kickoff = None
+        if resolved and resolved.get("kickoff_utc") is not None:
+            stamp = resolved["kickoff_utc"]
+            kickoff = (stamp.isoformat() if hasattr(stamp, "isoformat")
+                       else str(stamp))
+
+        claim = None
+        if supported_family and regulation and home and away:
+            claim = claim_for(family, sub, home, away,
+                              market.get("floor_strike"))
+
+        def abstain(reason):
+            return Leg(claim="family_%s" % family, market_ref=ticker,
+                       description=sub, home=home, away=away,
+                       league_id=spec.league_id, kickoff_utc=kickoff,
+                       supported=False, unsupported_reason=reason)
 
         if not supported_family:
-            leg = Leg(claim="family_%s" % family,
-                      market_ref=market.get("ticker", ""), description=sub,
-                      league_id=spec.league_id, supported=False,
-                      unsupported_reason="family %s has no validated model"
-                                         % family)
+            leg = abstain("family %s has no validated model" % family)
         elif not regulation:
-            leg = Leg(claim="family_%s" % family,
-                      market_ref=market.get("ticker", ""), description=sub,
-                      league_id=spec.league_id, supported=False,
-                      unsupported_reason="settlement basis not confirmed as "
-                                         "regulation time")
+            leg = abstain("settlement basis not confirmed as regulation time")
+        elif parsed is None:
+            leg = abstain("rules text does not name both clubs and a date")
+        elif fixtures is None:
+            leg = abstain("no fixture table supplied; cannot identify the match")
+        elif resolved is None:
+            leg = abstain("no unique fixture matches %r vs %r on %s"
+                          % (parsed[0], parsed[1], parsed[2].date()))
+        elif claim is None:
+            leg = abstain("no validated model for %r in family %s"
+                          % (sub[:60], family))
         else:
-            # The exact claim (side/line) is resolved by betting/markets.py
-            # against the fixture; here the family is enough to mark support.
-            leg = Leg(claim="family_%s_ok" % family,
-                      market_ref=market.get("ticker", ""), description=sub,
-                      league_id=spec.league_id, supported=True)
+            leg = Leg.build(claim, ticker, description=sub, home=home,
+                            away=away, league_id=spec.league_id,
+                            kickoff_utc=kickoff)
 
         book = Book(observed_at=utcnow_iso())
         if with_books and leg.supported:
-            book = self.fetch_book_by_ticker(market.get("ticker", ""))
+            book = self.fetch_book_by_ticker(ticker)
         return MarketInstrument(
-            venue=self.venue, instrument_id=market.get("ticker", ""),
+            venue=self.venue, instrument_id=ticker,
             kind=KIND_BINARY,
             title="%s | %s" % (market.get("title", ""), sub),
             legs=(leg,), rules_text=rules.strip(),
@@ -213,7 +370,7 @@ class KalshiProvider(MarketDataProvider):
             event_ref=event, league_id=spec.league_id,
             status=market.get("status", ""),
             close_time=market.get("close_time"),
-            kickoff_utc=market.get("expected_expiration_time"),
+            kickoff_utc=kickoff,
             tick_cents=1, min_size=1.0,
             fee_model={"venue": "kalshi", "taker_factor": 0.07,
                        "maker_factor": 0.0175},

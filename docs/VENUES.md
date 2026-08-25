@@ -41,6 +41,61 @@ is abstained from.
 Both would be swept in by a prefix scan. Series tickers are therefore built as
 exact `prefix + suffix` strings, asserted by a test.
 
+### Fixture identity — parsed from the rules text, not the ticker
+The event ticker (`KXEPLGAME-26SEP06ARSCFC`) encodes both clubs as **variable
+length** codes: `KXMLSGAME-26SEP05RSLLAFC` is `RSL` + `LAFC`, not `RSL` + `LAF`.
+It cannot be split reliably. `rules_primary`/`rules_secondary` name both clubs
+in full plus the scheduled date, and are parsed instead — 1,113/1,113 open
+soccer markets parse.
+
+Two wordings exist and both must be handled:
+
+| family | wording |
+|---|---|
+| most | `…the <HOME> vs <AWAY> professional <LABEL> soccer game originally scheduled for <Mon D, YYYY>` |
+| BTTS | `…the <HOME> vs <AWAY> <LABEL> match originally scheduled for …` — **no "soccer"** |
+
+The sentence usually opens *"If Tie is the result of the …"*, so a regex
+anchored on the **first** `the` captures `result of the Arsenal`. It must bind
+to the last one. `<LABEL>` is exactly one of `EPL`, `MLS`, `Bundesliga`,
+`La Liga`, `Ligue 1`; leaving it unconstrained lets it swallow the tail of the
+away team's name (`Los Angeles FC` → away `Los Angeles`, label `FC … MLS`).
+
+**Ordering: the rules list the HOME side first.** Verified two independent ways
+on 2026-08-24 — against Kalshi's own `custom_strike` `home_team_id`/
+`away_team_id` on SCORE markets (4/4), and against our ESPN fixture table
+across all five leagues (255/255, no counterexamples). `resolve_fixture` still
+reports `flipped` and callers honour it, so a convention change degrades to a
+corrected claim rather than a wrong one.
+
+Claims are derived from `yes_sub_title` (plus `floor_strike`), which names the
+team in full, so ordering never affects claim correctness:
+
+| family | `yes_sub_title` | claim |
+|---|---|---|
+| GAME | `Tie` / `Chelsea` | `draw` / `away_win` |
+| TOTAL | `Over 2.5 goals scored` | `total_over_2.5` |
+| SPREAD | `Fulham wins by more than 1.5 goals` | `home_wins_by_over_1.5` |
+| BTTS | `Both Teams To Score` | `btts` |
+| TEAMTOTAL | `Chelsea over 1.5 goals` | `away_over_1.5` |
+| SCORE | `Chelsea wins 3-1` (winner's goals first) | `score_1-3` |
+
+Result: **1,086 priceable instruments of 2,156 discovered**, zero unresolved
+fixtures. Before this, the Kalshi path returned 223 "supported" instruments and
+produced **zero** cases — legs carried no home/away, so no claim ever resolved.
+
+### `expected_expiration_time` is NOT the kick-off
+Measured across 63 open EPL markets: `expected_expiration_time` equals
+`occurrence_datetime` exactly, and both sit **3 hours after** kick-off — they
+are when the market settles. Reading either as the kick-off presented
+Fulham vs Chelsea (19:00Z kick-off) as *"kickoff in 1.86 hours"* at 20:11Z,
+i.e. offered a match already 72 minutes old as a pre-match trade. The board's
+soccer analyst caught it by reporting first-half shot counts.
+
+Kick-off comes from **our own fixture table** via the resolved fixture. A leg
+with no known kick-off now DEFERs rather than skipping the freshness check,
+because a pre-match model has no in-play validity.
+
 ### Parlays — multivariate event collections
 Open collections: `KXMVESPORTSMULTIGAMEEXTENDED-R`, `KXMVECROSSCATEGORY-R`,
 `KXMVECROSSCATEGORY-SHARD1-R`.
@@ -175,6 +230,41 @@ residue**, i.e. no silent parser gaps.
 
 
 ---
+
+## Fees — both venues use the same formula shape
+
+`fee = C × rate × p × (1 − p)`, symmetric in price, largest at 50c.
+
+| venue | rate | charged to |
+|---|---|---|
+| Kalshi | 0.07 | taker; verified against the published fee table |
+| Polymarket | see below | taker only — *"Makers are never charged fees"* |
+
+**Polymarket's reported fee contradicts its published schedule.** All three
+surfaces — Gamma `takerBaseFee`, the CLOB market record `taker_base_fee`, and
+the authoritative `GET /fee-rate?token_id=…` — return **1000** for every
+soccer market sampled (88/88 markets, 73/73 tokens, all five leagues,
+2026-08-24). The published sports rate is **0.05**, with a stated ceiling of
+$1.25 per 100 shares at 50c. Read as basis points, 1000 is 0.10 — exactly
+twice that. Polymarket's own client carries an open, unanswered issue about
+this contradiction ([py-clob-client#326](https://github.com/Polymarket/py-clob-client/issues/326)),
+which also documents a second formula in `CalculatorHelper.sol` that disagrees
+with the docs at any price other than 0.50.
+
+We charge the **reported** field (0.10), not the published rate: over-charging
+costs a missed trade, under-charging books a bad one. Both numbers are recorded
+on the instrument's `fee_model` so a report can show either.
+
+Two earlier readings of this field were wrong and both were caught in
+production, not by tests:
+* as a **fraction** — 10,000× too big, produced `breakeven_prob = 2.56` on a
+  23c contract. Caught by the board's quant member on a live run.
+* as a flat rate on **notional** — 5.6× too big at 23c ($10.00 vs $1.77 per
+  100 shares). It also ignored that the fee is symmetric in price.
+
+`p(1−p)` is formed from **integer cents**. In floating point
+`0.7 × (1−0.7) ≠ 0.3 × (1−0.3)`, which charged different fees for the two sides
+of the same contract.
 
 ## Completeness audit (2026-08-24)
 

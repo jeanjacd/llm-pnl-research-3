@@ -16,6 +16,7 @@ from wc2026.decision import (
     LegClaim,
     build_case,
     bundle_outcomes,
+    calculator,
     combo_expected_payout,
     dependence_ratio,
     ev_at_price,
@@ -25,7 +26,13 @@ from wc2026.decision import (
 )
 from wc2026.decision.calculator import CalcConfig, adverse_selection
 from wc2026.sim.match import score_matrix
-from wc2026.venues.base import KIND_BINARY, Book, Leg, MarketInstrument
+from wc2026.venues.base import (
+    KIND_BINARY,
+    Book,
+    Leg,
+    MarketInstrument,
+    utcnow_iso,
+)
 
 
 def soon(hours=6):
@@ -312,3 +319,97 @@ def test_bundle_requires_a_cost_per_leg(grid):
     i, j = _masks(grid)
     with pytest.raises(DependencyError):
         bundle_outcomes([LegClaim("m1", i > j)], {"m1": grid}, costs=[])
+
+
+# --- venue fee schedules ------------------------------------------------------
+# Regression tests for a fee bug the live board's quant member caught: the
+# Polymarket `base_fee` field is in BASIS POINTS and the fee formula is
+# symmetric in price. An earlier version read the field as a fraction (10,000x
+# too big) and a later one charged a flat rate on notional (5.6x too big at
+# 23c), producing a breakeven "probability" of 2.56.
+POLY_FEE = {"venue": "polymarket", "units": "basis_points",
+            "taker_base_fee": 1000, "maker_base_fee": 0}
+
+
+def test_polymarket_fee_is_basis_points_not_a_fraction():
+    fee = calculator.fee_cents("polymarket", 100, 23, POLY_FEE)
+    # 100 * 0.10 * 0.23 * 0.77 = 1.771 USD -> 178c after ceiling.
+    assert fee == 178
+    # The bug charged the full notional: 1000c on a 2300c position.
+    assert fee < 23 * 100, "fee cannot approach the notional of the position"
+
+
+def test_polymarket_fee_never_exceeds_the_published_ceiling_shape():
+    """Max at 50c, symmetric about it, and monotone toward the wings."""
+    fees = {p: calculator.fee_cents("polymarket", 100, p, POLY_FEE)
+            for p in range(1, 100)}
+    assert max(fees.values()) == fees[50] == 250
+    for p in range(1, 50):
+        assert fees[p] == fees[100 - p]
+        assert fees[p] <= fees[p + 1]
+
+
+def test_polymarket_fee_is_a_small_fraction_of_cost():
+    """A sane fee is cents on a dollar, not multiples of the stake."""
+    for price in (5, 23, 50, 77, 95):
+        fee = calculator.fee_cents("polymarket", 100, price, POLY_FEE)
+        assert fee / (price * 100) < 0.11
+
+
+def test_polymarket_charges_makers_nothing():
+    """Polymarket documents 'Makers are never charged fees'."""
+    assert calculator.fee_cents("polymarket", 100, 23, POLY_FEE,
+                                role="maker") == 0
+    assert calculator.fee_cents("polymarket", 100, 23, POLY_FEE,
+                                role="taker") > 0
+
+
+def test_kalshi_ignores_liquidity_role():
+    """Only Polymarket's schedule is role-dependent; do not leak the rebate."""
+    assert (calculator.fee_cents("kalshi", 100, 50, None, role="maker")
+            == calculator.fee_cents("kalshi", 100, 50, None, role="taker")
+            == 175)
+
+
+def test_zero_fee_model_is_free_but_unknown_venue_is_not():
+    assert calculator.fee_cents("polymarket", 100, 50,
+                                {"taker_base_fee": 0}) == 0
+    # An unrecognised venue falls back to the most expensive known schedule
+    # rather than being assumed free.
+    assert calculator.fee_cents("some_new_venue", 100, 50, None) == 175
+
+
+def test_breakeven_probability_stays_a_probability():
+    """The bug's signature was breakeven_prob = 2.56 on a 23c contract."""
+    for price in (5, 23, 50, 77, 95):
+        fee = calculator.fee_cents("polymarket", 100, price, POLY_FEE)
+        breakeven = (price + fee / 100) / 100.0
+        assert 0.0 < breakeven < 1.0
+
+
+def test_unknown_kickoff_defers_because_in_play_cannot_be_ruled_out():
+    """A pre-match model must never price a quote it cannot date."""
+    book = Book(observed_at=utcnow_iso(), yes_asks=((10, 500),),
+                yes_bids=((9, 500),))
+    inst = MarketInstrument(
+        venue="kalshi", instrument_id="X", kind=KIND_BINARY, title="t",
+        legs=(Leg.build("draw", "X", home="A", away="B", league_id="mls"),),
+        league_id="mls", kickoff_utc=None, book=book,
+        fee_model={"venue": "kalshi"})
+    case = calculator.build_case(inst, 0.40, 0.40)
+    assert case.action == "DEFER"
+    assert "kickoff" in " ".join(case.reasons).lower()
+
+
+def test_a_kickoff_already_passed_defers():
+    past = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=1)).isoformat()
+    book = Book(observed_at=utcnow_iso(), yes_asks=((10, 500),),
+                yes_bids=((9, 500),))
+    inst = MarketInstrument(
+        venue="kalshi", instrument_id="X", kind=KIND_BINARY, title="t",
+        legs=(Leg.build("draw", "X", home="A", away="B", league_id="mls"),),
+        league_id="mls", kickoff_utc=past, book=book,
+        fee_model={"venue": "kalshi"})
+    case = calculator.build_case(inst, 0.40, 0.40)
+    assert case.action == "DEFER"
+    assert "passed" in " ".join(case.reasons).lower()

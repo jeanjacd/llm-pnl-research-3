@@ -43,10 +43,8 @@ FIELD TRAPS (each verified; each one produced a wrong answer before):
 from __future__ import annotations
 
 import datetime as dt
-import difflib
 import json
 import re
-import unicodedata
 
 import requests
 
@@ -57,6 +55,12 @@ from .base import (
     MarketDataProvider,
     MarketInstrument,
     utcnow_iso,
+)
+from .naming import (  # noqa: F401  (re-exported)
+    apply_alias,
+    name_similarity,
+    normalise_team,
+    resolve_fixture,
 )
 
 GAMMA = "https://gamma-api.polymarket.com"
@@ -93,32 +97,11 @@ _EXCLUDE_RE = re.compile(
     r"corner|1st half|2nd half|first half|second half|halftime|half-time|"
     r"any other score|first team to score|player|assist|card|booking", re.I)
 
-# Club-name affixes carrying no identifying information across venues.
-_AFFIXES = {"fc", "cf", "afc", "sc", "ac", "cd", "rc", "ud", "ca", "sv", "vfb",
-            "vfl", "bsc", "tsg", "sd", "as", "ss", "us", "rcd", "club", "de",
-            "the", "1", "04", "05", "96"}
 
-
-def normalise_team(name: str) -> set:
-    """Accent-folded, affix-stripped token set for cross-venue comparison."""
-    folded = unicodedata.normalize("NFKD", name or "")
-    folded = "".join(c for c in folded if not unicodedata.combining(c))
-    folded = re.sub(r"[^a-z0-9 ]", " ", folded.lower())
-    return {t for t in folded.split() if t and t not in _AFFIXES}
-
-
-def name_similarity(a: str, b: str) -> float:
-    """0..1 similarity of two club names, robust to affixes and accents."""
-    ta, tb = normalise_team(a), normalise_team(b)
-    if not ta or not tb:
-        return 0.0
-    if ta & tb:
-        return 0.5 + 0.5 * len(ta & tb) / len(ta | tb)
-    best = 0.0
-    for x in ta:
-        for y in tb:
-            best = max(best, difflib.SequenceMatcher(None, x, y).ratio())
-    return 0.5 * best
+# Club-name matching lives in venues/naming.py because BOTH venues need it and
+# both hit the same endonym/abbreviation problems. Re-exported here so existing
+# callers and tests that import them from this module keep working.
+_ = (normalise_team, name_similarity, resolve_fixture, apply_alias)
 
 
 def parse_ts(value):
@@ -148,42 +131,6 @@ def _levels(entries, best_first_high: bool) -> tuple:
             out.append((price, size))
     out.sort(key=lambda t: -t[0] if best_first_high else t[0])
     return tuple(out)
-
-
-def resolve_fixture(home_raw, away_raw, kickoff, fixtures, min_score=0.6):
-    """Resolve a venue event to exactly one of OUR fixtures, or None.
-
-    Matching uses the kickoff date (+/- 1 day) AND both club names, and demands
-    a unique winner clearly ahead of the runner-up. Name similarity alone is
-    never sufficient: "Manchester City" and "Manchester United" score highly
-    against each other, so an ambiguous pair is refused rather than guessed.
-    """
-    if kickoff is None or fixtures is None or len(fixtures) == 0:
-        return None
-    import pandas as pd
-    day = pd.Timestamp(kickoff).tz_localize(None).normalize()
-    window = fixtures[(fixtures["date"] >= day - pd.Timedelta(days=1))
-                      & (fixtures["date"] <= day + pd.Timedelta(days=1))]
-    scored = []
-    for _, row in window.iterrows():
-        straight = min(name_similarity(home_raw, row["home_team"]),
-                       name_similarity(away_raw, row["away_team"]))
-        flipped = min(name_similarity(home_raw, row["away_team"]),
-                      name_similarity(away_raw, row["home_team"]))
-        if straight >= flipped:
-            scored.append((straight, row["home_team"], row["away_team"], False))
-        else:
-            scored.append((flipped, row["home_team"], row["away_team"], True))
-    if not scored:
-        return None
-    scored.sort(key=lambda t: -t[0])
-    best = scored[0]
-    if best[0] < min_score:
-        return None
-    if len(scored) > 1 and scored[1][0] > best[0] - 0.05:
-        return None
-    return {"home": best[1], "away": best[2], "flipped": best[3],
-            "score": best[0]}
 
 
 class PolymarketProvider(MarketDataProvider):
@@ -339,8 +286,19 @@ class PolymarketProvider(MarketDataProvider):
                                          % question[:80])
         accepting = str(market.get("acceptingOrders")).lower() == "true"
         book = Book(observed_at=utcnow_iso())
+        fee_model = {"venue": "polymarket", "units": "basis_points",
+                     "taker_base_fee": self.FEE_FALLBACK_BPS,
+                     "maker_base_fee": 0,
+                     "documented_taker_rate": 0.05,
+                     "gamma_taker_base_fee": market.get("takerBaseFee"),
+                     "source": "fallback"}
         if with_books and leg.supported and accepting:
             book = self.fetch_book_for_market(market)
+            # Only worth a network round-trip for something we might trade.
+            tokens = self.token_ids(market)
+            bps, source = self.fee_rate_bps(tokens[0] if tokens else "")
+            fee_model["taker_base_fee"] = bps
+            fee_model["source"] = source
         return MarketInstrument(
             venue=self.venue, instrument_id=ref, kind=KIND_BINARY,
             title="%s | %s" % (event.get("title"), question),
@@ -353,9 +311,7 @@ class PolymarketProvider(MarketDataProvider):
             tick_cents=max(1, int(round(float(
                 market.get("orderPriceMinTickSize") or 0.01) * 100))),
             min_size=float(market.get("orderMinSize") or 1.0),
-            fee_model={"venue": "polymarket",
-                       "maker_base_fee": market.get("makerBaseFee"),
-                       "taker_base_fee": market.get("takerBaseFee")},
+            fee_model=fee_model,
             book=book,
             raw={"clobTokenIds": market.get("clobTokenIds"),
                  "liquidityClob": market.get("liquidityClob"),
@@ -363,14 +319,52 @@ class PolymarketProvider(MarketDataProvider):
                  "bestBid": market.get("bestBid"),
                  "bestAsk": market.get("bestAsk")})
 
+    # ---- fees ----
+    # GET /fee-rate?token_id=.. is the documented authoritative fee source.
+    # Measured 2026-08-24: it returns {"base_fee": 1000} for every soccer token
+    # sampled (73/73) across all five leagues, agreeing with Gamma and with the
+    # CLOB market record. See fee_cents() for what that number means and why we
+    # charge it despite the published sports rate being 0.05.
+    _fee_cache: dict = {}
+    FEE_FALLBACK_BPS = 1000
+
+    def fee_rate_bps(self, token_id: str):
+        """`base_fee` in basis points for one token, or the fallback on error.
+
+        Never returns 0 on a failed lookup -- a fee we could not read is not a
+        fee that does not exist, and assuming zero would understate cost.
+        """
+        key = str(token_id or "")
+        if key in self._fee_cache:
+            return self._fee_cache[key]
+        bps, source = self.FEE_FALLBACK_BPS, "fallback"
+        if key:
+            try:
+                r = self.session.get(CLOB + "/fee-rate",
+                                     params={"token_id": key}, timeout=15)
+                if r.status_code == 200:
+                    value = r.json().get("base_fee")
+                    if value is not None:
+                        bps, source = float(value), "clob_fee_rate"
+            except (requests.RequestException, ValueError):
+                pass
+        self._fee_cache[key] = (bps, source)
+        return bps, source
+
     # ---- books ----
-    def fetch_book_for_market(self, market: dict) -> Book:
+    @staticmethod
+    def token_ids(market: dict) -> list:
+        """CLOB token ids for a market; the field is a JSON *string*."""
         tokens = market.get("clobTokenIds")
         if isinstance(tokens, str):
             try:
                 tokens = json.loads(tokens)
             except json.JSONDecodeError:
                 tokens = []
+        return [str(t) for t in (tokens or []) if t]
+
+    def fetch_book_for_market(self, market: dict) -> Book:
+        tokens = self.token_ids(market)
         if not tokens:
             return Book(observed_at=utcnow_iso())
         yes = self._token_book(tokens[0])

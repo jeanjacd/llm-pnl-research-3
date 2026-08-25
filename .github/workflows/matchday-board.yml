@@ -1,0 +1,108 @@
+name: matchday-board
+
+# PAPER TRADING ONLY. There is deliberately no job, step or credential here
+# capable of placing a real order: the venue providers are read-only and the
+# broker writes to its own ledger.
+
+on:
+  schedule:
+    # Every 6h, EVERY day (UTC). This supersedes the earlier Fri/Sat/Sun-only
+    # schedule, and the reason is measurement rather than coverage of kick-off
+    # times.
+    #
+    # Each fixture is boarded ONCE, ~24h before kick-off (see
+    # paper/selection.py). A run that finds no fixture inside that window does
+    # almost nothing and costs almost nothing, so running daily is nearly free
+    # -- while Fri/Sat/Sun-only would discard the 162 midweek fixtures of 1,547
+    # measured on 2026-08-24 (110 Wed, 35 Thu). A Wednesday match has its T-24h
+    # on Tuesday, so a weekend-only board never reaches it.
+    #
+    # Sample size is the binding constraint on this whole exercise: ~246
+    # independent fixtures are needed to resolve a 0.5c CLV edge at 80% power.
+    # Throwing away 10.5% of the supply to save compute that is not being
+    # spent anyway is the wrong trade.
+    #
+    # 6h < the 12h-wide board window, so no fixture can slip between two runs;
+    # the persisted `boarded` ledger is what keeps it to one decision each.
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      leagues:
+        description: "Comma-separated league ids (blank = all)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+# One writer at a time: overlapping runs must never mutate the same portfolio.
+concurrency:
+  group: paper-portfolio
+  cancel-in-progress: false
+
+jobs:
+  cycle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - run: pip install -e ".[dev]"
+
+      # Durable state lives on a dedicated branch, NOT in a dependency cache.
+      - name: Restore paper state
+        run: python scripts/state_sync.py restore --branch automation-state
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # `data/leagues/*/raw/` is gitignored -- the match CSVs are NOT in the
+      # repo, only the fitted params are. Without this step a runner has no
+      # fixtures and no training data, so every league is skipped and the
+      # whole cycle is a silent no-op. (Found 2026-08-25; the workflow had
+      # never had a data step.)
+      - name: Fetch match data
+        run: python -m wc2026 update --all
+
+      - name: Run one paper cycle
+        env:
+          # Two supported auth routes -- set ONE of these as a repo secret:
+          #   CLAUDE_CODE_OAUTH_TOKEN  from `claude setup-token`, billed to
+          #                            your Claude subscription. Expires
+          #                            eventually; the board fails CLOSED
+          #                            (defers everything) when it does, so
+          #                            check the run summary periodically.
+          #   ANTHROPIC_API_KEY        metered API credits, does not expire.
+          # Whichever is unset is simply empty; the CLI picks the one present.
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          WC2026_PAPER_ONLY: "1"
+        run: |
+          python -m wc2026 paper-cycle \
+            --leagues "${{ github.event.inputs.leagues }}" \
+            --state data/paper/portfolio.json \
+            --summary run_summary.md
+
+      - name: Persist paper state
+        run: python scripts/state_sync.py save --branch automation-state
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Sanitised summary only. Full prompts/responses and raw authenticated
+      # payloads never enter the public log.
+      - name: Publish sanitised summary
+        run: cat run_summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload detailed artifacts (private to the repo)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-cycle-${{ github.run_id }}
+          path: |
+            data/paper/
+            data/snapshots/
+          retention-days: 30

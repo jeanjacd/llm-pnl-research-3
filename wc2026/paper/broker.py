@@ -77,6 +77,18 @@ class PaperOrder:
     expires_at: str | None = None
     events: list = field(default_factory=list)
     cancel_triggers: list = field(default_factory=list)
+    # --- settlement identity ---------------------------------------------
+    # An order carries everything needed to settle itself. Re-deriving the
+    # fixture and claim from the venue at settlement time would make payout
+    # depend on the venue still listing a market that has already closed, and
+    # on the name-matching layer resolving it the same way weeks later.
+    claim: str | None = None
+    home_team: str | None = None
+    away_team: str | None = None
+    kickoff_utc: str | None = None
+    # How far the fill replay has already looked. Without it a re-run would
+    # re-scan the same window, and a gap between runs would go unexamined.
+    last_checked_at: str | None = None
 
     @property
     def remaining(self) -> float:
@@ -101,7 +113,21 @@ class PaperPosition:
     fees_cents: int
     league_id: str | None = None
     case_id: str | None = None
+    # --- settlement identity ---------------------------------------------
+    # An order carries everything needed to settle itself. Re-deriving the
+    # fixture and claim from the venue at settlement time would make payout
+    # depend on the venue still listing a market that has already closed, and
+    # on the name-matching layer resolving it the same way weeks later.
+    claim: str | None = None
+    home_team: str | None = None
+    away_team: str | None = None
+    kickoff_utc: str | None = None
     opened_at: str = field(default_factory=_iso)
+    # Closing line value -- see paper/clv.py. Captured at kick-off, which is
+    # separate from settlement because the result lands hours later.
+    closing_price_cents: float | None = None
+    clv_cents: float | None = None
+    clv_source: str | None = None
     settled: bool = False
     result: str | None = None
     payout_cents: float = 0.0
@@ -116,6 +142,11 @@ class PaperPortfolio:
     orders: dict = field(default_factory=dict)
     positions: dict = field(default_factory=dict)
     ledger: list = field(default_factory=list)
+    # Fixtures the board has already ruled on, keyed by `selection.fixture_key`.
+    # Persisted, because "board each fixture once" has to survive a restart --
+    # otherwise every scheduled run re-boards the same match and the extra
+    # decisions are correlated duplicates, not new observations.
+    boarded: dict = field(default_factory=dict)
     path: str = os.path.join(PAPER_DIR, "portfolio.json")
 
     # ---- cash ----
@@ -136,7 +167,10 @@ class PaperPortfolio:
     def submit(self, case_id: str, venue: str, instrument_id: str, side: str,
                limit_price_cents: int, size: float, league_id=None,
                expires_at=None, cancel_triggers=None,
-               idempotency_key: str | None = None) -> PaperOrder:
+               idempotency_key: str | None = None,
+               claim: str | None = None, home_team: str | None = None,
+               away_team: str | None = None,
+               kickoff_utc: str | None = None) -> PaperOrder:
         """Submit a paper limit order, reserving the cash it could consume."""
         if not 0 < limit_price_cents < 100:
             raise BrokerError("limit price must be 1..99")
@@ -162,7 +196,9 @@ class PaperPortfolio:
                            limit_price_cents=limit_price_cents,
                            requested_size=size, league_id=league_id,
                            reserved_cents=need, expires_at=expires_at,
-                           cancel_triggers=list(cancel_triggers or []))
+                           cancel_triggers=list(cancel_triggers or []),
+                           claim=claim, home_team=home_team,
+                           away_team=away_team, kickoff_utc=kickoff_utc)
         order.log("submitted", key=key, reserved_cents=need)
         self.orders[order.order_id] = order
         return order
@@ -288,7 +324,9 @@ class PaperPortfolio:
                 position_id=str(uuid.uuid4()), venue=order.venue,
                 instrument_id=order.instrument_id, side=order.side, size=size,
                 avg_cost_cents=avg_price, fees_cents=fee,
-                league_id=order.league_id, case_id=order.case_id)
+                league_id=order.league_id, case_id=order.case_id,
+                claim=order.claim, home_team=order.home_team,
+                away_team=order.away_team, kickoff_utc=order.kickoff_utc)
         else:
             grand = pos.size + size
             pos.avg_cost_cents = ((pos.avg_cost_cents * pos.size
@@ -337,6 +375,7 @@ class PaperPortfolio:
                                  if not o.terminal),
             "n_positions_open": len(open_positions),
             "n_settled": len(settled),
+            "n_fixtures_boarded": len(self.boarded),
             "realized_pnl_usd": realized / 100,
             "fees_paid_usd": sum(o.fees_cents for o in self.orders.values()) / 100,
             "fill_rate": (sum(1 for o in self.orders.values()
@@ -355,6 +394,7 @@ class PaperPortfolio:
             "orders": {k: asdict(v) for k, v in self.orders.items()},
             "positions": {k: asdict(v) for k, v in self.positions.items()},
             "ledger": self.ledger,
+            "boarded": self.boarded,
             "saved_at": _iso(),
         }
         tmp = target + ".tmp"
@@ -374,7 +414,8 @@ class PaperPortfolio:
             starting_cash_cents=payload.get("starting_cash_cents", 100_000),
             cash_cents=payload["cash_cents"],
             reserved_cents=payload.get("reserved_cents", 0),
-            ledger=payload.get("ledger", []), path=target)
+            ledger=payload.get("ledger", []),
+            boarded=payload.get("boarded", {}), path=target)
         for key, raw in (payload.get("orders") or {}).items():
             portfolio.orders[key] = PaperOrder(**raw)
         for key, raw in (payload.get("positions") or {}).items():
