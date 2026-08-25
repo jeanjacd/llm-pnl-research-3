@@ -43,7 +43,18 @@ concurrency:
 jobs:
   cycle:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # Sized from the real fixture calendar, not a guess. Simulating the
+    # 6-hourly schedule over three weeks: the mean run boards 2.2 fixtures
+    # (~12 min of model time) but the busiest boards 16 -- a Friday, when the
+    # whole Saturday card across five leagues crosses T-24h in one 6h band.
+    # At the measured 330s per fixture (quant 87s + coach 180s + judge) that
+    # is 88 minutes, plus ~21 minutes of discovery for five leagues.
+    #
+    # 45 minutes killed 8 of 84 simulated runs mid-flight, losing the whole
+    # run's work. 180 leaves headroom over the ~110-minute worst case and
+    # still finishes well inside the 6h gap to the next run, so the
+    # concurrency queue never backs up.
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
 

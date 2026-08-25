@@ -77,8 +77,8 @@ class FakeProvider:
     """Returns one attractively-priced supported market."""
     venue = "kalshi"
 
-    def __init__(self, ask=30, size=500.0):
-        self.ask, self.size = ask, size
+    def __init__(self, ask=30, size=500.0, hours=8):
+        self.ask, self.size, self.hours = ask, size, hours
         self.calls = 0
 
     def discover(self, spec, **kw):
@@ -88,9 +88,9 @@ class FakeProvider:
             venue=self.venue, instrument_id="INST-1", kind=KIND_BINARY,
             title="A vs B", legs=(Leg.build("home_win", "ref", home=teams[0],
                                             away=teams[1],
-                                            kickoff_utc=soon()),),
+                                            kickoff_utc=soon(self.hours)),),
             settles_on_regulation=True, league_id=spec.league_id,
-            kickoff_utc=soon(), fee_model={"venue": "kalshi"},
+            kickoff_utc=soon(self.hours), fee_model={"venue": "kalshi"},
             book=Book(yes_asks=((self.ask, self.size),),
                       yes_bids=((self.ask - 1, self.size),),
                       observed_at=dt.datetime.now(dt.timezone.utc).isoformat()))]
@@ -244,3 +244,50 @@ def test_summary_contains_no_secrets_or_transcripts():
 
 def test_summary_states_it_is_paper_only():
     assert "PAPER TRADING ONLY" in render_summary({"leagues": {}})
+
+
+# --------------------------------------------------------------------------- #
+# what a run actually costs
+# --------------------------------------------------------------------------- #
+def test_a_run_with_no_fixture_in_the_window_makes_no_model_calls(tmp_path,
+                                                                  monkeypatch):
+    """This is the cost model, so it is guarded rather than assumed.
+
+    Each fixture is boarded once at ~T-24h, and 52 of 84 simulated runs board
+    nothing at all. Those runs must cost ZERO model calls -- not a cheap call,
+    not a cached one. The board is the only place this system spends anything
+    per-decision, so a regression here would be silent and expensive.
+    """
+    _patch_league(monkeypatch, tmp_path)
+
+    def explode(*args, **kwargs):
+        raise AssertionError("a model was invoked on a run with no fixtures")
+
+    monkeypatch.setattr("wc2026.board.orchestrator.invoke_member", explode)
+    monkeypatch.setattr("wc2026.paper.cycle.run_board", explode)
+
+    # 40h out: comfortably inside the deterministic layer's 96h horizon, so
+    # the case is built and PLACEABLE, but outside the board window's 30h
+    # ceiling. That isolates the window as the thing doing the work -- a
+    # fixture rejected on freshness instead would prove nothing about cost.
+    stats = run_cycle(state_path=str(tmp_path / "portfolio.json"),
+                      providers=[FakeProvider(hours=40)], verbose=False,
+                      fill_probes={})
+    assert stats["placeable_cases"] > 0, "must be placeable, or this proves nothing"
+    assert stats["board_run"] == 0
+    assert stats["fixtures_selected"] == 0
+    assert stats["orders_submitted"] == 0
+    assert "too_early" in " ".join(stats["drop_reasons"])
+    # Everything up to the board still ran -- a cheap run, not a broken one.
+    assert stats["cases_built"] > 0
+
+
+def test_a_fixture_inside_the_window_does_reach_the_board(tmp_path, monkeypatch):
+    """The mirror of the test above: proves it is the window doing the work."""
+    _patch_league(monkeypatch, tmp_path)
+    _approve_board(monkeypatch)
+    stats = run_cycle(state_path=str(tmp_path / "portfolio.json"),
+                      providers=[FakeProvider()], verbose=False,
+                      fill_probes={})
+    assert stats["fixtures_selected"] == 1
+    assert stats["board_run"] == 1
