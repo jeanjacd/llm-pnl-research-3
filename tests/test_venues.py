@@ -365,3 +365,116 @@ def test_far_apart_kickoffs_are_not_equivalent():
     b = _inst(["home_win"], venue="polymarket",
               kickoff="2026-08-26T19:00:00+00:00")
     assert not equivalent(a, b)
+
+
+# --- Kalshi fixture identity and claims ---------------------------------------
+# The Kalshi path used to produce 223 "supported" instruments and zero
+# priceable cases: legs carried no home/away, so no claim ever resolved. These
+# tests pin the two things that fixed it -- parsing the rules text, and the
+# home-first ordering verified against both Kalshi's own structured team ids
+# and our fixture table (255/255, no counterexamples).
+import datetime as dt
+
+from wc2026.venues.kalshi_provider import claim_for, rules_fixture
+
+EPL_RULES = ("If Tie is the result of the Arsenal vs Chelsea professional EPL "
+             "soccer game originally scheduled for Sep 6, 2026 after 90 "
+             "minutes plus stoppage time (does not include extra time or "
+             "penalties), then the market resolves to Yes.")
+# BTTS wording omits the word "soccer" and opens differently.
+BUNDESLIGA_RULES = ("If Augsburg and Schalke both score a goal in the Augsburg "
+                    "vs Schalke Bundesliga match originally scheduled for "
+                    "Aug 30, 2026 after 90 minutes plus stoppage time")
+
+
+def test_rules_fixture_binds_to_the_last_the_before_vs():
+    """"If Tie is the result of the X vs Y" must yield X, not "result of the X"."""
+    home, away, when = rules_fixture(EPL_RULES, "premier_league")
+    assert (home, away) == ("Arsenal", "Chelsea")
+    assert when == dt.datetime(2026, 9, 6)
+
+
+def test_rules_fixture_handles_btts_wording_without_the_word_soccer():
+    home, away, when = rules_fixture(BUNDESLIGA_RULES, "bundesliga")
+    assert (home, away) == ("Augsburg", "Schalke")
+    assert when == dt.datetime(2026, 8, 30)
+
+
+def test_rules_fixture_requires_the_right_league_label():
+    """An EPL rules string must not parse as a Ligue 1 fixture."""
+    assert rules_fixture(EPL_RULES, "ligue_1") is None
+    assert rules_fixture("nothing resembling a fixture", "mls") is None
+
+
+def test_rules_list_the_home_side_first():
+    fixtures = pd.DataFrame({"date": [pd.Timestamp("2026-09-06")],
+                             "home_team": ["Arsenal"],
+                             "away_team": ["Chelsea"]})
+    home, away, when = rules_fixture(EPL_RULES, "premier_league")
+    got = resolve_fixture(home, away, when, fixtures)
+    assert got["home"] == "Arsenal" and got["away"] == "Chelsea"
+    assert got["flipped"] is False
+
+
+def test_resolve_fixture_refuses_an_ambiguous_manchester():
+    """Similarity alone is not enough: the two Manchesters score 0.67."""
+    assert name_similarity("Manchester City", "Manchester United") > 0.6
+    fixtures = pd.DataFrame({
+        "date": [pd.Timestamp("2026-09-06")] * 2,
+        "home_team": ["Manchester City", "Manchester United"],
+        "away_team": ["Everton", "Everton"]})
+    assert resolve_fixture("Manchester", "Everton",
+                           dt.datetime(2026, 9, 6), fixtures) is None
+
+
+def test_claims_cover_every_supported_family():
+    home, away = "Fulham", "Chelsea"
+    cases = {
+        ("GAME", "Tie"): "draw",
+        ("GAME", "Fulham"): "home_win",
+        ("GAME", "Chelsea"): "away_win",
+        ("TOTAL", "Over 2.5 goals scored"): "total_over_2.5",
+        ("BTTS", "Both Teams To Score"): "btts",
+        ("TEAMTOTAL", "Chelsea over 1.5 goals"): "away_over_1.5",
+        ("SPREAD", "Fulham wins by more than 1.5 goals"): "home_wins_by_over_1.5",
+    }
+    for (family, sub), expected in cases.items():
+        assert claim_for(family, sub, home, away) == expected, (family, sub)
+
+
+def test_exact_score_is_written_from_the_home_teams_point_of_view():
+    """"Chelsea wins 3-1" names the WINNER first; the claim is home-first."""
+    assert claim_for("SCORE", "Fulham FC wins 4-3", "Fulham", "Chelsea") == "score_4-3"
+    assert claim_for("SCORE", "Chelsea wins 3-1", "Fulham", "Chelsea") == "score_1-3"
+
+
+def test_claim_refuses_a_team_that_is_in_neither_side():
+    assert claim_for("GAME", "Arsenal", "Fulham", "Chelsea") is None
+    assert claim_for("CORNERS", "Over 9.5 corners", "Fulham", "Chelsea") is None
+
+
+def test_aliases_bridge_names_string_similarity_cannot():
+    """Each pair here was an observed, measured resolution failure."""
+    for venue_name, ours in [("FC K""ö""ln", "FC Cologne"),
+                             ("M""´""gladbach", "Borussia M""ö""nchengladbach"),
+                             ("PSG", "Paris Saint-Germain"),
+                             ("Bilbao", "Athletic Club"),
+                             ("Los Angeles F", "LAFC"),
+                             ("Los Angeles G", "LA Galaxy")]:
+        assert name_similarity(venue_name, ours) >= 0.9, venue_name
+    # An alias asserts a SPECIFIC club, so it must not bleed onto a different
+    # one that merely shares a city name. Ligue 1 contains both Paris clubs,
+    # and before the alias-confirmation rule "PSG" scored 0.67 against
+    # "Paris FC" -- enough to resolve to the wrong match on a day PSG was idle.
+    assert name_similarity("PSG", "Paris FC") < 0.6
+    fixtures = pd.DataFrame({"date": [pd.Timestamp("2026-08-28")],
+                             "home_team": ["Paris FC"],
+                             "away_team": ["Lille"]})
+    assert resolve_fixture("PSG", "Lille",
+                           dt.datetime(2026, 8, 28), fixtures) is None
+
+
+def test_real_fixtures_can_score_low_so_the_threshold_cannot_be_raised():
+    """Measured floor for a CORRECT match is 0.62; documents why 0.6 stands."""
+    assert 0.6 <= name_similarity("DC United", "D.C. United") < 0.7
+    assert 0.6 <= name_similarity("Saint Louis", "St. Louis CITY SC") < 0.7

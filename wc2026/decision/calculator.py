@@ -98,27 +98,58 @@ def _parse(ts):
 
 
 # --- fees ---------------------------------------------------------------------
-def fee_cents(venue: str, count: int, price_cents: int, fee_model=None) -> int:
-    """Exact venue fee for `count` contracts at `price_cents`.
+def fee_cents(venue: str, count: int, price_cents: int, fee_model=None,
+              role: str = "taker") -> int:
+    """Exact venue fee for `count` contracts at `price_cents`, ceiled to a cent.
 
-    Kalshi: roundup_to_cent(0.07 * C * P * (1-P)), verified against the
-    published fee table. Polymarket: base fees are currently zero on these
-    markets; an explicitly declared non-zero fee is applied if present, and an
-    unknown venue is charged the most conservative (Kalshi) schedule rather
-    than assumed free.
+    Both venues use the SAME formula shape -- fee = C * rate * p * (1-p) --
+    which is symmetric in p and therefore largest at 50c and near zero at the
+    wings. Charging a flat rate on notional instead (an earlier version of this
+    function did) overstates the fee by ~5.6x at 23c.
+
+    Kalshi: rate 0.07, taker only, verified against the published fee table.
+
+    Polymarket: rate comes from the venue's own `base_fee` field, in BASIS
+    POINTS. Measured 2026-08-24 across all five leagues: Gamma `takerBaseFee`,
+    the CLOB market record `taker_base_fee`, and the authoritative
+    `GET /fee-rate?token_id=..` endpoint ALL return 1000 for every soccer
+    market sampled (88/88 markets, 73/73 tokens). 1000bps = 0.10 is exactly
+    twice the published sports rate of 0.05, and Polymarket's own client has an
+    open, unanswered issue about this contradiction (py-clob-client#326). We
+    charge the reported field rather than the published rate: over-charging
+    costs a missed trade, under-charging books a bad one.
+
+      documented   : 0.05 -> max $1.25 / 100 shares at 50c
+      charged here : 0.10 -> max $2.50 / 100 shares at 50c
+
+    `role`: Polymarket documents "Makers are never charged fees", so a rung
+    that RESTS on the book pays nothing while a marketable order pays the taker
+    rate. Kalshi is charged the taker schedule either way. The default is
+    "taker" so any caller that does not reason about liquidity role gets the
+    conservative number.
+
+    An unknown venue is charged the Kalshi schedule rather than assumed free.
     """
     if count <= 0:
         return 0
     if venue == "polymarket":
-        model = fee_model or {}
-        rate = model.get("taker_base_fee") or 0
-        try:
-            rate = float(rate)
-        except (TypeError, ValueError):
-            rate = 0.0
-        if rate <= 0:
+        if role == "maker":
             return 0
-        return int(-(-(rate * count * price_cents) // 100))
+        model = fee_model or {}
+        try:
+            basis_points = float(model.get("taker_base_fee") or 0)
+        except (TypeError, ValueError):
+            basis_points = 0.0
+        if basis_points <= 0:
+            return 0
+        rate = basis_points / 10_000.0
+        # p*(1-p) is formed from INTEGER cents. Computing it in floats makes
+        # the fee asymmetric about 50c -- 0.7*(1-0.7) != 0.3*(1-0.3) in binary
+        # floating point -- which would charge a different fee for the two
+        # sides of the same contract.
+        price = max(0, min(100, int(price_cents)))
+        exact = count * rate * price * (100 - price) / 100.0   # cents
+        return int(-(-exact // 1))                             # ceil
     return trading_fee_cents(count, price_cents, 0.07)
 
 
@@ -133,6 +164,9 @@ class PriceRung:
     ev_per_contract: float
     roi: float
     immediately_executable: bool
+    # "taker" if the rung crosses the spread, "maker" if it rests. Polymarket
+    # charges makers nothing; Kalshi charges the same schedule either way.
+    liquidity_role: str = "taker"
 
     def as_dict(self) -> dict:
         return asdict(self)
@@ -220,13 +254,14 @@ def adverse_selection(cfg: CalcConfig, spread_cents, hours_to_kickoff) -> float:
 
 
 def ev_at_price(p: float, price_cents: int, venue: str, count: int,
-                reserve_cents: float, fee_model=None) -> tuple:
+                reserve_cents: float, fee_model=None,
+                role: str = "taker") -> tuple:
     """(ev_per_contract_cents, roi, fee_cents) for buying at `price_cents`.
 
     EV = conservative expected payout - price - fee share - adverse-selection
     reserve. A binary contract pays 100c.
     """
-    fee = fee_cents(venue, count, price_cents, fee_model)
+    fee = fee_cents(venue, count, price_cents, fee_model, role)
     fee_share = fee / count if count else 0.0
     ev = 100.0 * p - price_cents - fee_share - reserve_cents
     cost = price_cents + fee_share
@@ -273,6 +308,13 @@ def build_case(instrument, p_raw: float | None, p_calibrated: float | None,
     # --- freshness ---------------------------------------------------------
     kickoff = _parse(instrument.kickoff_utc)
     now = _utcnow()
+    if kickoff is None:
+        # Without a kick-off there is no way to tell a pre-match quote from an
+        # in-play one, and this model has no in-play validity whatsoever.
+        case.action = DEFER
+        case.reasons = ["kickoff time unknown; cannot confirm the match has "
+                        "not started"]
+        return case
     if kickoff is not None:
         hours = (kickoff - now).total_seconds() / 3600.0
         case.hours_to_kickoff = hours
@@ -325,11 +367,15 @@ def build_case(instrument, p_raw: float | None, p_calibrated: float | None,
     tick = max(1, int(instrument.tick_cents or 1))
     max_limit = None
     ladder = []
+    touch_now = case.touch_cents or 0
     for price in range(tick, 100, tick):
+        # At or above the touch the order crosses and pays the taker rate;
+        # below it the order rests, so a fill makes us the maker.
+        role = "taker" if (touch_now and price >= touch_now) else "maker"
         ev, roi, fee = ev_at_price(case.p_lower, price, instrument.venue,
                                    reference_size,
                                    case.adverse_selection_cents,
-                                   instrument.fee_model)
+                                   instrument.fee_model, role)
         if ev <= 0 or roi < cfg.min_roi:
             continue
         breakeven = (price + fee / reference_size
@@ -341,7 +387,7 @@ def build_case(instrument, p_raw: float | None, p_calibrated: float | None,
         ladder.append(PriceRung(
             price_cents=price, size_available=size_here, fee_cents=fee,
             cost_cents=price + fee / reference_size,
-            ev_per_contract=ev, roi=roi,
+            ev_per_contract=ev, roi=roi, liquidity_role=role,
             immediately_executable=size_here >= cfg.min_depth_contracts))
     case.ladder = ladder
     case.max_limit_price_cents = max_limit
