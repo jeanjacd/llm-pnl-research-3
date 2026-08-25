@@ -1,0 +1,78 @@
+name: paper-maintenance
+
+# The cheap half of the paper loop: settle finished matches, replay resting
+# fills from venue history, capture closing lines. NO model calls and no market
+# discovery, so a run costs a handful of HTTP requests.
+#
+# Split out from `matchday-board` because the two halves have completely
+# different cost profiles and therefore want different schedules. Boarding
+# costs minutes of model time per fixture and only needs to happen once, near
+# kick-off. Upkeep costs almost nothing and needs to happen EVERY day: a
+# midweek match must settle on the day it finishes rather than waiting for the
+# next matchday, and a resting order that traded through on a Tuesday must be
+# recorded as a fill instead of quietly expiring.
+#
+# PAPER TRADING ONLY. No job, step or credential here can place a real order.
+
+on:
+  schedule:
+    # 06:20 and 18:20 UTC daily -- after the European evening kick-offs have
+    # finished and after the North American late games have. Deliberately NOT
+    # 05:40: `daily-data` runs then, and two workflows refreshing every league
+    # from ESPN at the same instant is pointless load.
+    - cron: "20 6,18 * * *"
+  workflow_dispatch:
+    inputs:
+      leagues:
+        description: "Comma-separated league ids (blank = whatever is held)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+# Shares the board's lock: both mutate the same portfolio, and a settlement
+# landing halfway through a submission would corrupt the ledger.
+concurrency:
+  group: paper-portfolio
+  cancel-in-progress: false
+
+jobs:
+  maintain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - run: pip install -e ".[dev]"
+
+      - name: Restore paper state
+        run: python scripts/state_sync.py restore --branch automation-state
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Results have to be ingested before anything can settle against them.
+      - name: Refresh results
+        run: python -m wc2026 update --all
+
+      - name: Settle, fill and price the paper book
+        env:
+          WC2026_PAPER_ONLY: "1"
+        run: |
+          python -m wc2026 paper-maintain \
+            --leagues "${{ github.event.inputs.leagues }}" \
+            --state data/paper/portfolio.json \
+            --summary run_summary.md
+
+      - name: Persist paper state
+        run: python scripts/state_sync.py save --branch automation-state
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish sanitised summary
+        run: cat run_summary.md >> "$GITHUB_STEP_SUMMARY"

@@ -73,6 +73,15 @@ python -m wc2026 evaluate --all
 * The legacy `recommend` / `execute` / `track` commands still exist for the
   Kalshi single-league workflow. New work should use `paper-cycle`, which is
   paper-only by construction.
+* **The loop is now two commands, not one.** `paper-cycle` discovers markets,
+  builds cases and boards one fixture at a time; `paper-maintain` settles,
+  replays resting fills and captures closing lines with no model calls and no
+  market discovery. Run the second every day -- it is what turns submitted
+  orders into a P&L, and it is nearly free.
+
+```bash
+python -m wc2026 paper-maintain --state data/paper/portfolio.json
+```
 
 ## Verifying a migration
 
