@@ -273,6 +273,17 @@ def cmd_paper_cycle(args):
               board_enabled=not args.no_board)
 
 
+def cmd_paper_maintain(args):
+    """Portfolio upkeep only. PAPER ONLY -- places no order of any kind."""
+    from .paper.cycle import run_maintenance
+    from .venues.kalshi_provider import KalshiProvider
+    from .venues.polymarket import PolymarketProvider
+    leagues = [x.strip() for x in (args.leagues or "").split(",") if x.strip()]
+    run_maintenance(state_path=args.state, summary_path=args.summary,
+                    providers=[KalshiProvider(), PolymarketProvider()],
+                    league_ids=leagues or None)
+
+
 def cmd_tournament(args):
     """Legacy WC-era workflow, reading exclusively from the archive."""
     cfg = CONFIG
@@ -377,6 +388,15 @@ def build_parser() -> argparse.ArgumentParser:
     pc.add_argument("--no-board", action="store_true",
                     help="skip the board (deterministic decisions only)")
     pc.set_defaults(func=cmd_paper_cycle)
+
+    pm = sub.add_parser("paper-maintain",
+                        help="settle, fill and price-check the paper book "
+                             "(no model calls, no market discovery)")
+    pm.add_argument("--leagues", default="",
+                    help="comma-separated league ids (blank = whatever is held)")
+    pm.add_argument("--state", default=None, help="portfolio state path")
+    pm.add_argument("--summary", default=None, help="sanitised summary path")
+    pm.set_defaults(func=cmd_paper_maintain)
 
     pto = sub.add_parser("tournament", help="legacy: simulate the 2026 WC")
     pto.add_argument("--sims", type=int, default=30000)

@@ -106,12 +106,15 @@ def _patch_league(monkeypatch, tmp_path):
     day = pd.Timestamp("2024-01-01")
     for k in range(400):
         home, away = ("A", "B") if k % 2 else ("B", "A")
-        rows.append({"date": day + pd.Timedelta(days=k), "home_team": home,
+        rows.append({"date": day + pd.Timedelta(days=k),
+                     "kickoff_utc": day + pd.Timedelta(days=k, hours=19),
+                     "home_team": home,
                      "away_team": away, "home_score": 2, "away_score": 1,
                      "tournament": "L", "tier": "league", "neutral": False,
                      "played": True})
     played = pd.DataFrame(rows)
     future = pd.DataFrame([{"date": pd.Timestamp("2026-12-01"),
+                            "kickoff_utc": pd.Timestamp("2026-12-01 19:00"),
                             "home_team": "A", "away_team": "B",
                             "home_score": None, "away_score": None,
                             "tournament": "L", "tier": "league",
