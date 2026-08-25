@@ -165,3 +165,24 @@ def test_one_writer_at_a_time_on_the_portfolio():
 def test_the_other_schedules_are_unchanged():
     assert crons(load("daily-data")) == ["40 5 * * *"]
     assert crons(load("weekly-evaluation")) == ["20 6 * * 1"]
+
+
+def test_the_board_timeout_covers_a_busy_matchday():
+    """45 minutes did not. Simulating the 6-hourly schedule against the real
+    fixture calendar, the busiest run boards 16 fixtures -- a Friday, when the
+    whole Saturday card crosses T-24h in one band -- which is 88 minutes of
+    model time at the measured 330s per fixture, plus ~21 minutes of discovery
+    across five leagues. A run killed mid-flight loses all of its work."""
+    doc = load("matchday-board")
+    timeout = doc["jobs"]["cycle"]["timeout-minutes"]
+    worst_case_minutes = 16 * 330 / 60 + 21
+    assert timeout >= worst_case_minutes, (
+        "timeout %s min is below the measured worst case %.0f min"
+        % (timeout, worst_case_minutes))
+
+
+def test_the_board_finishes_before_the_next_run_is_due():
+    """Otherwise the concurrency queue backs up run on run."""
+    fires = fire_times(crons(load("matchday-board"))[0], MONDAY)
+    gap_minutes = (fires[1] - fires[0]).total_seconds() / 60
+    assert load("matchday-board")["jobs"]["cycle"]["timeout-minutes"] < gap_minutes
