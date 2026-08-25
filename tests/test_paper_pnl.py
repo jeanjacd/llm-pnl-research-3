@@ -91,16 +91,30 @@ def test_a_history_fill_is_labelled_so_it_can_be_told_from_a_real_book(tmp_path)
 
 
 def test_the_replay_window_starts_where_the_last_one_ended(tmp_path):
-    """Otherwise a gap between runs goes unexamined, or is scanned twice."""
+    """No gap between runs, and no window scanned twice.
+
+    The clock is pinned rather than read. An earlier version of this test
+    compared watermarks taken from two real `now()` calls and passed only
+    because Windows returns an IDENTICAL timestamp for consecutive calls;
+    on CI's finer clock the two differed by microseconds and it failed.
+    """
+    first = dt.datetime(2026, 8, 20, 6, 0, tzinfo=dt.timezone.utc)
+    second = dt.datetime(2026, 8, 20, 12, 0, tzinfo=dt.timezone.utc)
     p = a_portfolio(tmp_path)
     order = an_order(p, price=30)
     probe = StubProbe(None)
-    replay_fills(p, {"kalshi": probe})
-    first_end = probe.windows[0][1]
-    assert order.last_checked_at is not None
-    replay_fills(p, {"kalshi": probe})
-    assert probe.windows[1][0] == order.last_checked_at or \
-        probe.windows[1][0] == first_end
+
+    replay_fills(p, {"kalshi": probe}, now=first)
+    assert probe.windows[0][0] == order.created_at    # from the order's birth
+    assert probe.windows[0][1] == first
+    assert order.last_checked_at == first.isoformat()
+
+    replay_fills(p, {"kalshi": probe}, now=second)
+    # Starts exactly where the last one stopped: no gap, no overlap.
+    assert probe.windows[1][0] == first.isoformat()
+    assert probe.windows[1][1] == second
+    assert order.last_checked_at == second.isoformat()
+
 
 
 def test_no_probe_for_a_venue_is_counted_not_silently_skipped(tmp_path):
