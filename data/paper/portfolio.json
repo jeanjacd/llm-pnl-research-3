@@ -11,7 +11,19 @@
       "action": "DEFER",
       "case_id": "kalshi:KXLALIGAGAME-26AUG26RMARSO-RSO:yes",
       "claim": "home_win"
+    },
+    "la_liga|Celta Vigo|Osasuna|2026-08-27": {
+      "ts": "2026-08-26T13:43:50.206282+00:00",
+      "action": "DEFER",
+      "case_id": "polymarket:0x928402491a25ce768ca7505cc9078b60697c77f34b7e0bf031d66ea66e2cf831:yes",
+      "claim": "home_win"
+    },
+    "la_liga|Barcelona|Athletic Club|2026-08-27": {
+      "ts": "2026-08-26T13:43:50.209224+00:00",
+      "action": "DEFER",
+      "case_id": "kalshi:KXLALIGAGAME-26AUG27BARATH-ATH:no",
+      "claim": "not_away_win"
     }
   },
-  "saved_at": "2026-08-26T07:32:59.022429+00:00"
+  "saved_at": "2026-08-26T13:43:50.209262+00:00"
 }
