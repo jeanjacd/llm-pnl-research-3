@@ -1,0 +1,17 @@
+{
+  "starting_cash_cents": 100000,
+  "cash_cents": 100000,
+  "reserved_cents": 0,
+  "orders": {},
+  "positions": {},
+  "ledger": [],
+  "boarded": {
+    "la_liga|Real Madrid|Real Sociedad|2026-08-26": {
+      "ts": "2026-08-26T07:32:14.019615+00:00",
+      "action": "DEFER",
+      "case_id": "kalshi:KXLALIGAGAME-26AUG26RMARSO-RSO:yes",
+      "claim": "home_win"
+    }
+  },
+  "saved_at": "2026-08-26T07:32:14.019666+00:00"
+}
