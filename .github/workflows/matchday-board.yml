@@ -33,7 +33,13 @@ on:
         default: ""
 
 permissions:
-  contents: read
+  # WRITE, not read: both workflows persist the paper ledger by pushing to the
+  # `automation-state` branch, and `contents: read` made every scheduled run
+  # fail at its LAST step with
+  #   Permission to ... denied to github-actions[bot] ... 403
+  # after doing all of the work -- including spending a board call. The
+  # repository default is already `write`; this block was what restricted it.
+  contents: write
 
 # One writer at a time: overlapping runs must never mutate the same portfolio.
 concurrency:
