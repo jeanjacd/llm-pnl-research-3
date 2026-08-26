@@ -186,3 +186,18 @@ def test_the_board_finishes_before_the_next_run_is_due():
     fires = fire_times(crons(load("matchday-board"))[0], MONDAY)
     gap_minutes = (fires[1] - fires[0]).total_seconds() / 60
     assert load("matchday-board")["jobs"]["cycle"]["timeout-minutes"] < gap_minutes
+
+
+def test_workflows_that_persist_state_can_actually_write():
+    """`contents: read` made every scheduled run fail at its last step, after
+    the work was already done -- including a spent board call. The failure was
+    a 403 from github-actions[bot], not anything in the code."""
+    for name in ("matchday-board", "paper-maintenance"):
+        doc = load(name)
+        text = open(os.path.join(WORKFLOWS, name + ".yml"),
+                    encoding="utf-8").read()
+        if "state_sync.py save" not in text:
+            continue
+        assert doc["permissions"]["contents"] == "write", (
+            "%s pushes the paper ledger but only requests contents: %s"
+            % (name, doc["permissions"]["contents"]))
