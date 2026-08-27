@@ -124,7 +124,12 @@ def run_board(case, fixture: dict, invoke=invoke_member,
     case_id = case.case_id
     result = {"case_id": case_id, "prompt_version": PROMPT_VERSION,
               "ts": _utcnow(), "action": "DEFER", "quant": None, "coach": None,
-              "judge": None, "failure": None}
+              "judge": None, "failure": None,
+              # True when the board could not RUN, as opposed to having run and
+              # declined. Both fail closed to DEFER -- correctly -- but they are
+              # not the same event, and conflating them let a missing `claude`
+              # binary masquerade as seven considered deferrals.
+              "failed_closed": False}
 
     # A case the deterministic layer already refused never reaches the board.
     if case.action in (UNSUPPORTED,):
@@ -148,6 +153,7 @@ def run_board(case, fixture: dict, invoke=invoke_member,
         quant = validate_quant(quant_raw, case_id, ceiling_price, ceiling_size)
     except (BoardFailure, SchemaError) as exc:
         result["failure"] = "quant: %s" % exc
+        result["failed_closed"] = True
         audit("board_failed_closed", result, log_path)
         return result
 
@@ -177,6 +183,7 @@ def run_board(case, fixture: dict, invoke=invoke_member,
                 coach_cache[cache_key] = coach
     except (BoardFailure, SchemaError) as exc:
         result["failure"] = "coach: %s" % exc
+        result["failed_closed"] = True
         result["quant"] = quant
         audit("board_failed_closed", result, log_path)
         return result
@@ -214,6 +221,7 @@ def run_board(case, fixture: dict, invoke=invoke_member,
                                judge_ceiling_size)
     except (BoardFailure, SchemaError) as exc:
         result["failure"] = "judge: %s" % exc
+        result["failed_closed"] = True
         audit("board_failed_closed", result, log_path)
         return result
 

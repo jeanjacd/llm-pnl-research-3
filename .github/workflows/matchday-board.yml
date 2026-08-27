@@ -73,6 +73,31 @@ jobs:
 
       - run: pip install -e ".[dev]"
 
+      # The board shells out to `claude`, which is an npm package -- it was
+      # never installed here, so EVERY board call since these workflows were
+      # written failed with "No such file or directory: 'claude'" and fell
+      # closed to DEFER. Seven fixtures were reported as considered deferrals
+      # when the board had never run at all.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - run: npm install -g @anthropic-ai/claude-code
+
+      # Fail the job HERE rather than let the board fail closed one fixture at
+      # a time. A DEFER is supposed to mean the board looked and declined; it
+      # must never be able to mean the board was not installed.
+      - name: Verify the board can actually run
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude --version
+          if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ] && [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error::no board credential is set; every case would DEFER"
+            exit 1
+          fi
+
       # Durable state lives on a dedicated branch, NOT in a dependency cache.
       - name: Restore paper state
         run: python scripts/state_sync.py restore --branch automation-state
