@@ -35,6 +35,7 @@ from .broker import PaperPortfolio
 from .clv import capture_closing_lines, clv_summary
 from .fills import KalshiFillProbe, PolymarketFillProbe, replay_fills
 from .selection import (
+    actionable_fixtures,
     fixture_key,
     hours_to_kickoff,
     select_one_per_fixture,
@@ -259,7 +260,13 @@ def run_cycle(league_ids=None, state_path: str | None = None,
              "cases_built": 0, "cases_skipped_unchanged": 0,
              "unsupported": 0, "board_run": 0, "orders_submitted": 0,
              "fills": 0, "expired": 0, "resting_fills": 0, "settled": 0,
-             "settled_pnl_usd": 0.0}
+             "settled_pnl_usd": 0.0, "fixtures_out_of_window": 0,
+             # Why instruments were abstained from, bucketed. Filtering the
+             # fixture table inflates the raw `unsupported` count with markets
+             # for matches that are simply not this run's business, so the
+             # reasons are kept apart rather than summed into one number that
+             # would read as missing model coverage.
+             "unsupported_reasons": {}}
 
     # Replay the tape FIRST. An order whose market traded through at 10:40 and
     # whose deadline passed at 11:00 was filled, not expired -- running
@@ -310,7 +317,16 @@ def run_cycle(league_ids=None, state_path: str | None = None,
         # kick-off for venues that publish a settlement time instead.
         fixture_cols = [c for c in ("date", "home_team", "away_team",
                                     "kickoff_utc") if c in df.columns]
-        fixtures = df[~df["played"]][fixture_cols]
+        upcoming = df[~df["played"]][fixture_cols]
+        # Only hand discovery the fixtures this run could act on. A book is
+        # fetched for every supported market that RESOLVES, so passing the
+        # whole season means thousands of fetches for matches weeks away.
+        # Out-of-window fixtures simply fail to resolve, and an unresolved leg
+        # never gets a book -- the saving falls out of existing behaviour.
+        fixtures, out_of_window = actionable_fixtures(upcoming)
+        league_stats["fixtures_upcoming"] = len(upcoming)
+        league_stats["fixtures_in_window"] = len(fixtures)
+        stats["fixtures_out_of_window"] += out_of_window
 
         for provider in (providers or []):
             try:
@@ -330,6 +346,16 @@ def run_cycle(league_ids=None, state_path: str | None = None,
                                              if i.supported)
             stats["unsupported"] += sum(1 for i in instruments
                                         if not i.supported)
+            for inst in instruments:
+                if inst.supported:
+                    continue
+                why = str((inst.legs[0].unsupported_reason if inst.legs
+                           else "") or "unrecorded")
+                bucket = ("fixture not in this run's window"
+                          if why.startswith("no unique fixture")
+                          else why.split(" (")[0][:60])
+                stats["unsupported_reasons"][bucket] = (
+                    stats["unsupported_reasons"].get(bucket, 0) + 1)
 
             previous = _load_previous_snapshot(spec.league_id, provider.venue)
             fresh = changed_since(previous, instruments)
@@ -512,6 +538,7 @@ def render_summary(stats: dict) -> str:
 
     lines += ["### This cycle", "", "| metric | value |", "|---|---|"]
     for key in ("cases_built", "cases_skipped_unchanged", "unsupported",
+                "fixtures_out_of_window",
                 "placeable_cases", "fixtures_selected", "candidates_dropped",
                 "board_run", "orders_submitted", "fills", "resting_fills",
                 "expired", "settled", "settled_pnl_usd"):
@@ -521,6 +548,11 @@ def render_summary(stats: dict) -> str:
     # A cap that is not reported reads as "we looked at everything".
     for reason, count in sorted((stats.get("drop_reasons") or {}).items()):
         lines.append("| dropped: %s | %s |" % (reason, count))
+    # Abstentions split by cause, so "no model for this family" is never
+    # confused with "this match is not in this run's window".
+    for reason, count in sorted((stats.get("unsupported_reasons") or {}).items(),
+                                key=lambda kv: -kv[1])[:6]:
+        lines.append("| abstained: %s | %s |" % (reason, count))
 
     # WHY each fixture went the way it did. Without this a DEFER is only ever
     # a count, and the explanation lives in a file that dies with the runner.

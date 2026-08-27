@@ -6,25 +6,23 @@ name: matchday-board
 
 on:
   schedule:
-    # Every 6h, EVERY day (UTC). This supersedes the earlier Fri/Sat/Sun-only
-    # schedule, and the reason is measurement rather than coverage of kick-off
-    # times.
+    # Every 2h, every day (UTC). The cadence sets how late a deferred fixture
+    # can be retried while still being GUARANTEED to happen at all: the retry
+    # deadline is min_hours + 2 x interval + slack, so a looser cadence forces
+    # the retry earlier.
     #
-    # Each fixture is boarded ONCE, ~24h before kick-off (see
-    # paper/selection.py). A run that finds no fixture inside that window does
-    # almost nothing and costs almost nothing, so running daily is nearly free
-    # -- while Fri/Sat/Sun-only would discard the 162 midweek fixtures of 1,547
-    # measured on 2026-08-24 (110 Wed, 35 Thu). A Wednesday match has its T-24h
-    # on Tuesday, so a weekend-only board never reaches it.
+    #   cadence   deadline   retry lead (min/median/max)   missed
+    #      6h       15h        8.4h / 12.1h / 15.0h          0
+    #      2h        7h        4.4h /  6.0h /  7.0h          0
     #
-    # Sample size is the binding constraint on this whole exercise: ~246
-    # independent fixtures are needed to resolve a 0.5c CLV edge at 80% power.
-    # Throwing away 10.5% of the supply to save compute that is not being
-    # spent anyway is the wrong trade.
+    # At 6h a deferral was retried a median of 12.1h out -- barely better
+    # informed than the original pass at 24h, which is the whole point of a
+    # retry. 2h lands it at 6.0h.
     #
-    # 6h < the 12h-wide board window, so no fixture can slip between two runs;
-    # the persisted `boarded` ledger is what keeps it to one decision each.
-    - cron: "17 */6 * * *"
+    # Affordable because discovery is now filtered to the fixtures a run could
+    # act on, so a run with nothing in its window costs ~40s across five
+    # leagues instead of ~21 minutes. 77% of runs board nothing at all.
+    - cron: "17 */2 * * *"
   workflow_dispatch:
     inputs:
       leagues:
@@ -60,7 +58,11 @@ jobs:
     # run's work. 180 leaves headroom over the ~110-minute worst case and
     # still finishes well inside the 6h gap to the next run, so the
     # concurrency queue never backs up.
-    timeout-minutes: 180
+    # Sized from the fixture calendar at THIS cadence: the busiest run boards
+    # 11 fixtures (60 min of model time at the measured 330s each), plus
+    # discovery. Must also stay under the 2h gap to the next run, or the
+    # concurrency queue backs up run on run -- both bounds are asserted.
+    timeout-minutes: 110
     steps:
       - uses: actions/checkout@v4
 
