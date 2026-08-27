@@ -396,8 +396,9 @@ def test_the_summary_shows_the_reason_without_dumping_the_transcript(tmp_path,
     assert secret not in rendered
     assert len(max(rendered.splitlines(), key=len)) < 400
     # A pipe in a rationale must not break the markdown table.
-    assert all(line.count("|") == 6 for line in rendered.splitlines()
-               if line.startswith("| ") and " v " in line)
+    rows = [line for line in rendered.splitlines()
+            if line.startswith("| ") and " v " in line]
+    assert rows and all(line.count("|") == 8 for line in rows)
 
 
 def test_paper_board_transcripts_do_not_land_in_the_real_money_directory():

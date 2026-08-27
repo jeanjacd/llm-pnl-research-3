@@ -4,11 +4,17 @@ import datetime as dt
 import pytest
 
 from wc2026.paper.selection import (
+    BOARD_MIN_HOURS,
+    BOARD_RUN_INTERVAL_HOURS,
+    BOARD_RUN_SLACK_HOURS,
+    RETRY_MAX_ATTEMPTS,
     base_claim,
+    board_state,
     board_window_state,
     claim_rank,
     fixture_key,
     hours_to_kickoff,
+    retry_by_hours,
     select_one_per_fixture,
 )
 
@@ -169,12 +175,99 @@ def test_kickoff_minutes_apart_do_not_split_one_fixture_in_two():
     assert a == b
 
 
-def test_a_fixture_already_boarded_is_not_boarded_again():
-    """Re-boarding produces a correlated duplicate, not a new observation."""
+def test_a_fixture_the_board_has_decided_is_not_boarded_again():
+    """Re-boarding a DECIDED fixture is a correlated duplicate, not a new
+    observation -- and re-asking until it says yes is the multiple-comparisons
+    problem."""
     cand = Cand("home_win")
-    selected, skipped = select_one_per_fixture([cand], {cand.fixture_key})
+    ledger = {cand.fixture_key: {"action": "PASS", "attempts": 1}}
+    selected, skipped = select_one_per_fixture([cand], ledger)
     assert selected == []
-    assert skipped and "already boarded" in skipped[0][1]
+    assert "already decided" in skipped[0][1]
+
+
+# --- deferral retries ---------------------------------------------------------
+def deferred(attempts=1):
+    return {"action": "DEFER", "attempts": attempts}
+
+
+def test_a_deferral_is_retried_rather_than_being_permanent():
+    """A DEFER is the board asking to be run again once team news lands.
+    Recording it as final barred exactly the thing it asked for."""
+    cand = Cand("home_win", kickoff=in_window(6))
+    selected, _ = select_one_per_fixture(
+        [cand], {cand.fixture_key: deferred()})
+    assert len(selected) == 1
+
+
+def test_a_pass_or_reject_is_never_retried():
+    """The safeguard: only a lack of INFORMATION is retried, never a decision."""
+    for action in ("PASS", "PAPER_PLACE_LIMIT", "PAPER_BUY_NOW", "UNSUPPORTED"):
+        cand = Cand("home_win", kickoff=in_window(6))
+        selected, skipped = select_one_per_fixture(
+            [cand], {cand.fixture_key: {"action": action, "attempts": 1}})
+        assert selected == [], action
+        assert "already decided" in skipped[0][1]
+
+
+def test_a_deferral_is_retried_only_once():
+    cand = Cand("home_win", kickoff=in_window(6))
+    selected, skipped = select_one_per_fixture(
+        [cand], {cand.fixture_key: deferred(attempts=RETRY_MAX_ATTEMPTS)})
+    assert selected == []
+    assert "already retried" in skipped[0][1]
+
+
+def test_the_retry_is_held_back_for_nearer_kickoff():
+    """Retrying immediately wastes it on the same missing team news."""
+    cand = Cand("home_win", kickoff=in_window(28))
+    selected, skipped = select_one_per_fixture(
+        [cand], {cand.fixture_key: deferred()})
+    assert selected == []
+    assert "holding the retry" in skipped[0][1]
+
+
+def test_the_retry_is_abandoned_if_there_is_no_time_left_to_fill():
+    cand = Cand("home_win", kickoff=in_window(0.5))
+    selected, skipped = select_one_per_fixture(
+        [cand], {cand.fixture_key: deferred()})
+    assert selected == []
+    assert "too late" in skipped[0][1]
+
+
+def test_the_retry_window_is_wider_than_the_worst_gap_between_runs():
+    """THE guarantee: a retry lands only if a run falls inside the window, so
+    the window has to outlast a dropped run plus the scheduler running late.
+    Measured on the live schedule: nominal 6.0h, worst observed gap 7.0h."""
+    span = retry_by_hours() - BOARD_MIN_HOURS
+    worst_gap = 2 * BOARD_RUN_INTERVAL_HOURS + BOARD_RUN_SLACK_HOURS
+    assert span >= worst_gap
+
+
+def test_every_deferred_fixture_gets_its_retry_before_kick_off():
+    """Simulated against the real cadence, including a dropped run, for every
+    kick-off minute across a day. `paramount: before the game, every time`."""
+    interval = BOARD_RUN_INTERVAL_HOURS
+    start = dt.datetime(2026, 9, 1, 0, 17, tzinfo=dt.timezone.utc)
+    runs = [start + dt.timedelta(hours=interval * i) for i in range(24)]
+    # Drop one run outright and run another 42 min late (both observed live).
+    degraded = [r for i, r in enumerate(runs) if i != 5]
+    degraded = [r + dt.timedelta(minutes=42) if i % 3 == 0 else r
+                for i, r in enumerate(degraded)]
+
+    for offset in range(0, 60 * 24, 17):          # kick-offs across a day
+        kickoff = start + dt.timedelta(hours=40) + dt.timedelta(minutes=offset)
+        record, retried_at = deferred(), None
+        for now in degraded:
+            if now >= kickoff:
+                break
+            ok, _ = board_state(record, kickoff.isoformat(), now)
+            if ok:
+                retried_at = now
+                break
+        assert retried_at is not None, "no retry for kick-off %s" % kickoff
+        lead = (kickoff - retried_at).total_seconds() / 3600
+        assert lead >= BOARD_MIN_HOURS, "retry too close to kick-off: %.1fh" % lead
 
 
 def test_every_dropped_candidate_carries_a_reason():

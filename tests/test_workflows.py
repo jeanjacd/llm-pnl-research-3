@@ -201,3 +201,14 @@ def test_workflows_that_persist_state_can_actually_write():
         assert doc["permissions"]["contents"] == "write", (
             "%s pushes the paper ledger but only requests contents: %s"
             % (name, doc["permissions"]["contents"]))
+
+
+def test_the_code_knows_the_real_board_cadence():
+    """The retry deadline is derived from the run interval. If the cron
+    changes and the constant does not, retries silently stop being guaranteed
+    -- the failure would be invisible until a fixture kicked off unretried."""
+    from wc2026.paper.selection import BOARD_RUN_INTERVAL_HOURS
+    fires = fire_times(crons(load("matchday-board"))[0], MONDAY)
+    gaps = {(fires[i + 1] - fires[i]).total_seconds() / 3600
+            for i in range(len(fires) - 1)}
+    assert gaps == {BOARD_RUN_INTERVAL_HOURS}

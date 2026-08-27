@@ -46,6 +46,41 @@ BOARD_WINDOW_HOURS = 6.0
 # missed entirely is let go rather than boarded at the whistle.
 BOARD_MIN_HOURS = 2.0
 
+# --- deferral retries ---------------------------------------------------------
+# A DEFER is the board saying it LACKED INFORMATION -- the coach returns
+# `required_reruns`, literally asking to be run again once the team news lands.
+# Recording that as "boarded, done" was incoherent: the fixture asked to be
+# revisited and was then permanently barred from it. It also quietly cost the
+# sample, because a fixture that never gets an order never produces a fill, a
+# closing line, or a P&L.
+#
+# PASS and REJECT are NOT retried. That distinction is the whole safeguard:
+# those are the board actively declining, and re-asking until it says yes is
+# just re-rolling the dice -- the multiple-comparisons problem that biases
+# everything toward false positives. Only a DEFER is retried, and only once.
+RETRY_MAX_ATTEMPTS = 2
+
+# The schedule the retry has to fit inside. `test_workflows.py` pins this
+# against the actual cron so the two cannot drift.
+BOARD_RUN_INTERVAL_HOURS = 6.0
+# Measured over the live schedule: nominal 6.0h, largest observed gap 7.0h,
+# lateness up to +42 min, and on the previous hourly cron an entire run was
+# dropped. The retry deadline allows for one whole run being lost plus that
+# lateness, because "before the game" has to mean every time, not usually.
+BOARD_RUN_SLACK_HOURS = 1.0
+
+
+def retry_by_hours(interval_hours: float = BOARD_RUN_INTERVAL_HOURS,
+                   slack_hours: float = BOARD_RUN_SLACK_HOURS,
+                   min_hours: float = BOARD_MIN_HOURS) -> float:
+    """Latest lead time at which a retry can still be GUARANTEED to happen.
+
+    A retry lands if any run falls between `min_hours` and this value, so the
+    span has to be wider than the worst gap between runs. Two intervals covers
+    one dropped run; the slack covers the scheduler running late.
+    """
+    return min_hours + 2 * interval_hours + slack_hours
+
 # Lower rank wins. Ordered by validated model quality and book depth: 1X2 is
 # the family the evaluation actually scores and the deepest book on both
 # venues; exact scorelines sit last because the 13x13 grid is truncated and
@@ -95,6 +130,36 @@ def fixture_key(league_id, home, away, kickoff_utc) -> str:
     return "%s|%s|%s|%s" % (league_id, home, away, day)
 
 
+def board_state(record, kickoff_utc, now=None) -> tuple:
+    """(should_board, reason) for one fixture, given what happened before.
+
+    `record` is the boarded-ledger entry, or None if this fixture has never
+    been seen.
+    """
+    window = board_window_state(kickoff_utc, now)
+    if record is None:
+        return (window == "board"), ("first pass" if window == "board"
+                                     else "outside the board window (%s)" % window)
+
+    action = str(record.get("action") or "")
+    attempts = int(record.get("attempts") or 1)
+    if action != "DEFER":
+        return False, "fixture already decided (%s)" % (action or "unknown")
+    if attempts >= RETRY_MAX_ATTEMPTS:
+        return False, "deferral already retried"
+
+    hours = hours_to_kickoff(kickoff_utc, now)
+    if hours is None:
+        return False, "deferred, but kick-off is unknown"
+    if hours < BOARD_MIN_HOURS:
+        return False, "deferred, too late to retry"
+    if hours > retry_by_hours():
+        # Waiting deliberately: a retry is worth more the closer it is to
+        # kick-off, when the team news the coach asked for exists.
+        return False, "deferred, holding the retry for nearer kick-off"
+    return True, "retrying a deferral"
+
+
 def select_one_per_fixture(candidates, already_boarded=None, now=None,
                            use_lead_time: bool = True):
     """One candidate per fixture, plus the ones deliberately left out.
@@ -102,18 +167,22 @@ def select_one_per_fixture(candidates, already_boarded=None, now=None,
     Returns (selected, skipped) where `skipped` carries a reason per dropped
     candidate, because a silent cap reads as "we looked at everything".
     """
-    already = set(already_boarded or ())
+    # Accepts the boarded LEDGER (key -> record). A bare set of keys is still
+    # honoured -- an entry with no recorded action reads as "already decided",
+    # which is the old behaviour.
+    raw = already_boarded or {}
+    ledger = dict(raw) if isinstance(raw, dict) else {key: {} for key in raw}
     best, skipped = {}, []
     for cand in candidates:
         key = cand.fixture_key
-        if key in already:
+        if use_lead_time:
+            ok, reason = board_state(ledger.get(key), cand.leg.kickoff_utc, now)
+            if not ok:
+                skipped.append((cand, reason))
+                continue
+        elif key in ledger:
             skipped.append((cand, "fixture already boarded"))
             continue
-        if use_lead_time:
-            state = board_window_state(cand.leg.kickoff_utc, now)
-            if state != "board":
-                skipped.append((cand, "outside the board window (%s)" % state))
-                continue
         rank = claim_rank(cand.claim)
         ev = cand.case.ev_per_contract or 0.0
         # Family first, then EV inside the family, then a stable tie-break so

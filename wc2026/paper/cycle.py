@@ -34,7 +34,11 @@ from ..venues.base import changed_since, snapshot_record
 from .broker import PaperPortfolio
 from .clv import capture_closing_lines, clv_summary
 from .fills import KalshiFillProbe, PolymarketFillProbe, replay_fills
-from .selection import fixture_key, select_one_per_fixture
+from .selection import (
+    fixture_key,
+    hours_to_kickoff,
+    select_one_per_fixture,
+)
 from .settlement import settle_portfolio
 
 SNAPSHOT_DIR = os.path.join("data", "snapshots")
@@ -403,7 +407,16 @@ def run_cycle(league_ids=None, state_path: str | None = None,
                 kwargs["invoke"] = invoke
             verdict = run_board(case, fixture, **kwargs)
             decided_by, why = board_reason(verdict)
+            # Attempts accumulate so a deferral is retried ONCE, never
+            # indefinitely -- see selection.RETRY_MAX_ATTEMPTS.
+            prior = portfolio.boarded.get(cand.fixture_key) or {}
+            attempts = int(prior.get("attempts") or 0) + 1
             portfolio.boarded[cand.fixture_key] = {
+                "attempts": attempts,
+                "first_boarded_at": prior.get("first_boarded_at")
+                                    or _utcnow().isoformat(),
+                "hours_to_kickoff": round(
+                    hours_to_kickoff(leg.kickoff_utc) or 0.0, 1),
                 "ts": _utcnow().isoformat(), "action": verdict["action"],
                 "case_id": case.case_id, "claim": cand.claim,
                 "home": leg.home, "away": leg.away,
@@ -419,7 +432,11 @@ def run_cycle(league_ids=None, state_path: str | None = None,
                         "limit_price_cents": judged.get("limit_price_cents"),
                         "contracts": judged.get("contracts", 1.0)}
         else:
+            prior = portfolio.boarded.get(cand.fixture_key) or {}
             portfolio.boarded[cand.fixture_key] = {
+                "attempts": int(prior.get("attempts") or 0) + 1,
+                "first_boarded_at": prior.get("first_boarded_at")
+                                    or _utcnow().isoformat(),
                 "ts": _utcnow().isoformat(), "action": decision["action"],
                 "case_id": case.case_id, "claim": cand.claim,
                 "home": leg.home, "away": leg.away,
@@ -510,16 +527,19 @@ def render_summary(stats: dict) -> str:
     decisions = stats.get("board_decisions") or []
     if decisions:
         lines += ["", "### Board decisions this cycle", "",
-                  "| fixture | claim | action | decided by | why |",
-                  "|---|---|---|---|---|"]
+                  "| fixture | claim | h to k/o | attempt | action | "
+                  "decided by | why |",
+                  "|---|---|---|---|---|---|---|"]
         for d in decisions:
             why = " ".join(str(d.get("reason") or "").split())
             if len(why) > 180:
                 why = why[:177] + "..."
-            lines.append("| %s v %s | %s | %s | %s | %s |"
+            attempt = int(d.get("attempts") or 1)
+            lines.append("| %s v %s | %s | %s | %s | %s | %s | %s |"
                          % (d.get("home") or "?", d.get("away") or "?",
-                            d.get("claim") or "?", d.get("action") or "?",
-                            d.get("decided_by") or "?",
+                            d.get("claim") or "?", d.get("hours_to_kickoff", "?"),
+                            "retry" if attempt > 1 else "1st",
+                            d.get("action") or "?", d.get("decided_by") or "?",
                             why.replace("|", "/") or "-"))
         lines += ["", "_Full board transcripts are in the run's artifacts "
                       "(`data/paper/board_audit.jsonl`, 30-day retention); "
