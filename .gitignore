@@ -19,6 +19,13 @@ secrets/
 .claude/settings.local.json
 .claude/credentials*
 
+# Paper-trading state and board transcripts. The ledger IS published, but to
+# the dedicated `automation-state` branch by scripts/state_sync.py, which
+# force-adds it -- never from the working tree. docs/MIGRATION.md always said
+# this was ignored; it was not, so a `git add -A` would have committed the
+# ledger and every board transcript to the public tree.
+data/paper/
+
 # Raw authenticated API responses and full model transcripts
 data/raw_snapshots/
 **/transcripts/

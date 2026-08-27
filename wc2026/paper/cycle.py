@@ -38,6 +38,39 @@ from .selection import fixture_key, select_one_per_fixture
 from .settlement import settle_portfolio
 
 SNAPSHOT_DIR = os.path.join("data", "snapshots")
+# The board's own audit trail for PAPER runs. Deliberately not the default
+# `data/betting/board_audit.jsonl`, which is the real-money directory: paper
+# reasoning has no business there, and on a runner that path is destroyed with
+# the container, so every explanation of every DEFER was being discarded.
+# `data/paper/` is uploaded as a run artifact (30-day retention) but is NOT
+# pushed to the public state branch -- the ledger is published, the transcripts
+# are not.
+PAPER_BOARD_LOG = os.path.join("data", "paper", "board_audit.jsonl")
+
+
+def board_reason(verdict: dict) -> tuple:
+    """(who decided, one short sentence) -- never the full transcript.
+
+    The run summary is written to a public Action log, so this returns the
+    member's own one-line rationale rather than its findings, sources or
+    prompt. The complete record stays in PAPER_BOARD_LOG.
+    """
+    failure = str(verdict.get("failure") or "")
+    lowered = failure.lower()
+    quant = verdict.get("quant") or {}
+    coach = verdict.get("coach") or {}
+    judge = verdict.get("judge") or {}
+    if "quant" in lowered:
+        return "quant", str(quant.get("rationale") or failure)
+    if "coach" in lowered:
+        text = str(coach.get("rationale") or "")
+        if not text:
+            reruns = coach.get("required_reruns") or []
+            text = "; ".join(str(r) for r in reruns[:2])
+        return "coach", (text or failure)
+    if judge:
+        return "judge", str(judge.get("decisive_reason") or failure)
+    return "board", (failure or "no reason recorded")
 
 
 @dataclasses.dataclass
@@ -354,6 +387,7 @@ def run_cycle(league_ids=None, state_path: str | None = None,
     stats["drop_reasons"] = dict(Counter(reason for _, reason in dropped))
 
     coach_cache: dict = {}
+    stats["board_decisions"] = []
     for cand in selected:
         case, instrument, leg = cand.case, cand.instrument, cand.leg
         fixture = {"home": leg.home, "away": leg.away,
@@ -364,13 +398,20 @@ def run_cycle(league_ids=None, state_path: str | None = None,
                     "contracts": 1.0}
         if board_enabled:
             stats["board_run"] += 1
-            kwargs = {"coach_cache": coach_cache}
+            kwargs = {"coach_cache": coach_cache, "log_path": PAPER_BOARD_LOG}
             if invoke:
                 kwargs["invoke"] = invoke
             verdict = run_board(case, fixture, **kwargs)
+            decided_by, why = board_reason(verdict)
             portfolio.boarded[cand.fixture_key] = {
                 "ts": _utcnow().isoformat(), "action": verdict["action"],
-                "case_id": case.case_id, "claim": cand.claim}
+                "case_id": case.case_id, "claim": cand.claim,
+                "home": leg.home, "away": leg.away,
+                # Kept so a DEFER is answerable months later without the
+                # transcript, which does not survive the runner.
+                "decided_by": decided_by, "reason": why[:400]}
+            stats["board_decisions"].append(
+                dict(portfolio.boarded[cand.fixture_key]))
             if verdict["action"] not in ("PAPER_BUY_NOW", "PAPER_PLACE_LIMIT"):
                 continue
             judged = verdict.get("judge") or {}
@@ -380,7 +421,9 @@ def run_cycle(league_ids=None, state_path: str | None = None,
         else:
             portfolio.boarded[cand.fixture_key] = {
                 "ts": _utcnow().isoformat(), "action": decision["action"],
-                "case_id": case.case_id, "claim": cand.claim}
+                "case_id": case.case_id, "claim": cand.claim,
+                "home": leg.home, "away": leg.away,
+                "decided_by": "deterministic", "reason": "board disabled"}
 
         price = decision.get("limit_price_cents")
         size = decision.get("contracts") or 0
@@ -461,6 +504,27 @@ def render_summary(stats: dict) -> str:
     # A cap that is not reported reads as "we looked at everything".
     for reason, count in sorted((stats.get("drop_reasons") or {}).items()):
         lines.append("| dropped: %s | %s |" % (reason, count))
+
+    # WHY each fixture went the way it did. Without this a DEFER is only ever
+    # a count, and the explanation lives in a file that dies with the runner.
+    decisions = stats.get("board_decisions") or []
+    if decisions:
+        lines += ["", "### Board decisions this cycle", "",
+                  "| fixture | claim | action | decided by | why |",
+                  "|---|---|---|---|---|"]
+        for d in decisions:
+            why = " ".join(str(d.get("reason") or "").split())
+            if len(why) > 180:
+                why = why[:177] + "..."
+            lines.append("| %s v %s | %s | %s | %s | %s |"
+                         % (d.get("home") or "?", d.get("away") or "?",
+                            d.get("claim") or "?", d.get("action") or "?",
+                            d.get("decided_by") or "?",
+                            why.replace("|", "/") or "-"))
+        lines += ["", "_Full board transcripts are in the run's artifacts "
+                      "(`data/paper/board_audit.jsonl`, 30-day retention); "
+                      "they are deliberately not published to the state "
+                      "branch._"]
 
     port = stats.get("portfolio") or {}
     lines += ["", "### Portfolio", "", "| metric | value |", "|---|---|"]

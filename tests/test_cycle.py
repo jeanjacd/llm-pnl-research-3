@@ -5,6 +5,7 @@ import os
 
 import pytest
 
+from wc2026.paper import cycle as cycle_mod
 from wc2026.paper.broker import PaperPortfolio
 from wc2026.paper.cycle import probability_for, render_summary, run_cycle
 from wc2026.sim.match import predict_match
@@ -291,3 +292,120 @@ def test_a_fixture_inside_the_window_does_reach_the_board(tmp_path, monkeypatch)
                       fill_probes={})
     assert stats["fixtures_selected"] == 1
     assert stats["board_run"] == 1
+
+
+# --------------------------------------------------------------------------- #
+# why a fixture went the way it did
+# --------------------------------------------------------------------------- #
+def a_verdict(**kw):
+    base = {"action": "DEFER", "failure": "", "quant": None, "coach": None,
+            "judge": None}
+    base.update(kw)
+    return base
+
+
+def test_a_quant_veto_is_attributed_to_the_quant_with_its_own_words():
+    who, why = cycle_mod.board_reason(a_verdict(
+        failure="quantitative veto (DEFER)",
+        quant={"rationale": "Ladder reports a fee larger than the notional."}))
+    assert who == "quant"
+    assert "notional" in why
+
+
+def test_a_coach_veto_is_attributed_to_the_coach():
+    who, why = cycle_mod.board_reason(a_verdict(
+        failure="coach veto (REJECT)",
+        coach={"rationale": "Formation mismatch does not support a draw."}))
+    assert who == "coach" and "Formation" in why
+
+
+def test_a_coach_that_only_asked_for_reruns_still_gives_a_reason():
+    """DEFER with no prose must not surface as an empty cell."""
+    who, why = cycle_mod.board_reason(a_verdict(
+        failure="coach requires a rerun or deferred",
+        coach={"rationale": "", "required_reruns": ["confirm the keeper",
+                                                    "confirm the back four"]}))
+    assert who == "coach"
+    assert "keeper" in why
+
+
+def test_a_judge_decision_carries_its_decisive_reason():
+    who, why = cycle_mod.board_reason(a_verdict(
+        action="PAPER_PLACE_LIMIT",
+        judge={"decisive_reason": "Edge survives the adverse-selection reserve."}))
+    assert who == "judge" and "reserve" in why
+
+
+def test_a_verdict_with_nothing_recorded_says_so_rather_than_blank():
+    who, why = cycle_mod.board_reason(a_verdict())
+    assert who == "board" and why.strip()
+
+
+def test_the_reason_reaches_the_boarded_ledger_and_the_summary(tmp_path,
+                                                               monkeypatch):
+    """A DEFER must be answerable later without the transcript, which does
+    not survive the runner."""
+    _patch_league(monkeypatch, tmp_path)
+
+    def veto(case, fixture, **kw):
+        return {"action": "DEFER", "case_id": case.case_id,
+                "failure": "coach veto (REJECT)",
+                "quant": {"rationale": "fine"},
+                "coach": {"rationale": "Keeper ruled out an hour before kick-off."},
+                "judge": None}
+
+    monkeypatch.setattr(cycle_mod, "run_board", veto)
+    stats = run_cycle(state_path=str(tmp_path / "portfolio.json"),
+                      providers=[FakeProvider()], verbose=False, fill_probes={})
+
+    assert stats["board_run"] == 1
+    assert stats["orders_submitted"] == 0
+    decision = stats["board_decisions"][0]
+    assert decision["decided_by"] == "coach"
+    assert "Keeper" in decision["reason"]
+    assert decision["home"] and decision["away"]
+
+    portfolio = PaperPortfolio.load(str(tmp_path / "portfolio.json"))
+    stored = next(iter(portfolio.boarded.values()))
+    assert "Keeper" in stored["reason"], "must survive a save/reload"
+
+    rendered = render_summary(stats)
+    assert "Board decisions this cycle" in rendered
+    assert "Keeper" in rendered
+
+
+def test_the_summary_shows_the_reason_without_dumping_the_transcript(tmp_path,
+                                                                     monkeypatch):
+    """The summary goes to a PUBLIC Action log. One line, never the findings."""
+    _patch_league(monkeypatch, tmp_path)
+    secret = "SOURCE-URL-THAT-MUST-NOT-APPEAR"
+
+    def veto(case, fixture, **kw):
+        return {"action": "DEFER", "case_id": case.case_id,
+                "failure": "coach requires a rerun or deferred",
+                "quant": {"rationale": "ok"},
+                "coach": {"rationale": "x" * 900,
+                          "findings": [{"text": secret}],
+                          "sources": [secret]},
+                "judge": None}
+
+    monkeypatch.setattr(cycle_mod, "run_board", veto)
+    stats = run_cycle(state_path=str(tmp_path / "portfolio.json"),
+                      providers=[FakeProvider()], verbose=False, fill_probes={})
+    rendered = render_summary(stats)
+    assert secret not in rendered
+    assert len(max(rendered.splitlines(), key=len)) < 400
+    # A pipe in a rationale must not break the markdown table.
+    assert all(line.count("|") == 6 for line in rendered.splitlines()
+               if line.startswith("| ") and " v " in line)
+
+
+def test_paper_board_transcripts_do_not_land_in_the_real_money_directory():
+    """`data/betting/` is live-trading state; paper reasoning is not that.
+
+    It also has to be somewhere the workflow uploads, or the explanation dies
+    with the runner -- which is what was happening.
+    """
+    assert cycle_mod.PAPER_BOARD_LOG == os.path.join(
+        "data", "paper", "board_audit.jsonl")
+    assert "betting" not in cycle_mod.PAPER_BOARD_LOG

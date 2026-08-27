@@ -20,9 +20,20 @@ python scripts/check_no_private_state.py
 git status --porcelain | grep -i "data/betting" && echo "STOP: private state staged"
 ```
 
-The paper ledger (`data/paper/portfolio.json`) is also ignored in the working
-tree: it lives on the dedicated `automation-state` branch, written by
+The paper ledger (`data/paper/portfolio.json`) is ignored in the working tree:
+it lives on the dedicated `automation-state` branch, written by
 `scripts/state_sync.py`, so the public tree never carries mutable state.
+
+This document claimed that before it was true -- `data/paper/` was not in
+`.gitignore` until 2026-08-26, so a `git add -A` would have committed the
+ledger and every board transcript. `state_sync.py` force-adds the one file it
+publishes, so ignoring the directory does not affect it.
+
+Board reasoning for paper runs is written to `data/paper/board_audit.jsonl`,
+NOT the real-money `data/betting/`. It is uploaded as a run artifact (30-day
+retention) and deliberately never pushed to the state branch: the ledger is
+public, the transcripts are not. The one-line reason per fixture does appear
+in the run summary, so a DEFER is answerable without downloading anything.
 
 ## Data layout
 
