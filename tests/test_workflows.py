@@ -72,16 +72,23 @@ def test_every_workflow_file_is_valid_yaml_with_a_name():
         assert doc.get("on", doc.get(True)), path
 
 
-def test_the_board_runs_every_six_hours_every_day():
+def test_the_board_runs_every_two_hours_every_day():
     """Every day, not weekends only: a Wednesday match has its T-24h on
     Tuesday, and the 162 midweek fixtures of 1,547 are 10.5% of the sample
-    that any significance claim rests on."""
+    that any significance claim rests on.
+
+    Every two hours because the cadence sets how late a deferred fixture can
+    be retried while still being guaranteed -- 6h forced the retry to a median
+    of 12.1h before kick-off, 2h lands it at 6.0h.
+    """
+    from wc2026.paper.selection import BOARD_RUN_INTERVAL_HOURS
     fires = fire_times(crons(load("matchday-board"))[0], MONDAY)
-    assert len(fires) == 28, "4 runs a day, 7 days"
+    per_day = int(24 / BOARD_RUN_INTERVAL_HOURS)
+    assert len(fires) == per_day * 7
     assert len({f.strftime("%a") for f in fires}) == 7
     for day in ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"):
         hours = sorted(f.hour for f in fires if f.strftime("%a") == day)
-        assert hours == [0, 6, 12, 18], day
+        assert hours == list(range(0, 24, int(BOARD_RUN_INTERVAL_HOURS))), day
 
 
 def test_the_board_interval_is_shorter_than_the_board_window():
@@ -168,14 +175,13 @@ def test_the_other_schedules_are_unchanged():
 
 
 def test_the_board_timeout_covers_a_busy_matchday():
-    """45 minutes did not. Simulating the 6-hourly schedule against the real
-    fixture calendar, the busiest run boards 16 fixtures -- a Friday, when the
-    whole Saturday card crosses T-24h in one band -- which is 88 minutes of
-    model time at the measured 330s per fixture, plus ~21 minutes of discovery
-    across five leagues. A run killed mid-flight loses all of its work."""
+    """A run killed mid-flight loses all of its work, including spent board
+    calls. Simulated against the real fixture calendar at the 2h cadence, the
+    busiest run boards 11 fixtures -- 60 minutes at the measured 330s each --
+    plus discovery, which the window filter keeps small."""
     doc = load("matchday-board")
     timeout = doc["jobs"]["cycle"]["timeout-minutes"]
-    worst_case_minutes = 16 * 330 / 60 + 21
+    worst_case_minutes = 11 * 330 / 60 + 21
     assert timeout >= worst_case_minutes, (
         "timeout %s min is below the measured worst case %.0f min"
         % (timeout, worst_case_minutes))

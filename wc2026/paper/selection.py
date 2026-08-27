@@ -62,7 +62,15 @@ RETRY_MAX_ATTEMPTS = 2
 
 # The schedule the retry has to fit inside. `test_workflows.py` pins this
 # against the actual cron so the two cannot drift.
-BOARD_RUN_INTERVAL_HOURS = 6.0
+#
+# 2h rather than 6h, because the retry deadline is derived from it and a
+# looser cadence forces the retry earlier: at 6h a deferral could only be
+# guaranteed by retrying up to 15h out, a median of 12.1h before kick-off,
+# which is barely better informed than the original pass at 24h. At 2h the
+# deadline is 7h and the median retry lands 6.0h out. Affordable because a run
+# with no fixture in its window now costs about 40s of discovery instead of
+# 21 minutes -- see `actionable_fixtures`.
+BOARD_RUN_INTERVAL_HOURS = 2.0
 # Measured over the live schedule: nominal 6.0h, largest observed gap 7.0h,
 # lateness up to +42 min, and on the previous hourly cron an entire run was
 # dropped. The retry deadline allows for one whole run being lost plus that
@@ -158,6 +166,39 @@ def board_state(record, kickoff_utc, now=None) -> tuple:
         # kick-off, when the team news the coach asked for exists.
         return False, "deferred, holding the retry for nearer kick-off"
     return True, "retrying a deferral"
+
+
+def actionable_ceiling_hours() -> float:
+    """The furthest-out kick-off any run could act on.
+
+    Covers the first-pass window AND the retry deadline, so filtering a
+    fixture table by it can never hide a fixture the board still owes a
+    decision or a retry.
+    """
+    return max(BOARD_TARGET_HOURS + BOARD_WINDOW_HOURS, retry_by_hours())
+
+
+def actionable_fixtures(fixtures, now=None):
+    """The fixtures a run could act on, and how many were left out.
+
+    Discovery fetches an order book for every supported market it resolves, so
+    handing it the whole season means thousands of book fetches for matches
+    weeks away. Measured on one league: 2,164 Polymarket requests over 251s
+    with the full table, versus 4 requests in 0.9s once filtered. Nothing is
+    lost -- a fixture outside this range is one every caller would skip anyway.
+
+    Returns (frame, skipped_count). A fixture whose kick-off is unknown is left
+    out and counted: it cannot be placed in the window, and the board refuses
+    it downstream regardless.
+    """
+    if fixtures is None or len(fixtures) == 0 or "kickoff_utc" not in fixtures:
+        return fixtures, 0
+    import pandas as pd
+    stamp = pd.Timestamp(now or dt.datetime.now(dt.timezone.utc))
+    kicks = pd.to_datetime(fixtures["kickoff_utc"], utc=True, errors="coerce")
+    hours = (kicks - stamp).dt.total_seconds() / 3600.0
+    keep = hours.between(BOARD_MIN_HOURS, actionable_ceiling_hours())
+    return fixtures[keep], int((~keep).sum())
 
 
 def select_one_per_fixture(candidates, already_boarded=None, now=None,

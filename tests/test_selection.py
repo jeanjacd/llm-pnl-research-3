@@ -7,7 +7,11 @@ from wc2026.paper.selection import (
     BOARD_MIN_HOURS,
     BOARD_RUN_INTERVAL_HOURS,
     BOARD_RUN_SLACK_HOURS,
+    BOARD_TARGET_HOURS,
+    BOARD_WINDOW_HOURS,
     RETRY_MAX_ATTEMPTS,
+    actionable_ceiling_hours,
+    actionable_fixtures,
     base_claim,
     board_state,
     board_window_state,
@@ -249,7 +253,11 @@ def test_every_deferred_fixture_gets_its_retry_before_kick_off():
     kick-off minute across a day. `paramount: before the game, every time`."""
     interval = BOARD_RUN_INTERVAL_HOURS
     start = dt.datetime(2026, 9, 1, 0, 17, tzinfo=dt.timezone.utc)
-    runs = [start + dt.timedelta(hours=interval * i) for i in range(24)]
+    # Enough runs to reach past the latest kick-off tested below, whatever
+    # the cadence -- otherwise the simulation runs out of runs and reports a
+    # miss that the schedule would not actually produce.
+    runs = [start + dt.timedelta(hours=interval * i)
+            for i in range(int(80 / interval))]
     # Drop one run outright and run another 42 min late (both observed live).
     degraded = [r for i, r in enumerate(runs) if i != 5]
     degraded = [r + dt.timedelta(minutes=42) if i % 3 == 0 else r
@@ -300,3 +308,72 @@ def test_a_spread_is_not_mistaken_for_a_1x2_market():
     assert claim_rank("home_wins_by_over_1.5") > claim_rank("home_win")
     assert claim_rank("away_wins_by_over_2.5") > claim_rank("away_win")
     assert claim_rank("home_wins_by_over_1.5") == claim_rank("away_wins_by_over_1.5")
+
+
+# --- window-filtered discovery ------------------------------------------------
+def fixture_table(*hours_out):
+    import pandas as pd
+    now = dt.datetime.now(dt.timezone.utc)
+    return pd.DataFrame([
+        {"date": pd.Timestamp(now + dt.timedelta(hours=h)).normalize(),
+         "home_team": "H%d" % i, "away_team": "A%d" % i,
+         "kickoff_utc": (now + dt.timedelta(hours=h)).isoformat()}
+        for i, h in enumerate(hours_out)])
+
+
+def test_only_fixtures_a_run_could_act_on_reach_discovery():
+    """A book is fetched per RESOLVED market, so the season-wide table meant
+    thousands of fetches for matches weeks away. Measured on one league:
+    2,164 Polymarket requests / 251s before, 4 requests / 0.9s after."""
+    frame, skipped = actionable_fixtures(fixture_table(1, 12, 24, 200))
+    assert len(frame) == 2          # 12h and 24h
+    assert skipped == 2             # 1h too late, 200h too early
+
+
+def test_the_filter_cannot_hide_a_fixture_still_owed_a_retry():
+    """THE safety property. The retry deadline must sit inside the range the
+    filter keeps, or a deferred fixture would never be rediscovered and the
+    guarantee would be silently void."""
+    assert retry_by_hours() <= actionable_ceiling_hours()
+    frame, _ = actionable_fixtures(fixture_table(retry_by_hours() - 0.1))
+    assert len(frame) == 1
+
+
+def test_the_filter_keeps_the_whole_first_pass_window():
+    assert (BOARD_TARGET_HOURS + BOARD_WINDOW_HOURS) <= actionable_ceiling_hours()
+    frame, _ = actionable_fixtures(
+        fixture_table(BOARD_TARGET_HOURS + BOARD_WINDOW_HOURS - 0.1))
+    assert len(frame) == 1
+
+
+def test_anything_the_filter_keeps_is_something_selection_would_consider():
+    """No fixture should survive the filter only to be dropped immediately --
+    that is wasted discovery, which is the thing being fixed."""
+    ceiling = actionable_ceiling_hours()
+    for hours in (BOARD_MIN_HOURS + 0.1, ceiling / 2, ceiling - 0.1):
+        frame, _ = actionable_fixtures(fixture_table(hours))
+        assert len(frame) == 1, hours
+        state = board_window_state(frame.iloc[0]["kickoff_utc"])
+        deferred_ok, _ = board_state(deferred(), frame.iloc[0]["kickoff_utc"])
+        assert state == "board" or deferred_ok, (hours, state)
+
+
+def test_a_fixture_with_no_kickoff_is_left_out_and_counted():
+    """It cannot be placed in the window and the board refuses it anyway."""
+    import pandas as pd
+    frame = fixture_table(12)
+    frame.loc[0, "kickoff_utc"] = None
+    kept, skipped = actionable_fixtures(frame)
+    assert len(kept) == 0 and skipped == 1
+    assert isinstance(kept, pd.DataFrame)
+
+
+def test_a_table_without_kickoffs_is_passed_through_untouched():
+    """Older callers pass date/home/away only; filtering must not crash."""
+    frame = fixture_table(12).drop(columns=["kickoff_utc"])
+    kept, skipped = actionable_fixtures(frame)
+    assert len(kept) == 1 and skipped == 0
+
+
+def test_an_empty_table_is_handled():
+    assert actionable_fixtures(None) == (None, 0)
