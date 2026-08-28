@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 98610,
-  "reserved_cents": 6948,
+  "cash_cents": 97310,
+  "reserved_cents": 8502,
   "orders": {
     "80b2551a-861c-4ab1-a377-48fd802c86ae": {
       "order_id": "80b2551a-861c-4ab1-a377-48fd802c86ae",
@@ -87,11 +87,11 @@
       "requested_size": 50.0,
       "league_id": "ligue_1",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
+      "status": "filled",
+      "filled_size": 50.0,
+      "avg_fill_price_cents": 26.0,
       "fees_cents": 0,
-      "reserved_cents": 1300,
+      "reserved_cents": 0,
       "created_at": "2026-08-28T12:51:26.669492+00:00",
       "expires_at": "2026-08-28T18:45:00+00:00",
       "events": [
@@ -100,6 +100,22 @@
           "event": "submitted",
           "key": "polymarket:0xacc03e9caa281a47eca958b50e75b7700c44afb3de84fafa252ac45c4de98d13:yes|0xacc03e9caa281a47eca958b50e75b7700c44afb3de84fafa252ac45c4de98d13|yes|26",
           "reserved_cents": 1300
+        },
+        {
+          "ts": "2026-08-28T20:01:09.769355+00:00",
+          "event": "fill",
+          "size": 50.0,
+          "price_cents": 26.0,
+          "fee_cents": 0
+        },
+        {
+          "ts": "2026-08-28T20:01:09.769406+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "polymarket",
+          "observed_cents": 23.0,
+          "window_start": "2026-08-28T18:44:26.966756+00:00",
+          "window_end": "2026-08-28T20:01:09.288275+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -108,7 +124,7 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-08-28T18:45:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-28T18:44:26.966756+00:00"
+      "last_checked_at": "2026-08-28T20:01:09.288275+00:00"
     },
     "6a434e38-f3e8-4e15-b7b6-c84a1694fbdf": {
       "order_id": "6a434e38-f3e8-4e15-b7b6-c84a1694fbdf",
@@ -120,11 +136,11 @@
       "requested_size": 100.0,
       "league_id": "ligue_1",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 640,
+      "reserved_cents": 0,
       "created_at": "2026-08-28T12:51:26.669574+00:00",
       "expires_at": "2026-08-28T18:45:00+00:00",
       "events": [
@@ -133,6 +149,10 @@
           "event": "submitted",
           "key": "kalshi:KXLIGUE1TEAMTOTAL-26AUG28LILPSG-LIL3:yes|KXLIGUE1TEAMTOTAL-26AUG28LILPSG-LIL3|yes|6",
           "reserved_cents": 640
+        },
+        {
+          "ts": "2026-08-28T20:01:11.079236+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -141,7 +161,7 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-08-28T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-28T18:44:26.966756+00:00"
+      "last_checked_at": "2026-08-28T20:01:09.288275+00:00"
     },
     "18df3a10-02a1-43e3-8f4a-e8892524434e": {
       "order_id": "18df3a10-02a1-43e3-8f4a-e8892524434e",
@@ -263,7 +283,7 @@
       "away_team": "Chicago Fire FC",
       "kickoff_utc": "2026-08-29T20:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-28T18:44:26.966756+00:00"
+      "last_checked_at": "2026-08-28T20:01:09.288275+00:00"
     },
     "81dd6b25-3949-4521-9c68-90016388db95": {
       "order_id": "81dd6b25-3949-4521-9c68-90016388db95",
@@ -296,7 +316,40 @@
       "away_team": "Chicago Fire FC",
       "kickoff_utc": "2026-08-29T20:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-28T18:44:26.966756+00:00"
+      "last_checked_at": "2026-08-28T20:01:09.288275+00:00"
+    },
+    "64dfec81-30f0-4d1f-bd5c-775525edce61": {
+      "order_id": "64dfec81-30f0-4d1f-bd5c-775525edce61",
+      "case_id": "kalshi:KXMLSTEAMTOTAL-26AUG29COLRSL-RSL2:no",
+      "venue": "kalshi",
+      "instrument_id": "KXMLSTEAMTOTAL-26AUG29COLRSL-RSL2",
+      "side": "no",
+      "limit_price_cents": 52,
+      "requested_size": 65.0,
+      "league_id": "mls",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 3494,
+      "created_at": "2026-08-28T20:30:11.713041+00:00",
+      "expires_at": "2026-08-30T01:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-08-28T20:30:11.713049+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXMLSTEAMTOTAL-26AUG29COLRSL-RSL2:no|KXMLSTEAMTOTAL-26AUG29COLRSL-RSL2|no|52",
+          "reserved_cents": 3494
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_away_over_1.5",
+      "home_team": "Colorado Rapids",
+      "away_team": "Real Salt Lake",
+      "kickoff_utc": "2026-08-30T01:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
     }
   },
   "positions": {
@@ -316,9 +369,9 @@
       "kickoff_utc": "2026-08-28T18:45:00",
       "settles_on_regulation": true,
       "opened_at": "2026-08-28T12:51:26.669703+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
+      "closing_price_cents": 6.5,
+      "clv_cents": 0.5,
+      "clv_source": "kalshi",
       "settled": false,
       "result": null,
       "payout_cents": 0.0,
@@ -340,9 +393,33 @@
       "kickoff_utc": "2026-08-28T18:45:00+00:00",
       "settles_on_regulation": null,
       "opened_at": "2026-08-28T14:01:18.321115+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
+      "closing_price_cents": 14.0,
+      "clv_cents": -1.0,
+      "clv_source": "polymarket",
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0
+    },
+    "0xacc03e9caa281a47eca958b50e75b7700c44afb3de84fafa252ac45c4de98d13|yes": {
+      "position_id": "12a0de94-c506-4606-8890-d845158107c1",
+      "venue": "polymarket",
+      "instrument_id": "0xacc03e9caa281a47eca958b50e75b7700c44afb3de84fafa252ac45c4de98d13",
+      "side": "yes",
+      "size": 50.0,
+      "avg_cost_cents": 26.0,
+      "fees_cents": 0,
+      "league_id": "ligue_1",
+      "case_id": "polymarket:0xacc03e9caa281a47eca958b50e75b7700c44afb3de84fafa252ac45c4de98d13:yes",
+      "claim": "home_over_1.5",
+      "home_team": "Lille",
+      "away_team": "Paris Saint-Germain",
+      "kickoff_utc": "2026-08-28T18:45:00+00:00",
+      "settles_on_regulation": null,
+      "opened_at": "2026-08-28T20:01:09.769394+00:00",
+      "closing_price_cents": 30.0,
+      "clv_cents": 4.0,
+      "clv_source": "polymarket",
       "settled": false,
       "result": null,
       "payout_cents": 0.0,
@@ -672,7 +749,105 @@
       "markets_approved": 16,
       "decided_by": "judge",
       "reason": "approved 16 of 32 market(s): Analyst verdict directly contradicts short-Chicago thesis. Chicago's superior form (5-game MLS win streak, 3rd Eastern Conference vs 13th Western), attacking depth (Lewandowski 4-in-9 goals, Zinckernagel 5 goals/8 assists), and points differential (+11) outweigh away status. Analyst explicitly weighed Seattle's home advantage (11-4-2 h2h) and found it insufficient. Mod"
+    },
+    "mls|Colorado Rapids|Real Salt Lake|2026-08-30": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T20:30:11.712871+00:00",
+      "hours_to_kickoff": 29.0,
+      "ts": "2026-08-28T20:30:11.712892+00:00",
+      "action": "PAPER_PLACE_LIMIT",
+      "claim": "not_home_win",
+      "home": "Colorado Rapids",
+      "away": "Real Salt Lake",
+      "markets_considered": 117,
+      "markets_approved": 19,
+      "decided_by": "judge",
+      "reason": "approved 19 of 42 market(s): Analyst's evidence (Colorado 67% home win rate, RSL 8% away win rate, 3-0 loss 4 days prior, altitude stress, defensive injuries) strongly supports home-win outcome. Quant's +1.31\u00a2 edge insufficient to overcome analyst's conviction and execution risk in correlated pair."
+    },
+    "mls|Nashville SC|FC Cincinnati|2026-08-30": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T20:34:09.297718+00:00",
+      "hours_to_kickoff": 27.9,
+      "ts": "2026-08-28T20:34:09.297740+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "Nashville SC",
+      "away": "FC Cincinnati",
+      "markets_considered": 120,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Nashville SC is the only undefeated team at home in MLS this season (49 points through 21 matches, 9-point lead in table). They have maintained a perfect home record at GEODIS Park with only one dropped point this season. Brian Schwake has an historic unbeaten run as goalkeeper, and Nashville won 4 of their last 5 matches. FC Cincinnati are 6th in the East with a 8-6-6 record after an intensive 8-"
+    },
+    "mls|Minnesota United FC|Orlando City SC|2026-08-30": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T20:39:21.941559+00:00",
+      "hours_to_kickoff": 27.8,
+      "ts": "2026-08-28T20:39:21.941578+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "Minnesota United FC",
+      "away": "Orlando City SC",
+      "markets_considered": 117,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Home win assumption is materially dependent on Minnesota's ability to exploit advantages with a newly-implemented formation (5-2-1-2) they've just confirmed effective. Critical roster gaps (three defenders out), Orlando's recent squad rotation/formation change (switching to 3-CB away setup), and Antoine Griezmann's established integration remain incompletely modeled. Orlando's road record (2-1-7) "
+    },
+    "mls|Sporting Kansas City|Vancouver Whitecaps|2026-08-30": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T20:44:33.358373+00:00",
+      "hours_to_kickoff": 27.8,
+      "ts": "2026-08-28T20:44:33.358392+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "Sporting Kansas City",
+      "away": "Vancouver Whitecaps",
+      "markets_considered": 116,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "The match has already been played (August 29-30, 2026). Final score: Vancouver Whitecaps 2, Sporting Kansas City 0. The claim 'away_win=no' is factually incorrect \u2014 Vancouver did win away. The fixture packet references a future match, but the match is historical. Additionally, the sporting context strongly favored Vancouver: they held 1st place in Western Conference; Sporting was 16th in last plac"
+    },
+    "mls|Houston Dynamo FC|San Jose Earthquakes|2026-08-30": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T20:49:10.379169+00:00",
+      "hours_to_kickoff": 27.7,
+      "ts": "2026-08-28T20:49:10.379189+00:00",
+      "action": "DEFER",
+      "claim": "away_win",
+      "home": "Houston Dynamo FC",
+      "away": "San Jose Earthquakes",
+      "markets_considered": 120,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Material form contradiction in source data prevents reliable assessment. Official San Jose preview claims 6-game unbeaten streak (4-0-2), but independent verified sources confirm 6-game winless streak (0-2-4) with only 1 point from 18 available, including a 5-1 home loss to Minnesota United on Aug 22, 2026. This represents a fundamental disagreement about whether San Jose is in form or in collapse"
+    },
+    "mls|Toronto FC|New York City FC|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T20:54:56.376241+00:00",
+      "hours_to_kickoff": 26.6,
+      "ts": "2026-08-28T20:54:56.376263+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "Toronto FC",
+      "away": "New York City FC",
+      "markets_considered": 124,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Toronto FC enters at home on a 4-game unbeaten streak with recent momentum (wins vs top-4 teams), but the bet against a TFC home win is supported by material squad depletion at NYCFC and concerning tactical uncertainties. TFC carry six players unavailable (Dorsch, Osorio, Kerr, Stefanovic, Palacio, Gomis), while NYCFC face an injury crisis affecting seven+ key players (Mart\u00ednez, Moralez, Wolf, O'N"
+    },
+    "mls|Red Bull New York|Philadelphia Union|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T20:59:19.367127+00:00",
+      "hours_to_kickoff": 26.5,
+      "ts": "2026-08-28T20:59:19.367150+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "Red Bull New York",
+      "away": "Philadelphia Union",
+      "markets_considered": 121,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Philadelphia Union's unbeaten streak and recent form improvement under Ryan Richter are well-established. However, critical tactical and squad-level details for this specific fixture remain unclear: confirmed lineups, player availability (especially injury status and yellow-card suspension threats), formation adjustments, rest patterns amid fixture congestion, and international call-ups are not av"
     }
   },
-  "saved_at": "2026-08-28T18:44:28.252130+00:00"
+  "saved_at": "2026-08-28T21:02:07.461183+00:00"
 }
