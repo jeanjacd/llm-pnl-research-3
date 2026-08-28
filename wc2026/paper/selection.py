@@ -60,6 +60,21 @@ BOARD_MIN_HOURS = 2.0
 # everything toward false positives. Only a DEFER is retried, and only once.
 RETRY_MAX_ATTEMPTS = 2
 
+# The whole ladder is boarded, but not without bound: the slate goes into one
+# prompt, and a fixture quoting hundreds of scorelines would crowd out the
+# numbers that matter. Ordered by claim family first, so the cap falls on the
+# least-validated families (exact scorelines) rather than on 1X2. Anything cut
+# is reported, never silently dropped.
+MAX_MARKETS_PER_FIXTURE = 40
+
+# Trading the whole ladder concentrates risk on one match: those markets share
+# a scoreline grid, so a wrong read on the fixture loses on many of them at
+# once. Diversification across fixtures is real; across markets on ONE fixture
+# it is mostly illusory. Measured at one contract per market the exposure is
+# 1.9% of bankroll per fixture, but nothing was stopping the board sizing each
+# leg large, so the ceiling is explicit rather than incidental.
+MAX_FIXTURE_EXPOSURE_FRACTION = 0.05
+
 # The schedule the retry has to fit inside. `test_workflows.py` pins this
 # against the actual cron so the two cannot drift.
 #
@@ -201,19 +216,32 @@ def actionable_fixtures(fixtures, now=None):
     return fixtures[keep], int((~keep).sum())
 
 
-def select_one_per_fixture(candidates, already_boarded=None, now=None,
-                           use_lead_time: bool = True):
-    """One candidate per fixture, plus the ones deliberately left out.
+def select_fixture_slates(candidates, already_boarded=None, now=None,
+                          use_lead_time: bool = True):
+    """Every candidate market, grouped by the fixture it belongs to.
 
-    Returns (selected, skipped) where `skipped` carries a reason per dropped
-    candidate, because a silent cap reads as "we looked at everything".
+    Returns (slates, skipped) where `slates` maps fixture_key -> [candidate].
+
+    This used to return ONE market per fixture, which threw the rest away: a
+    quant PASS on a single price closed the whole match, though it said
+    nothing about the totals or scorelines on it. The unit of MEASUREMENT is
+    still the fixture -- 34 bets on one match are one observation -- but the
+    unit of ACTION is the market. Cluster-robust summaries give the former
+    without sacrificing the latter, which is what `clv_summary` and
+    `eval.backtest.bootstrap_ci` already do.
+
+    Within a fixture the slate is ordered by claim family then EV, so the most
+    validated markets lead the prompt and the ordering is stable across runs.
     """
+    # Accepts the boarded LEDGER (key -> record). A bare set of keys is still
+    # honoured -- an entry with no recorded action reads as "already decided",
+    # which is the old behaviour.
     # Accepts the boarded LEDGER (key -> record). A bare set of keys is still
     # honoured -- an entry with no recorded action reads as "already decided",
     # which is the old behaviour.
     raw = already_boarded or {}
     ledger = dict(raw) if isinstance(raw, dict) else {key: {} for key in raw}
-    best, skipped = {}, []
+    slates, skipped = {}, []
     for cand in candidates:
         key = cand.fixture_key
         if use_lead_time:
@@ -224,20 +252,17 @@ def select_one_per_fixture(candidates, already_boarded=None, now=None,
         elif key in ledger:
             skipped.append((cand, "fixture already boarded"))
             continue
-        rank = claim_rank(cand.claim)
-        ev = cand.case.ev_per_contract or 0.0
-        # Family first, then EV inside the family, then a stable tie-break so
-        # two runs over identical data pick the same market.
-        score = (rank, -ev, cand.instrument.venue, cand.instrument.instrument_id)
-        current = best.get(key)
-        if current is None or score < current[0]:
-            if current is not None:
-                skipped.append((current[1], "another market on this fixture "
-                                            "ranked higher"))
-            best[key] = (score, cand)
-        else:
-            skipped.append((cand, "another market on this fixture ranked higher"))
-    return [pair[1] for pair in best.values()], skipped
+        slates.setdefault(key, []).append(cand)
+
+    for key, group in slates.items():
+        group.sort(key=lambda c: (claim_rank(c.claim),
+                                  -(c.case.ev_per_contract or 0.0),
+                                  c.instrument.venue, c.instrument.instrument_id))
+        if len(group) > MAX_MARKETS_PER_FIXTURE:
+            for cand in group[MAX_MARKETS_PER_FIXTURE:]:
+                skipped.append((cand, "beyond the per-fixture market cap"))
+            slates[key] = group[:MAX_MARKETS_PER_FIXTURE]
+    return slates, skipped
 
 
 def hours_to_kickoff(kickoff_utc, now=None):

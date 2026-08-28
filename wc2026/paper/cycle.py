@@ -25,20 +25,21 @@ import json
 import os
 from collections import Counter
 
-from ..board.orchestrator import run_board
+from ..board.orchestrator import run_board_slate
 from ..data import loader
 from ..decision.calculator import BUY_NOW, PLACE_LIMIT, UNSUPPORTED, build_case
 from ..eval.tune import effective_model
 from ..leagues import all_leagues, get_league
 from ..venues.base import changed_since, snapshot_record
 from .broker import PaperPortfolio
-from .clv import capture_closing_lines, clv_summary
+from .clv import capture_closing_lines, clv_summary, pnl_summary
 from .fills import KalshiFillProbe, PolymarketFillProbe, replay_fills
 from .selection import (
+    MAX_FIXTURE_EXPOSURE_FRACTION,
     actionable_fixtures,
     fixture_key,
     hours_to_kickoff,
-    select_one_per_fixture,
+    select_fixture_slates,
 )
 from .settlement import settle_portfolio
 
@@ -51,6 +52,32 @@ SNAPSHOT_DIR = os.path.join("data", "snapshots")
 # pushed to the public state branch -- the ledger is published, the transcripts
 # are not.
 PAPER_BOARD_LOG = os.path.join("data", "paper", "board_audit.jsonl")
+
+
+def slate_reason(verdict: dict) -> tuple:
+    """(who decided, one short sentence) for a whole-fixture board sitting."""
+    failure = str(verdict.get("failure") or "")
+    lowered = failure.lower()
+    coach = verdict.get("coach") or {}
+    if "coach" in lowered:
+        text = str(coach.get("rationale") or "")
+        if not text:
+            reruns = coach.get("required_reruns") or []
+            text = "; ".join(str(r) for r in reruns[:2])
+        return "coach", (text or failure)
+    if "quant" in lowered:
+        quant = verdict.get("quant") or {}
+        first = next(iter(quant.values()), {}) if isinstance(quant, dict) else {}
+        return "quant", str(first.get("rationale") or failure)
+    judge = verdict.get("judge") or {}
+    if judge:
+        first = next(iter(judge.values()), {})
+        n = sum(1 for d in judge.values()
+                if d.get("action", "").startswith("PAPER_"))
+        return "judge", ("approved %d of %d market(s): %s"
+                         % (n, len(judge),
+                            str(first.get("decisive_reason") or "")))
+    return "board", (failure or "no reason recorded")
 
 
 def board_reason(verdict: dict) -> tuple:
@@ -221,6 +248,7 @@ def run_maintenance(state_path: str | None = None,
         stats["settlement"] = settled
 
     stats["clv"] = clv_summary(portfolio)
+    stats["pnl"] = pnl_summary(portfolio)
     portfolio.save(state_path)
     stats["portfolio"] = portfolio.summary()
     stats["finished_at"] = _utcnow().isoformat()
@@ -241,25 +269,34 @@ _PHANTOM_MARKERS = ("invocation failed", "member invocation",
 
 
 def purge_phantom_decisions(portfolio) -> list:
-    """Drop boarded entries recorded when the board never ran.
+    """Reopen boarded entries whose verdict cannot be trusted.
 
-    `claude` was never installed on the runner, so every board call failed and
-    fell closed to DEFER, and each one was written into the ledger as a real
-    deferral. Those fixtures then looked decided: held back for a single late
-    retry on the strength of a decision nobody made. Eight fixtures were in
-    that state, five of them kicking off within a day.
+    Two causes, both of which record a decision nothing really made.
 
-    Purging is safe in a way that keeping them is not. A fixture removed here
-    is simply reconsidered on its merits; a fixture left here is silently spent.
-    Entries from before reasons were recorded are dropped too -- absence of
-    evidence that a member voted is exactly the case that cannot be verified.
+    1. THE BOARD DID NOT RUN. `claude` was never installed on the runner, so
+       every call failed, fell closed to DEFER, and was written in as a real
+       deferral.
+
+    2. THE DECISION COVERED ONE MARKET OF MANY. Until the slate board, a
+       fixture was judged on a single market and that verdict closed the whole
+       match -- a PASS on `not_away_win` being 1.22pp short of breakeven shut
+       Racing Santander v Elche entirely, though it said nothing about the 111
+       other markets on it. Such verdicts answer a question about one price,
+       not about the fixture. Records written by the slate board carry
+       `markets_considered`; records without it predate it.
+
+    Reopening is safe in a way that keeping them is not. A fixture removed here
+    is reconsidered on its merits; a fixture left here is silently spent.
     """
     removed = []
     for key, rec in list(portfolio.boarded.items()):
         reason = str(rec.get("reason") or "").lower()
         phantom = any(m in reason for m in _PHANTOM_MARKERS)
         unverifiable = not rec.get("decided_by") and not rec.get("reason")
-        if phantom or unverifiable:
+        # Written before the board saw whole fixtures: the verdict answers a
+        # question about one market, not about the match.
+        single_market = rec.get("markets_considered") is None
+        if phantom or unverifiable or single_market:
             removed.append(key)
             portfolio.boarded.pop(key, None)
     return removed
@@ -454,104 +491,121 @@ def run_cycle(league_ids=None, state_path: str | None = None,
         stats["settlement"] = settled
 
     # --- selection, then the board ----------------------------------------
-    selected, dropped = select_one_per_fixture(candidates, portfolio.boarded)
+    # Every candidate market on a fixture, not one of them. One board sitting
+    # per fixture returns a verdict per market; the statistics cluster on the
+    # fixture, which is what keeps 34 correlated bets from reading as 34
+    # observations.
+    slates, dropped = select_fixture_slates(candidates, portfolio.boarded)
     stats["placeable_cases"] = len(candidates)
-    stats["fixtures_selected"] = len(selected)
-    # Never a silent cap: a dropped candidate is reported with its reason,
-    # because "we boarded 9 of 307" and "we looked at everything" must not
-    # read the same in the summary.
+    stats["fixtures_selected"] = len(slates)
+    stats["markets_boarded"] = sum(len(g) for g in slates.values())
+    # Never a silent cap: a dropped candidate is reported with its reason.
     stats["candidates_dropped"] = len(dropped)
     stats["drop_reasons"] = dict(Counter(reason for _, reason in dropped))
 
     coach_cache: dict = {}
     stats["board_decisions"] = []
-    for cand in selected:
-        case, instrument, leg = cand.case, cand.instrument, cand.leg
+    for fkey, slate in slates.items():
+        lead = slate[0]
+        leg = lead.leg
         fixture = {"home": leg.home, "away": leg.away,
-                   "league_id": cand.league_id,
+                   "league_id": lead.league_id,
                    "kickoff_utc": leg.kickoff_utc}
-        decision = {"action": "PAPER_" + case.action,
-                    "limit_price_cents": case.max_limit_price_cents,
-                    "contracts": 1.0}
+        by_case = {c.case.case_id: c for c in slate}
+
         if board_enabled:
             stats["board_run"] += 1
             kwargs = {"coach_cache": coach_cache, "log_path": PAPER_BOARD_LOG}
             if invoke:
                 kwargs["invoke"] = invoke
-            verdict = run_board(case, fixture, **kwargs)
-            decided_by, why = board_reason(verdict)
+            verdict = run_board_slate([c.case for c in slate], fixture, **kwargs)
             if verdict.get("failed_closed"):
-                # The board did not RUN. That is not a decision, so it must not
-                # consume the fixture's one board or its one retry -- the whole
-                # slate would otherwise be spent on an outage. Left unrecorded
-                # so the next run picks it up again.
+                # The board did not RUN. Not a decision, so it must not consume
+                # the fixture's board or its retry -- an outage would otherwise
+                # spend the whole slate. Left unrecorded for the next run.
+                why = str(verdict.get("failure") or "board failed")
                 stats["board_failures"] += 1
                 stats.setdefault("board_failure_reasons", {})
                 stats["board_failure_reasons"][why[:120]] = (
                     stats["board_failure_reasons"].get(why[:120], 0) + 1)
                 continue
-            # Attempts accumulate so a deferral is retried ONCE, never
-            # indefinitely -- see selection.RETRY_MAX_ATTEMPTS.
-            prior = portfolio.boarded.get(cand.fixture_key) or {}
-            attempts = int(prior.get("attempts") or 0) + 1
-            portfolio.boarded[cand.fixture_key] = {
-                "attempts": attempts,
-                "first_boarded_at": prior.get("first_boarded_at")
-                                    or _utcnow().isoformat(),
-                "hours_to_kickoff": round(
-                    hours_to_kickoff(leg.kickoff_utc) or 0.0, 1),
-                "ts": _utcnow().isoformat(), "action": verdict["action"],
-                "case_id": case.case_id, "claim": cand.claim,
-                "home": leg.home, "away": leg.away,
-                # Kept so a DEFER is answerable months later without the
-                # transcript, which does not survive the runner.
-                "decided_by": decided_by, "reason": why[:400]}
-            stats["board_decisions"].append(
-                dict(portfolio.boarded[cand.fixture_key]))
-            if verdict["action"] not in ("PAPER_BUY_NOW", "PAPER_PLACE_LIMIT"):
-                continue
-            judged = verdict.get("judge") or {}
-            decision = {"action": verdict["action"],
-                        "limit_price_cents": judged.get("limit_price_cents"),
-                        "contracts": judged.get("contracts", 1.0)}
+            decisions = verdict.get("decisions") or {}
+            decided_by, why = slate_reason(verdict)
+            approved = [(cid, d) for cid, d in decisions.items()
+                        if d.get("action") in ("PAPER_BUY_NOW",
+                                               "PAPER_PLACE_LIMIT")]
         else:
-            prior = portfolio.boarded.get(cand.fixture_key) or {}
-            portfolio.boarded[cand.fixture_key] = {
-                "attempts": int(prior.get("attempts") or 0) + 1,
-                "first_boarded_at": prior.get("first_boarded_at")
-                                    or _utcnow().isoformat(),
-                "ts": _utcnow().isoformat(), "action": decision["action"],
-                "case_id": case.case_id, "claim": cand.claim,
-                "home": leg.home, "away": leg.away,
-                "decided_by": "deterministic", "reason": "board disabled"}
+            decisions, approved = {}, []
+            decided_by, why = "deterministic", "board disabled"
+            for cand in slate:
+                approved.append((cand.case.case_id, {
+                    "action": "PAPER_" + cand.case.action,
+                    "limit_price_cents": cand.case.max_limit_price_cents,
+                    "contracts": 1.0}))
 
-        price = decision.get("limit_price_cents")
-        size = decision.get("contracts") or 0
-        if not price or size <= 0:
-            continue
-        league_stats = stats["leagues"].setdefault(cand.league_id, {})
-        try:
-            order = portfolio.submit(
-                case.case_id, instrument.venue, instrument.instrument_id,
-                cand.side, int(price), float(size), league_id=cand.league_id,
-                expires_at=case.actionable_until,
-                # Carried so the position can settle itself later without
-                # re-querying a market that has closed, or re-running venue
-                # name matching weeks on.
-                claim=cand.claim, home_team=leg.home, away_team=leg.away,
-                kickoff_utc=leg.kickoff_utc)
-        except Exception as exc:                              # noqa: BLE001
-            league_stats.setdefault("errors", []).append(
-                "submit: %s" % str(exc)[:80])
-            continue
-        stats["orders_submitted"] += 1
-        league_stats["submitted"] = league_stats.get("submitted", 0) + 1
-        if decision["action"] == "PAPER_BUY_NOW":
-            portfolio.fill_marketable(order.order_id, instrument.book)
-            if order.filled_size > 0:
-                stats["fills"] += 1
+        # Attempts accumulate so a deferral is retried ONCE, never indefinitely.
+        prior = portfolio.boarded.get(fkey) or {}
+        record = {
+            "attempts": int(prior.get("attempts") or 0) + 1,
+            "first_boarded_at": prior.get("first_boarded_at")
+                                or _utcnow().isoformat(),
+            "hours_to_kickoff": round(hours_to_kickoff(leg.kickoff_utc) or 0.0, 1),
+            "ts": _utcnow().isoformat(),
+            "action": ("PAPER_PLACE_LIMIT" if approved else
+                       (verdict.get("action") if board_enabled else "PASS")
+                       or "DEFER"),
+            "claim": lead.claim, "home": leg.home, "away": leg.away,
+            "markets_considered": len(slate), "markets_approved": len(approved),
+            # Kept so a decision is answerable months later without the
+            # transcript, which does not survive the runner.
+            "decided_by": decided_by, "reason": why[:400]}
+        portfolio.boarded[fkey] = record
+        stats["board_decisions"].append(dict(record))
+
+        league_stats = stats["leagues"].setdefault(lead.league_id, {})
+        # One fixture is one risk, however many ways it is expressed.
+        exposure_cap = int(portfolio.starting_cash_cents
+                           * MAX_FIXTURE_EXPOSURE_FRACTION)
+        spent = 0
+        for case_id, decision in approved:
+            cand = by_case.get(case_id)
+            if cand is None:
+                continue
+            price = decision.get("limit_price_cents")
+            size = decision.get("contracts") or 0
+            if not price or size <= 0:
+                continue
+            cost = int(price * size)
+            if spent + cost > exposure_cap:
+                stats["exposure_capped"] = stats.get("exposure_capped", 0) + 1
+                continue
+            try:
+                order = portfolio.submit(
+                    case_id, cand.instrument.venue,
+                    cand.instrument.instrument_id, cand.side, int(price),
+                    float(size), league_id=cand.league_id,
+                    expires_at=cand.case.actionable_until,
+                    # Carried so the position can settle itself later without
+                    # re-querying a market that has closed, or re-running venue
+                    # name matching weeks on.
+                    claim=cand.claim, home_team=cand.leg.home,
+                    away_team=cand.leg.away, kickoff_utc=cand.leg.kickoff_utc)
+            except Exception as exc:                          # noqa: BLE001
+                league_stats.setdefault("errors", []).append(
+                    "submit: %s" % str(exc)[:80])
+                continue
+            spent += cost
+            stats["orders_submitted"] += 1
+            league_stats["submitted"] = league_stats.get("submitted", 0) + 1
+            if decision["action"] == "PAPER_BUY_NOW":
+                portfolio.fill_marketable(order.order_id, cand.instrument.book)
+                if order.filled_size > 0:
+                    stats["fills"] += 1
+            else:
+                stats["limit_orders"] = stats.get("limit_orders", 0) + 1
 
     stats["clv"] = clv_summary(portfolio)
+    stats["pnl"] = pnl_summary(portfolio)
     portfolio.save(state_path)
     stats["portfolio"] = portfolio.summary()
     stats["finished_at"] = _utcnow().isoformat()
@@ -597,8 +651,9 @@ def render_summary(stats: dict) -> str:
     for key in ("cases_built", "cases_skipped_unchanged", "unsupported",
                 "fixtures_out_of_window",
                 "placeable_cases", "fixtures_selected", "candidates_dropped",
-                "board_run", "board_failures",
-                "orders_submitted", "fills", "resting_fills",
+                "board_run", "board_failures", "markets_boarded",
+                "orders_submitted", "limit_orders", "exposure_capped",
+                "fills", "resting_fills",
                 "expired", "settled", "settled_pnl_usd"):
         if key in stats:
             lines.append("| %s | %s |" % (key, stats.get(key, 0)))
@@ -658,6 +713,17 @@ def render_summary(stats: dict) -> str:
                       "branch._"]
 
     port = stats.get("portfolio") or {}
+    pnl = stats.get("pnl") or {}
+    if pnl.get("n_bets"):
+        lines += ["", "### Realised P&L (clustered by fixture)", "",
+                  "| metric | value |", "|---|---|",
+                  "| P&L per fixture | $%s |" % pnl.get("pnl_per_fixture_usd"),
+                  "| t-stat (on fixtures) | %s |" % pnl.get("t_stat"),
+                  "| independent fixtures | %s |" % pnl.get("n_fixtures"),
+                  "| settled bets behind them | %s |" % pnl.get("n_bets"),
+                  "| bets per fixture | %s |" % pnl.get("bets_per_fixture"),
+                  "| total | $%s |" % pnl.get("pnl_usd"), ""]
+
     lines += ["", "### Portfolio", "", "| metric | value |", "|---|---|"]
     for key in ("cash_usd", "reserved_usd", "n_open_orders",
                 "n_positions_open", "n_settled", "n_fixtures_boarded",

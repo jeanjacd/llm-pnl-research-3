@@ -210,3 +210,80 @@ def validate_judge(payload: dict, case_id: str, ceiling_price: int | None,
         out["contracts"] = float(size)
         out["max_loss_cents"] = int(price) * float(size)
     return out
+
+
+# --- slate: one board call for a whole fixture --------------------------------
+# Boarding ONE market per fixture threw away every other market on it. A quant
+# PASS on `not_away_win` being 1.22pp short of breakeven says nothing about the
+# totals or the scorelines on the same match, yet it closed all of them.
+#
+# The unit of MEASUREMENT is still the fixture -- 34 bets on one match are one
+# observation, and the statistics cluster on that. But the unit of ACTION is the
+# market. Conflating the two was the error; the fix is cluster-robust stats
+# (`eval.backtest.bootstrap_ci` already does exactly this for the model), not
+# refusing to trade.
+def quant_slate_packet(cases) -> list:
+    """Compact per-market rows: the whole ladder in one prompt, not one market.
+
+    Deliberately not the full per-case packet -- 34 of those would not fit, and
+    the quant is auditing relative attractiveness across a fixture, for which
+    the computed numbers are what matter.
+    """
+    rows = []
+    for case in cases:
+        rows.append({
+            "case_id": case.case_id,
+            "claim": getattr(case, "claim", None),
+            "side": case.side,
+            "venue": case.venue,
+            "action": case.action,
+            "touch_cents": case.touch_cents,
+            "executable_avg_cents": case.executable_avg_cents,
+            "depth_at_touch": case.depth_at_touch,
+            "p_lower": None if case.p_lower is None else round(case.p_lower, 4),
+            "breakeven_prob": None if case.breakeven_prob is None
+                              else round(case.breakeven_prob, 4),
+            "ev_per_contract_cents": None if case.ev_per_contract is None
+                                     else round(case.ev_per_contract, 2),
+            "roi": None if case.roi is None else round(case.roi, 4),
+            "max_limit_price_cents": case.max_limit_price_cents,
+            "adverse_selection_cents": round(case.adverse_selection_cents, 2),
+            "ladder_rungs": len(case.ladder or []),
+        })
+    return rows
+
+
+def _validate_slate(payload, key, ceilings, per_item, what):
+    """Shared shape check for a slate response: one entry per case_id.
+
+    A member that omits a case is not treated as approving it -- anything not
+    explicitly returned is absent, and the caller treats absence as no verdict.
+    """
+    _require(isinstance(payload, dict), "%s response must be an object" % what)
+    items = payload.get(key)
+    _require(isinstance(items, list), "%s.%s must be a list" % (what, key))
+    out, seen = {}, set()
+    for item in items:
+        _require(isinstance(item, dict), "%s entry must be an object" % what)
+        case_id = item.get("case_id")
+        _require(case_id in ceilings, "%s: unknown case_id %r" % (what, case_id))
+        _require(case_id not in seen, "%s: duplicate case_id %r" % (what, case_id))
+        seen.add(case_id)
+        out[case_id] = per_item(item, case_id, ceilings[case_id])
+    return out
+
+
+def validate_quant_slate(payload: dict, ceilings: dict) -> dict:
+    """case_id -> validated quant verdict. Same never-raise rule, per market."""
+    def one(item, case_id, ceiling):
+        return validate_quant(dict(item, case_id=case_id), case_id,
+                              ceiling.get("price"), ceiling.get("size"))
+    return _validate_slate(payload, "decisions", ceilings, one, "quant slate")
+
+
+def validate_judge_slate(payload: dict, ceilings: dict) -> dict:
+    """case_id -> validated judge verdict. Price/size may only tighten."""
+    def one(item, case_id, ceiling):
+        return validate_judge(dict(item, case_id=case_id), case_id,
+                              ceiling.get("price"), ceiling.get("size"))
+    return _validate_slate(payload, "decisions", ceilings, one, "judge slate")

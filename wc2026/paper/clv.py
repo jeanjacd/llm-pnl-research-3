@@ -118,3 +118,52 @@ def clv_summary(portfolio) -> dict:
         "t_stat": (None if not stderr
                    else round(mean / stderr, 2) if stderr > 0 else None),
     }
+
+
+def pnl_summary(portfolio) -> dict:
+    """Realised P&L with the FIXTURE as the unit, not the bet.
+
+    The board now trades every viable market on a match, which is right for
+    returns and wrong for naive statistics: several of those bets express one
+    directional view off one scoreline grid and settle together. Summing them
+    as independent would overstate the sample exactly as it would for CLV.
+
+    So the headline is the mean P&L PER FIXTURE and the significance test runs
+    on that. `eval.backtest.bootstrap_ci` resamples groups for the same reason
+    when scoring the model; this is the trading-side equivalent.
+    """
+    ledger = portfolio.ledger or []
+    if not ledger:
+        return {"n_bets": 0, "n_fixtures": 0, "pnl_usd": 0.0,
+                "pnl_per_fixture_usd": None, "t_stat": None}
+
+    positions = {(p.instrument_id, p.side): p
+                 for p in portfolio.positions.values()}
+    by_fixture = {}
+    for entry in ledger:
+        pos = positions.get((entry.get("instrument_id"), entry.get("side")))
+        key = ((pos.league_id, pos.home_team, pos.away_team,
+                str(pos.kickoff_utc or "")[:10]) if pos is not None
+               else ("?", entry.get("instrument_id"), "", ""))
+        by_fixture.setdefault(key, []).append(entry.get("pnl_cents") or 0.0)
+
+    per_fixture = [sum(v) / 100.0 for v in by_fixture.values()]
+    total = sum(per_fixture)
+    mean = total / len(per_fixture)
+    if len(per_fixture) > 1:
+        var = sum((x - mean) ** 2 for x in per_fixture) / (len(per_fixture) - 1)
+        stderr = (var ** 0.5) / (len(per_fixture) ** 0.5)
+    else:
+        stderr = None
+    return {
+        "n_bets": len(ledger),
+        "n_fixtures": len(by_fixture),
+        "bets_per_fixture": round(len(ledger) / len(by_fixture), 1),
+        "pnl_usd": round(total, 2),
+        "pnl_per_fixture_usd": round(mean, 3),
+        "pnl_stderr_usd": None if stderr is None else round(stderr, 3),
+        # On FIXTURES. Below about |2| this is noise, and at these sample sizes
+        # it usually is -- which is the honest reading.
+        "t_stat": (None if not stderr else round(mean / stderr, 2)
+                   if stderr > 0 else None),
+    }
