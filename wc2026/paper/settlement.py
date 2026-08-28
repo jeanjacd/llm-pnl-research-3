@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import datetime as dt
 
-from .outcomes import UnsettleableClaim, regulation_score, winning_side
+from .outcomes import UnsettleableClaim, score_for_claim, winning_side
 
 # A postponed match reappears on a later date, so the fixture is looked up in a
 # window around the stored kick-off rather than on the exact day. The window is
@@ -90,7 +90,8 @@ def settle_portfolio(portfolio, frames: dict, now=None) -> dict:
             stats["fixture_not_found"] += 1
             stats["still_open"] += 1
             continue
-        score = regulation_score(row)
+        # A first-half market settles on the interval score.
+        score = score_for_claim(pos.claim, row)
         if score is None:
             stats["no_result_yet"] += 1
             stats["still_open"] += 1

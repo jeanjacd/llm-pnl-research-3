@@ -34,6 +34,7 @@ from ..venues.base import changed_since, snapshot_record
 from .broker import PaperPortfolio
 from .clv import capture_closing_lines, clv_summary, pnl_summary
 from .fills import KalshiFillProbe, PolymarketFillProbe, replay_fills
+from .outcomes import is_first_half
 from .selection import (
     MAX_FIXTURE_EXPOSURE_FRACTION,
     actionable_fixtures,
@@ -143,8 +144,35 @@ def _save_snapshot(record: dict, league_id: str, venue: str) -> str:
     return archive
 
 
+FIRST_HALF_PREFIX = "1h_"
+
+
+def ratings_for_claim(claim: str, ratings, first_half_ratings):
+    """Which fitted model may answer this claim -- or None to abstain.
+
+    A first-half claim MUST be answered from the first-half grid. Only ~40% of
+    goals arrive before the interval, so pricing `1h_total_over_1.5` off the
+    full-match grid would make every over look cheap, and nothing downstream
+    would flag it: the number would be a perfectly well-formed probability.
+
+    A league with no fitted first-half model abstains from first-half markets
+    rather than falling back, for the same reason. Full-match markets in that
+    league are unaffected.
+    """
+    if not is_first_half(claim):
+        return ratings
+    return first_half_ratings      # None -> caller abstains
+
+
 def probability_for(claim: str, prediction) -> float | None:
-    """Model probability for a supported claim, from the exact scoreline grid."""
+    """Model probability for a supported claim, from the exact scoreline grid.
+
+    A `1h_` claim is the same question asked of the FIRST-HALF grid, so the
+    prefix is stripped here and the caller is responsible for passing the
+    first-half prediction. Answering a first-half claim from the full-match
+    grid would be wrong in the direction that makes every over look cheap --
+    only ~40% of goals arrive before the interval.
+    """
     import numpy as np
     matrix = prediction.matrix
     size = matrix.shape[0]
@@ -152,6 +180,8 @@ def probability_for(claim: str, prediction) -> float | None:
     i, j = np.meshgrid(k, k, indexing="ij")
     negate = claim.startswith("not_")
     base = claim[4:] if negate else claim
+    if base.startswith(FIRST_HALF_PREFIX):
+        base = base[len(FIRST_HALF_PREFIX):]
 
     mask = None
     if base == "home_win":
@@ -329,6 +359,7 @@ def run_cycle(league_ids=None, state_path: str | None = None,
               verbose: bool = True, fill_probes=None,
               settle_enabled: bool = True) -> dict:
     """Run one full paper cycle. Returns a sanitised summary dict."""
+    from ..model.first_half import NoHalfTimeData, build_first_half_strength
     from ..model.ratings import build_team_strength
     from ..sim.match import predict_match
 
@@ -381,7 +412,8 @@ def run_cycle(league_ids=None, state_path: str | None = None,
              else all_leagues())
     for spec in specs:
         league_stats = {"instruments": 0, "supported": 0, "changed": 0,
-                        "cases": 0, "placeable": 0, "submitted": 0}
+                        "cases": 0, "placeable": 0, "submitted": 0,
+                        "first_half_abstained": 0}
         model_cfg, tuned = effective_model(spec)
         if not tuned:
             league_stats["skipped"] = "untuned -- forecasts not validated"
@@ -398,6 +430,17 @@ def run_cycle(league_ids=None, state_path: str | None = None,
         ratings = build_team_strength(train, as_of=train["date"].max(),
                                       cfg=model_cfg, verbose=False,
                                       adjustments_path=spec.adjustments_json)
+        # Fitted separately, from the same frozen engine on half-time goals.
+        # A league without enough half-time history simply has no first-half
+        # model, and its 1H markets are abstained from rather than priced off
+        # the wrong grid.
+        try:
+            first_half_ratings = build_first_half_strength(
+                train, as_of=train["date"].max(), cfg=model_cfg, verbose=False)
+            league_stats["first_half_model"] = "fitted"
+        except NoHalfTimeData as exc:
+            first_half_ratings = None
+            league_stats["first_half_model"] = str(exc)[:80]
         # kickoff_utc travels with the fixtures: it is the only reliable
         # kick-off for venues that publish a settlement time instead.
         fixture_cols = [c for c in ("date", "home_team", "away_team",
@@ -456,8 +499,13 @@ def run_cycle(league_ids=None, state_path: str | None = None,
                 leg = instrument.legs[0]
                 if not (leg.home and leg.away):
                     continue
+                source = ratings_for_claim(leg.claim, ratings,
+                                           first_half_ratings)
+                if source is None:
+                    league_stats["first_half_abstained"] += 1
+                    continue      # no fitted first-half model -> abstain
                 try:
-                    prediction = predict_match(ratings, leg.home, leg.away,
+                    prediction = predict_match(source, leg.home, leg.away,
                                                neutral=False, cfg=model_cfg)
                 except Exception:                             # noqa: BLE001
                     continue      # unrated team -> fail closed, no forecast

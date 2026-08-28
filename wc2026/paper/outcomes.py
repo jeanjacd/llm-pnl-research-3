@@ -30,6 +30,16 @@ def _line(base: str) -> float:
     return float(base.rsplit("_", 1)[1])
 
 
+FIRST_HALF_PREFIX = "1h_"
+
+
+def is_first_half(claim: str) -> bool:
+    """Does this claim settle on the HALF-TIME score rather than full time?"""
+    text = str(claim or "")
+    base = text[4:] if text.startswith("not_") else text
+    return base.startswith(FIRST_HALF_PREFIX)
+
+
 def claim_is_true(claim: str, home_goals: int, away_goals: int) -> bool:
     """Did `claim` happen, given a regulation-time scoreline?
 
@@ -42,6 +52,11 @@ def claim_is_true(claim: str, home_goals: int, away_goals: int) -> bool:
                                 % (home_goals, away_goals))
     negate = claim.startswith("not_")
     base = claim[4:] if negate else claim
+    # A `1h_` claim asks the same question of the half-time score. The CALLER
+    # supplies that score -- see `settlement.regulation_score` and its
+    # first-half twin -- so the prefix is stripped and the rule is shared.
+    if base.startswith(FIRST_HALF_PREFIX):
+        base = base[len(FIRST_HALF_PREFIX):]
     i, j = int(home_goals), int(away_goals)
 
     if base == "home_win":
@@ -83,6 +98,39 @@ def winning_side(claim: str, home_goals: int, away_goals: int) -> str:
 
 # --- what a fixture row can settle --------------------------------------------
 FINAL_STATUSES = ("STATUS_FULL_TIME", "STATUS_FINAL")
+
+
+def half_time_score_of(row) -> tuple:
+    """(home, away) at the interval for a finished match, or None.
+
+    Unknown is None, never 0-0: roughly 1-2% of matches carry no usable goal
+    detail, and settling those as goalless would pay out on a number nobody
+    observed.
+    """
+    if regulation_score(row) is None:
+        return None
+
+    def get(key):
+        try:
+            return row[key]
+        except (KeyError, IndexError, TypeError):
+            return None
+
+    home, away = get("home_ht_score"), get("away_ht_score")
+    if home is None or away is None:
+        return None
+    try:
+        home, away = float(home), float(away)
+    except (TypeError, ValueError):
+        return None
+    if home != home or away != away:          # NaN
+        return None
+    return int(home), int(away)
+
+
+def score_for_claim(claim: str, row) -> tuple:
+    """The score THIS claim settles on: half time for `1h_`, else regulation."""
+    return half_time_score_of(row) if is_first_half(claim) else regulation_score(row)
 
 
 def regulation_score(row) -> tuple:

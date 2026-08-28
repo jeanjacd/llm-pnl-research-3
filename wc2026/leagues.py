@@ -244,7 +244,13 @@ _MLS_MODEL = dataclasses.replace(
 # league uses the same six suffixes behind a league-specific prefix. VERIFIED
 # live on 2026-08-01: every prefix below returned open markets.
 SUPPORTED_KALSHI_SUFFIXES = ("GAME", "TOTAL", "SPREAD", "BTTS",
-                             "TEAMTOTAL", "SCORE")
+                             "TEAMTOTAL", "SCORE",
+                             # First-half families. Priced by the SAME frozen
+                             # Dixon-Coles engine fitted to half-time goals --
+                             # see model/first_half.py. They settle on "45
+                             # minutes plus stoppage time", not on regulation,
+                             # which the provider checks separately.
+                             "1H", "1HTOTAL", "1HSCORE")
 
 
 def kalshi_series(prefix: str) -> tuple:
@@ -326,7 +332,11 @@ LEAGUES = {
 # in this system. Verified present on Kalshi 2026-08-01. They must be recorded
 # and routed to UNSUPPORTED -- never valued from qualitative confidence.
 UNSUPPORTED_MARKET_FAMILIES = (
-    "1H", "1HBTTS", "1HSPREAD", "1HTOTAL", "1HSCORE",   # first half
+    # First-half RESULT, TOTAL and SCORE are now modelled -- see
+    # model/first_half.py. BTTS and spreads within the half are not: the grid
+    # supports them arithmetically, but neither has been validated on
+    # half-time data, and an unvalidated family is an abstention here.
+    "1HBTTS", "1HSPREAD",
     "2H", "2HBTTS", "2HSPREAD", "2HTOTAL",              # second half
     "GOAL", "ANYGOAL", "FIRSTGOAL", "SOA", "AST",       # player props
     "CORNERS", "TCORNERS",                              # corners
