@@ -65,7 +65,19 @@ RETRY_MAX_ATTEMPTS = 2
 # numbers that matter. Ordered by claim family first, so the cap falls on the
 # least-validated families (exact scorelines) rather than on 1X2. Anything cut
 # is reported, never silently dropped.
-MAX_MARKETS_PER_FIXTURE = 40
+# How many markets go into ONE board prompt. This is a BATCH SIZE, not a limit
+# on what gets traded: a fixture with more is boarded in several sittings that
+# share one cached coach call. It used to be a cap, sized just above a
+# 34-markets/fixture measurement taken when 9 fixtures were live; at the real
+# distribution -- median 109 per fixture -- it silently discarded 63% of
+# candidates, cutting mid-family through team totals.
+#
+# The bound that matters is the RESPONSE, not the prompt. The judge returns one
+# decision object per market, so ~109 of them is roughly 6.5k output tokens; a
+# truncated reply fails validation and the design fails closed, which would
+# cost the whole fixture rather than one market. Batching keeps each response
+# small and confines any failure to its own batch.
+BOARD_SLATE_CHUNK = 40
 
 # Trading the whole ladder concentrates risk on one match: those markets share
 # a scoreline grid, so a wrong read on the fixture loses on many of them at
@@ -258,11 +270,17 @@ def select_fixture_slates(candidates, already_boarded=None, now=None,
         group.sort(key=lambda c: (claim_rank(c.claim),
                                   -(c.case.ev_per_contract or 0.0),
                                   c.instrument.venue, c.instrument.instrument_id))
-        if len(group) > MAX_MARKETS_PER_FIXTURE:
-            for cand in group[MAX_MARKETS_PER_FIXTURE:]:
-                skipped.append((cand, "beyond the per-fixture market cap"))
-            slates[key] = group[:MAX_MARKETS_PER_FIXTURE]
     return slates, skipped
+
+
+def chunk_slate(slate, size: int = BOARD_SLATE_CHUNK):
+    """Split one fixture's markets into board-sized batches.
+
+    Ordered by claim family first, so a batch is coherent -- the 1X2 and totals
+    are judged together rather than scattered across sittings.
+    """
+    size = max(1, int(size))
+    return [slate[i:i + size] for i in range(0, len(slate), size)]
 
 
 def hours_to_kickoff(kickoff_utc, now=None):

@@ -151,10 +151,14 @@ def test_kickoff_parsing_accepts_every_observed_spelling():
 # --------------------------------------------------------------------------- #
 # Kalshi family handling
 # --------------------------------------------------------------------------- #
-def test_only_the_six_grid_families_are_supported():
-    for fam in ("GAME", "TOTAL", "SPREAD", "BTTS", "TEAMTOTAL", "SCORE"):
+def test_only_families_a_fitted_grid_can_price_are_supported():
+    """Full match from the full-match grid; first half from a grid fitted to
+    half-time goals. Everything else is abstained from and declared."""
+    for fam in ("GAME", "TOTAL", "SPREAD", "BTTS", "TEAMTOTAL", "SCORE",
+                "1H", "1HTOTAL", "1HSCORE"):
         assert is_supported_family(fam)
-    for fam in ("1H", "CORNERS", "GOAL", "MOV", "RELEGATION", "TOP4"):
+    for fam in ("CORNERS", "GOAL", "MOV", "RELEGATION", "TOP4",
+                "1HBTTS", "1HSPREAD"):
         assert not is_supported_family(fam)
         assert fam in UNSUPPORTED_SUFFIXES
 

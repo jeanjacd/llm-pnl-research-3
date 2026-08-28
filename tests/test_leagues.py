@@ -200,13 +200,14 @@ def test_no_series_ticker_is_shared_between_leagues():
 def test_kalshi_series_helper_builds_supported_families_only():
     assert kalshi_series("KXEPL") == ("KXEPLGAME", "KXEPLTOTAL", "KXEPLSPREAD",
                                       "KXEPLBTTS", "KXEPLTEAMTOTAL",
-                                      "KXEPLSCORE")
+                                      "KXEPLSCORE", "KXEPL1H", "KXEPL1HTOTAL",
+                                      "KXEPL1HSCORE")
 
 
 def test_unsupported_families_are_declared_not_silently_traded():
     from wc2026.leagues import UNSUPPORTED_MARKET_FAMILIES
     # families we know exist on-venue but cannot model
-    for fam in ("GOAL", "CORNERS", "1H", "MOV", "RELEGATION"):
+    for fam in ("GOAL", "CORNERS", "MOV", "RELEGATION"):
         assert fam in UNSUPPORTED_MARKET_FAMILIES
     # and none of them leaked into a tradeable series list
     for spec in all_leagues():

@@ -47,11 +47,38 @@ SUPPORTED_CLAIM_PREFIXES = (
 )
 
 
+# The same propositions asked of the FIRST-HALF grid. Not a second model: the
+# frozen engine is refitted to half-time goals (model/first_half.py), so the
+# claim vocabulary carries over unchanged behind a prefix. Only the families
+# whose first-half wording has been read off live markets are listed -- a
+# first-half spread is arithmetically expressible and still absent here,
+# because nothing has validated it.
+FIRST_HALF_PREFIX = "1h_"
+# A matcher ending in "_" is a PREFIX (the claim carries a line); anything
+# else must match EXACTLY. Without that distinction "home_wins_by_over_1.5"
+# starts with "home_win" and a first-half SPREAD would be admitted as a
+# first-half result -- the same trap that once ranked spreads as 1X2 in
+# `paper.selection.claim_rank`.
+SUPPORTED_FIRST_HALF_PREFIXES = (
+    "home_win", "away_win", "draw", "total_over_", "total_under_", "score_",
+)
+
+
+def _matches(text: str, matcher: str) -> bool:
+    """Prefix match for parameterised claims, exact match for the rest."""
+    if matcher.endswith("_"):
+        return text.startswith(matcher)
+    return text == matcher
+
+
 def claim_supported(claim: str) -> bool:
     """True only for claims the frozen engine can value exactly."""
     if not claim:
         return False
     stripped = claim[4:] if claim.startswith("not_") else claim
+    if stripped.startswith(FIRST_HALF_PREFIX):
+        rest = stripped[len(FIRST_HALF_PREFIX):]
+        return any(_matches(rest, p) for p in SUPPORTED_FIRST_HALF_PREFIXES)
     return any(stripped.startswith(p) for p in SUPPORTED_CLAIM_PREFIXES)
 
 

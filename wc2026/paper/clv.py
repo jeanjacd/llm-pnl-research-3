@@ -85,16 +85,20 @@ def clv_summary(portfolio) -> dict:
     so the gap between them stays visible rather than being quietly presented
     as a larger sample than it is.
     """
+    # Only the DIRECTIONAL remainder is scored. An offsetting pair's CLV is a
+    # constant whatever the closing price, so including it would report
+    # captured spread as forecasting skill -- see paper/attribution.py.
+    from .attribution import forecast_clv
+    rows = forecast_clv(portfolio)
     scored = [p for p in portfolio.positions.values()
               if p.clv_cents is not None]
-    if not scored:
+    if not rows:
         return {"n_bets": 0, "n_fixtures": 0, "clv_cents": None,
                 "clv_cents_per_bet": None, "bets_per_fixture": None}
 
     by_fixture = {}
-    for pos in scored:
-        key = (pos.league_id, pos.home_team, pos.away_team, pos.kickoff_utc)
-        by_fixture.setdefault(key, []).append(pos.clv_cents)
+    for key, clv, _contracts in rows:
+        by_fixture.setdefault(key, []).append(clv)
     per_fixture = [sum(v) / len(v) for v in by_fixture.values()]
 
     mean = sum(per_fixture) / len(per_fixture)
@@ -105,12 +109,13 @@ def clv_summary(portfolio) -> dict:
     else:
         std = stderr = None
     return {
-        "n_bets": len(scored),
+        "n_bets": len(rows),
+        "n_bets_held": len(scored),
+        "n_excluded_as_spread": len(scored) - len(rows),
         "n_fixtures": len(by_fixture),
         "bets_per_fixture": round(len(scored) / len(by_fixture), 1),
         "clv_cents": round(mean, 3),
-        "clv_cents_per_bet": round(sum(p.clv_cents for p in scored)
-                                   / len(scored), 3),
+        "clv_cents_per_bet": round(sum(c for _, c, _ in rows) / len(rows), 3),
         "clv_std_cents": None if std is None else round(std, 3),
         "clv_stderr_cents": None if stderr is None else round(stderr, 3),
         # t against zero, on FIXTURES. Below about |2| this is noise, and at
@@ -132,22 +137,19 @@ def pnl_summary(portfolio) -> dict:
     on that. `eval.backtest.bootstrap_ci` resamples groups for the same reason
     when scoring the model; this is the trading-side equivalent.
     """
+    from .attribution import attribute
     ledger = portfolio.ledger or []
     if not ledger:
         return {"n_bets": 0, "n_fixtures": 0, "pnl_usd": 0.0,
+                "forecast_pnl_usd": 0.0, "spread_pnl_usd": 0.0,
                 "pnl_per_fixture_usd": None, "t_stat": None}
+    split = attribute(portfolio)
 
-    positions = {(p.instrument_id, p.side): p
-                 for p in portfolio.positions.values()}
-    by_fixture = {}
-    for entry in ledger:
-        pos = positions.get((entry.get("instrument_id"), entry.get("side")))
-        key = ((pos.league_id, pos.home_team, pos.away_team,
-                str(pos.kickoff_utc or "")[:10]) if pos is not None
-               else ("?", entry.get("instrument_id"), "", ""))
-        by_fixture.setdefault(key, []).append(entry.get("pnl_cents") or 0.0)
-
-    per_fixture = [sum(v) / 100.0 for v in by_fixture.values()]
+    # The headline is the FORECAST component per fixture. Spread capture is
+    # reported beside it, never inside it: it is locked the moment both legs
+    # fill and carries no view.
+    by_fixture = split
+    per_fixture = [v["forecast_pnl_cents"] / 100.0 for v in split.values()]
     total = sum(per_fixture)
     mean = total / len(per_fixture)
     if len(per_fixture) > 1:
@@ -158,8 +160,14 @@ def pnl_summary(portfolio) -> dict:
     return {
         "n_bets": len(ledger),
         "n_fixtures": len(by_fixture),
+        "forecast_pnl_usd": round(
+            sum(v["forecast_pnl_cents"] for v in split.values()) / 100.0, 2),
+        "spread_pnl_usd": round(
+            sum(v["spread_pnl_cents"] for v in split.values()) / 100.0, 2),
         "bets_per_fixture": round(len(ledger) / len(by_fixture), 1),
-        "pnl_usd": round(total, 2),
+        "pnl_usd": round(
+            sum(v["total_pnl_cents"] for v in split.values()) / 100.0, 2),
+        "forecast_pnl_per_fixture_usd": round(mean, 3),
         "pnl_per_fixture_usd": round(mean, 3),
         "pnl_stderr_usd": None if stderr is None else round(stderr, 3),
         # On FIXTURES. Below about |2| this is noise, and at these sample sizes

@@ -7,15 +7,16 @@ from wc2026.paper.selection import (
     BOARD_MIN_HOURS,
     BOARD_RUN_INTERVAL_HOURS,
     BOARD_RUN_SLACK_HOURS,
+    BOARD_SLATE_CHUNK,
     BOARD_TARGET_HOURS,
     BOARD_WINDOW_HOURS,
-    MAX_MARKETS_PER_FIXTURE,
     RETRY_MAX_ATTEMPTS,
     actionable_ceiling_hours,
     actionable_fixtures,
     base_claim,
     board_state,
     board_window_state,
+    chunk_slate,
     claim_rank,
     fixture_key,
     hours_to_kickoff,
@@ -102,19 +103,44 @@ def test_ev_orders_within_a_family():
                                                              "home_win"]
 
 
-def test_the_slate_is_capped_and_says_what_it_cut():
-    """One prompt holds the slate; a fixture quoting hundreds of scorelines
-    would crowd out the numbers that matter. The cut falls on the least
-    validated families, and is reported."""
+def test_nothing_is_discarded_however_many_markets_a_fixture_has():
+    """The 40 used to be a CAP and silently dropped 63% of candidates at the
+    real distribution -- median 109 per fixture -- cutting mid-family through
+    team totals. It is a batch size now."""
     cands = ([Cand("home_win"), Cand("draw"), Cand("away_win")]
              + [Cand("score_%d-%d" % (i, j), instrument_id="s%d%d" % (i, j))
                 for i in range(8) for j in range(8)])
     slates, skipped = select_fixture_slates(cands)
     slate = next(iter(slates.values()))
-    assert len(slate) == MAX_MARKETS_PER_FIXTURE
-    assert [c.claim for c in slate[:3]] == ["home_win", "away_win", "draw"] or         all(claim_rank(c.claim) == 0 for c in slate[:3])
-    assert skipped and all("cap" in r for _, r in skipped)
-    assert all(claim_rank(c.claim) > 0 for c, _ in skipped), "1X2 must survive"
+    assert len(slate) == len(cands), "every market survives"
+    assert skipped == []
+
+
+def test_a_fixture_is_boarded_in_batches_that_cover_it_exactly():
+    """The response is the bound, not the prompt: the judge returns a decision
+    per market, and a truncated reply fails the whole batch closed."""
+    slate = list(range(109))
+    batches = chunk_slate(slate)
+    assert sum(len(b) for b in batches) == 109, "nothing lost, nothing repeated"
+    assert [x for b in batches for x in b] == slate, "order preserved"
+    assert all(len(b) <= BOARD_SLATE_CHUNK for b in batches)
+    assert len(batches) == 3
+
+
+def test_a_slate_that_fits_is_one_batch():
+    assert len(chunk_slate(list(range(BOARD_SLATE_CHUNK)))) == 1
+    assert chunk_slate([]) == []
+
+
+def test_batches_keep_the_family_ordering_so_each_is_coherent():
+    """The 1X2 and totals are judged together, not scattered across sittings."""
+    cands = ([Cand("home_win"), Cand("draw"), Cand("away_win"), Cand("btts")]
+             + [Cand("score_%d-%d" % (i, j), instrument_id="s%d%d" % (i, j))
+                for i in range(8) for j in range(8)])
+    slate = next(iter(select_fixture_slates(cands)[0].values()))
+    first = chunk_slate(slate)[0]
+    assert all(claim_rank(c.claim) <= claim_rank(slate[-1].claim) for c in first)
+    assert claim_rank(first[0].claim) == 0
 
 
 def test_slate_order_is_stable_across_runs_over_the_same_data():

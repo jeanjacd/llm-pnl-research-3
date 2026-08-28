@@ -94,7 +94,7 @@ class DiscoveryError(RuntimeError):
 
 # Families present on-venue with no validated model. Recorded, never priced.
 UNSUPPORTED_SUFFIXES = (
-    "1H", "1HBTTS", "1HSPREAD", "1HTOTAL", "1HSCORE",
+    "1HBTTS", "1HSPREAD",
     "2H", "2HBTTS", "2HSPREAD", "2HTOTAL",
     "GOAL", "ANYGOAL", "FIRSTGOAL", "SOA", "AST",
     "CORNERS", "TCORNERS", "MOV", "FTTS", "ADVANCE",
@@ -106,6 +106,25 @@ UNSUPPORTED_SUFFIXES = (
 _REGULATION_RE = re.compile(
     r"90\s+minutes\s+plus\s+stoppage\s+time\s*\(does\s+not\s+include\s+extra\s+time",
     re.IGNORECASE)
+# First-half markets settle on the interval, not on regulation, so they carry a
+# different phrase and would otherwise be refused as "settlement basis not
+# confirmed". Verified against live rules text for 1H, 1HTOTAL and 1HSCORE.
+_FIRST_HALF_RE = re.compile(
+    r"(45\s+minutes\s+plus\s+stoppage\s+time|1st\s+Half|first\s+half)",
+    re.IGNORECASE)
+FIRST_HALF_FAMILIES = ("1H", "1HTOTAL", "1HSCORE")
+
+
+def settlement_confirmed(family: str, rules: str) -> bool:
+    """Is this market's settlement basis one we actually model?
+
+    A family is only tradeable when its rules SAY which period settles it. An
+    unstated basis is refused rather than assumed, exactly as for full-match
+    markets -- the failure mode is paying out on a number nobody observed.
+    """
+    if family in FIRST_HALF_FAMILIES:
+        return bool(_FIRST_HALF_RE.search(rules))
+    return bool(_REGULATION_RE.search(rules))
 
 
 def league_prefix(spec) -> str | None:
@@ -186,6 +205,16 @@ _SPREAD_RE = re.compile(r"^(?P<team>.+?)\s+wins?\s+by\s+more\s+than\s+"
 _TEAMTOTAL_RE = re.compile(r"^(?P<team>.+?)\s+over\s+(?P<line>[\d.]+)\s+goals?$", re.I)
 _BTTS_RE = re.compile(r"^both\s+teams\s+to\s+score$", re.I)
 _SCORE_RE = re.compile(r"^(?P<team>.+?)\s+wins?\s+(?P<a>\d+)\s*-\s*(?P<b>\d+)$", re.I)
+# First-half wordings, read from live markets 2026-08-28:
+#   1H        "Tottenham wins 1st Half" / "Tie 1st Half"
+#   1HTOTAL   "Over 2.5 1H goals scored"
+#   1HSCORE   "Tottenham Hotspur wins 1H 3-2"   (winner's goals first)
+_1H_TIE_RE = re.compile(r"^tie\s+1st\s+half$", re.I)
+_1H_WIN_RE = re.compile(r"^(?P<team>.+?)\s+wins?\s+1st\s+half$", re.I)
+_1H_TOTAL_RE = re.compile(
+    r"^over\s+(?P<line>[\d.]+)\s+1h\s+goals?\s+scored$", re.I)
+_1H_SCORE_RE = re.compile(
+    r"^(?P<team>.+?)\s+wins?\s+1h\s+(?P<a>\d+)\s*-\s*(?P<b>\d+)$", re.I)
 
 
 def claim_for(family: str, yes_sub_title: str, home: str, away: str,
@@ -230,6 +259,30 @@ def claim_for(family: str, yes_sub_title: str, home: str, away: str,
             return None
         which = side(mo.group("team"))
         return "%s_over_%s" % (which, mo.group("line")) if which else None
+    if family == "1H":
+        if _1H_TIE_RE.match(sub):
+            return "1h_draw"
+        mo = _1H_WIN_RE.match(sub)
+        if not mo:
+            return None
+        which = side(mo.group("team"))
+        return "1h_%s_win" % which if which else None
+    if family == "1HTOTAL":
+        mo = _1H_TOTAL_RE.match(sub)
+        line = mo.group("line") if mo else floor_strike
+        return "1h_total_over_%s" % line if line is not None else None
+    if family == "1HSCORE":
+        mo = _1H_SCORE_RE.match(sub)
+        if not mo:
+            return None
+        which = side(mo.group("team"))
+        a, b = int(mo.group("a")), int(mo.group("b"))
+        # As with full-match SCORE, the named team's goals come first.
+        if which == "home":
+            return "1h_score_%d-%d" % (a, b)
+        if which == "away":
+            return "1h_score_%d-%d" % (b, a)
+        return None
     if family == "SCORE":
         mo = _SCORE_RE.match(sub)
         if not mo:
@@ -307,7 +360,7 @@ class KalshiProvider(MarketDataProvider):
         supported_family = is_supported_family(family)
         rules = ((market.get("rules_primary") or "") + " "
                  + (market.get("rules_secondary") or ""))
-        regulation = bool(_REGULATION_RE.search(rules))
+        regulation = settlement_confirmed(family, rules)
         sub = market.get("yes_sub_title") or ""
         ticker = market.get("ticker", "")
 

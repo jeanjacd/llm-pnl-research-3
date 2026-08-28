@@ -581,3 +581,61 @@ def test_a_verdict_made_on_one_market_of_many_is_reopened(tmp_path):
     assert set(removed) == {"old_pass", "old_defer"}
     assert list(p.boarded) == ["slate_pass"], \
         "a verdict that DID see the whole fixture must stand"
+
+
+def test_a_fixture_larger_than_one_prompt_is_boarded_in_full(tmp_path,
+                                                             monkeypatch):
+    """Every market reaches the board, in batches, with ONE coach call."""
+    _patch_league(monkeypatch, tmp_path)
+    seen, coach_calls = [], []
+
+    def batched(cases, fixture, coach_cache=None, **kw):
+        seen.append(len(cases))
+        key = (fixture["home"], fixture["away"])
+        if coach_cache is not None and key not in coach_cache:
+            coach_cache[key] = True
+            coach_calls.append(key)
+        return {"failed_closed": False, "failure": None,
+                "coach": {"verdict": "ACCEPT", "rationale": "ok"},
+                "decisions": {c.case_id: {
+                    "case_id": c.case_id, "action": "PAPER_PLACE_LIMIT",
+                    "limit_price_cents": c.max_limit_price_cents,
+                    "contracts": 1.0, "decisive_reason": "ok"} for c in cases}}
+
+    monkeypatch.setattr(cycle_mod, "run_board_slate", batched)
+    monkeypatch.setattr(cycle_mod, "chunk_slate",
+                        lambda slate, size=1: [[c] for c in slate])
+    stats = run_cycle(state_path=str(tmp_path / "p.json"),
+                      providers=[FakeProvider()], verbose=False,
+                      fill_probes={})
+    assert stats["markets_boarded"] == sum(seen), "no market skipped"
+    assert len(coach_calls) == 1, "one coach call per fixture, not per batch"
+
+
+def test_one_broken_batch_does_not_cost_the_others(tmp_path, monkeypatch):
+    """A truncated reply fails its batch closed; the rest of the fixture must
+    still be tradeable."""
+    _patch_league(monkeypatch, tmp_path)
+    calls = {"n": 0}
+
+    def flaky(cases, fixture, **kw):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            return {"decisions": {}, "failed_closed": True,
+                    "failure": "judge: response truncated"}
+        return {"failed_closed": False, "failure": None,
+                "coach": {"verdict": "ACCEPT", "rationale": "ok"},
+                "decisions": {c.case_id: {
+                    "case_id": c.case_id, "action": "PAPER_PLACE_LIMIT",
+                    "limit_price_cents": c.max_limit_price_cents,
+                    "contracts": 1.0, "decisive_reason": "ok"} for c in cases}}
+
+    monkeypatch.setattr(cycle_mod, "run_board_slate", flaky)
+    monkeypatch.setattr(cycle_mod, "chunk_slate",
+                        lambda slate, size=1: [[c] for c in slate])
+    stats = run_cycle(state_path=str(tmp_path / "p.json"),
+                      providers=[FakeProvider()], verbose=False,
+                      fill_probes={})
+    assert stats["board_failures"] == 1
+    if stats["markets_boarded"] > 1:
+        assert stats["orders_submitted"] >= 1, "surviving batches still trade"

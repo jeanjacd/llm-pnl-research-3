@@ -65,6 +65,7 @@ SKIPPED_STATUSES = {"STATUS_CANCELED", "STATUS_POSTPONED", "STATUS_ABANDONED",
 
 SCHEMA_COLUMNS = ["date", "kickoff_utc", "known_after_utc", "home_team",
                   "away_team", "home_id", "away_id", "home_score", "away_score",
+                  "home_ht_score", "away_ht_score",
                   "tournament", "tier", "city", "country", "neutral", "status",
                   "went_to_extra_time", "event_id", "retrieved_at_utc"]
 
@@ -126,6 +127,67 @@ def fetch_window(slug: str, start: str, end: str, session=None,
 # --------------------------------------------------------------------------- #
 # parsing
 # --------------------------------------------------------------------------- #
+# The scoreboard already carries per-goal `details` with a clock and a team,
+# so half-time scores need no extra request -- verified against five real
+# matches (HT 0-0/1-0/1-0/1-0/1-0 against FT 2-1/1-2/1-1/2-2/3-0) and against
+# historical coverage, which runs 73-100% by league and era.
+#
+# The 10% or so without details must stay UNKNOWN. Reading a missing detail
+# list as 0-0 would silently teach a first-half model that goalless first
+# halves are far more common than they are.
+FIRST_HALF_MINUTE = 45
+
+
+def half_time_score(comp: dict, home_id: str, away_id: str,
+                    full_time: tuple) -> tuple:
+    """(home, away) at half time, or (None, None) when it cannot be known.
+
+    Returns a definite 0-0 when the match finished goalless: no goals at all
+    means none before the interval either, and that needs no detail list.
+    Anything reconstructed is checked against full time -- a half-time score
+    exceeding the final score means the parse is wrong, and a wrong number is
+    worse than an absent one.
+    """
+    ft_home, ft_away = full_time
+    if ft_home is None or ft_away is None:
+        return (None, None)
+    if ft_home == 0 and ft_away == 0:
+        return (0, 0)
+
+    details = comp.get("details")
+    if not details:
+        return (None, None)
+    goals = [d for d in details
+             if "Goal" in ((d.get("type") or {}).get("text") or "")]
+    if not goals:
+        return (None, None)
+
+    home = away = 0
+    for goal in goals:
+        clock = str((goal.get("clock") or {}).get("displayValue") or "")
+        # "45'+2'" is first-half stoppage; the minute before the + is what
+        # decides the half.
+        minute_text = clock.split("+")[0].replace("'", "").strip()
+        try:
+            minute = int(minute_text)
+        except ValueError:
+            return (None, None)          # unparseable clock -> unknown, not 0
+        if minute > FIRST_HALF_MINUTE:
+            continue
+        team_id = str((goal.get("team") or {}).get("id") or "")
+        # An own goal counts for the OTHER side, which is how the scoreboard
+        # already attributes it; `team` on the detail is the credited side.
+        if team_id == str(home_id):
+            home += 1
+        elif team_id == str(away_id):
+            away += 1
+        else:
+            return (None, None)          # cannot attribute -> unknown
+    if home > ft_home or away > ft_away:
+        return (None, None)              # impossible; the parse is wrong
+    return (home, away)
+
+
 def parse_event(event: dict, spec: LeagueSpec, feed: CompetitionFeed,
                 report: IngestReport, retrieved_at: str) -> dict | None:
     """One provider event -> one schema row, or None when deliberately skipped."""
@@ -183,6 +245,8 @@ def parse_event(event: dict, spec: LeagueSpec, feed: CompetitionFeed,
                               % (value, event.get("name")))
         return value
 
+    half_time = half_time_score(comp, sides["home"][0], sides["away"][0],
+                                (score("home"), score("away")))
     kickoff = pd.Timestamp(event["date"]).tz_convert(None)
     known_after = (kickoff + pd.Timedelta(minutes=REGULATION_KNOWN_AFTER_MIN)
                    if played else None)
@@ -198,6 +262,8 @@ def parse_event(event: dict, spec: LeagueSpec, feed: CompetitionFeed,
         "away_id": sides["away"][0],
         "home_score": score("home"),
         "away_score": score("away"),
+        "home_ht_score": half_time[0],
+        "away_ht_score": half_time[1],
         "tournament": label,
         "tier": tier,
         "city": address.get("city", ""),

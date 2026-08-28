@@ -34,9 +34,11 @@ from ..venues.base import changed_since, snapshot_record
 from .broker import PaperPortfolio
 from .clv import capture_closing_lines, clv_summary, pnl_summary
 from .fills import KalshiFillProbe, PolymarketFillProbe, replay_fills
+from .outcomes import is_first_half
 from .selection import (
     MAX_FIXTURE_EXPOSURE_FRACTION,
     actionable_fixtures,
+    chunk_slate,
     fixture_key,
     hours_to_kickoff,
     select_fixture_slates,
@@ -142,8 +144,35 @@ def _save_snapshot(record: dict, league_id: str, venue: str) -> str:
     return archive
 
 
+FIRST_HALF_PREFIX = "1h_"
+
+
+def ratings_for_claim(claim: str, ratings, first_half_ratings):
+    """Which fitted model may answer this claim -- or None to abstain.
+
+    A first-half claim MUST be answered from the first-half grid. Only ~40% of
+    goals arrive before the interval, so pricing `1h_total_over_1.5` off the
+    full-match grid would make every over look cheap, and nothing downstream
+    would flag it: the number would be a perfectly well-formed probability.
+
+    A league with no fitted first-half model abstains from first-half markets
+    rather than falling back, for the same reason. Full-match markets in that
+    league are unaffected.
+    """
+    if not is_first_half(claim):
+        return ratings
+    return first_half_ratings      # None -> caller abstains
+
+
 def probability_for(claim: str, prediction) -> float | None:
-    """Model probability for a supported claim, from the exact scoreline grid."""
+    """Model probability for a supported claim, from the exact scoreline grid.
+
+    A `1h_` claim is the same question asked of the FIRST-HALF grid, so the
+    prefix is stripped here and the caller is responsible for passing the
+    first-half prediction. Answering a first-half claim from the full-match
+    grid would be wrong in the direction that makes every over look cheap --
+    only ~40% of goals arrive before the interval.
+    """
     import numpy as np
     matrix = prediction.matrix
     size = matrix.shape[0]
@@ -151,6 +180,8 @@ def probability_for(claim: str, prediction) -> float | None:
     i, j = np.meshgrid(k, k, indexing="ij")
     negate = claim.startswith("not_")
     base = claim[4:] if negate else claim
+    if base.startswith(FIRST_HALF_PREFIX):
+        base = base[len(FIRST_HALF_PREFIX):]
 
     mask = None
     if base == "home_win":
@@ -328,6 +359,7 @@ def run_cycle(league_ids=None, state_path: str | None = None,
               verbose: bool = True, fill_probes=None,
               settle_enabled: bool = True) -> dict:
     """Run one full paper cycle. Returns a sanitised summary dict."""
+    from ..model.first_half import NoHalfTimeData, build_first_half_strength
     from ..model.ratings import build_team_strength
     from ..sim.match import predict_match
 
@@ -380,7 +412,8 @@ def run_cycle(league_ids=None, state_path: str | None = None,
              else all_leagues())
     for spec in specs:
         league_stats = {"instruments": 0, "supported": 0, "changed": 0,
-                        "cases": 0, "placeable": 0, "submitted": 0}
+                        "cases": 0, "placeable": 0, "submitted": 0,
+                        "first_half_abstained": 0}
         model_cfg, tuned = effective_model(spec)
         if not tuned:
             league_stats["skipped"] = "untuned -- forecasts not validated"
@@ -397,6 +430,17 @@ def run_cycle(league_ids=None, state_path: str | None = None,
         ratings = build_team_strength(train, as_of=train["date"].max(),
                                       cfg=model_cfg, verbose=False,
                                       adjustments_path=spec.adjustments_json)
+        # Fitted separately, from the same frozen engine on half-time goals.
+        # A league without enough half-time history simply has no first-half
+        # model, and its 1H markets are abstained from rather than priced off
+        # the wrong grid.
+        try:
+            first_half_ratings = build_first_half_strength(
+                train, as_of=train["date"].max(), cfg=model_cfg, verbose=False)
+            league_stats["first_half_model"] = "fitted"
+        except NoHalfTimeData as exc:
+            first_half_ratings = None
+            league_stats["first_half_model"] = str(exc)[:80]
         # kickoff_utc travels with the fixtures: it is the only reliable
         # kick-off for venues that publish a settlement time instead.
         fixture_cols = [c for c in ("date", "home_team", "away_team",
@@ -455,8 +499,13 @@ def run_cycle(league_ids=None, state_path: str | None = None,
                 leg = instrument.legs[0]
                 if not (leg.home and leg.away):
                     continue
+                source = ratings_for_claim(leg.claim, ratings,
+                                           first_half_ratings)
+                if source is None:
+                    league_stats["first_half_abstained"] += 1
+                    continue      # no fitted first-half model -> abstain
                 try:
-                    prediction = predict_match(ratings, leg.home, leg.away,
+                    prediction = predict_match(source, leg.home, leg.away,
                                                neutral=False, cfg=model_cfg)
                 except Exception:                             # noqa: BLE001
                     continue      # unrated team -> fail closed, no forecast
@@ -514,26 +563,49 @@ def run_cycle(league_ids=None, state_path: str | None = None,
         by_case = {c.case.case_id: c for c in slate}
 
         if board_enabled:
-            stats["board_run"] += 1
-            kwargs = {"coach_cache": coach_cache, "log_path": PAPER_BOARD_LOG}
-            if invoke:
-                kwargs["invoke"] = invoke
-            verdict = run_board_slate([c.case for c in slate], fixture, **kwargs)
-            if verdict.get("failed_closed"):
-                # The board did not RUN. Not a decision, so it must not consume
-                # the fixture's board or its retry -- an outage would otherwise
-                # spend the whole slate. Left unrecorded for the next run.
-                why = str(verdict.get("failure") or "board failed")
-                stats["board_failures"] += 1
-                stats.setdefault("board_failure_reasons", {})
-                stats["board_failure_reasons"][why[:120]] = (
-                    stats["board_failure_reasons"].get(why[:120], 0) + 1)
+            # A fixture with more markets than fit one prompt is boarded in
+            # several sittings that SHARE the cached coach call, so the cost is
+            # one coach plus a quant and judge per batch -- never one board per
+            # market, and never a silent cut.
+            decisions, approved = {}, []
+            fixture_failure = None
+            usable = False
+            for batch in chunk_slate(slate):
+                stats["board_run"] += 1
+                kwargs = {"coach_cache": coach_cache,
+                          "log_path": PAPER_BOARD_LOG}
+                if invoke:
+                    kwargs["invoke"] = invoke
+                verdict = run_board_slate([c.case for c in batch], fixture,
+                                          **kwargs)
+                if verdict.get("failed_closed"):
+                    # This batch broke. Other batches still stand; if none
+                    # survive the fixture is left unrecorded and comes back.
+                    why = str(verdict.get("failure") or "board failed")
+                    stats["board_failures"] += 1
+                    stats.setdefault("board_failure_reasons", {})
+                    stats["board_failure_reasons"][why[:120]] = (
+                        stats["board_failure_reasons"].get(why[:120], 0) + 1)
+                    continue
+                usable = True
+                batch_decisions = verdict.get("decisions") or {}
+                decisions.update(batch_decisions)
+                approved += [(cid, d) for cid, d in batch_decisions.items()
+                             if d.get("action") in ("PAPER_BUY_NOW",
+                                                    "PAPER_PLACE_LIMIT")]
+                if fixture_failure is None and not batch_decisions:
+                    fixture_failure = verdict
+                if "coach" in str(verdict.get("failure") or "").lower():
+                    # The analyst's objection is to the MATCH, so the remaining
+                    # batches would only re-derive it from the cached verdict.
+                    fixture_failure = verdict
+                    break
+            if not usable:
+                # Every batch broke: not a decision, so the fixture keeps its
+                # board and its retry and is picked up again next run.
                 continue
-            decisions = verdict.get("decisions") or {}
-            decided_by, why = slate_reason(verdict)
-            approved = [(cid, d) for cid, d in decisions.items()
-                        if d.get("action") in ("PAPER_BUY_NOW",
-                                               "PAPER_PLACE_LIMIT")]
+            decided_by, why = slate_reason(fixture_failure
+                                           or {"judge": decisions})
         else:
             decisions, approved = {}, []
             decided_by, why = "deterministic", "board disabled"
@@ -589,7 +661,8 @@ def run_cycle(league_ids=None, state_path: str | None = None,
                     # re-querying a market that has closed, or re-running venue
                     # name matching weeks on.
                     claim=cand.claim, home_team=cand.leg.home,
-                    away_team=cand.leg.away, kickoff_utc=cand.leg.kickoff_utc)
+                    away_team=cand.leg.away, kickoff_utc=cand.leg.kickoff_utc,
+                    settles_on_regulation=cand.instrument.settles_on_regulation)
             except Exception as exc:                          # noqa: BLE001
                 league_stats.setdefault("errors", []).append(
                     "submit: %s" % str(exc)[:80])
@@ -639,7 +712,9 @@ def render_summary(stats: dict) -> str:
                   "| CLV per fixture | %s c |" % clv.get("clv_cents"),
                   "| t-stat (on fixtures) | %s |" % clv.get("t_stat"),
                   "| independent fixtures | %s |" % clv.get("n_fixtures"),
-                  "| bets behind them | %s |" % clv.get("n_bets"),
+                  "| directional bets scored | %s |" % clv.get("n_bets"),
+                  "| excluded as spread capture | %s |"
+                  % clv.get("n_excluded_as_spread", 0),
                   "| bets per fixture | %s |" % clv.get("bets_per_fixture"),
                   ""]
         if (clv.get("n_fixtures") or 0) < 246:
@@ -715,14 +790,22 @@ def render_summary(stats: dict) -> str:
     port = stats.get("portfolio") or {}
     pnl = stats.get("pnl") or {}
     if pnl.get("n_bets"):
-        lines += ["", "### Realised P&L (clustered by fixture)", "",
-                  "| metric | value |", "|---|---|",
-                  "| P&L per fixture | $%s |" % pnl.get("pnl_per_fixture_usd"),
-                  "| t-stat (on fixtures) | %s |" % pnl.get("t_stat"),
+        # Forecast and spread capture are never summed. An offsetting pair is
+        # locked the moment both legs fill and carries no view, so folding it
+        # into the headline would report captured width as forecasting skill.
+        lines += ["", "### Realised P&L", "",
+                  "| component | value |", "|---|---|",
+                  "| **forecast** (per fixture) | $%s |"
+                  % pnl.get("forecast_pnl_per_fixture_usd"),
+                  "| forecast t-stat (on fixtures) | %s |" % pnl.get("t_stat"),
+                  "| forecast total | $%s |" % pnl.get("forecast_pnl_usd"),
+                  "| spread capture | $%s |" % pnl.get("spread_pnl_usd"),
+                  "| **realised total** | $%s |" % pnl.get("pnl_usd"),
                   "| independent fixtures | %s |" % pnl.get("n_fixtures"),
-                  "| settled bets behind them | %s |" % pnl.get("n_bets"),
-                  "| bets per fixture | %s |" % pnl.get("bets_per_fixture"),
-                  "| total | $%s |" % pnl.get("pnl_usd"), ""]
+                  "| settled bets | %s |" % pnl.get("n_bets"), "",
+                  "_Only the directional remainder is scored as forecasting. "
+                  "An offsetting pair's return is fixed once filled, whatever "
+                  "the result._", ""]
 
     lines += ["", "### Portfolio", "", "| metric | value |", "|---|---|"]
     for key in ("cash_usd", "reserved_usd", "n_open_orders",
