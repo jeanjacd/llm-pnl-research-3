@@ -91,10 +91,10 @@
       "reason": "Research confirms Alav\u00e9s' stronger start (4 pts, win vs Getafe, draw vs Rayo) vs Villarreal (2 pts, two draws). Alav\u00e9s hold significant home advantage at Mendizorroza. However, critical gaps exist: Villarreal injuries status is incompletely specified (Gerard Moreno and Sergi flagged as monitor-only, not confirmed absences); Alav\u00e9s suspension status unclear (F. Garc\u00e9s potentially long-term suspensi"
     },
     "la_liga|Racing Santander|Elche|2026-08-28": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-08-28T08:41:12.398187+00:00",
-      "hours_to_kickoff": 8.3,
-      "ts": "2026-08-28T08:41:12.398206+00:00",
+      "hours_to_kickoff": 6.6,
+      "ts": "2026-08-28T10:21:20.869364+00:00",
       "action": "DEFER",
       "claim": "not_away_win",
       "home": "Racing Santander",
@@ -102,7 +102,7 @@
       "markets_considered": 133,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Critical injury status remains unconfirmed for Elche's Adam Boayar (late fitness test required), which materially affects attacking capacity and match simulation. Racing's recent competitive form (draw vs Villarreal, loss vs Getafe after promotion) and Mart\u00edn Anselmi's tactical overhaul at Elche (new 5-2-3 press-based system) create meaningful asymmetries that should be explicitly tested. Elche's "
+      "reason": "Elche's away-win probability is materially undermined by recent match context, squad instability, and tactical concerns. Elche suffered a catastrophic 0-5 defeat to Barcelona 5 days prior, conceding 5 in a single match\u2014a severe psychological and physical toll on a relegation-form squad. They are 18th in the table with only 1 point from 2 matches (1 draw, 1 loss of 0-5). Racing, despite struggling "
     },
     "ligue_1|Lille|Paris Saint-Germain|2026-08-28": {
       "attempts": 1,
@@ -173,7 +173,35 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Manchester City's tactical dominance, superior squad depth despite departures, and unbeaten recent record at Selhurst Park (W7 D3 in last 10) strongly favors a decisive result. Crystal Palace's defensive fragility (2-0 loss to Everton, losing Riad), attacking inconsistency, and Pierre Sage's managerial debut disadvantage are incompatible with the draw claim. While Maresca's City showed defensive v"
+    },
+    "la_liga|Levante|Real Betis|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T10:16:58.819213+00:00",
+      "hours_to_kickoff": 28.7,
+      "ts": "2026-08-28T10:16:58.819269+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "Levante",
+      "away": "Real Betis",
+      "markets_considered": 120,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Levante has scored zero goals in two La Liga matches (0-3 vs Espanyol, 0-0 vs Osasuna), with no shots on target vs Espanyol. Real Betis has conceded one goal in two away matches, showing defensive solidity (1-0 vs Real Sociedad, 0-1 vs Valencia). Under Manuel Pellegrini, Betis are tactically mature and defensively organized; \u00c1lvaro Vall\u00e9s is performing at 7.02 average with clean-sheet strength. Le"
+    },
+    "ligue_1|Strasbourg|Lens|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T10:27:08.930974+00:00",
+      "hours_to_kickoff": 28.8,
+      "ts": "2026-08-28T10:27:08.930996+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "Strasbourg",
+      "away": "Lens",
+      "markets_considered": 114,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Strasbourg's structural disadvantages overwhelm any home-ground benefit. Hugo Oliveira's new regime faces compounding damage: captain/midfield anchor El Mourabet suspended (red card, matchday 1); primary striker Panichelli out 6+ months (ACL); and the team already leaked 4 goals to Marseille with no shots on goal. Lens, despite defensive injuries (Gradit, Chavez, Celik, Baidoo compromised, Antonio"
     }
   },
-  "saved_at": "2026-08-28T09:08:57.749254+00:00"
+  "saved_at": "2026-08-28T10:27:08.932584+00:00"
 }
