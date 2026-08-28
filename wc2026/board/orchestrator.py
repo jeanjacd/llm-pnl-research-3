@@ -33,9 +33,12 @@ from .schemas import (
     assert_no_price_leak,
     coach_packet,
     quant_packet,
+    quant_slate_packet,
     validate_coach,
     validate_judge,
+    validate_judge_slate,
     validate_quant,
+    validate_quant_slate,
 )
 
 BOARD_LOG = os.path.join("data", "betting", "board_audit.jsonl")
@@ -335,3 +338,198 @@ Reply with ONLY this JSON object:
        json.dumps(quant, indent=1, default=str)[:2000],
        json.dumps(coach, indent=1, default=str)[:2000],
        case.case_id)
+
+
+# --- slate board: one call per FIXTURE, a verdict per market -------------------
+def build_quant_slate_prompt(rows, fixture) -> str:
+    return """You are the QUANTITATIVE member of a betting board: a statistician and
+logician AUDITING deterministic calculations. You do not recompute from prose
+and you do not invent substitute numbers.
+
+Fixture: %s
+Every candidate market on this fixture, all numbers already computed in code:
+%s
+
+Audit each market: contract/simulation alignment; calibration and validation
+maturity; fee, price, depth and book-walk assumptions; and how sensitive the
+conclusion is to the probability bound. Markets on one fixture are NOT
+independent -- several express the same directional view, so say so where a
+group would win or lose together.
+
+For each market you may CONFIRM or REDUCE the computed maximum price and size.
+You may NEVER raise either.
+
+PREFER A RESTING LIMIT TO CROSSING THE SPREAD. Taking the touch pays the spread
+and the taker fee on every trade, and on Polymarket a maker pays no fee at all.
+Use BUY_NOW only when the touch itself clears the hurdle with room to spare;
+otherwise PLACE_LIMIT at the highest price that still clears it, which is what
+max_limit_price_cents already is.
+
+Return a decision for EVERY case_id listed. Reply with ONLY this JSON object:
+{"decisions": [
+  {"case_id": "<exact id>",
+   "action": "BUY_NOW"|"PLACE_LIMIT"|"WAIT_FOR_QUOTE"|"PASS"|"DEFER"|"UNSUPPORTED",
+   "proposed_price_cents": <int, required iff BUY_NOW or PLACE_LIMIT>,
+   "contracts": <number, required iff BUY_NOW or PLACE_LIMIT>,
+   "rationale": "<concise>",
+   "counterarguments": ["<strongest reason this is wrong>"],
+   "veto_codes": []}
+]}
+""" % (json.dumps({k: fixture.get(k) for k in ("home", "away", "league_id",
+                                               "kickoff_utc")}, default=str),
+       json.dumps(rows, indent=1, default=str)[:14000])
+
+
+def build_judge_slate_prompt(rows, quant, coach, fixture) -> str:
+    return """You are the JUDGE of a betting board. The quantitative member and the
+soccer analyst worked independently and are now sealed. You decide.
+
+Fixture: %s
+
+Deterministic candidates:
+%s
+
+Quantitative member, per market:
+%s
+
+Soccer analyst, fixture-level, never shown any price:
+%s
+
+You may CONFIRM or TIGHTEN each price and size. You may NEVER raise either, and
+you may not approve a market the quantitative member did not.
+
+These markets share one fixture and one scoreline grid, so several of them win
+or lose together. Approving every variant of a single directional view
+concentrates risk without diversifying it -- prefer the clearest expression of
+a view to all of its restatements.
+
+Prefer a resting limit to crossing the spread wherever both clear the hurdle.
+
+Return a decision for EVERY case_id listed. Reply with ONLY this JSON object:
+{"decisions": [
+  {"case_id": "<exact id>",
+   "action": "PAPER_BUY_NOW"|"PAPER_PLACE_LIMIT"|"PASS"|"DEFER"|"UNSUPPORTED",
+   "limit_price_cents": <int, required iff placeable>,
+   "contracts": <number, required iff placeable>,
+   "decisive_reason": "<concise>",
+   "strongest_counterpoint": "<the best argument against>",
+   "veto_codes": []}
+]}
+""" % (json.dumps({k: fixture.get(k) for k in ("home", "away", "league_id",
+                                               "kickoff_utc")}, default=str),
+       json.dumps(rows, indent=1, default=str)[:9000],
+       json.dumps(quant, indent=1, default=str)[:6000],
+       json.dumps({k: coach.get(k) for k in
+                   ("verdict", "rationale", "findings", "required_reruns")},
+                  indent=1, default=str)[:6000])
+
+
+def run_board_slate(cases, fixture, invoke=invoke_member,
+                    quant_model: str = "claude-haiku-4-5",
+                    coach_model: str = "claude-haiku-4-5",
+                    judge_model: str = "claude-haiku-4-5",
+                    timeout: float = _DEFAULT_TIMEOUT,
+                    log_path: str | None = None,
+                    coach_cache: dict | None = None) -> dict:
+    """Board every candidate market on ONE fixture in a single sitting.
+
+    Boarding one market per fixture threw the rest away: a quant PASS on one
+    price closed the whole match, though it said nothing about the totals or
+    the scorelines on it. The unit of MEASUREMENT is still the fixture -- 34
+    bets on one match are one observation -- but the unit of ACTION is the
+    market, and conflating the two cost coverage for a statistical property
+    that cluster-robust summaries provide anyway.
+
+    Costs about the same as boarding a single market: the coach is
+    fixture-level and already cached, and the quant and judge each see the
+    whole ladder in one call rather than one call per market.
+
+    Every case not explicitly approved by BOTH the quant and the judge
+    resolves to no order, exactly as the single-case path does.
+    """
+    result = {"decisions": {}, "quant": None, "coach": None, "judge": None,
+              "failure": None, "failed_closed": False,
+              "prompt_version": PROMPT_VERSION, "ts": _utcnow()}
+    cases = [c for c in cases if c.action in (BUY_NOW, PLACE_LIMIT)]
+    if not cases:
+        result["failure"] = "no placeable market on this fixture"
+        return result
+
+    rows = quant_slate_packet(cases)
+    ceilings = {c.case_id: {"price": c.max_limit_price_cents, "size": None}
+                for c in cases}
+
+    try:
+        quant_raw = invoke(build_quant_slate_prompt(rows, fixture), quant_model,
+                           allowed_tools=(), timeout=timeout)
+        quant = validate_quant_slate(quant_raw, ceilings)
+    except (BoardFailure, SchemaError) as exc:
+        result["failure"] = "quant: %s" % exc
+        result["failed_closed"] = True
+        audit("board_failed_closed", result, log_path)
+        return result
+    result["quant"] = quant
+
+    cache_key = "%s|%s|%s|%s" % (fixture.get("league_id"), fixture.get("home"),
+                                 fixture.get("away"),
+                                 str(fixture.get("kickoff_utc") or "")[:10])
+    cached = coach_cache.get(cache_key) if coach_cache is not None else None
+    packet = coach_packet(cases[0], fixture)
+    try:
+        assert_no_price_leak(packet)
+        if cached is not None:
+            coach = dict(cached, reused_for_fixture=cache_key)
+        else:
+            coach_raw = invoke(build_coach_prompt(packet), coach_model,
+                               allowed_tools=("WebSearch", "WebFetch"),
+                               timeout=timeout)
+            coach = validate_coach(coach_raw, packet.get("case_id"))
+            if coach_cache is not None:
+                coach_cache[cache_key] = coach
+    except (BoardFailure, SchemaError) as exc:
+        result["failure"] = "coach: %s" % exc
+        result["failed_closed"] = True
+        audit("board_failed_closed", result, log_path)
+        return result
+    result["coach"] = coach
+
+    # A fixture-level veto stops the whole slate: the analyst's objection is to
+    # the MATCH, not to one price on it.
+    if coach["verdict"] in ("REJECT", "UNSUPPORTED"):
+        result["failure"] = "coach veto (%s)" % coach["verdict"]
+        audit("board_vetoed", result, log_path)
+        return result
+    if coach["verdict"] == "DEFER" or coach["required_reruns"]:
+        result["failure"] = "coach requires a rerun or deferred"
+        audit("board_deferred", result, log_path)
+        return result
+
+    approved = {cid: v for cid, v in quant.items()
+                if v["action"] in (BUY_NOW, PLACE_LIMIT)}
+    if not approved:
+        result["failure"] = "quantitative veto on every market"
+        audit("board_vetoed", result, log_path)
+        return result
+
+    judge_ceilings = {
+        cid: {"price": min([p for p in (ceilings[cid]["price"],
+                                        approved[cid].get("proposed_price_cents"))
+                            if p is not None] or [None]),
+              "size": approved[cid].get("contracts")}
+        for cid in approved}
+    live = [r for r in rows if r["case_id"] in approved]
+    try:
+        judge_raw = invoke(
+            build_judge_slate_prompt(live, approved, coach, fixture),
+            judge_model, allowed_tools=(), timeout=timeout)
+        judge = validate_judge_slate(judge_raw, judge_ceilings)
+    except (BoardFailure, SchemaError) as exc:
+        result["failure"] = "judge: %s" % exc
+        result["failed_closed"] = True
+        audit("board_failed_closed", result, log_path)
+        return result
+
+    result["judge"] = judge
+    result["decisions"] = judge
+    audit("board_decision", result, log_path)
+    return result

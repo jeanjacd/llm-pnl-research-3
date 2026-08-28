@@ -134,11 +134,15 @@ def _patch_league(monkeypatch, tmp_path):
 def _approve_board(monkeypatch):
     from wc2026.paper import cycle as cycle_mod
 
-    def fake_board(case, fixture, **kw):
-        return {"case_id": case.case_id, "action": "PAPER_BUY_NOW",
-                "judge": {"limit_price_cents": case.max_limit_price_cents,
-                          "contracts": 5.0}}
-    monkeypatch.setattr(cycle_mod, "run_board", fake_board)
+    def fake_board(cases, fixture, **kw):
+        return {"failed_closed": False, "failure": None,
+                "coach": {"verdict": "ACCEPT", "rationale": "fine"},
+                "decisions": {c.case_id: {
+                    "case_id": c.case_id, "action": "PAPER_BUY_NOW",
+                    "limit_price_cents": c.max_limit_price_cents,
+                    "contracts": 5.0,
+                    "decisive_reason": "approved"} for c in cases}}
+    monkeypatch.setattr(cycle_mod, "run_board_slate", fake_board)
 
 
 def test_cycle_builds_cases_and_submits(tmp_path, monkeypatch):
@@ -201,9 +205,12 @@ def test_untuned_league_is_skipped(tmp_path, monkeypatch):
 def test_board_rejection_blocks_submission(tmp_path, monkeypatch):
     from wc2026.paper import cycle as cycle_mod
     _patch_league(monkeypatch, tmp_path)
-    monkeypatch.setattr(cycle_mod, "run_board",
-                        lambda case, fixture, **kw: {"case_id": case.case_id,
-                                                     "action": "DEFER"})
+    monkeypatch.setattr(cycle_mod, "run_board_slate",
+                        lambda cases, fixture, **kw: {
+                            "decisions": {}, "failed_closed": False,
+                            "failure": "coach veto (REJECT)",
+                            "coach": {"verdict": "REJECT",
+                                      "rationale": "declined"}})
     stats = run_cycle(state_path=str(tmp_path / "p.json"),
                       providers=[FakeProvider()], verbose=False)
     assert stats["orders_submitted"] == 0
@@ -265,7 +272,7 @@ def test_a_run_with_no_fixture_in_the_window_makes_no_model_calls(tmp_path,
         raise AssertionError("a model was invoked on a run with no fixtures")
 
     monkeypatch.setattr("wc2026.board.orchestrator.invoke_member", explode)
-    monkeypatch.setattr("wc2026.paper.cycle.run_board", explode)
+    monkeypatch.setattr("wc2026.paper.cycle.run_board_slate", explode)
 
     # 40h out: comfortably inside the deterministic layer's 96h horizon, so
     # the case is built and PLACEABLE, but outside the board window's 30h
@@ -347,14 +354,14 @@ def test_the_reason_reaches_the_boarded_ledger_and_the_summary(tmp_path,
     not survive the runner."""
     _patch_league(monkeypatch, tmp_path)
 
-    def veto(case, fixture, **kw):
-        return {"action": "DEFER", "case_id": case.case_id,
+    def veto(cases, fixture, **kw):
+        return {"failed_closed": False, "decisions": {},
                 "failure": "coach veto (REJECT)",
-                "quant": {"rationale": "fine"},
-                "coach": {"rationale": "Keeper ruled out an hour before kick-off."},
-                "judge": None}
+                "quant": {}, "judge": None,
+                "coach": {"verdict": "REJECT",
+                          "rationale": "Keeper ruled out an hour before kick-off."}}
 
-    monkeypatch.setattr(cycle_mod, "run_board", veto)
+    monkeypatch.setattr(cycle_mod, "run_board_slate", veto)
     stats = run_cycle(state_path=str(tmp_path / "portfolio.json"),
                       providers=[FakeProvider()], verbose=False, fill_probes={})
 
@@ -380,16 +387,15 @@ def test_the_summary_shows_the_reason_without_dumping_the_transcript(tmp_path,
     _patch_league(monkeypatch, tmp_path)
     secret = "SOURCE-URL-THAT-MUST-NOT-APPEAR"
 
-    def veto(case, fixture, **kw):
-        return {"action": "DEFER", "case_id": case.case_id,
+    def veto(cases, fixture, **kw):
+        return {"failed_closed": False, "decisions": {},
                 "failure": "coach requires a rerun or deferred",
-                "quant": {"rationale": "ok"},
-                "coach": {"rationale": "x" * 900,
+                "quant": {}, "judge": None,
+                "coach": {"verdict": "DEFER", "rationale": "x" * 900,
                           "findings": [{"text": secret}],
-                          "sources": [secret]},
-                "judge": None}
+                          "sources": [secret]}}
 
-    monkeypatch.setattr(cycle_mod, "run_board", veto)
+    monkeypatch.setattr(cycle_mod, "run_board_slate", veto)
     stats = run_cycle(state_path=str(tmp_path / "portfolio.json"),
                       providers=[FakeProvider()], verbose=False, fill_probes={})
     rendered = render_summary(stats)
@@ -420,14 +426,13 @@ def test_a_board_that_could_not_run_is_not_recorded_as_a_decision(tmp_path,
     """
     _patch_league(monkeypatch, tmp_path)
 
-    def broke(case, fixture, **kw):
-        return {"action": "DEFER", "case_id": case.case_id,
-                "failed_closed": True,
+    def broke(cases, fixture, **kw):
+        return {"decisions": {}, "failed_closed": True,
                 "failure": "quant: member invocation failed: "
                            "[Errno 2] No such file or directory: 'claude'",
                 "quant": None, "coach": None, "judge": None}
 
-    monkeypatch.setattr(cycle_mod, "run_board", broke)
+    monkeypatch.setattr(cycle_mod, "run_board_slate", broke)
     state = str(tmp_path / "portfolio.json")
     stats = run_cycle(state_path=state, providers=[FakeProvider()],
                       verbose=False, fill_probes={})
@@ -449,14 +454,13 @@ def test_a_genuine_defer_still_consumes_the_fixture(tmp_path, monkeypatch):
     """The mirror: a real deferral IS recorded, or the retry cap means nothing."""
     _patch_league(monkeypatch, tmp_path)
 
-    def declined(case, fixture, **kw):
-        return {"action": "DEFER", "case_id": case.case_id,
-                "failed_closed": False,
+    def declined(cases, fixture, **kw):
+        return {"decisions": {}, "failed_closed": False,
                 "failure": "coach requires a rerun or deferred",
-                "quant": {"rationale": "ok"},
-                "coach": {"rationale": "Keeper unconfirmed."}, "judge": None}
+                "quant": {}, "judge": None,
+                "coach": {"verdict": "DEFER", "rationale": "Keeper unconfirmed."}}
 
-    monkeypatch.setattr(cycle_mod, "run_board", declined)
+    monkeypatch.setattr(cycle_mod, "run_board_slate", declined)
     state = str(tmp_path / "portfolio.json")
     stats = run_cycle(state_path=state, providers=[FakeProvider()],
                       verbose=False, fill_probes={})
@@ -527,3 +531,31 @@ def test_the_purge_runs_before_selection_so_the_fixture_is_not_lost(tmp_path,
     assert stats["phantom_decisions_purged"] == 1
     assert stats["fixtures_selected"] == 1, "reopened, and boarded this run"
     assert "Reopened" in render_summary(stats)
+
+
+def test_one_fixture_cannot_consume_the_bankroll(tmp_path, monkeypatch):
+    """Trading the whole ladder concentrates risk on one match -- those markets
+    share a scoreline grid, so a wrong read loses on many at once.
+    Diversification across markets on ONE fixture is mostly illusory."""
+    _patch_league(monkeypatch, tmp_path)
+
+    def approve_big(cases, fixture, **kw):
+        return {"failed_closed": False, "failure": None,
+                "coach": {"verdict": "ACCEPT", "rationale": "ok"},
+                "decisions": {c.case_id: {
+                    "case_id": c.case_id, "action": "PAPER_PLACE_LIMIT",
+                    "limit_price_cents": c.max_limit_price_cents,
+                    "contracts": 500.0,          # deliberately enormous
+                    "decisive_reason": "ok"} for c in cases}}
+
+    monkeypatch.setattr(cycle_mod, "run_board_slate", approve_big)
+    state = str(tmp_path / "portfolio.json")
+    stats = run_cycle(state_path=state, providers=[FakeProvider()],
+                      verbose=False, fill_probes={})
+
+    portfolio = PaperPortfolio.load(state)
+    risk = sum(o.limit_price_cents * o.requested_size
+               for o in portfolio.orders.values())
+    ceiling = portfolio.starting_cash_cents * cycle_mod.MAX_FIXTURE_EXPOSURE_FRACTION
+    assert risk <= ceiling, "one fixture must not exceed its exposure cap"
+    assert stats.get("exposure_capped", 0) >= 0

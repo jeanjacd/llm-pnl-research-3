@@ -9,6 +9,7 @@ from wc2026.paper.selection import (
     BOARD_RUN_SLACK_HOURS,
     BOARD_TARGET_HOURS,
     BOARD_WINDOW_HOURS,
+    MAX_MARKETS_PER_FIXTURE,
     RETRY_MAX_ATTEMPTS,
     actionable_ceiling_hours,
     actionable_fixtures,
@@ -19,7 +20,7 @@ from wc2026.paper.selection import (
     fixture_key,
     hours_to_kickoff,
     retry_by_hours,
-    select_one_per_fixture,
+    select_fixture_slates,
 )
 
 
@@ -74,51 +75,73 @@ def test_an_unknown_claim_sorts_last_rather_than_first():
     assert claim_rank("corners_over_9.5") > claim_rank("score_2-1")
 
 
-def test_one_fixture_yields_exactly_one_selection():
-    """The measured shape: 34 markets on a match are 1 observation."""
+def test_a_fixture_yields_ONE_slate_containing_every_market():
+    """34 markets on a match are 1 OBSERVATION but 34 tradeable decisions.
+    Boarding one and discarding the rest confused the two."""
     cands = [Cand("away_over_%s" % x) for x in ("0.5", "1.5", "2.5")]
     cands += [Cand("away_win"), Cand("btts"), Cand("draw")]
-    selected, skipped = select_one_per_fixture(cands)
-    assert len(selected) == 1
-    assert len(skipped) == len(cands) - 1
+    slates, skipped = select_fixture_slates(cands)
+    assert len(slates) == 1, "one fixture"
+    assert len(next(iter(slates.values()))) == len(cands), "every market kept"
+    assert skipped == []
 
 
-def test_the_best_validated_family_wins_over_a_juicier_long_shot():
-    """A 40c EV on an exact scoreline must not outrank a 1c EV on 1X2."""
-    long_shot = Cand("score_4-3", ev=40.0)
-    solid = Cand("home_win", ev=1.0)
-    selected, _ = select_one_per_fixture([long_shot, solid])
-    assert selected[0].claim == "home_win"
+def test_the_best_validated_family_leads_the_slate():
+    """Both are kept, but 1X2 leads the prompt and survives any cap; a 40c EV
+    on an exact scoreline must not displace a 1c EV on 1X2."""
+    slates, _ = select_fixture_slates([Cand("score_4-3", ev=40.0),
+                                       Cand("home_win", ev=1.0)])
+    slate = next(iter(slates.values()))
+    assert [c.claim for c in slate] == ["home_win", "score_4-3"]
 
 
-def test_ev_breaks_ties_inside_a_family():
-    lo, hi = Cand("home_win", ev=1.0), Cand("away_win", ev=9.0)
-    selected, _ = select_one_per_fixture([lo, hi])
-    assert selected[0].claim == "away_win"
+def test_ev_orders_within_a_family():
+    slates, _ = select_fixture_slates([Cand("home_win", ev=1.0),
+                                       Cand("away_win", ev=9.0)])
+    assert [c.claim for c in next(iter(slates.values()))] == ["away_win",
+                                                             "home_win"]
 
 
-def test_selection_is_stable_across_runs_over_the_same_data():
+def test_the_slate_is_capped_and_says_what_it_cut():
+    """One prompt holds the slate; a fixture quoting hundreds of scorelines
+    would crowd out the numbers that matter. The cut falls on the least
+    validated families, and is reported."""
+    cands = ([Cand("home_win"), Cand("draw"), Cand("away_win")]
+             + [Cand("score_%d-%d" % (i, j), instrument_id="s%d%d" % (i, j))
+                for i in range(8) for j in range(8)])
+    slates, skipped = select_fixture_slates(cands)
+    slate = next(iter(slates.values()))
+    assert len(slate) == MAX_MARKETS_PER_FIXTURE
+    assert [c.claim for c in slate[:3]] == ["home_win", "away_win", "draw"] or         all(claim_rank(c.claim) == 0 for c in slate[:3])
+    assert skipped and all("cap" in r for _, r in skipped)
+    assert all(claim_rank(c.claim) > 0 for c, _ in skipped), "1X2 must survive"
+
+
+def test_slate_order_is_stable_across_runs_over_the_same_data():
     cands = [Cand("home_win", ev=5.0, venue="kalshi", instrument_id="K"),
              Cand("draw", ev=5.0, venue="polymarket", instrument_id="P")]
-    first, _ = select_one_per_fixture(cands)
-    second, _ = select_one_per_fixture(list(reversed(cands)))
-    assert first[0].instrument.instrument_id == second[0].instrument.instrument_id
+    a, _ = select_fixture_slates(cands)
+    b, _ = select_fixture_slates(list(reversed(cands)))
+    ids = lambda d: [c.instrument.instrument_id for c in next(iter(d.values()))]
+    assert ids(a) == ids(b)
 
 
 def test_distinct_fixtures_each_get_a_selection():
     cands = [Cand("home_win", home="A", away="B"),
              Cand("home_win", home="C", away="D"),
              Cand("draw", home="C", away="D")]
-    selected, _ = select_one_per_fixture(cands)
-    assert len(selected) == 2
+    slates, _ = select_fixture_slates(cands)
+    assert len(slates) == 2
 
 
 def test_the_two_venues_quoting_one_match_are_still_one_fixture():
-    """Otherwise the same match counts twice as an 'independent' observation."""
+    """One observation, but both venues stay tradeable -- the cheaper book may
+    be either of them."""
     cands = [Cand("home_win", venue="kalshi", instrument_id="K"),
              Cand("home_win", venue="polymarket", instrument_id="P")]
-    selected, _ = select_one_per_fixture(cands)
-    assert len(selected) == 1
+    slates, _ = select_fixture_slates(cands)
+    assert len(slates) == 1
+    assert len(next(iter(slates.values()))) == 2
 
 
 # --- lead-time targeting ------------------------------------------------------
@@ -161,15 +184,15 @@ def test_the_window_is_wider_than_the_schedulers_interval():
 
 def test_selection_drops_out_of_window_fixtures_with_a_named_reason():
     early = Cand("home_win", kickoff=in_window(120))
-    selected, skipped = select_one_per_fixture([early])
-    assert selected == []
+    slates, skipped = select_fixture_slates([early])
+    assert slates == {}
     assert "too_early" in skipped[0][1]
 
 
 def test_lead_time_can_be_turned_off_for_a_backfill():
     early = Cand("home_win", kickoff=in_window(500))
-    selected, _ = select_one_per_fixture([early], use_lead_time=False)
-    assert len(selected) == 1
+    slates, _ = select_fixture_slates([early], use_lead_time=False)
+    assert len(slates) == 1
 
 
 def test_kickoff_minutes_apart_do_not_split_one_fixture_in_two():
@@ -185,8 +208,8 @@ def test_a_fixture_the_board_has_decided_is_not_boarded_again():
     problem."""
     cand = Cand("home_win")
     ledger = {cand.fixture_key: {"action": "PASS", "attempts": 1}}
-    selected, skipped = select_one_per_fixture([cand], ledger)
-    assert selected == []
+    slates, skipped = select_fixture_slates([cand], ledger)
+    assert slates == {}
     assert "already decided" in skipped[0][1]
 
 
@@ -199,43 +222,43 @@ def test_a_deferral_is_retried_rather_than_being_permanent():
     """A DEFER is the board asking to be run again once team news lands.
     Recording it as final barred exactly the thing it asked for."""
     cand = Cand("home_win", kickoff=in_window(6))
-    selected, _ = select_one_per_fixture(
+    slates, _ = select_fixture_slates(
         [cand], {cand.fixture_key: deferred()})
-    assert len(selected) == 1
+    assert len(slates) == 1
 
 
 def test_a_pass_or_reject_is_never_retried():
     """The safeguard: only a lack of INFORMATION is retried, never a decision."""
     for action in ("PASS", "PAPER_PLACE_LIMIT", "PAPER_BUY_NOW", "UNSUPPORTED"):
         cand = Cand("home_win", kickoff=in_window(6))
-        selected, skipped = select_one_per_fixture(
+        slates, skipped = select_fixture_slates(
             [cand], {cand.fixture_key: {"action": action, "attempts": 1}})
-        assert selected == [], action
+        assert slates == {}, action
         assert "already decided" in skipped[0][1]
 
 
 def test_a_deferral_is_retried_only_once():
     cand = Cand("home_win", kickoff=in_window(6))
-    selected, skipped = select_one_per_fixture(
+    slates, skipped = select_fixture_slates(
         [cand], {cand.fixture_key: deferred(attempts=RETRY_MAX_ATTEMPTS)})
-    assert selected == []
+    assert slates == {}
     assert "already retried" in skipped[0][1]
 
 
 def test_the_retry_is_held_back_for_nearer_kickoff():
     """Retrying immediately wastes it on the same missing team news."""
     cand = Cand("home_win", kickoff=in_window(28))
-    selected, skipped = select_one_per_fixture(
+    slates, skipped = select_fixture_slates(
         [cand], {cand.fixture_key: deferred()})
-    assert selected == []
+    assert slates == {}
     assert "holding the retry" in skipped[0][1]
 
 
 def test_the_retry_is_abandoned_if_there_is_no_time_left_to_fill():
     cand = Cand("home_win", kickoff=in_window(0.5))
-    selected, skipped = select_one_per_fixture(
+    slates, skipped = select_fixture_slates(
         [cand], {cand.fixture_key: deferred()})
-    assert selected == []
+    assert slates == {}
     assert "too late" in skipped[0][1]
 
 
@@ -281,20 +304,21 @@ def test_every_deferred_fixture_gets_its_retry_before_kick_off():
 def test_every_dropped_candidate_carries_a_reason():
     """A silent cap reads as 'we looked at everything'."""
     cands = [Cand("home_win"), Cand("score_1-0"), Cand("btts")]
-    selected, skipped = select_one_per_fixture(cands)
-    assert len(selected) + len(skipped) == len(cands)
+    slates, skipped = select_fixture_slates(cands)
+    kept = sum(len(g) for g in slates.values())
+    assert kept + len(skipped) == len(cands), "nothing vanishes unaccounted for"
     assert all(isinstance(reason, str) and reason for _, reason in skipped)
 
 
 def test_nothing_in_yields_nothing_out():
-    assert select_one_per_fixture([]) == ([], [])
+    assert select_fixture_slates([]) == ({}, [])
 
 
 def test_a_missing_ev_does_not_crash_the_ranking():
     cand = Cand("home_win")
     cand.case.ev_per_contract = None
-    selected, _ = select_one_per_fixture([cand])
-    assert len(selected) == 1
+    slates, _ = select_fixture_slates([cand])
+    assert len(slates) == 1
 
 
 @pytest.mark.parametrize("claim", ["home_win", "away_win", "draw"])

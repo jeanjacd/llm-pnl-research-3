@@ -220,3 +220,44 @@ def test_polymarket_closing_line_takes_the_last_point_before_kickoff():
         {"t": ts + 300, "p": 0.95},          # in-play
     ]))
     assert probe.closing_price_cents("cond", "yes", kickoff) == pytest.approx(42.0)
+
+
+# --- realised P&L, clustered the same way -------------------------------------
+def a_settled(portfolio, instrument, pnl_cents, home="A", away="B",
+              kickoff=PAST, side="yes"):
+    pos = a_position(portfolio, instrument=instrument, home=home, away=away,
+                     kickoff=kickoff, side=side)
+    pos.settled = True
+    portfolio.ledger.append({"instrument_id": instrument, "side": side,
+                             "pnl_cents": pnl_cents, "won": pnl_cents > 0})
+    return pos
+
+
+def test_pnl_clusters_on_the_fixture_not_the_bet(tmp_path):
+    """The board now trades every viable market on a match. Several express one
+    directional view off one grid and settle together, so summing them as
+    independent overstates the sample exactly as it would for CLV."""
+    from wc2026.paper.clv import pnl_summary
+    p = a_portfolio(tmp_path)
+    for i in range(6):                       # one match, six bets
+        a_settled(p, "M%d" % i, 100.0, home="A", away="B")
+    a_settled(p, "N1", -300.0, home="C", away="D")
+    out = pnl_summary(p)
+    assert out["n_bets"] == 7
+    assert out["n_fixtures"] == 2
+    assert out["pnl_usd"] == pytest.approx(3.0)          # 600c - 300c
+    # Per fixture: +$6 and -$3 -> mean +$1.50, NOT the per-bet mean of $0.43.
+    assert out["pnl_per_fixture_usd"] == pytest.approx(1.5)
+
+
+def test_a_single_fixture_supports_no_significance_claim(tmp_path):
+    from wc2026.paper.clv import pnl_summary
+    p = a_portfolio(tmp_path)
+    a_settled(p, "M1", 500.0)
+    assert pnl_summary(p)["t_stat"] is None
+
+
+def test_an_empty_book_reports_no_reading_rather_than_zero_edge(tmp_path):
+    from wc2026.paper.clv import pnl_summary
+    out = pnl_summary(a_portfolio(tmp_path))
+    assert out["n_bets"] == 0 and out["pnl_per_fixture_usd"] is None
