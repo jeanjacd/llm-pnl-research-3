@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 98610,
-  "reserved_cents": 6305,
+  "reserved_cents": 11313,
   "orders": {
     "80b2551a-861c-4ab1-a377-48fd802c86ae": {
       "order_id": "80b2551a-861c-4ab1-a377-48fd802c86ae",
@@ -34,7 +34,7 @@
       "away_team": "VfB Stuttgart",
       "kickoff_utc": "2026-08-28T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-28T14:01:17.154010+00:00"
+      "last_checked_at": "2026-08-28T14:49:46.244584+00:00"
     },
     "62778f0f-08d9-4803-b6a6-1a5dc2221a9b": {
       "order_id": "62778f0f-08d9-4803-b6a6-1a5dc2221a9b",
@@ -67,7 +67,7 @@
       "away_team": "VfB Stuttgart",
       "kickoff_utc": "2026-08-28T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-28T14:01:17.154010+00:00"
+      "last_checked_at": "2026-08-28T14:49:46.244584+00:00"
     },
     "4573fc43-bb88-4b20-9fda-4275c1d903a2": {
       "order_id": "4573fc43-bb88-4b20-9fda-4275c1d903a2",
@@ -100,7 +100,7 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-08-28T18:45:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-28T14:01:17.154010+00:00"
+      "last_checked_at": "2026-08-28T14:49:46.244584+00:00"
     },
     "6a434e38-f3e8-4e15-b7b6-c84a1694fbdf": {
       "order_id": "6a434e38-f3e8-4e15-b7b6-c84a1694fbdf",
@@ -133,7 +133,7 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-08-28T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-28T14:01:17.154010+00:00"
+      "last_checked_at": "2026-08-28T14:49:46.244584+00:00"
     },
     "18df3a10-02a1-43e3-8f4a-e8892524434e": {
       "order_id": "18df3a10-02a1-43e3-8f4a-e8892524434e",
@@ -222,6 +222,72 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-08-28T18:45:00",
       "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "9b75fe4b-3a76-40de-8835-72b9a381e6cb": {
+      "order_id": "9b75fe4b-3a76-40de-8835-72b9a381e6cb",
+      "case_id": "kalshi:KXMLSTEAMTOTAL-26AUG29SEACHI-CHI3:no",
+      "venue": "kalshi",
+      "instrument_id": "KXMLSTEAMTOTAL-26AUG29SEACHI-CHI3",
+      "side": "no",
+      "limit_price_cents": 78,
+      "requested_size": 60.0,
+      "league_id": "mls",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 4753,
+      "created_at": "2026-08-28T15:16:18.835401+00:00",
+      "expires_at": "2026-08-29T20:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-08-28T15:16:18.835410+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXMLSTEAMTOTAL-26AUG29SEACHI-CHI3:no|KXMLSTEAMTOTAL-26AUG29SEACHI-CHI3|no|78",
+          "reserved_cents": 4753
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_away_over_2.5",
+      "home_team": "Seattle Sounders FC",
+      "away_team": "Chicago Fire FC",
+      "kickoff_utc": "2026-08-29T20:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "81dd6b25-3949-4521-9c68-90016388db95": {
+      "order_id": "81dd6b25-3949-4521-9c68-90016388db95",
+      "case_id": "polymarket:0x9d3fa24c978f605fa06c7e2587aca56f9659e367705980a7de47150e21863d8a:no",
+      "venue": "polymarket",
+      "instrument_id": "0x9d3fa24c978f605fa06c7e2587aca56f9659e367705980a7de47150e21863d8a",
+      "side": "no",
+      "limit_price_cents": 85,
+      "requested_size": 3.0,
+      "league_id": "mls",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 255,
+      "created_at": "2026-08-28T15:16:18.835436+00:00",
+      "expires_at": "2026-08-29T20:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-08-28T15:16:18.835440+00:00",
+          "event": "submitted",
+          "key": "polymarket:0x9d3fa24c978f605fa06c7e2587aca56f9659e367705980a7de47150e21863d8a:no|0x9d3fa24c978f605fa06c7e2587aca56f9659e367705980a7de47150e21863d8a|no|85",
+          "reserved_cents": 255
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_score_2-2",
+      "home_team": "Seattle Sounders FC",
+      "away_team": "Chicago Fire FC",
+      "kickoff_utc": "2026-08-29T20:30:00+00:00",
+      "settles_on_regulation": null,
       "last_checked_at": null
     }
   },
@@ -584,7 +650,21 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Both teams arrived with catastrophic season-opener defeats (Auxerre 2-5 to Lens, Angers 0-2 to Lille) and structural weaknesses that remain unverified post-opening: Auxerre's defensive fragility, Angers' midfield depth (Belkebla injury unclear), and manager integration (Will Still 2.5 months in, St\u00e9phane Gilli 2.5 months in post-Paris FC). Auxerre's loss of Sinayoko (12G in 2025-26) and Sangar\u00e9 st"
+    },
+    "mls|Seattle Sounders FC|Chicago Fire FC|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T15:16:18.835229+00:00",
+      "hours_to_kickoff": 29.2,
+      "ts": "2026-08-28T15:16:18.835251+00:00",
+      "action": "PAPER_PLACE_LIMIT",
+      "claim": "not_away_win",
+      "home": "Seattle Sounders FC",
+      "away": "Chicago Fire FC",
+      "markets_considered": 120,
+      "markets_approved": 16,
+      "decided_by": "judge",
+      "reason": "approved 16 of 32 market(s): Analyst verdict directly contradicts short-Chicago thesis. Chicago's superior form (5-game MLS win streak, 3rd Eastern Conference vs 13th Western), attacking depth (Lewandowski 4-in-9 goals, Zinckernagel 5 goals/8 assists), and points differential (+11) outweigh away status. Analyst explicitly weighed Seattle's home advantage (11-4-2 h2h) and found it insufficient. Mod"
     }
   },
-  "saved_at": "2026-08-28T14:48:04.532927+00:00"
+  "saved_at": "2026-08-28T15:16:18.837264+00:00"
 }
