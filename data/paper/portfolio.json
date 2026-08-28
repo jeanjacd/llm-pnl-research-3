@@ -1,9 +1,240 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 100000,
-  "reserved_cents": 0,
-  "orders": {},
-  "positions": {},
+  "cash_cents": 99360,
+  "reserved_cents": 7055,
+  "orders": {
+    "80b2551a-861c-4ab1-a377-48fd802c86ae": {
+      "order_id": "80b2551a-861c-4ab1-a377-48fd802c86ae",
+      "case_id": "kalshi:KXBUNDESLIGAGAME-26AUG28BMUVFB-BMU:no",
+      "venue": "kalshi",
+      "instrument_id": "KXBUNDESLIGAGAME-26AUG28BMUVFB-BMU",
+      "side": "no",
+      "limit_price_cents": 20,
+      "requested_size": 120.0,
+      "league_id": "bundesliga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 2535,
+      "created_at": "2026-08-28T12:29:56.514880+00:00",
+      "expires_at": "2026-08-28T18:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-08-28T12:29:56.514890+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXBUNDESLIGAGAME-26AUG28BMUVFB-BMU:no|KXBUNDESLIGAGAME-26AUG28BMUVFB-BMU|no|20",
+          "reserved_cents": 2535
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_home_win",
+      "home_team": "Bayern Munich",
+      "away_team": "VfB Stuttgart",
+      "kickoff_utc": "2026-08-28T18:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "62778f0f-08d9-4803-b6a6-1a5dc2221a9b": {
+      "order_id": "62778f0f-08d9-4803-b6a6-1a5dc2221a9b",
+      "case_id": "kalshi:KXBUNDESLIGASPREAD-26AUG28BMUVFB-BMU2:no",
+      "venue": "kalshi",
+      "instrument_id": "KXBUNDESLIGASPREAD-26AUG28BMUVFB-BMU2",
+      "side": "no",
+      "limit_price_cents": 35,
+      "requested_size": 50.0,
+      "league_id": "bundesliga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1830,
+      "created_at": "2026-08-28T12:29:56.514935+00:00",
+      "expires_at": "2026-08-28T18:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-08-28T12:29:56.514940+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXBUNDESLIGASPREAD-26AUG28BMUVFB-BMU2:no|KXBUNDESLIGASPREAD-26AUG28BMUVFB-BMU2|no|35",
+          "reserved_cents": 1830
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_home_wins_by_over_1.5",
+      "home_team": "Bayern Munich",
+      "away_team": "VfB Stuttgart",
+      "kickoff_utc": "2026-08-28T18:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "4573fc43-bb88-4b20-9fda-4275c1d903a2": {
+      "order_id": "4573fc43-bb88-4b20-9fda-4275c1d903a2",
+      "case_id": "polymarket:0xacc03e9caa281a47eca958b50e75b7700c44afb3de84fafa252ac45c4de98d13:yes",
+      "venue": "polymarket",
+      "instrument_id": "0xacc03e9caa281a47eca958b50e75b7700c44afb3de84fafa252ac45c4de98d13",
+      "side": "yes",
+      "limit_price_cents": 26,
+      "requested_size": 50.0,
+      "league_id": "ligue_1",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1300,
+      "created_at": "2026-08-28T12:51:26.669492+00:00",
+      "expires_at": "2026-08-28T18:45:00+00:00",
+      "events": [
+        {
+          "ts": "2026-08-28T12:51:26.669503+00:00",
+          "event": "submitted",
+          "key": "polymarket:0xacc03e9caa281a47eca958b50e75b7700c44afb3de84fafa252ac45c4de98d13:yes|0xacc03e9caa281a47eca958b50e75b7700c44afb3de84fafa252ac45c4de98d13|yes|26",
+          "reserved_cents": 1300
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "home_over_1.5",
+      "home_team": "Lille",
+      "away_team": "Paris Saint-Germain",
+      "kickoff_utc": "2026-08-28T18:45:00+00:00",
+      "settles_on_regulation": null,
+      "last_checked_at": null
+    },
+    "6a434e38-f3e8-4e15-b7b6-c84a1694fbdf": {
+      "order_id": "6a434e38-f3e8-4e15-b7b6-c84a1694fbdf",
+      "case_id": "kalshi:KXLIGUE1TEAMTOTAL-26AUG28LILPSG-LIL3:yes",
+      "venue": "kalshi",
+      "instrument_id": "KXLIGUE1TEAMTOTAL-26AUG28LILPSG-LIL3",
+      "side": "yes",
+      "limit_price_cents": 6,
+      "requested_size": 100.0,
+      "league_id": "ligue_1",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 640,
+      "created_at": "2026-08-28T12:51:26.669574+00:00",
+      "expires_at": "2026-08-28T18:45:00+00:00",
+      "events": [
+        {
+          "ts": "2026-08-28T12:51:26.669580+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLIGUE1TEAMTOTAL-26AUG28LILPSG-LIL3:yes|KXLIGUE1TEAMTOTAL-26AUG28LILPSG-LIL3|yes|6",
+          "reserved_cents": 640
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "home_over_2.5",
+      "home_team": "Lille",
+      "away_team": "Paris Saint-Germain",
+      "kickoff_utc": "2026-08-28T18:45:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "18df3a10-02a1-43e3-8f4a-e8892524434e": {
+      "order_id": "18df3a10-02a1-43e3-8f4a-e8892524434e",
+      "case_id": "polymarket:0x0ff1c530c038400bf277a08f8402c891beca5986b1e0fd48924e3e1ec1c09759:no",
+      "venue": "polymarket",
+      "instrument_id": "0x0ff1c530c038400bf277a08f8402c891beca5986b1e0fd48924e3e1ec1c09759",
+      "side": "no",
+      "limit_price_cents": 15,
+      "requested_size": 50.0,
+      "league_id": "ligue_1",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 750,
+      "created_at": "2026-08-28T12:51:26.669600+00:00",
+      "expires_at": "2026-08-28T18:45:00+00:00",
+      "events": [
+        {
+          "ts": "2026-08-28T12:51:26.669605+00:00",
+          "event": "submitted",
+          "key": "polymarket:0x0ff1c530c038400bf277a08f8402c891beca5986b1e0fd48924e3e1ec1c09759:no|0x0ff1c530c038400bf277a08f8402c891beca5986b1e0fd48924e3e1ec1c09759|no|15",
+          "reserved_cents": 750
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_away_over_0.5",
+      "home_team": "Lille",
+      "away_team": "Paris Saint-Germain",
+      "kickoff_utc": "2026-08-28T18:45:00+00:00",
+      "settles_on_regulation": null,
+      "last_checked_at": null
+    },
+    "a1cb6733-2ff5-4480-a723-2f6d14f591de": {
+      "order_id": "a1cb6733-2ff5-4480-a723-2f6d14f591de",
+      "case_id": "kalshi:KXLIGUE1SPREAD-26AUG28LILPSG-LIL2:yes",
+      "venue": "kalshi",
+      "instrument_id": "KXLIGUE1SPREAD-26AUG28LILPSG-LIL2",
+      "side": "yes",
+      "limit_price_cents": 6,
+      "requested_size": 100.0,
+      "league_id": "ligue_1",
+      "kind": "limit",
+      "status": "filled",
+      "filled_size": 100.0,
+      "avg_fill_price_cents": 6.0,
+      "fees_cents": 40,
+      "reserved_cents": 0,
+      "created_at": "2026-08-28T12:51:26.669638+00:00",
+      "expires_at": "2026-08-28T18:45:00+00:00",
+      "events": [
+        {
+          "ts": "2026-08-28T12:51:26.669643+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLIGUE1SPREAD-26AUG28LILPSG-LIL2:yes|KXLIGUE1SPREAD-26AUG28LILPSG-LIL2|yes|6",
+          "reserved_cents": 640
+        },
+        {
+          "ts": "2026-08-28T12:51:26.669684+00:00",
+          "event": "fill",
+          "size": 100.0,
+          "price_cents": 6.0,
+          "fee_cents": 40
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "home_wins_by_over_1.5",
+      "home_team": "Lille",
+      "away_team": "Paris Saint-Germain",
+      "kickoff_utc": "2026-08-28T18:45:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    }
+  },
+  "positions": {
+    "KXLIGUE1SPREAD-26AUG28LILPSG-LIL2|yes": {
+      "position_id": "081ab0df-7b8f-478c-b812-7a73c0ce258f",
+      "venue": "kalshi",
+      "instrument_id": "KXLIGUE1SPREAD-26AUG28LILPSG-LIL2",
+      "side": "yes",
+      "size": 100.0,
+      "avg_cost_cents": 6.0,
+      "fees_cents": 40,
+      "league_id": "ligue_1",
+      "case_id": "kalshi:KXLIGUE1SPREAD-26AUG28LILPSG-LIL2:yes",
+      "claim": "home_wins_by_over_1.5",
+      "home_team": "Lille",
+      "away_team": "Paris Saint-Germain",
+      "kickoff_utc": "2026-08-28T18:45:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-08-28T12:51:26.669703+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0
+    }
+  },
   "ledger": [],
   "boarded": {
     "bundesliga|FC Cologne|TSG Hoffenheim|2026-08-29": {
@@ -63,18 +294,18 @@
       "reason": "RB Leipzig are home favourites with strong recent form (6-0 DFB Pokal win), superior historical record (11 wins in 20 H2H meetings), and a relatively settled squad despite injury concerns. Borussia M\u00f6nchengladbach arrive in excellent early-season form (4 consecutive wins in July-August, 5-0 DFB Pokal victory) and have never won away at Leipzig across 10 visits, but carry defensive injury absences "
     },
     "bundesliga|Bayern Munich|VfB Stuttgart|2026-08-28": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-08-28T08:32:39.124184+00:00",
-      "hours_to_kickoff": 10.0,
-      "ts": "2026-08-28T08:32:39.124202+00:00",
-      "action": "DEFER",
+      "hours_to_kickoff": 6.0,
+      "ts": "2026-08-28T12:29:56.514777+00:00",
+      "action": "PAPER_PLACE_LIMIT",
       "claim": "not_home_win",
       "home": "Bayern Munich",
       "away": "VfB Stuttgart",
-      "markets_considered": 112,
-      "markets_approved": 0,
-      "decided_by": "coach",
-      "reason": "The sporting factors overwhelmingly favour a Bayern home win. Bayern arrive as defending champions with momentum from a Supercup victory 6 days prior; Stuttgart face them with depleted resources (9+ key absences including backup goalkeeper forced into starting role, key midfielder/winger Chris F\u00fchrich out). Bayern's attacking trio (Kane 36 Bundesliga goals last season, Olise 25 goals + 28 assists "
+      "markets_considered": 111,
+      "markets_approved": 2,
+      "decided_by": "judge",
+      "reason": "approved 2 of 6 market(s): Analyst conviction (Bayern ~75% to win) implies 'no' should trade ~25\u00a2, supporting underpriced 20\u00a2 entry. Kalshi has best EV (+3.17\u00a2), deepest depth (62k), and clearest thesis expression. Reduced size from 150 to 120 for thin margin prudence."
     },
     "la_liga|Alav\u00e9s|Villarreal|2026-08-28": {
       "attempts": 1,
@@ -105,18 +336,18 @@
       "reason": "Elche's away-win probability is materially undermined by recent match context, squad instability, and tactical concerns. Elche suffered a catastrophic 0-5 defeat to Barcelona 5 days prior, conceding 5 in a single match\u2014a severe psychological and physical toll on a relegation-form squad. They are 18th in the table with only 1 point from 2 matches (1 draw, 1 loss of 0-5). Racing, despite struggling "
     },
     "ligue_1|Lille|Paris Saint-Germain|2026-08-28": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-08-28T08:49:08.297944+00:00",
-      "hours_to_kickoff": 9.9,
-      "ts": "2026-08-28T08:49:08.297963+00:00",
-      "action": "DEFER",
+      "hours_to_kickoff": 5.9,
+      "ts": "2026-08-28T12:51:26.669401+00:00",
+      "action": "PAPER_PLACE_LIMIT",
       "claim": "not_away_win",
       "home": "Lille",
       "away": "Paris Saint-Germain",
-      "markets_considered": 129,
-      "markets_approved": 0,
-      "decided_by": "coach",
-      "reason": "Sporting assumptions are substantially intact: Lille's strong form and high-press tactics are well-documented; PSG's transition defensive weakness is confirmed from Rennes MD1; Mendes suspension and Demb\u00e9l\u00e9 rotation are verified. However, material match-day information remains unavailable: (1) Weather forecast for Aug 28, 18:45 UTC unavailable (standard forecasts only 10-14 days out); (2) Official"
+      "markets_considered": 116,
+      "markets_approved": 7,
+      "decided_by": "judge",
+      "reason": "approved 7 of 20 market(s): Strong positive EV (+9.74\u00a2) with deep liquidity (55k). Analyst confirms PSG weakened by Mendes suspension, Demb\u00e9l\u00e9 rest, Barcola exit. Best expression of the away-win-rejection thesis."
     },
     "premier_league|Coventry City|Hull City|2026-08-29": {
       "attempts": 1,
@@ -161,18 +392,18 @@
       "reason": "Critical managerial/squad context conflicts prevent confident sporting assessment. Research reveals major transitions (Iraola appointment, Salah/Konat\u00e9 departures, Robertson exit) and Newcastle defensive vulnerabilities that contradict initial fixture assumptions. Nottingham Forest's weak start (0-2 vs Leeds, 0-1 vs Leeds league) and managerial newness (Glasner 3 matches in) create asymmetric form"
     },
     "premier_league|Crystal Palace|Manchester City|2026-08-28": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-08-28T09:08:57.747350+00:00",
-      "hours_to_kickoff": 9.9,
-      "ts": "2026-08-28T09:08:57.747369+00:00",
+      "hours_to_kickoff": 6.0,
+      "ts": "2026-08-28T12:59:19.522278+00:00",
       "action": "DEFER",
       "claim": "draw",
       "home": "Crystal Palace",
       "away": "Manchester City",
-      "markets_considered": 127,
+      "markets_considered": 126,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Manchester City's tactical dominance, superior squad depth despite departures, and unbeaten recent record at Selhurst Park (W7 D3 in last 10) strongly favors a decisive result. Crystal Palace's defensive fragility (2-0 loss to Everton, losing Riad), attacking inconsistency, and Pierre Sage's managerial debut disadvantage are incompatible with the draw claim. While Maresca's City showed defensive v"
+      "reason": "Draw is a plausible outcome (24-25% historical precedent, Selhurst Park home advantage, tactical transition period at City under new manager, Palace's new manager implementing defensive system). However, Maresca's defensive stability remains unproven away from home (Community Shield loss, late-game rescue vs Bournemouth suggests vulnerability). Cannot rule in or out draw without confirmation: (1) "
     },
     "la_liga|Levante|Real Betis|2026-08-29": {
       "attempts": 1,
@@ -201,7 +432,49 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Strasbourg's structural disadvantages overwhelm any home-ground benefit. Hugo Oliveira's new regime faces compounding damage: captain/midfield anchor El Mourabet suspended (red card, matchday 1); primary striker Panichelli out 6+ months (ACL); and the team already leaked 4 goals to Marseille with no shots on goal. Lens, despite defensive injuries (Gradit, Chavez, Celik, Baidoo compromised, Antonio"
+    },
+    "bundesliga|Borussia Dortmund|Hamburg SV|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T12:13:41.290276+00:00",
+      "hours_to_kickoff": 28.3,
+      "ts": "2026-08-28T12:13:41.290304+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "Borussia Dortmund",
+      "away": "Hamburg SV",
+      "markets_considered": 47,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Multiple material sporting factors remain unresolved: (1) Guirassy's availability after sustained interest from Barcelona and an exit clause of \u20ac35m\u2014his status is uncertain heading into a match where he was top scorer in 2025-26 with 17 goals; (2) Confirmed injuries to Emre Can (cruciate ligament through mid-November 2026) and Nico Schlotterbeck (ankle through mid-September) are significant defens"
+    },
+    "la_liga|Real Sociedad|Espanyol|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T12:33:46.178990+00:00",
+      "hours_to_kickoff": 28.4,
+      "ts": "2026-08-28T12:33:46.179010+00:00",
+      "action": "DEFER",
+      "claim": "draw",
+      "home": "Real Sociedad",
+      "away": "Espanyol",
+      "markets_considered": 124,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "The draw assumption is defensible within current sporting context. Real Sociedad's form collapse (0 pts, 20th place) is offset by dominant home record vs Espanyol (unbeaten since 2015: 6W-3D at Reale Arena). Espanyol's improved start (3 pts, 7th place, 3-0 opening win) meets Real Sociedad's fixture fatigue (3 matches in 8 days). Key players Oyarzabal and Kubo are undercooked post-World Cup. Espany"
+    },
+    "premier_league|Tottenham Hotspur|Newcastle United|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T12:56:03.317788+00:00",
+      "hours_to_kickoff": 27.6,
+      "ts": "2026-08-28T12:56:03.317808+00:00",
+      "action": "DEFER",
+      "claim": "away_win",
+      "home": "Tottenham Hotspur",
+      "away": "Newcastle United",
+      "markets_considered": 119,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Newcastle's away win thesis rests on three key pillars: (1) established dominance in this fixture\u2014two consecutive 2-1 away wins and a 2-1 home loss to Spurs in Jan 2025; (2) Tottenham's documented home fragility (0.83 pts/game at Spurs in 2025-26, W3 D6 L10); (3) Spurs' catastrophic 3-0 opening loss to Brentford revealing acute defensive and physical inadequacy. HOWEVER, managerial integration und"
     }
   },
-  "saved_at": "2026-08-28T10:27:08.932584+00:00"
+  "saved_at": "2026-08-28T12:59:19.524727+00:00"
 }
