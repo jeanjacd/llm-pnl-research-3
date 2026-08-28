@@ -57,7 +57,20 @@
       "away": "Manchester City",
       "decided_by": "coach",
       "reason": "Manchester City's defensive organization under new manager Enzo Maresca remains materially unsettled (admitted mid-adjustment against Bournemouth). Crystal Palace's managerial change (Sage replacing Glasner) and opening-day 2-0 loss to Everton obscure their true tactical baseline. Critical evidence gap: no confirmed data on Sage's defensive set-piece vulnerability, City's specific draw propensity "
+    },
+    "la_liga|Alav\u00e9s|Villarreal|2026-08-28": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T03:46:58.386346+00:00",
+      "hours_to_kickoff": 15.7,
+      "ts": "2026-08-28T03:46:58.386367+00:00",
+      "action": "DEFER",
+      "case_id": "kalshi:KXLALIGAGAME-26AUG28ALAVIL-ALA:yes",
+      "claim": "home_win",
+      "home": "Alav\u00e9s",
+      "away": "Villarreal",
+      "decided_by": "quant",
+      "reason": "Negative EV at executable price. At touch (30\u00a2), EV is \u22124.39\u00a2/contract. Breakeven requires 32.79% true probability; model estimate 30.4% (\u2248 market price 30%) offers no margin of safety. Upper confidence bound 32.4% reaches only to breakeven. Ladder shows zero liquidity below touch price. Adverse selection (1.32\u00a2) fully consumes model's thin edge. Recommend deferring unless: (1) model reestimates p"
     }
   },
-  "saved_at": "2026-08-28T03:41:36.177498+00:00"
+  "saved_at": "2026-08-28T03:46:58.386408+00:00"
 }
