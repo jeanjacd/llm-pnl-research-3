@@ -269,25 +269,34 @@ _PHANTOM_MARKERS = ("invocation failed", "member invocation",
 
 
 def purge_phantom_decisions(portfolio) -> list:
-    """Drop boarded entries recorded when the board never ran.
+    """Reopen boarded entries whose verdict cannot be trusted.
 
-    `claude` was never installed on the runner, so every board call failed and
-    fell closed to DEFER, and each one was written into the ledger as a real
-    deferral. Those fixtures then looked decided: held back for a single late
-    retry on the strength of a decision nobody made. Eight fixtures were in
-    that state, five of them kicking off within a day.
+    Two causes, both of which record a decision nothing really made.
 
-    Purging is safe in a way that keeping them is not. A fixture removed here
-    is simply reconsidered on its merits; a fixture left here is silently spent.
-    Entries from before reasons were recorded are dropped too -- absence of
-    evidence that a member voted is exactly the case that cannot be verified.
+    1. THE BOARD DID NOT RUN. `claude` was never installed on the runner, so
+       every call failed, fell closed to DEFER, and was written in as a real
+       deferral.
+
+    2. THE DECISION COVERED ONE MARKET OF MANY. Until the slate board, a
+       fixture was judged on a single market and that verdict closed the whole
+       match -- a PASS on `not_away_win` being 1.22pp short of breakeven shut
+       Racing Santander v Elche entirely, though it said nothing about the 111
+       other markets on it. Such verdicts answer a question about one price,
+       not about the fixture. Records written by the slate board carry
+       `markets_considered`; records without it predate it.
+
+    Reopening is safe in a way that keeping them is not. A fixture removed here
+    is reconsidered on its merits; a fixture left here is silently spent.
     """
     removed = []
     for key, rec in list(portfolio.boarded.items()):
         reason = str(rec.get("reason") or "").lower()
         phantom = any(m in reason for m in _PHANTOM_MARKERS)
         unverifiable = not rec.get("decided_by") and not rec.get("reason")
-        if phantom or unverifiable:
+        # Written before the board saw whole fixtures: the verdict answers a
+        # question about one market, not about the match.
+        single_market = rec.get("markets_considered") is None
+        if phantom or unverifiable or single_market:
             removed.append(key)
             portfolio.boarded.pop(key, None)
     return removed

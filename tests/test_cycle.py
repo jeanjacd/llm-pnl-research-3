@@ -479,7 +479,7 @@ def test_a_decision_no_board_ever_made_is_reopened(tmp_path):
     p = PaperPortfolio(path=str(tmp_path / "p.json"))
     p.boarded = {
         "real": {"action": "DEFER", "attempts": 1, "decided_by": "coach",
-                 "reason": "Keeper unconfirmed."},
+                 "reason": "Keeper unconfirmed.", "markets_considered": 112},
         "phantom": {"action": "DEFER", "attempts": 1, "decided_by": "quant",
                     "reason": "quant: member invocation failed: [Errno 2] "
                               "No such file or directory: 'claude'"},
@@ -503,9 +503,10 @@ def test_a_real_decision_of_any_kind_is_never_purged(tmp_path):
     p = PaperPortfolio(path=str(tmp_path / "p.json"))
     p.boarded = {
         "passed": {"action": "PASS", "decided_by": "coach",
-                   "reason": "Formation mismatch."},
+                   "reason": "Formation mismatch.", "markets_considered": 98},
         "bought": {"action": "PAPER_PLACE_LIMIT", "decided_by": "judge",
-                   "reason": "Edge survives the reserve."},
+                   "reason": "Edge survives the reserve.",
+                   "markets_considered": 98, "markets_approved": 12},
     }
     assert cycle_mod.purge_phantom_decisions(p) == []
     assert len(p.boarded) == 2
@@ -559,3 +560,24 @@ def test_one_fixture_cannot_consume_the_bankroll(tmp_path, monkeypatch):
     ceiling = portfolio.starting_cash_cents * cycle_mod.MAX_FIXTURE_EXPOSURE_FRACTION
     assert risk <= ceiling, "one fixture must not exceed its exposure cap"
     assert stats.get("exposure_capped", 0) >= 0
+
+
+def test_a_verdict_made_on_one_market_of_many_is_reopened(tmp_path):
+    """Until the slate board a fixture was judged on a single market and the
+    verdict closed the whole match. Those verdicts answer a question about one
+    price, not about the fixture, so they cannot stand once the board sees the
+    whole ladder."""
+    p = PaperPortfolio(path=str(tmp_path / "p.json"))
+    p.boarded = {
+        "old_pass": {"action": "PASS", "attempts": 1, "decided_by": "quant",
+                     "reason": "Negative EV at touch."},
+        "old_defer": {"action": "DEFER", "attempts": 1, "decided_by": "coach",
+                      "reason": "Keeper unconfirmed."},
+        "slate_pass": {"action": "PASS", "attempts": 1, "decided_by": "quant",
+                       "reason": "Negative EV across the ladder.",
+                       "markets_considered": 112, "markets_approved": 0},
+    }
+    removed = cycle_mod.purge_phantom_decisions(p)
+    assert set(removed) == {"old_pass", "old_defer"}
+    assert list(p.boarded) == ["slate_pass"], \
+        "a verdict that DID see the whole fixture must stand"
