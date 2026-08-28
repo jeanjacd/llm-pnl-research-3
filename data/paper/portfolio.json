@@ -34,7 +34,7 @@
       "away_team": "VfB Stuttgart",
       "kickoff_utc": "2026-08-28T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-28T14:49:46.244584+00:00"
+      "last_checked_at": "2026-08-28T16:01:13.277515+00:00"
     },
     "62778f0f-08d9-4803-b6a6-1a5dc2221a9b": {
       "order_id": "62778f0f-08d9-4803-b6a6-1a5dc2221a9b",
@@ -67,7 +67,7 @@
       "away_team": "VfB Stuttgart",
       "kickoff_utc": "2026-08-28T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-28T14:49:46.244584+00:00"
+      "last_checked_at": "2026-08-28T16:01:13.277515+00:00"
     },
     "4573fc43-bb88-4b20-9fda-4275c1d903a2": {
       "order_id": "4573fc43-bb88-4b20-9fda-4275c1d903a2",
@@ -100,7 +100,7 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-08-28T18:45:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-28T14:49:46.244584+00:00"
+      "last_checked_at": "2026-08-28T16:01:13.277515+00:00"
     },
     "6a434e38-f3e8-4e15-b7b6-c84a1694fbdf": {
       "order_id": "6a434e38-f3e8-4e15-b7b6-c84a1694fbdf",
@@ -133,7 +133,7 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-08-28T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-28T14:49:46.244584+00:00"
+      "last_checked_at": "2026-08-28T16:01:13.277515+00:00"
     },
     "18df3a10-02a1-43e3-8f4a-e8892524434e": {
       "order_id": "18df3a10-02a1-43e3-8f4a-e8892524434e",
@@ -255,7 +255,7 @@
       "away_team": "Chicago Fire FC",
       "kickoff_utc": "2026-08-29T20:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-08-28T16:01:13.277515+00:00"
     },
     "81dd6b25-3949-4521-9c68-90016388db95": {
       "order_id": "81dd6b25-3949-4521-9c68-90016388db95",
@@ -288,7 +288,7 @@
       "away_team": "Chicago Fire FC",
       "kickoff_utc": "2026-08-29T20:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null
+      "last_checked_at": "2026-08-28T16:01:13.277515+00:00"
     }
   },
   "positions": {
@@ -666,5 +666,5 @@
       "reason": "approved 16 of 32 market(s): Analyst verdict directly contradicts short-Chicago thesis. Chicago's superior form (5-game MLS win streak, 3rd Eastern Conference vs 13th Western), attacking depth (Lewandowski 4-in-9 goals, Zinckernagel 5 goals/8 assists), and points differential (+11) outweigh away status. Analyst explicitly weighed Seattle's home advantage (11-4-2 h2h) and found it insufficient. Mod"
     }
   },
-  "saved_at": "2026-08-28T15:16:18.837264+00:00"
+  "saved_at": "2026-08-28T16:11:27.699631+00:00"
 }
