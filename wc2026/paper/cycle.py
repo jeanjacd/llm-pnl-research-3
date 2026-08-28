@@ -185,6 +185,13 @@ def run_maintenance(state_path: str | None = None,
              "orders_submitted": 0, "fills": 0, "resting_fills": 0,
              "expired": 0, "settled": 0, "settled_pnl_usd": 0.0}
 
+    # Repair before selecting, or a phantom deferral silently costs the
+    # fixture its board on this very run.
+    phantom = purge_phantom_decisions(portfolio)
+    if phantom:
+        stats["phantom_decisions_purged"] = len(phantom)
+        stats["phantom_fixtures"] = phantom[:20]
+
     probes = fill_probes if fill_probes is not None else _default_probes(providers)
     if probes:
         replay = replay_fills(portfolio, probes)
@@ -224,6 +231,38 @@ def run_maintenance(state_path: str | None = None,
     if verbose:
         print(render_summary(stats))
     return stats
+
+
+# A ledger entry only counts if a board member actually voted. Entries written
+# while the board could not run at all record a DEFER that nothing decided --
+# see PAPER_BOARD_LOG and the preflight in matchday-board.yml.
+_PHANTOM_MARKERS = ("invocation failed", "member invocation",
+                    "no such file or directory", "board disabled")
+
+
+def purge_phantom_decisions(portfolio) -> list:
+    """Drop boarded entries recorded when the board never ran.
+
+    `claude` was never installed on the runner, so every board call failed and
+    fell closed to DEFER, and each one was written into the ledger as a real
+    deferral. Those fixtures then looked decided: held back for a single late
+    retry on the strength of a decision nobody made. Eight fixtures were in
+    that state, five of them kicking off within a day.
+
+    Purging is safe in a way that keeping them is not. A fixture removed here
+    is simply reconsidered on its merits; a fixture left here is silently spent.
+    Entries from before reasons were recorded are dropped too -- absence of
+    evidence that a member voted is exactly the case that cannot be verified.
+    """
+    removed = []
+    for key, rec in list(portfolio.boarded.items()):
+        reason = str(rec.get("reason") or "").lower()
+        phantom = any(m in reason for m in _PHANTOM_MARKERS)
+        unverifiable = not rec.get("decided_by") and not rec.get("reason")
+        if phantom or unverifiable:
+            removed.append(key)
+            portfolio.boarded.pop(key, None)
+    return removed
 
 
 def _default_probes(providers) -> dict:
@@ -273,6 +312,13 @@ def run_cycle(league_ids=None, state_path: str | None = None,
     # whose deadline passed at 11:00 was filled, not expired -- running
     # `expire_due` first would silently discard the fill and understate both
     # the fill rate and the P&L.
+    # Repair before selecting, or a phantom deferral silently costs the
+    # fixture its board on this very run.
+    phantom = purge_phantom_decisions(portfolio)
+    if phantom:
+        stats["phantom_decisions_purged"] = len(phantom)
+        stats["phantom_fixtures"] = phantom[:20]
+
     probes = fill_probes if fill_probes is not None else _default_probes(providers)
     if probes:
         replay = replay_fills(portfolio, probes)
@@ -571,6 +617,12 @@ def render_summary(stats: dict) -> str:
     # A board that could not run is an INCIDENT, not a row in a decision
     # table. It goes at the top, because seven identical "DEFER" rows read as
     # considered judgement and are not.
+    purged = stats.get("phantom_decisions_purged") or 0
+    if purged:
+        lines += ["", "> **Reopened %d fixture(s)** whose recorded decision was "
+                      "made by a board that could not run. They are considered "
+                      "again on their merits." % purged, ""]
+
     broken = stats.get("board_failures") or 0
     if broken:
         lines += ["", "> **The board did not run for %d fixture(s).**" % broken,

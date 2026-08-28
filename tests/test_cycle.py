@@ -465,3 +465,65 @@ def test_a_genuine_defer_still_consumes_the_fixture(tmp_path, monkeypatch):
     portfolio = PaperPortfolio.load(state)
     assert len(portfolio.boarded) == 1
     assert next(iter(portfolio.boarded.values()))["attempts"] == 1
+
+
+def test_a_decision_no_board_ever_made_is_reopened(tmp_path):
+    """`claude` was never installed, so every board call fell closed to DEFER
+    and each was written into the ledger as a real deferral. Eight fixtures
+    were held back for a single late retry on the strength of a decision
+    nobody made -- five of them kicking off within a day."""
+    p = PaperPortfolio(path=str(tmp_path / "p.json"))
+    p.boarded = {
+        "real": {"action": "DEFER", "attempts": 1, "decided_by": "coach",
+                 "reason": "Keeper unconfirmed."},
+        "phantom": {"action": "DEFER", "attempts": 1, "decided_by": "quant",
+                    "reason": "quant: member invocation failed: [Errno 2] "
+                              "No such file or directory: 'claude'"},
+        "prehistoric": {"action": "DEFER"},
+    }
+    removed = cycle_mod.purge_phantom_decisions(p)
+    assert set(removed) == {"phantom", "prehistoric"}
+    assert list(p.boarded) == ["real"], "a genuine deferral must survive"
+
+
+def test_purging_is_idempotent(tmp_path):
+    p = PaperPortfolio(path=str(tmp_path / "p.json"))
+    p.boarded = {"phantom": {"action": "DEFER",
+                             "reason": "member invocation failed"}}
+    assert len(cycle_mod.purge_phantom_decisions(p)) == 1
+    assert cycle_mod.purge_phantom_decisions(p) == []
+
+
+def test_a_real_decision_of_any_kind_is_never_purged(tmp_path):
+    """Purging a genuine PASS would let the board be re-asked until it agrees."""
+    p = PaperPortfolio(path=str(tmp_path / "p.json"))
+    p.boarded = {
+        "passed": {"action": "PASS", "decided_by": "coach",
+                   "reason": "Formation mismatch."},
+        "bought": {"action": "PAPER_PLACE_LIMIT", "decided_by": "judge",
+                   "reason": "Edge survives the reserve."},
+    }
+    assert cycle_mod.purge_phantom_decisions(p) == []
+    assert len(p.boarded) == 2
+
+
+def test_the_purge_runs_before_selection_so_the_fixture_is_not_lost(tmp_path,
+                                                                   monkeypatch):
+    """Repairing after selection would cost the fixture its board on the very
+    run that fixed it."""
+    _patch_league(monkeypatch, tmp_path)
+    _approve_board(monkeypatch)
+    state = str(tmp_path / "portfolio.json")
+
+    seed = PaperPortfolio(path=state)
+    key = "premier_league|A|B|%s" % soon()[:10]
+    seed.boarded = {key: {"action": "DEFER", "attempts": 1,
+                          "decided_by": "quant",
+                          "reason": "quant: member invocation failed"}}
+    seed.save(state)
+
+    stats = run_cycle(state_path=state, providers=[FakeProvider()],
+                      verbose=False, fill_probes={})
+    assert stats["phantom_decisions_purged"] == 1
+    assert stats["fixtures_selected"] == 1, "reopened, and boarded this run"
+    assert "Reopened" in render_summary(stats)
