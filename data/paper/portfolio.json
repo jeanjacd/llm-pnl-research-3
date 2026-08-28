@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 99360,
-  "reserved_cents": 7055,
+  "cash_cents": 98610,
+  "reserved_cents": 6305,
   "orders": {
     "80b2551a-861c-4ab1-a377-48fd802c86ae": {
       "order_id": "80b2551a-861c-4ab1-a377-48fd802c86ae",
@@ -34,7 +34,7 @@
       "away_team": "VfB Stuttgart",
       "kickoff_utc": "2026-08-28T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-08-28T14:01:17.154010+00:00"
     },
     "62778f0f-08d9-4803-b6a6-1a5dc2221a9b": {
       "order_id": "62778f0f-08d9-4803-b6a6-1a5dc2221a9b",
@@ -67,7 +67,7 @@
       "away_team": "VfB Stuttgart",
       "kickoff_utc": "2026-08-28T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-08-28T14:01:17.154010+00:00"
     },
     "4573fc43-bb88-4b20-9fda-4275c1d903a2": {
       "order_id": "4573fc43-bb88-4b20-9fda-4275c1d903a2",
@@ -100,7 +100,7 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-08-28T18:45:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null
+      "last_checked_at": "2026-08-28T14:01:17.154010+00:00"
     },
     "6a434e38-f3e8-4e15-b7b6-c84a1694fbdf": {
       "order_id": "6a434e38-f3e8-4e15-b7b6-c84a1694fbdf",
@@ -133,7 +133,7 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-08-28T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-08-28T14:01:17.154010+00:00"
     },
     "18df3a10-02a1-43e3-8f4a-e8892524434e": {
       "order_id": "18df3a10-02a1-43e3-8f4a-e8892524434e",
@@ -145,11 +145,11 @@
       "requested_size": 50.0,
       "league_id": "ligue_1",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
+      "status": "filled",
+      "filled_size": 50.0,
+      "avg_fill_price_cents": 15.0,
       "fees_cents": 0,
-      "reserved_cents": 750,
+      "reserved_cents": 0,
       "created_at": "2026-08-28T12:51:26.669600+00:00",
       "expires_at": "2026-08-28T18:45:00+00:00",
       "events": [
@@ -158,6 +158,22 @@
           "event": "submitted",
           "key": "polymarket:0x0ff1c530c038400bf277a08f8402c891beca5986b1e0fd48924e3e1ec1c09759:no|0x0ff1c530c038400bf277a08f8402c891beca5986b1e0fd48924e3e1ec1c09759|no|15",
           "reserved_cents": 750
+        },
+        {
+          "ts": "2026-08-28T14:01:18.321074+00:00",
+          "event": "fill",
+          "size": 50.0,
+          "price_cents": 15.0,
+          "fee_cents": 0
+        },
+        {
+          "ts": "2026-08-28T14:01:18.321129+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "polymarket",
+          "observed_cents": 14.0,
+          "window_start": "2026-08-28T12:51:26.669600+00:00",
+          "window_end": "2026-08-28T14:01:17.154010+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -166,7 +182,7 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-08-28T18:45:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null
+      "last_checked_at": "2026-08-28T14:01:17.154010+00:00"
     },
     "a1cb6733-2ff5-4480-a723-2f6d14f591de": {
       "order_id": "a1cb6733-2ff5-4480-a723-2f6d14f591de",
@@ -226,6 +242,30 @@
       "kickoff_utc": "2026-08-28T18:45:00",
       "settles_on_regulation": true,
       "opened_at": "2026-08-28T12:51:26.669703+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0
+    },
+    "0x0ff1c530c038400bf277a08f8402c891beca5986b1e0fd48924e3e1ec1c09759|no": {
+      "position_id": "7786d25f-c0f7-42f8-913f-872d115f3ee7",
+      "venue": "polymarket",
+      "instrument_id": "0x0ff1c530c038400bf277a08f8402c891beca5986b1e0fd48924e3e1ec1c09759",
+      "side": "no",
+      "size": 50.0,
+      "avg_cost_cents": 15.0,
+      "fees_cents": 0,
+      "league_id": "ligue_1",
+      "case_id": "polymarket:0x0ff1c530c038400bf277a08f8402c891beca5986b1e0fd48924e3e1ec1c09759:no",
+      "claim": "not_away_over_0.5",
+      "home_team": "Lille",
+      "away_team": "Paris Saint-Germain",
+      "kickoff_utc": "2026-08-28T18:45:00+00:00",
+      "settles_on_regulation": null,
+      "opened_at": "2026-08-28T14:01:18.321115+00:00",
       "closing_price_cents": null,
       "clv_cents": null,
       "clv_source": null,
@@ -308,10 +348,10 @@
       "reason": "approved 2 of 6 market(s): Analyst conviction (Bayern ~75% to win) implies 'no' should trade ~25\u00a2, supporting underpriced 20\u00a2 entry. Kalshi has best EV (+3.17\u00a2), deepest depth (62k), and clearest thesis expression. Reduced size from 150 to 120 for thin margin prudence."
     },
     "la_liga|Alav\u00e9s|Villarreal|2026-08-28": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-08-28T08:36:28.701784+00:00",
-      "hours_to_kickoff": 10.9,
-      "ts": "2026-08-28T08:36:28.701807+00:00",
+      "hours_to_kickoff": 5.1,
+      "ts": "2026-08-28T14:21:53.883859+00:00",
       "action": "DEFER",
       "claim": "home_win",
       "home": "Alav\u00e9s",
@@ -319,7 +359,7 @@
       "markets_considered": 132,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Research confirms Alav\u00e9s' stronger start (4 pts, win vs Getafe, draw vs Rayo) vs Villarreal (2 pts, two draws). Alav\u00e9s hold significant home advantage at Mendizorroza. However, critical gaps exist: Villarreal injuries status is incompletely specified (Gerard Moreno and Sergi flagged as monitor-only, not confirmed absences); Alav\u00e9s suspension status unclear (F. Garc\u00e9s potentially long-term suspensi"
+      "reason": "Critical squad roster gaps prevent confident assessment of home-win probability. Confirmed lineup availability (particularly Gerard Moreno fitness for Villarreal and Tomas Mendes suspension for Alav\u00e9s) remains unclear; fixture timing means official confirmations expected within hours of analysis. Villarreal's squad depth (new signing Saliba, Diatta returning) and managerial transition (I\u00f1igo P\u00e9rez"
     },
     "la_liga|Racing Santander|Elche|2026-08-28": {
       "attempts": 2,
@@ -474,7 +514,77 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Newcastle's away win thesis rests on three key pillars: (1) established dominance in this fixture\u2014two consecutive 2-1 away wins and a 2-1 home loss to Spurs in Jan 2025; (2) Tottenham's documented home fragility (0.83 pts/game at Spurs in 2025-26, W3 D6 L10); (3) Spurs' catastrophic 3-0 opening loss to Brentford revealing acute defensive and physical inadequacy. HOWEVER, managerial integration und"
+    },
+    "la_liga|Sevilla|Atl\u00e9tico Madrid|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T14:17:05.282426+00:00",
+      "hours_to_kickoff": 29.2,
+      "ts": "2026-08-28T14:17:05.282447+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "Sevilla",
+      "away": "Atl\u00e9tico Madrid",
+      "markets_considered": 123,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Atl\u00e9tico Madrid's away win claims face material headwinds. They arrive depleted (Juli\u00e1n \u00c1lvarez ruled out by Simeone on 28 Aug due to health concerns; Le Normand suspended; Hjulmand doubtful) while Sevilla boast superior home form, current momentum (2 consecutive wins), and 2nd place standing vs Atl\u00e9tico's 5th. Atl\u00e9tico's recent record is mixed (unbeaten but 1 draw). Sevilla's historical home adva"
+    },
+    "ligue_1|Lyon|Le Havre AC|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T14:29:37.750550+00:00",
+      "hours_to_kickoff": 28.3,
+      "ts": "2026-08-28T14:29:37.750569+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "Lyon",
+      "away": "Le Havre AC",
+      "markets_considered": 57,
+      "markets_approved": 0,
+      "decided_by": "judge",
+      "reason": "approved 0 of 1 market(s): Edge falls below confidence threshold for execution. +0.86% ROI on a 58.29% vs 54% probability difference is noise-level in high-variance first-half betting. Analyst findings (Lyon 5-game scoring streak, Le Havre 3-defender injuries, dominant h2h) support Lyon's full-match dominance but do not specifically validate first-half scoring dynamics or the 4.29pp probability ga"
+    },
+    "ligue_1|Lorient|Troyes|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T14:34:07.719352+00:00",
+      "hours_to_kickoff": 28.2,
+      "ts": "2026-08-28T14:34:07.719373+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "Lorient",
+      "away": "Troyes",
+      "markets_considered": 117,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Incomplete fixture-critical squad information prevents reliable assessment of the home-win claim. Lorient has favorable recent h2h record (3-0 unbeaten streak) and home advantage, but faces a newly promoted Troyes side with compact defensive setup. Critical unknowns: (1) confirmed starting XIs unavailable despite round-2 status; (2) Bamba injury status for Lorient remains uncertain; (3) Troyes' Ti"
+    },
+    "ligue_1|Brest|Toulouse|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T14:43:58.784829+00:00",
+      "hours_to_kickoff": 28.0,
+      "ts": "2026-08-28T14:43:58.784847+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "Brest",
+      "away": "Toulouse",
+      "markets_considered": 56,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Material uncertainties about fixture state and recent tactical implementation prevent sporting assessment. Toulouse's defensive record under new manager Askou is unproven (one match only); Brest's ability to prevent 2-0 outcomes is not isolated in available data. Key personnel availability remains unclear for match day."
+    },
+    "ligue_1|AJ Auxerre|Angers|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-28T14:48:04.530843+00:00",
+      "hours_to_kickoff": 27.9,
+      "ts": "2026-08-28T14:48:04.530862+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "AJ Auxerre",
+      "away": "Angers",
+      "markets_considered": 115,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Both teams arrived with catastrophic season-opener defeats (Auxerre 2-5 to Lens, Angers 0-2 to Lille) and structural weaknesses that remain unverified post-opening: Auxerre's defensive fragility, Angers' midfield depth (Belkebla injury unclear), and manager integration (Will Still 2.5 months in, St\u00e9phane Gilli 2.5 months in post-Paris FC). Auxerre's loss of Sinayoko (12G in 2025-26) and Sangar\u00e9 st"
     }
   },
-  "saved_at": "2026-08-28T12:59:19.524727+00:00"
+  "saved_at": "2026-08-28T14:48:04.532927+00:00"
 }
