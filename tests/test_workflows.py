@@ -218,3 +218,21 @@ def test_the_code_knows_the_real_board_cadence():
     gaps = {(fires[i + 1] - fires[i]).total_seconds() / 3600
             for i in range(len(fires) - 1)}
     assert gaps == {BOARD_RUN_INTERVAL_HOURS}
+
+
+def test_the_board_workflow_installs_the_binary_it_shells_out_to():
+    """`run_board` calls `claude`, an npm package. It was never installed, so
+    every board call fell closed to DEFER and seven fixtures were reported as
+    considered deferrals when the board had never run."""
+    text = open(os.path.join(WORKFLOWS, "matchday-board.yml"),
+                encoding="utf-8").read()
+    assert "@anthropic-ai/claude-code" in text
+    assert text.index("npm install") < text.index("paper-cycle")
+
+
+def test_a_missing_board_fails_the_job_rather_than_every_fixture():
+    """A DEFER must never be able to mean 'the board was not installed'."""
+    text = open(os.path.join(WORKFLOWS, "matchday-board.yml"),
+                encoding="utf-8").read()
+    assert "claude --version" in text
+    assert text.index("claude --version") < text.index("paper-cycle")

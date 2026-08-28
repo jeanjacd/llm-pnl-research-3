@@ -410,3 +410,58 @@ def test_paper_board_transcripts_do_not_land_in_the_real_money_directory():
     assert cycle_mod.PAPER_BOARD_LOG == os.path.join(
         "data", "paper", "board_audit.jsonl")
     assert "betting" not in cycle_mod.PAPER_BOARD_LOG
+
+
+def test_a_board_that_could_not_run_is_not_recorded_as_a_decision(tmp_path,
+                                                                  monkeypatch):
+    """A missing binary, an expired token, a timeout -- all fail closed to
+    DEFER, correctly. But they are not decisions, and must not consume the
+    fixture's one board or its one retry, or an outage spends the whole slate.
+    """
+    _patch_league(monkeypatch, tmp_path)
+
+    def broke(case, fixture, **kw):
+        return {"action": "DEFER", "case_id": case.case_id,
+                "failed_closed": True,
+                "failure": "quant: member invocation failed: "
+                           "[Errno 2] No such file or directory: 'claude'",
+                "quant": None, "coach": None, "judge": None}
+
+    monkeypatch.setattr(cycle_mod, "run_board", broke)
+    state = str(tmp_path / "portfolio.json")
+    stats = run_cycle(state_path=state, providers=[FakeProvider()],
+                      verbose=False, fill_probes={})
+
+    assert stats["board_failures"] == 1
+    assert stats["orders_submitted"] == 0
+    assert stats["board_decisions"] == [], "a breakage is not a decision"
+
+    # The fixture stays unboarded, so the next run picks it up again.
+    portfolio = PaperPortfolio.load(state)
+    assert portfolio.boarded == {}
+
+    rendered = render_summary(stats)
+    assert "did not run" in rendered
+    assert "No such file or directory" in rendered
+
+
+def test_a_genuine_defer_still_consumes_the_fixture(tmp_path, monkeypatch):
+    """The mirror: a real deferral IS recorded, or the retry cap means nothing."""
+    _patch_league(monkeypatch, tmp_path)
+
+    def declined(case, fixture, **kw):
+        return {"action": "DEFER", "case_id": case.case_id,
+                "failed_closed": False,
+                "failure": "coach requires a rerun or deferred",
+                "quant": {"rationale": "ok"},
+                "coach": {"rationale": "Keeper unconfirmed."}, "judge": None}
+
+    monkeypatch.setattr(cycle_mod, "run_board", declined)
+    state = str(tmp_path / "portfolio.json")
+    stats = run_cycle(state_path=state, providers=[FakeProvider()],
+                      verbose=False, fill_probes={})
+    assert stats["board_failures"] == 0
+    assert len(stats["board_decisions"]) == 1
+    portfolio = PaperPortfolio.load(state)
+    assert len(portfolio.boarded) == 1
+    assert next(iter(portfolio.boarded.values()))["attempts"] == 1

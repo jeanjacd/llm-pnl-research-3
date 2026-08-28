@@ -261,6 +261,7 @@ def run_cycle(league_ids=None, state_path: str | None = None,
              "unsupported": 0, "board_run": 0, "orders_submitted": 0,
              "fills": 0, "expired": 0, "resting_fills": 0, "settled": 0,
              "settled_pnl_usd": 0.0, "fixtures_out_of_window": 0,
+             "board_failures": 0,
              # Why instruments were abstained from, bucketed. Filtering the
              # fixture table inflates the raw `unsupported` count with markets
              # for matches that are simply not this run's business, so the
@@ -433,6 +434,16 @@ def run_cycle(league_ids=None, state_path: str | None = None,
                 kwargs["invoke"] = invoke
             verdict = run_board(case, fixture, **kwargs)
             decided_by, why = board_reason(verdict)
+            if verdict.get("failed_closed"):
+                # The board did not RUN. That is not a decision, so it must not
+                # consume the fixture's one board or its one retry -- the whole
+                # slate would otherwise be spent on an outage. Left unrecorded
+                # so the next run picks it up again.
+                stats["board_failures"] += 1
+                stats.setdefault("board_failure_reasons", {})
+                stats["board_failure_reasons"][why[:120]] = (
+                    stats["board_failure_reasons"].get(why[:120], 0) + 1)
+                continue
             # Attempts accumulate so a deferral is retried ONCE, never
             # indefinitely -- see selection.RETRY_MAX_ATTEMPTS.
             prior = portfolio.boarded.get(cand.fixture_key) or {}
@@ -540,7 +551,8 @@ def render_summary(stats: dict) -> str:
     for key in ("cases_built", "cases_skipped_unchanged", "unsupported",
                 "fixtures_out_of_window",
                 "placeable_cases", "fixtures_selected", "candidates_dropped",
-                "board_run", "orders_submitted", "fills", "resting_fills",
+                "board_run", "board_failures",
+                "orders_submitted", "fills", "resting_fills",
                 "expired", "settled", "settled_pnl_usd"):
         if key in stats:
             lines.append("| %s | %s |" % (key, stats.get(key, 0)))
@@ -556,6 +568,21 @@ def render_summary(stats: dict) -> str:
 
     # WHY each fixture went the way it did. Without this a DEFER is only ever
     # a count, and the explanation lives in a file that dies with the runner.
+    # A board that could not run is an INCIDENT, not a row in a decision
+    # table. It goes at the top, because seven identical "DEFER" rows read as
+    # considered judgement and are not.
+    broken = stats.get("board_failures") or 0
+    if broken:
+        lines += ["", "> **The board did not run for %d fixture(s).**" % broken,
+                  "> These are NOT decisions -- nothing was declined on its "
+                  "merits. The fixtures are left unboarded and will be picked "
+                  "up again.", ""]
+        for reason, count in sorted(
+                (stats.get("board_failure_reasons") or {}).items(),
+                key=lambda kv: -kv[1]):
+            lines.append("> - %s (x%d)" % (reason, count))
+        lines.append("")
+
     decisions = stats.get("board_decisions") or []
     if decisions:
         lines += ["", "### Board decisions this cycle", "",
