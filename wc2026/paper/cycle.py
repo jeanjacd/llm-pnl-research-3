@@ -37,6 +37,7 @@ from .fills import KalshiFillProbe, PolymarketFillProbe, replay_fills
 from .selection import (
     MAX_FIXTURE_EXPOSURE_FRACTION,
     actionable_fixtures,
+    chunk_slate,
     fixture_key,
     hours_to_kickoff,
     select_fixture_slates,
@@ -514,26 +515,49 @@ def run_cycle(league_ids=None, state_path: str | None = None,
         by_case = {c.case.case_id: c for c in slate}
 
         if board_enabled:
-            stats["board_run"] += 1
-            kwargs = {"coach_cache": coach_cache, "log_path": PAPER_BOARD_LOG}
-            if invoke:
-                kwargs["invoke"] = invoke
-            verdict = run_board_slate([c.case for c in slate], fixture, **kwargs)
-            if verdict.get("failed_closed"):
-                # The board did not RUN. Not a decision, so it must not consume
-                # the fixture's board or its retry -- an outage would otherwise
-                # spend the whole slate. Left unrecorded for the next run.
-                why = str(verdict.get("failure") or "board failed")
-                stats["board_failures"] += 1
-                stats.setdefault("board_failure_reasons", {})
-                stats["board_failure_reasons"][why[:120]] = (
-                    stats["board_failure_reasons"].get(why[:120], 0) + 1)
+            # A fixture with more markets than fit one prompt is boarded in
+            # several sittings that SHARE the cached coach call, so the cost is
+            # one coach plus a quant and judge per batch -- never one board per
+            # market, and never a silent cut.
+            decisions, approved = {}, []
+            fixture_failure = None
+            usable = False
+            for batch in chunk_slate(slate):
+                stats["board_run"] += 1
+                kwargs = {"coach_cache": coach_cache,
+                          "log_path": PAPER_BOARD_LOG}
+                if invoke:
+                    kwargs["invoke"] = invoke
+                verdict = run_board_slate([c.case for c in batch], fixture,
+                                          **kwargs)
+                if verdict.get("failed_closed"):
+                    # This batch broke. Other batches still stand; if none
+                    # survive the fixture is left unrecorded and comes back.
+                    why = str(verdict.get("failure") or "board failed")
+                    stats["board_failures"] += 1
+                    stats.setdefault("board_failure_reasons", {})
+                    stats["board_failure_reasons"][why[:120]] = (
+                        stats["board_failure_reasons"].get(why[:120], 0) + 1)
+                    continue
+                usable = True
+                batch_decisions = verdict.get("decisions") or {}
+                decisions.update(batch_decisions)
+                approved += [(cid, d) for cid, d in batch_decisions.items()
+                             if d.get("action") in ("PAPER_BUY_NOW",
+                                                    "PAPER_PLACE_LIMIT")]
+                if fixture_failure is None and not batch_decisions:
+                    fixture_failure = verdict
+                if "coach" in str(verdict.get("failure") or "").lower():
+                    # The analyst's objection is to the MATCH, so the remaining
+                    # batches would only re-derive it from the cached verdict.
+                    fixture_failure = verdict
+                    break
+            if not usable:
+                # Every batch broke: not a decision, so the fixture keeps its
+                # board and its retry and is picked up again next run.
                 continue
-            decisions = verdict.get("decisions") or {}
-            decided_by, why = slate_reason(verdict)
-            approved = [(cid, d) for cid, d in decisions.items()
-                        if d.get("action") in ("PAPER_BUY_NOW",
-                                               "PAPER_PLACE_LIMIT")]
+            decided_by, why = slate_reason(fixture_failure
+                                           or {"judge": decisions})
         else:
             decisions, approved = {}, []
             decided_by, why = "deterministic", "board disabled"

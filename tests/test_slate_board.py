@@ -13,7 +13,10 @@ import pytest
 
 from wc2026.board import orchestrator as orch
 from wc2026.board.schemas import (
+    REDACTED_FIELDS,
     SchemaError,
+    assert_no_price_leak,
+    coach_packet,
     quant_slate_packet,
     validate_judge_slate,
     validate_quant_slate,
@@ -185,12 +188,28 @@ def test_a_broken_member_fails_closed_and_says_so():
 
 
 def test_the_coach_is_still_never_shown_a_price():
-    cases = [a_case("home_win", ask=37)]
-    inv = Invoker(quant_yes(cases), a_coach(case_id=cases[0].case_id), judge_yes(cases))
-    orch.run_board_slate(cases, FIXTURE, invoke=inv)
-    coach_prompt = next(p for p in inv.prompts if "SOCCER ANALYST" in p)
-    for leaked in ("37", "ev_per_contract", "breakeven", "max_limit"):
-        assert leaked not in coach_prompt, leaked
+    """Asserted on the PACKET, not on the rendered prompt.
+
+    An earlier version searched the prompt text for the ask price as a bare
+    substring and was time-dependent: "37" matched the MINUTE inside
+    `observed_at`, so it failed only when the clock happened to contain the
+    price's digits. A test that passes on a schedule is worse than none.
+    """
+    case = a_case("home_win", ask=37)
+    packet = coach_packet(case, FIXTURE)
+
+    assert_no_price_leak(packet)                    # the contract itself
+    for field in REDACTED_FIELDS:
+        assert field not in packet, field
+
+    # No VALUE in the packet is the price, the EV, or the limit either.
+    forbidden = {37, case.max_limit_price_cents, case.touch_cents}
+    for key, value in packet.items():
+        assert value not in forbidden, (key, value)
+
+    # And the prompt is built from exactly that packet.
+    prompt = orch.build_coach_prompt(packet)
+    assert json.dumps(packet, indent=1, default=str)[:200] in prompt
 
 
 def test_the_coach_is_asked_once_per_fixture_not_once_per_market():
