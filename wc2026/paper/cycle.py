@@ -613,7 +613,8 @@ def run_cycle(league_ids=None, state_path: str | None = None,
                     # re-querying a market that has closed, or re-running venue
                     # name matching weeks on.
                     claim=cand.claim, home_team=cand.leg.home,
-                    away_team=cand.leg.away, kickoff_utc=cand.leg.kickoff_utc)
+                    away_team=cand.leg.away, kickoff_utc=cand.leg.kickoff_utc,
+                    settles_on_regulation=cand.instrument.settles_on_regulation)
             except Exception as exc:                          # noqa: BLE001
                 league_stats.setdefault("errors", []).append(
                     "submit: %s" % str(exc)[:80])
@@ -663,7 +664,9 @@ def render_summary(stats: dict) -> str:
                   "| CLV per fixture | %s c |" % clv.get("clv_cents"),
                   "| t-stat (on fixtures) | %s |" % clv.get("t_stat"),
                   "| independent fixtures | %s |" % clv.get("n_fixtures"),
-                  "| bets behind them | %s |" % clv.get("n_bets"),
+                  "| directional bets scored | %s |" % clv.get("n_bets"),
+                  "| excluded as spread capture | %s |"
+                  % clv.get("n_excluded_as_spread", 0),
                   "| bets per fixture | %s |" % clv.get("bets_per_fixture"),
                   ""]
         if (clv.get("n_fixtures") or 0) < 246:
@@ -739,14 +742,22 @@ def render_summary(stats: dict) -> str:
     port = stats.get("portfolio") or {}
     pnl = stats.get("pnl") or {}
     if pnl.get("n_bets"):
-        lines += ["", "### Realised P&L (clustered by fixture)", "",
-                  "| metric | value |", "|---|---|",
-                  "| P&L per fixture | $%s |" % pnl.get("pnl_per_fixture_usd"),
-                  "| t-stat (on fixtures) | %s |" % pnl.get("t_stat"),
+        # Forecast and spread capture are never summed. An offsetting pair is
+        # locked the moment both legs fill and carries no view, so folding it
+        # into the headline would report captured width as forecasting skill.
+        lines += ["", "### Realised P&L", "",
+                  "| component | value |", "|---|---|",
+                  "| **forecast** (per fixture) | $%s |"
+                  % pnl.get("forecast_pnl_per_fixture_usd"),
+                  "| forecast t-stat (on fixtures) | %s |" % pnl.get("t_stat"),
+                  "| forecast total | $%s |" % pnl.get("forecast_pnl_usd"),
+                  "| spread capture | $%s |" % pnl.get("spread_pnl_usd"),
+                  "| **realised total** | $%s |" % pnl.get("pnl_usd"),
                   "| independent fixtures | %s |" % pnl.get("n_fixtures"),
-                  "| settled bets behind them | %s |" % pnl.get("n_bets"),
-                  "| bets per fixture | %s |" % pnl.get("bets_per_fixture"),
-                  "| total | $%s |" % pnl.get("pnl_usd"), ""]
+                  "| settled bets | %s |" % pnl.get("n_bets"), "",
+                  "_Only the directional remainder is scored as forecasting. "
+                  "An offsetting pair's return is fixed once filled, whatever "
+                  "the result._", ""]
 
     lines += ["", "### Portfolio", "", "| metric | value |", "|---|---|"]
     for key in ("cash_usd", "reserved_usd", "n_open_orders",

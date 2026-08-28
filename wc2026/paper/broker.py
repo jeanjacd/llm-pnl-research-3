@@ -86,6 +86,12 @@ class PaperOrder:
     home_team: str | None = None
     away_team: str | None = None
     kickoff_utc: str | None = None
+    # Whether the venue settles this contract on regulation time. Recorded so
+    # attribution can tell a genuinely offsetting cross-venue pair from two
+    # contracts that merely look alike -- `venues.base.equivalent` refuses an
+    # unknown basis for exactly this reason, and a pair that is not truly
+    # offsetting is live risk, not captured spread.
+    settles_on_regulation: bool | None = None
     # How far the fill replay has already looked. Without it a re-run would
     # re-scan the same window, and a gap between runs would go unexamined.
     last_checked_at: str | None = None
@@ -122,6 +128,12 @@ class PaperPosition:
     home_team: str | None = None
     away_team: str | None = None
     kickoff_utc: str | None = None
+    # Whether the venue settles this contract on regulation time. Recorded so
+    # attribution can tell a genuinely offsetting cross-venue pair from two
+    # contracts that merely look alike -- `venues.base.equivalent` refuses an
+    # unknown basis for exactly this reason, and a pair that is not truly
+    # offsetting is live risk, not captured spread.
+    settles_on_regulation: bool | None = None
     opened_at: str = field(default_factory=_iso)
     # Closing line value -- see paper/clv.py. Captured at kick-off, which is
     # separate from settlement because the result lands hours later.
@@ -170,7 +182,8 @@ class PaperPortfolio:
                idempotency_key: str | None = None,
                claim: str | None = None, home_team: str | None = None,
                away_team: str | None = None,
-               kickoff_utc: str | None = None) -> PaperOrder:
+               kickoff_utc: str | None = None,
+               settles_on_regulation: bool | None = None) -> PaperOrder:
         """Submit a paper limit order, reserving the cash it could consume."""
         if not 0 < limit_price_cents < 100:
             raise BrokerError("limit price must be 1..99")
@@ -198,7 +211,8 @@ class PaperPortfolio:
                            reserved_cents=need, expires_at=expires_at,
                            cancel_triggers=list(cancel_triggers or []),
                            claim=claim, home_team=home_team,
-                           away_team=away_team, kickoff_utc=kickoff_utc)
+                           away_team=away_team, kickoff_utc=kickoff_utc,
+                           settles_on_regulation=settles_on_regulation)
         order.log("submitted", key=key, reserved_cents=need)
         self.orders[order.order_id] = order
         return order
@@ -326,7 +340,8 @@ class PaperPortfolio:
                 avg_cost_cents=avg_price, fees_cents=fee,
                 league_id=order.league_id, case_id=order.case_id,
                 claim=order.claim, home_team=order.home_team,
-                away_team=order.away_team, kickoff_utc=order.kickoff_utc)
+                away_team=order.away_team, kickoff_utc=order.kickoff_utc,
+                settles_on_regulation=order.settles_on_regulation)
         else:
             grand = pos.size + size
             pos.avg_cost_cents = ((pos.avg_cost_cents * pos.size

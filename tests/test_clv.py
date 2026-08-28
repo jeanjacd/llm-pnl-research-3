@@ -19,11 +19,16 @@ FUTURE = (dt.datetime.now(dt.timezone.utc)
 
 
 def a_position(portfolio, instrument="I1", paid=30.0, kickoff=PAST,
-               home="A", away="B", venue="kalshi", side="yes"):
+               home="A", away="B", venue="kalshi", side="yes", claim=None):
     from wc2026.paper.broker import PaperPosition
+    # A distinct claim per position, so nothing nets: these tests are about
+    # CLUSTERING, and an offsetting pair would be excluded as spread capture
+    # by paper/attribution.py, which is a different property.
     pos = PaperPosition(position_id=instrument, venue=venue,
                         instrument_id=instrument, side=side, size=10.0,
                         avg_cost_cents=paid, fees_cents=0, league_id="mls",
+                        claim=claim or ("total_over_%s" % instrument),
+                        settles_on_regulation=True,
                         home_team=home, away_team=away, kickoff_utc=kickoff)
     portfolio.positions["%s|%s" % (instrument, side)] = pos
     return pos
