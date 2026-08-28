@@ -6,103 +6,58 @@
   "positions": {},
   "ledger": [],
   "boarded": {
-    "la_liga|Real Madrid|Real Sociedad|2026-08-26": {
-      "ts": "2026-08-26T07:32:14.019615+00:00",
-      "action": "DEFER",
-      "case_id": "kalshi:KXLALIGAGAME-26AUG26RMARSO-RSO:yes",
-      "claim": "home_win"
-    },
-    "la_liga|Celta Vigo|Osasuna|2026-08-27": {
-      "attempts": 1,
-      "first_boarded_at": "2026-08-27T15:18:12.163229+00:00",
-      "hours_to_kickoff": 3.2,
-      "ts": "2026-08-27T15:18:12.163241+00:00",
-      "action": "DEFER",
-      "case_id": "kalshi:KXLALIGAGAME-26AUG27RCCOSA-TIE:no",
-      "claim": "not_draw",
-      "home": "Celta Vigo",
-      "away": "Osasuna",
-      "decided_by": "quant",
-      "reason": "quant: member invocation failed: [Errno 2] No such file or directory: 'claude'"
-    },
-    "la_liga|Barcelona|Athletic Club|2026-08-27": {
-      "attempts": 1,
-      "first_boarded_at": "2026-08-27T15:18:12.164185+00:00",
-      "hours_to_kickoff": 3.7,
-      "ts": "2026-08-27T15:18:12.164196+00:00",
-      "action": "DEFER",
-      "case_id": "kalshi:KXLALIGAGAME-26AUG27BARATH-BAR:no",
-      "claim": "not_home_win",
-      "home": "Barcelona",
-      "away": "Athletic Club",
-      "decided_by": "quant",
-      "reason": "quant: member invocation failed: [Errno 2] No such file or directory: 'claude'"
-    },
     "bundesliga|Bayern Munich|VfB Stuttgart|2026-08-28": {
       "attempts": 1,
-      "first_boarded_at": "2026-08-27T15:18:12.158179+00:00",
-      "hours_to_kickoff": 27.2,
-      "ts": "2026-08-27T15:18:12.158192+00:00",
+      "first_boarded_at": "2026-08-28T03:31:56.844494+00:00",
+      "hours_to_kickoff": 15.0,
+      "ts": "2026-08-28T03:31:56.844512+00:00",
       "action": "DEFER",
       "case_id": "kalshi:KXBUNDESLIGAGAME-26AUG28BMUVFB-BMU:no",
       "claim": "not_home_win",
       "home": "Bayern Munich",
       "away": "VfB Stuttgart",
-      "decided_by": "quant",
-      "reason": "quant: member invocation failed: [Errno 2] No such file or directory: 'claude'"
-    },
-    "la_liga|Alav\u00e9s|Villarreal|2026-08-28": {
-      "attempts": 1,
-      "first_boarded_at": "2026-08-27T15:18:12.159464+00:00",
-      "hours_to_kickoff": 28.2,
-      "ts": "2026-08-27T15:18:12.159476+00:00",
-      "action": "DEFER",
-      "case_id": "kalshi:KXLALIGAGAME-26AUG28ALAVIL-TIE:yes",
-      "claim": "draw",
-      "home": "Alav\u00e9s",
-      "away": "Villarreal",
-      "decided_by": "quant",
-      "reason": "quant: member invocation failed: [Errno 2] No such file or directory: 'claude'"
+      "decided_by": "coach",
+      "reason": "Material conflicting evidence on Jamal Musiala's availability for August 28 kickoff. Recent (Aug 27) reports confirm he WILL NOT play; however, earlier credible sources (Sport BILD, OneFootball, BFW) suggested possible return for opener. Additionally, Stuttgart's defensive depth is severely compromised with eight+ players unavailable, creating asymmetric injury exposure that materially affects hom"
     },
     "la_liga|Racing Santander|Elche|2026-08-28": {
       "attempts": 1,
-      "first_boarded_at": "2026-08-27T15:18:12.161020+00:00",
-      "hours_to_kickoff": 25.7,
-      "ts": "2026-08-27T15:18:12.161031+00:00",
-      "action": "DEFER",
-      "case_id": "kalshi:KXLALIGAGAME-26AUG28SANELC-SAN:yes",
-      "claim": "home_win",
+      "first_boarded_at": "2026-08-28T03:36:24.043805+00:00",
+      "hours_to_kickoff": 13.4,
+      "ts": "2026-08-28T03:36:24.043824+00:00",
+      "action": "PASS",
+      "case_id": "kalshi:KXLALIGAGAME-26AUG28SANELC-ELC:no",
+      "claim": "not_away_win",
       "home": "Racing Santander",
       "away": "Elche",
       "decided_by": "quant",
-      "reason": "quant: member invocation failed: [Errno 2] No such file or directory: 'claude'"
+      "reason": "Negative EV at touch (73\u00a2: -3.22\u00a2/contract). Even upper confidence bound (76.43%) fails to justify current pricing\u2014true break-even at 73\u00a2 requires 75.65%, leaving ~1.22pp shortfall. No calibration methodology disclosed (p_calibrated = p_raw) and symmetric 200bp bounds suggest wide unvalidated uncertainty. Market shows adequate depth (909 contracts at touch) and slippage=0, so this is not a liquidi"
     },
     "ligue_1|Lille|Paris Saint-Germain|2026-08-28": {
       "attempts": 1,
-      "first_boarded_at": "2026-08-27T15:18:12.165977+00:00",
-      "hours_to_kickoff": 27.4,
-      "ts": "2026-08-27T15:18:12.165989+00:00",
+      "first_boarded_at": "2026-08-28T03:38:25.639181+00:00",
+      "hours_to_kickoff": 15.1,
+      "ts": "2026-08-28T03:38:25.639195+00:00",
       "action": "DEFER",
       "case_id": "kalshi:KXLIGUE1GAME-26AUG28LILPSG-PSG:no",
       "claim": "not_away_win",
       "home": "Lille",
       "away": "Paris Saint-Germain",
-      "decided_by": "quant",
-      "reason": "quant: member invocation failed: [Errno 2] No such file or directory: 'claude'"
+      "decided_by": "coach",
+      "reason": "Core sporting assumptions remain intact for a competitive Lille home fixture, but critical quantitative gaps prevent confident assessment of the 'no' position. PSG's away capability, Lille's opening-weekend momentum, and fixture-specific contingencies require explicit rerun scenarios to validate or challenge the model's embedded assumptions about travel/fatigue/formation adjustments."
     },
     "premier_league|Crystal Palace|Manchester City|2026-08-28": {
       "attempts": 1,
-      "first_boarded_at": "2026-08-27T15:18:12.167420+00:00",
-      "hours_to_kickoff": 27.7,
-      "ts": "2026-08-27T15:18:12.167431+00:00",
+      "first_boarded_at": "2026-08-28T03:41:36.177452+00:00",
+      "hours_to_kickoff": 15.3,
+      "ts": "2026-08-28T03:41:36.177469+00:00",
       "action": "DEFER",
-      "case_id": "kalshi:KXEPLGAME-26AUG28CRYMCI-MCI:no",
-      "claim": "not_away_win",
+      "case_id": "kalshi:KXEPLGAME-26AUG28CRYMCI-TIE:yes",
+      "claim": "draw",
       "home": "Crystal Palace",
       "away": "Manchester City",
-      "decided_by": "quant",
-      "reason": "quant: member invocation failed: [Errno 2] No such file or directory: 'claude'"
+      "decided_by": "coach",
+      "reason": "Manchester City's defensive organization under new manager Enzo Maresca remains materially unsettled (admitted mid-adjustment against Bournemouth). Crystal Palace's managerial change (Sage replacing Glasner) and opening-day 2-0 loss to Everton obscure their true tactical baseline. Critical evidence gap: no confirmed data on Sage's defensive set-piece vulnerability, City's specific draw propensity "
     }
   },
-  "saved_at": "2026-08-28T02:19:20.919501+00:00"
+  "saved_at": "2026-08-28T03:41:36.177498+00:00"
 }
