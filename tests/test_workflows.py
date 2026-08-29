@@ -243,3 +243,57 @@ def test_a_missing_board_fails_the_job_rather_than_every_fixture():
                 encoding="utf-8").read()
     assert "claude --version" in text
     assert text.index("claude --version") < text.index("paper-cycle")
+
+
+# ── the published site ────────────────────────────────────────────────────────
+def test_the_site_is_rebuilt_whenever_the_ledger_changes():
+    """The page is generated from the ledger, so it must fire after every
+    workflow that writes one -- otherwise the site silently shows a stale
+    record while claiming to be current."""
+    triggers = load("publish-site")["triggers"]
+    watched = set(triggers["workflow_run"]["workflows"])
+    writers = {name for name in ("matchday-board", "paper-maintenance")
+               if "contents" in (load(name)["permissions"] or {})}
+    assert writers <= watched, "a ledger writer is not being published from"
+
+
+def test_the_watched_workflow_names_actually_exist():
+    """`workflow_run` matches on the workflow's `name:`, not its filename. A
+    rename would stop the trigger matching and nothing would fail -- the site
+    would just quietly stop updating."""
+    names = {load(f)["name"] for f in ("matchday-board", "paper-maintenance")}
+    for watched in load("publish-site")["triggers"]["workflow_run"]["workflows"]:
+        assert watched in names, (
+            "publish-site watches %r, which is not any workflow's name" % watched)
+
+
+def test_publishing_cannot_write_to_the_repository():
+    """It reads the ledger and deploys. It has no business committing, and a
+    deployment token plus write access is a wider blast radius than either
+    needs on its own."""
+    doc = load("publish-site")
+    assert doc["permissions"]["contents"] == "read"
+    assert doc["permissions"]["pages"] == "write"
+
+
+def test_publishing_does_not_queue_behind_the_board():
+    """Sharing `paper-portfolio` would make every deploy wait on a board run,
+    and a long board would hold the site stale for an hour."""
+    assert load("publish-site")["concurrency"]["group"] == "pages"
+    assert load("publish-site")["concurrency"]["group"] != \
+        load("matchday-board")["concurrency"]["group"]
+
+
+def test_a_failed_board_does_not_publish():
+    doc = load("publish-site")
+    guard = str(doc["jobs"]["publish"].get("if") or "")
+    assert "conclusion == 'success'" in guard
+
+
+def test_the_site_restores_state_before_building_it():
+    """`data/paper/` is gitignored; without the restore the build would render
+    a page saying the book is empty, which is a claim about the trading."""
+    text = open(os.path.join(WORKFLOWS, "publish-site.yml"),
+                encoding="utf-8").read()
+    assert "state_sync.py restore" in text
+    assert text.index("state_sync.py restore") < text.index("wc2026.site.build")
