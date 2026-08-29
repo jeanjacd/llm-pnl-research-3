@@ -36,12 +36,25 @@ import datetime as dt
 # When to board a fixture, in hours before kick-off. A CONSISTENT lead time
 # matters for measurement: a decision taken four days out and one taken two
 # hours out are not comparable observations, and mixing them confounds any
-# reading of the result. 24h is late enough for team news to have formed and
-# early enough that a resting limit still has time to fill.
-BOARD_TARGET_HOURS = 24.0
-# The window is wider than the scheduler's interval so no fixture can slip
-# between two runs; `PaperPortfolio.boarded` is what keeps it to once.
-BOARD_WINDOW_HOURS = 6.0
+# reading of the result.
+#
+# 24h was too early, and the coach said so in its own words. Boarded at a
+# median of 28h, 48% of its rerun requests asked to be run again "with
+# confirmed lineups", "with confirmed team news 48 hours pre-match", "with
+# final confirmed lineups 2 hours pre-kickoff". Team news is the coach's
+# entire job and it does not exist a full day out, so the first sitting was
+# asking a question that could not yet be answered.
+#
+# 14h sits after most probable line-ups are reported and still leaves a
+# resting limit the better part of a day to be reached. The window must stay
+# wider than the run interval so no fixture slips between two runs, and must
+# clear `retry_by_hours()` so a deferral still has room for its second look:
+#
+#     first sitting   10-18h    (target 14 +/- 4)
+#     retry deadline       9h    (min 2 + 2 x interval 3 + slack 1)
+#
+BOARD_TARGET_HOURS = 14.0
+BOARD_WINDOW_HOURS = 4.0
 # Below this there is no time for a resting order to be reached, so a fixture
 # missed entirely is let go rather than boarded at the whistle.
 BOARD_MIN_HOURS = 2.0
@@ -58,6 +71,21 @@ BOARD_MIN_HOURS = 2.0
 # those are the board actively declining, and re-asking until it says yes is
 # just re-rolling the dice -- the multiple-comparisons problem that biases
 # everything toward false positives. Only a DEFER is retried, and only once.
+# --- how much one run may spend ----------------------------------------------
+# A fixture costs roughly seven model calls: a quant and a judge per chunk of
+# the slate, plus one coach. At 117 markets a fixture that is three chunks, so
+# ~7 calls, and an uncapped run boards every fixture in its window at once.
+#
+# That is how the usage limit got exhausted. Once it does, every remaining call
+# fails instantly and leaves its fixture UNBOARDED, so the next run inherits
+# them all plus the new ones -- 35 fixtures became 81 in a day, and 81 fixtures
+# is ~570 calls, which exhausts the limit sooner. The loop tightens itself.
+#
+# Capping the run breaks it. Fixtures are already ordered by kick-off, so the
+# ones dropped are the furthest away, and they are boarded by a later run while
+# still inside the window.
+BOARD_MAX_FIXTURES_PER_RUN = 8
+
 RETRY_MAX_ATTEMPTS = 2
 
 # The whole ladder is boarded, but not without bound: the slate goes into one
@@ -243,7 +271,8 @@ def actionable_fixtures(fixtures, now=None):
 
 
 def select_fixture_slates(candidates, already_boarded=None, now=None,
-                          use_lead_time: bool = True):
+                          use_lead_time: bool = True,
+                          max_fixtures=BOARD_MAX_FIXTURES_PER_RUN):
     """Every candidate market, grouped by the fixture it belongs to.
 
     Returns (slates, skipped) where `slates` maps fixture_key -> [candidate].
@@ -259,9 +288,6 @@ def select_fixture_slates(candidates, already_boarded=None, now=None,
     Within a fixture the slate is ordered by claim family then EV, so the most
     validated markets lead the prompt and the ordering is stable across runs.
     """
-    # Accepts the boarded LEDGER (key -> record). A bare set of keys is still
-    # honoured -- an entry with no recorded action reads as "already decided",
-    # which is the old behaviour.
     # Accepts the boarded LEDGER (key -> record). A bare set of keys is still
     # honoured -- an entry with no recorded action reads as "already decided",
     # which is the old behaviour.
@@ -284,6 +310,22 @@ def select_fixture_slates(candidates, already_boarded=None, now=None,
         group.sort(key=lambda c: (claim_rank(c.claim),
                                   -(c.case.ev_per_contract or 0.0),
                                   c.instrument.venue, c.instrument.instrument_id))
+
+    # Spend the run on the fixtures closest to kick-off. Anything dropped here
+    # is still inside its window and is boarded by a later run -- unlike a
+    # fixture dropped by an exhausted usage limit, which is what this prevents.
+    if max_fixtures is not None and len(slates) > max_fixtures:
+        def soonest(item):
+            group = item[1]
+            return min(str(c.leg.kickoff_utc or "9999") for c in group)
+        ordered = sorted(slates.items(), key=soonest)
+        keep = dict(ordered[:max_fixtures])
+        for key, group in ordered[max_fixtures:]:
+            for cand in group:
+                skipped.append((cand, "run is full (%d fixtures); this one is "
+                                      "further out and keeps its window"
+                                % max_fixtures))
+        slates = keep
     return slates, skipped
 
 
