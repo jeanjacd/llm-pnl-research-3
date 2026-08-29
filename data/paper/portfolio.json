@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 107310,
-  "reserved_cents": 8502,
+  "reserved_cents": 9497,
   "orders": {
     "80b2551a-861c-4ab1-a377-48fd802c86ae": {
       "order_id": "80b2551a-861c-4ab1-a377-48fd802c86ae",
@@ -283,7 +283,7 @@
       "away_team": "Chicago Fire FC",
       "kickoff_utc": "2026-08-29T20:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-28T22:01:05.302676+00:00"
+      "last_checked_at": "2026-08-29T00:01:20.403457+00:00"
     },
     "81dd6b25-3949-4521-9c68-90016388db95": {
       "order_id": "81dd6b25-3949-4521-9c68-90016388db95",
@@ -316,7 +316,7 @@
       "away_team": "Chicago Fire FC",
       "kickoff_utc": "2026-08-29T20:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-28T22:01:05.302676+00:00"
+      "last_checked_at": "2026-08-29T00:01:20.403457+00:00"
     },
     "64dfec81-30f0-4d1f-bd5c-775525edce61": {
       "order_id": "64dfec81-30f0-4d1f-bd5c-775525edce61",
@@ -349,7 +349,40 @@
       "away_team": "Real Salt Lake",
       "kickoff_utc": "2026-08-30T01:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-28T22:01:05.302676+00:00"
+      "last_checked_at": "2026-08-29T00:01:20.403457+00:00"
+    },
+    "27009ee8-aabf-425b-95b0-0a8a51aa9abd": {
+      "order_id": "27009ee8-aabf-425b-95b0-0a8a51aa9abd",
+      "case_id": "kalshi:KXMLSGAME-26AUG29DCULAFC-LAFC:yes",
+      "venue": "kalshi",
+      "instrument_id": "KXMLSGAME-26AUG29DCULAFC-LAFC",
+      "side": "yes",
+      "limit_price_cents": 48,
+      "requested_size": 20.0,
+      "league_id": "mls",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 995,
+      "created_at": "2026-08-29T00:44:59.980272+00:00",
+      "expires_at": "2026-08-29T23:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-08-29T00:44:59.980279+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXMLSGAME-26AUG29DCULAFC-LAFC:yes|KXMLSGAME-26AUG29DCULAFC-LAFC|yes|48",
+          "reserved_cents": 995
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "away_win",
+      "home_team": "D.C. United",
+      "away_team": "LAFC",
+      "kickoff_utc": "2026-08-29T23:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
     }
   },
   "positions": {
@@ -890,7 +923,77 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Philadelphia Union's unbeaten streak and recent form improvement under Ryan Richter are well-established. However, critical tactical and squad-level details for this specific fixture remain unclear: confirmed lineups, player availability (especially injury status and yellow-card suspension threats), formation adjustments, rest patterns amid fixture congestion, and international call-ups are not av"
+    },
+    "mls|San Diego FC|LA Galaxy|2026-08-30": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-29T00:20:10.075190+00:00",
+      "hours_to_kickoff": 26.2,
+      "ts": "2026-08-29T00:20:10.075210+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "San Diego FC",
+      "away": "LA Galaxy",
+      "markets_considered": 69,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "San Diego's form advantage (3 wins in last 5, 3-0 shutout vs Colorado) is supported; LA Galaxy's away struggles (0 wins in last 5) are confirmed. However, critical goalkeeper and lineup intel conflicts: JT Marcinkowski's suspension status (red card vs fine vs disciplinary outcome) remains ambiguous from available sources. Some reports indicate Marcus Ingvartsen injury but lack confirmation from of"
+    },
+    "mls|Portland Timbers|Austin FC|2026-08-30": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-29T00:30:15.918881+00:00",
+      "hours_to_kickoff": 26.0,
+      "ts": "2026-08-29T00:30:15.918899+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "Portland Timbers",
+      "away": "Austin FC",
+      "markets_considered": 123,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Critical uncertainty on team selection and recent systemic changes prevents reliable assessment. Marti Cifuentes took charge only 19 days prior (Aug 11), with first match Aug 16 (loss 1-2 to Chicago); Austin's midweek Leagues Cup travel/red-card discipline status unclear for Aug 30; Portland has 5 sidelined players (Aravena, Bye, Chara, Mosquera, Muse); Austin showed no official injuries but Josep"
+    },
+    "mls|Inter Miami CF|CF Montr\u00e9al|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-29T00:34:14.785688+00:00",
+      "hours_to_kickoff": 22.9,
+      "ts": "2026-08-29T00:34:14.785708+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "Inter Miami CF",
+      "away": "CF Montr\u00e9al",
+      "markets_considered": 116,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Critical uncertainty regarding Messi's status prevents confident assessment. Inter Miami in poor form (5-game winless streak) facing Montreal's 8-game drought, but Montreal has integrated Alexis S\u00e1nchez and won their last fixture. Both squads heavily depleted by injury. The absence or presence of Messi materially reshapes the match dynamics. Home advantage favors Miami but form favors caution. Ins"
+    },
+    "mls|D.C. United|LAFC|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-29T00:44:59.980141+00:00",
+      "hours_to_kickoff": 22.8,
+      "ts": "2026-08-29T00:44:59.980162+00:00",
+      "action": "PAPER_PLACE_LIMIT",
+      "claim": "away_win",
+      "home": "D.C. United",
+      "away": "LAFC",
+      "markets_considered": 50,
+      "markets_approved": 1,
+      "decided_by": "judge",
+      "reason": "approved 1 of 7 market(s): Away win fundamentals robust: LAFC 3rd place (35 pts) vs DC 11th (24 pts), +14/-8 goal differential, 2-0-1 H2H record, DC winless in 4 straight with recent 3-0/3-1 defeats. Analyst verdict ACCEPT well-supported by evidence. Quant EV +1.25\u00a2 adequate against depth 5927. Clearest directional expression of LAFC quality gap; avoids margin-specification model risk."
+    },
+    "mls|Atlanta United FC|Charlotte FC|2026-08-29": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-29T00:50:05.139906+00:00",
+      "hours_to_kickoff": 22.7,
+      "ts": "2026-08-29T00:50:05.139925+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "Atlanta United FC",
+      "away": "Charlotte FC",
+      "markets_considered": 121,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Atlanta United is favored as home team backed by strong recent form: three consecutive wins including a dominant 2-1 victory over SKC six days prior. The team enters with momentum, superior home record (4 wins at Mercedes-Benz vs Charlotte's poor away form\u20142 wins in 12 road matches). Charlotte's injuries (Harry Toffolo sidelined, Allan Saint-Maximin still building fitness post-visa clearance, Aron"
     }
   },
-  "saved_at": "2026-08-28T22:12:26.653532+00:00"
+  "saved_at": "2026-08-29T00:50:05.142397+00:00"
 }
