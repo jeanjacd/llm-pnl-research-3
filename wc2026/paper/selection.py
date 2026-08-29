@@ -87,17 +87,31 @@ BOARD_SLATE_CHUNK = 40
 # leg large, so the ceiling is explicit rather than incidental.
 MAX_FIXTURE_EXPOSURE_FRACTION = 0.05
 
-# The schedule the retry has to fit inside. `test_workflows.py` pins this
-# against the actual cron so the two cannot drift.
+# The schedule the retry has to fit inside. THIS MUST EQUAL THE REAL FIRING
+# INTERVAL. `matchday-board.yml` has no `schedule:` any more -- it is fired by
+# an external cron (cron-job.org), because GitHub's scheduler drifted badly
+# enough to spend board calls on unpredictable extra runs. So nothing in this
+# repository can read the true cadence, and no test can verify it: the
+# workflow states the interval in a comment and `test_workflows.py` pins THAT
+# against this constant, which closes the second hop but not the first.
 #
-# 2h rather than 6h, because the retry deadline is derived from it and a
-# looser cadence forces the retry earlier: at 6h a deferral could only be
-# guaranteed by retrying up to 15h out, a median of 12.1h before kick-off,
-# which is barely better informed than the original pass at 24h. At 2h the
-# deadline is 7h and the median retry lands 6.0h out. Affordable because a run
-# with no fixture in its window now costs about 40s of discovery instead of
-# 21 minutes -- see `actionable_fixtures`.
-BOARD_RUN_INTERVAL_HOURS = 2.0
+# Getting it wrong is silent and one-directional. Understating the interval
+# narrows the retry window below the real worst gap, and a deferred fixture
+# then kicks off never having been retried. Simulated across 4,978 kick-offs
+# with one run dropped and others 42 min late:
+#
+#   constant   real cron   window   worst gap   unretried kick-offs
+#      2.5h       3.0h      6.0h      7.0h            12
+#      3.0h       3.0h      7.0h      7.0h             0
+#
+# The cadence itself is a trade. The deadline is derived from it, so a looser
+# cadence forces the retry earlier: at 6h a deferral could only be guaranteed
+# by retrying up to 15h out -- a median of 12.1h before kick-off, barely
+# better informed than the original pass at 24h. At 3h the deadline is 9h and
+# the retry lands a median of 7.5h out (min 2.3h, max 9.0h). Affordable
+# because a run with no fixture in its window costs about 40s of discovery
+# instead of 21 minutes -- see `actionable_fixtures`.
+BOARD_RUN_INTERVAL_HOURS = 3.0
 # Measured over the live schedule: nominal 6.0h, largest observed gap 7.0h,
 # lateness up to +42 min, and on the previous hourly cron an entire run was
 # dropped. The retry deadline allows for one whole run being lost plus that
