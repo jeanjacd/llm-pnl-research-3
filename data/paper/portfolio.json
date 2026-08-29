@@ -283,7 +283,7 @@
       "away_team": "Chicago Fire FC",
       "kickoff_utc": "2026-08-29T20:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-29T02:01:05.060145+00:00"
+      "last_checked_at": "2026-08-29T04:01:18.018829+00:00"
     },
     "81dd6b25-3949-4521-9c68-90016388db95": {
       "order_id": "81dd6b25-3949-4521-9c68-90016388db95",
@@ -316,7 +316,7 @@
       "away_team": "Chicago Fire FC",
       "kickoff_utc": "2026-08-29T20:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-29T02:01:05.060145+00:00"
+      "last_checked_at": "2026-08-29T04:01:18.018829+00:00"
     },
     "64dfec81-30f0-4d1f-bd5c-775525edce61": {
       "order_id": "64dfec81-30f0-4d1f-bd5c-775525edce61",
@@ -349,7 +349,7 @@
       "away_team": "Real Salt Lake",
       "kickoff_utc": "2026-08-30T01:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-29T02:01:05.060145+00:00"
+      "last_checked_at": "2026-08-29T04:01:18.018829+00:00"
     },
     "27009ee8-aabf-425b-95b0-0a8a51aa9abd": {
       "order_id": "27009ee8-aabf-425b-95b0-0a8a51aa9abd",
@@ -382,7 +382,7 @@
       "away_team": "LAFC",
       "kickoff_utc": "2026-08-29T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-29T02:01:05.060145+00:00"
+      "last_checked_at": "2026-08-29T04:01:18.018829+00:00"
     }
   },
   "positions": {
@@ -645,18 +645,18 @@
       "reason": "The sporting case for Everton failing to score rests entirely on home-ground advantage and recent head-to-head record. However, material evidence strongly favors Everton scoring: Thierno Barry in exceptional early-season form (4 goals in 2 matches), multiple attacking outlets (Dewsbury-Hall, Ndiaye) all available, superior recent form (2-0 and 4-0 wins vs Bournemouth's opening loss), and facing a "
     },
     "premier_league|Liverpool|Nottingham Forest|2026-08-29": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-08-28T09:04:54.149624+00:00",
-      "hours_to_kickoff": 26.4,
-      "ts": "2026-08-28T09:04:54.149649+00:00",
+      "hours_to_kickoff": 7.2,
+      "ts": "2026-08-29T04:16:59.669726+00:00",
       "action": "DEFER",
       "claim": "not_home_win",
       "home": "Liverpool",
       "away": "Nottingham Forest",
-      "markets_considered": 119,
+      "markets_considered": 133,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Critical managerial/squad context conflicts prevent confident sporting assessment. Research reveals major transitions (Iraola appointment, Salah/Konat\u00e9 departures, Robertson exit) and Newcastle defensive vulnerabilities that contradict initial fixture assumptions. Nottingham Forest's weak start (0-2 vs Leeds, 0-1 vs Leeds league) and managerial newness (Glasner 3 matches in) create asymmetric form"
+      "reason": "The sporting fundamentals strongly favour Liverpool. Despite managerial transition, Liverpool maintain a 22-year streak of not losing their opening home league game (17 wins, 5 draws since 2003). Nottingham Forest are without a competitive win this season (0 goals in 2 matches, 2 consecutive defeats to Leeds), while Liverpool drew at Newcastle in their opener with a new attacking cast. Home advant"
     },
     "premier_league|Crystal Palace|Manchester City|2026-08-28": {
       "attempts": 2,
@@ -995,5 +995,5 @@
       "reason": "Atlanta United is favored as home team backed by strong recent form: three consecutive wins including a dominant 2-1 victory over SKC six days prior. The team enters with momentum, superior home record (4 wins at Mercedes-Benz vs Charlotte's poor away form\u20142 wins in 12 road matches). Charlotte's injuries (Harry Toffolo sidelined, Allan Saint-Maximin still building fitness post-visa clearance, Aron"
     }
   },
-  "saved_at": "2026-08-29T02:12:01.139538+00:00"
+  "saved_at": "2026-08-29T04:16:59.672190+00:00"
 }
