@@ -72,36 +72,27 @@ def test_every_workflow_file_is_valid_yaml_with_a_name():
         assert doc.get("on", doc.get(True)), path
 
 
-def test_the_board_runs_every_two_hours_every_day():
-    """Every day, not weekends only: a Wednesday match has its T-24h on
-    Tuesday, and the 162 midweek fixtures of 1,547 are 10.5% of the sample
-    that any significance claim rests on.
+def test_the_board_is_fired_externally_not_by_github():
+    """`schedule:` is removed on purpose, so it must not creep back.
 
-    Every two hours because the cadence sets how late a deferred fixture can
-    be retried while still being guaranteed -- 6h forced the retry to a median
-    of 12.1h before kick-off, 2h lands it at 6.0h.
+    GitHub's scheduler fired this workflow once in a 14h stretch while the
+    external cron fired 7 for 7. Two triggers meant unpredictable extra runs,
+    and a board run costs model time -- so the unreliable one was dropped. A
+    re-added `schedule:` would quietly resume double-firing.
     """
-    from wc2026.paper.selection import BOARD_RUN_INTERVAL_HOURS
-    fires = fire_times(crons(load("matchday-board"))[0], MONDAY)
-    per_day = int(24 / BOARD_RUN_INTERVAL_HOURS)
-    assert len(fires) == per_day * 7
-    assert len({f.strftime("%a") for f in fires}) == 7
-    for day in ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"):
-        hours = sorted(f.hour for f in fires if f.strftime("%a") == day)
-        assert hours == list(range(0, 24, int(BOARD_RUN_INTERVAL_HOURS))), day
+    assert "schedule" not in load("matchday-board")["triggers"]
+
+
+def test_the_boards_only_trigger_is_load_bearing():
+    """With no schedule, `workflow_dispatch` is the ONLY way this runs.
+    Removing it does not degrade the cadence -- it stops the board entirely."""
+    assert "workflow_dispatch" in load("matchday-board")["triggers"]
 
 
 def test_the_board_interval_is_shorter_than_the_board_window():
     """Otherwise a fixture slips between two runs and is never boarded."""
-    from wc2026.paper.selection import BOARD_WINDOW_HOURS
-    fires = fire_times(crons(load("matchday-board"))[0], MONDAY)
-    gaps = {(fires[i + 1] - fires[i]).total_seconds() / 3600.0
-            for i in range(len(fires) - 1)}
-    assert max(gaps) <= 2 * BOARD_WINDOW_HOURS
-
-
-def test_the_board_can_still_be_dispatched_by_hand():
-    assert "workflow_dispatch" in load("matchday-board")["triggers"]
+    from wc2026.paper.selection import BOARD_RUN_INTERVAL_HOURS, BOARD_WINDOW_HOURS
+    assert BOARD_RUN_INTERVAL_HOURS <= 2 * BOARD_WINDOW_HOURS
 
 
 def test_the_board_fetches_match_data_before_running():
@@ -188,9 +179,12 @@ def test_the_board_timeout_covers_a_busy_matchday():
 
 
 def test_the_board_finishes_before_the_next_run_is_due():
-    """Otherwise the concurrency queue backs up run on run."""
-    fires = fire_times(crons(load("matchday-board"))[0], MONDAY)
-    gap_minutes = (fires[1] - fires[0]).total_seconds() / 60
+    """Otherwise the concurrency queue backs up run on run.
+
+    Measured against the constant rather than a cron: the schedule now lives
+    in the external trigger, but the bound it has to satisfy does not move."""
+    from wc2026.paper.selection import BOARD_RUN_INTERVAL_HOURS
+    gap_minutes = BOARD_RUN_INTERVAL_HOURS * 60
     assert load("matchday-board")["jobs"]["cycle"]["timeout-minutes"] < gap_minutes
 
 
@@ -210,14 +204,27 @@ def test_workflows_that_persist_state_can_actually_write():
 
 
 def test_the_code_knows_the_real_board_cadence():
-    """The retry deadline is derived from the run interval. If the cron
-    changes and the constant does not, retries silently stop being guaranteed
-    -- the failure would be invisible until a fixture kicked off unretried."""
+    """The retry deadline is derived from the run interval, so if the firing
+    schedule changes and `BOARD_RUN_INTERVAL_HOURS` does not, retries stop
+    being guaranteed -- invisibly, until a fixture kicks off unretried.
+
+    This USED to compare the constant against the workflow's own cron. That
+    cron is gone: firing moved to an external trigger to stop GitHub's
+    unreliable scheduler spending board calls on unpredictable extra runs. No
+    test can reach cron-job.org, so the check is necessarily weaker now, and
+    saying so is the point -- the guarantee rests on a human keeping two
+    places in step. What is still enforceable is that the workflow names the
+    constant and states the interval it was configured with, so whoever
+    changes one is told where the other lives.
+    """
     from wc2026.paper.selection import BOARD_RUN_INTERVAL_HOURS
-    fires = fire_times(crons(load("matchday-board"))[0], MONDAY)
-    gaps = {(fires[i + 1] - fires[i]).total_seconds() / 3600
-            for i in range(len(fires) - 1)}
-    assert gaps == {BOARD_RUN_INTERVAL_HOURS}
+    text = open(os.path.join(WORKFLOWS, "matchday-board.yml"),
+                encoding="utf-8").read()
+    assert "BOARD_RUN_INTERVAL_HOURS" in text, (
+        "the workflow must name the constant its cadence has to match")
+    assert "every %dh" % BOARD_RUN_INTERVAL_HOURS in text, (
+        "workflow does not state the %dh cadence the constant assumes"
+        % BOARD_RUN_INTERVAL_HOURS)
 
 
 def test_the_board_workflow_installs_the_binary_it_shells_out_to():

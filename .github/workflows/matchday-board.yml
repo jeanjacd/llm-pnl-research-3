@@ -4,25 +4,30 @@ name: matchday-board
 # capable of placing a real order: the venue providers are read-only and the
 # broker writes to its own ledger.
 
+# FIRED EXTERNALLY, NOT BY GITHUB. `schedule:` was removed deliberately.
+#
+# GitHub's scheduler is best-effort and drifts badly under load: over one 14h
+# stretch it fired this workflow ONCE while the external cron fired 7 for 7 on
+# the minute. Keeping both meant unpredictable extra runs, and a board run
+# costs model time -- so the unreliable trigger was the one to drop.
+#
+# Firing now comes from cron-job.org, which POSTs to
+#   /repos/:owner/:repo/actions/workflows/matchday-board.yml/dispatches
+# every 2h. THAT CADENCE IS LOAD-BEARING and is not visible from this repo:
+# `paper.selection.BOARD_RUN_INTERVAL_HOURS` must equal it, because the retry
+# deadline is min_hours + 2 x interval + slack. If the external schedule is
+# ever changed, change that constant too, or deferred fixtures get retry
+# deadlines computed off an interval that is no longer real.
+#
+# Every 2h, every day -- not weekends only: a Wednesday match has its T-24h on
+# Tuesday, and the 162 midweek fixtures of 1,547 are 10.5% of the sample any
+# significance claim rests on. Affordable because discovery is filtered to the
+# fixtures a run could act on, so a run with nothing in its window costs ~40s
+# instead of ~21 minutes; 77% of runs board nothing at all.
+#
+# `workflow_dispatch` is therefore the ONLY trigger and is load-bearing:
+# remove it and the workflow stops running entirely.
 on:
-  schedule:
-    # Every 2h, every day (UTC). The cadence sets how late a deferred fixture
-    # can be retried while still being GUARANTEED to happen at all: the retry
-    # deadline is min_hours + 2 x interval + slack, so a looser cadence forces
-    # the retry earlier.
-    #
-    #   cadence   deadline   retry lead (min/median/max)   missed
-    #      6h       15h        8.4h / 12.1h / 15.0h          0
-    #      2h        7h        4.4h /  6.0h /  7.0h          0
-    #
-    # At 6h a deferral was retried a median of 12.1h out -- barely better
-    # informed than the original pass at 24h, which is the whole point of a
-    # retry. 2h lands it at 6.0h.
-    #
-    # Affordable because discovery is now filtered to the fixtures a run could
-    # act on, so a run with nothing in its window costs ~40s across five
-    # leagues instead of ~21 minutes. 77% of runs board nothing at all.
-    - cron: "17 */2 * * *"
   workflow_dispatch:
     inputs:
       leagues:
