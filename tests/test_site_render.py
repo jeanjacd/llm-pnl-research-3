@@ -10,8 +10,8 @@ import datetime as dt
 import json
 
 import pytest
+from paper_fixtures import book, pos, verdict
 
-from tests.test_site_model import book, pos, verdict
 from wc2026.site import build, render
 
 NOW = dt.datetime(2026, 8, 29, 12, 0, tzinfo=dt.timezone.utc)
