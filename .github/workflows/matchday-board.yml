@@ -13,13 +13,13 @@ name: matchday-board
 #
 # Firing now comes from cron-job.org, which POSTs to
 #   /repos/:owner/:repo/actions/workflows/matchday-board.yml/dispatches
-# every 2h. THAT CADENCE IS LOAD-BEARING and is not visible from this repo:
+# every 3h. THAT CADENCE IS LOAD-BEARING and is not visible from this repo:
 # `paper.selection.BOARD_RUN_INTERVAL_HOURS` must equal it, because the retry
 # deadline is min_hours + 2 x interval + slack. If the external schedule is
 # ever changed, change that constant too, or deferred fixtures get retry
 # deadlines computed off an interval that is no longer real.
 #
-# Every 2h, every day -- not weekends only: a Wednesday match has its T-24h on
+# Every 3h, every day -- not weekends only: a Wednesday match has its T-24h on
 # Tuesday, and the 162 midweek fixtures of 1,547 are 10.5% of the sample any
 # significance claim rests on. Affordable because discovery is filtered to the
 # fixtures a run could act on, so a run with nothing in its window costs ~40s
