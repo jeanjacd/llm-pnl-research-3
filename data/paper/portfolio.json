@@ -283,7 +283,7 @@
       "away_team": "Chicago Fire FC",
       "kickoff_utc": "2026-08-29T20:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-29T00:01:20.403457+00:00"
+      "last_checked_at": "2026-08-29T02:01:05.060145+00:00"
     },
     "81dd6b25-3949-4521-9c68-90016388db95": {
       "order_id": "81dd6b25-3949-4521-9c68-90016388db95",
@@ -316,7 +316,7 @@
       "away_team": "Chicago Fire FC",
       "kickoff_utc": "2026-08-29T20:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-29T00:01:20.403457+00:00"
+      "last_checked_at": "2026-08-29T02:01:05.060145+00:00"
     },
     "64dfec81-30f0-4d1f-bd5c-775525edce61": {
       "order_id": "64dfec81-30f0-4d1f-bd5c-775525edce61",
@@ -349,7 +349,7 @@
       "away_team": "Real Salt Lake",
       "kickoff_utc": "2026-08-30T01:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-29T00:01:20.403457+00:00"
+      "last_checked_at": "2026-08-29T02:01:05.060145+00:00"
     },
     "27009ee8-aabf-425b-95b0-0a8a51aa9abd": {
       "order_id": "27009ee8-aabf-425b-95b0-0a8a51aa9abd",
@@ -382,7 +382,7 @@
       "away_team": "LAFC",
       "kickoff_utc": "2026-08-29T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-08-29T02:01:05.060145+00:00"
     }
   },
   "positions": {
@@ -995,5 +995,5 @@
       "reason": "Atlanta United is favored as home team backed by strong recent form: three consecutive wins including a dominant 2-1 victory over SKC six days prior. The team enters with momentum, superior home record (4 wins at Mercedes-Benz vs Charlotte's poor away form\u20142 wins in 12 road matches). Charlotte's injuries (Harry Toffolo sidelined, Allan Saint-Maximin still building fitness post-visa clearance, Aron"
     }
   },
-  "saved_at": "2026-08-29T00:50:05.142397+00:00"
+  "saved_at": "2026-08-29T02:12:01.139538+00:00"
 }
