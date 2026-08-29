@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 107310,
-  "reserved_cents": 9497,
+  "cash_cents": 102302,
+  "reserved_cents": 4489,
   "orders": {
     "80b2551a-861c-4ab1-a377-48fd802c86ae": {
       "order_id": "80b2551a-861c-4ab1-a377-48fd802c86ae",
@@ -262,11 +262,11 @@
       "requested_size": 60.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
-      "fees_cents": 0,
-      "reserved_cents": 4753,
+      "status": "filled",
+      "filled_size": 60.0,
+      "avg_fill_price_cents": 78.0,
+      "fees_cents": 73,
+      "reserved_cents": 0,
       "created_at": "2026-08-28T15:16:18.835401+00:00",
       "expires_at": "2026-08-29T20:30:00+00:00",
       "events": [
@@ -275,6 +275,22 @@
           "event": "submitted",
           "key": "kalshi:KXMLSTEAMTOTAL-26AUG29SEACHI-CHI3:no|KXMLSTEAMTOTAL-26AUG29SEACHI-CHI3|no|78",
           "reserved_cents": 4753
+        },
+        {
+          "ts": "2026-08-29T20:57:12.681906+00:00",
+          "event": "fill",
+          "size": 60.0,
+          "price_cents": 78.0,
+          "fee_cents": 73
+        },
+        {
+          "ts": "2026-08-29T20:57:12.681959+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "kalshi",
+          "observed_cents": 77.0,
+          "window_start": "2026-08-29T18:05:25.642725+00:00",
+          "window_end": "2026-08-29T20:57:12.512407+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -283,7 +299,7 @@
       "away_team": "Chicago Fire FC",
       "kickoff_utc": "2026-08-29T20:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-29T18:05:25.642725+00:00"
+      "last_checked_at": "2026-08-29T20:57:12.512407+00:00"
     },
     "81dd6b25-3949-4521-9c68-90016388db95": {
       "order_id": "81dd6b25-3949-4521-9c68-90016388db95",
@@ -295,11 +311,11 @@
       "requested_size": 3.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
+      "status": "filled",
+      "filled_size": 3.0,
+      "avg_fill_price_cents": 85.0,
       "fees_cents": 0,
-      "reserved_cents": 255,
+      "reserved_cents": 0,
       "created_at": "2026-08-28T15:16:18.835436+00:00",
       "expires_at": "2026-08-29T20:30:00+00:00",
       "events": [
@@ -308,6 +324,22 @@
           "event": "submitted",
           "key": "polymarket:0x9d3fa24c978f605fa06c7e2587aca56f9659e367705980a7de47150e21863d8a:no|0x9d3fa24c978f605fa06c7e2587aca56f9659e367705980a7de47150e21863d8a|no|85",
           "reserved_cents": 255
+        },
+        {
+          "ts": "2026-08-29T20:57:12.985302+00:00",
+          "event": "fill",
+          "size": 3.0,
+          "price_cents": 85.0,
+          "fee_cents": 0
+        },
+        {
+          "ts": "2026-08-29T20:57:12.985356+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "polymarket",
+          "observed_cents": 48.5,
+          "window_start": "2026-08-29T18:05:25.642725+00:00",
+          "window_end": "2026-08-29T20:57:12.512407+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -316,7 +348,7 @@
       "away_team": "Chicago Fire FC",
       "kickoff_utc": "2026-08-29T20:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-29T18:05:25.642725+00:00"
+      "last_checked_at": "2026-08-29T20:57:12.512407+00:00"
     },
     "64dfec81-30f0-4d1f-bd5c-775525edce61": {
       "order_id": "64dfec81-30f0-4d1f-bd5c-775525edce61",
@@ -349,7 +381,7 @@
       "away_team": "Real Salt Lake",
       "kickoff_utc": "2026-08-30T01:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-29T18:05:25.642725+00:00"
+      "last_checked_at": "2026-08-29T20:57:12.512407+00:00"
     },
     "27009ee8-aabf-425b-95b0-0a8a51aa9abd": {
       "order_id": "27009ee8-aabf-425b-95b0-0a8a51aa9abd",
@@ -382,7 +414,7 @@
       "away_team": "LAFC",
       "kickoff_utc": "2026-08-29T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-29T18:05:25.642725+00:00"
+      "last_checked_at": "2026-08-29T20:57:12.512407+00:00"
     }
   },
   "positions": {
@@ -457,6 +489,54 @@
       "result": "yes",
       "payout_cents": 5000.0,
       "realized_pnl_cents": 3700.0
+    },
+    "KXMLSTEAMTOTAL-26AUG29SEACHI-CHI3|no": {
+      "position_id": "ae7b2b2e-e4dd-4ea8-b1aa-95d3961bd843",
+      "venue": "kalshi",
+      "instrument_id": "KXMLSTEAMTOTAL-26AUG29SEACHI-CHI3",
+      "side": "no",
+      "size": 60.0,
+      "avg_cost_cents": 78.0,
+      "fees_cents": 73,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSTEAMTOTAL-26AUG29SEACHI-CHI3:no",
+      "claim": "not_away_over_2.5",
+      "home_team": "Seattle Sounders FC",
+      "away_team": "Chicago Fire FC",
+      "kickoff_utc": "2026-08-29T20:30:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-08-29T20:57:12.681948+00:00",
+      "closing_price_cents": 76.0,
+      "clv_cents": -2.0,
+      "clv_source": "kalshi",
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0
+    },
+    "0x9d3fa24c978f605fa06c7e2587aca56f9659e367705980a7de47150e21863d8a|no": {
+      "position_id": "a234e551-46aa-427f-bc00-f7a9dfe20fcd",
+      "venue": "polymarket",
+      "instrument_id": "0x9d3fa24c978f605fa06c7e2587aca56f9659e367705980a7de47150e21863d8a",
+      "side": "no",
+      "size": 3.0,
+      "avg_cost_cents": 85.0,
+      "fees_cents": 0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x9d3fa24c978f605fa06c7e2587aca56f9659e367705980a7de47150e21863d8a:no",
+      "claim": "not_score_2-2",
+      "home_team": "Seattle Sounders FC",
+      "away_team": "Chicago Fire FC",
+      "kickoff_utc": "2026-08-29T20:30:00+00:00",
+      "settles_on_regulation": null,
+      "opened_at": "2026-08-29T20:57:12.985342+00:00",
+      "closing_price_cents": 92.5,
+      "clv_cents": 7.5,
+      "clv_source": "polymarket",
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0
     }
   },
   "ledger": [
@@ -1023,5 +1103,5 @@
       "reason": "Away win for Bremen is contradicted by extensive sporting evidence: Freiburg have dominated recent H2H (8-0 aggregate last two seasons), maintain elite home record with organized structure, possess game-defining set-piece advantage (0.72 xG/10 corners, Europe's highest), and benefit from shorter rest before facing high-pressing Bremen whose defensive structure is inherently vulnerable to transitio"
     }
   },
-  "saved_at": "2026-08-29T18:35:02.813205+00:00"
+  "saved_at": "2026-08-29T20:57:13.555698+00:00"
 }
