@@ -283,7 +283,7 @@
       "away_team": "Chicago Fire FC",
       "kickoff_utc": "2026-08-29T20:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-29T12:43:01.195662+00:00"
+      "last_checked_at": "2026-08-29T18:05:25.642725+00:00"
     },
     "81dd6b25-3949-4521-9c68-90016388db95": {
       "order_id": "81dd6b25-3949-4521-9c68-90016388db95",
@@ -316,7 +316,7 @@
       "away_team": "Chicago Fire FC",
       "kickoff_utc": "2026-08-29T20:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-29T12:43:01.195662+00:00"
+      "last_checked_at": "2026-08-29T18:05:25.642725+00:00"
     },
     "64dfec81-30f0-4d1f-bd5c-775525edce61": {
       "order_id": "64dfec81-30f0-4d1f-bd5c-775525edce61",
@@ -349,7 +349,7 @@
       "away_team": "Real Salt Lake",
       "kickoff_utc": "2026-08-30T01:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-29T12:43:01.195662+00:00"
+      "last_checked_at": "2026-08-29T18:05:25.642725+00:00"
     },
     "27009ee8-aabf-425b-95b0-0a8a51aa9abd": {
       "order_id": "27009ee8-aabf-425b-95b0-0a8a51aa9abd",
@@ -382,7 +382,7 @@
       "away_team": "LAFC",
       "kickoff_utc": "2026-08-29T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-29T12:43:01.195662+00:00"
+      "last_checked_at": "2026-08-29T18:05:25.642725+00:00"
     }
   },
   "positions": {
@@ -993,7 +993,35 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Atlanta United is favored as home team backed by strong recent form: three consecutive wins including a dominant 2-1 victory over SKC six days prior. The team enters with momentum, superior home record (4 wins at Mercedes-Benz vs Charlotte's poor away form\u20142 wins in 12 road matches). Charlotte's injuries (Harry Toffolo sidelined, Allan Saint-Maximin still building fitness post-visa clearance, Aron"
+    },
+    "bundesliga|FC Augsburg|Schalke 04|2026-08-30": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-29T18:23:44.912316+00:00",
+      "hours_to_kickoff": 21.1,
+      "ts": "2026-08-29T18:23:44.912338+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "FC Augsburg",
+      "away": "Schalke 04",
+      "markets_considered": 131,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Schalke captain Kenan Karaman's availability remains unresolved as of August 27, with medical staff stating 'too early to make a prognosis' after hip injury and drainage procedure on August 8. His status directly affects Schalke's attacking shape and competition level. Additionally, newly promoted Schalke face an unpredictable step-up to Bundesliga football with first-team personnel (Gosens, Karam"
+    },
+    "bundesliga|SC Freiburg|Werder Bremen|2026-08-30": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-29T18:29:53.588500+00:00",
+      "hours_to_kickoff": 19.0,
+      "ts": "2026-08-29T18:29:53.588521+00:00",
+      "action": "DEFER",
+      "claim": "away_win",
+      "home": "SC Freiburg",
+      "away": "Werder Bremen",
+      "markets_considered": 132,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Away win for Bremen is contradicted by extensive sporting evidence: Freiburg have dominated recent H2H (8-0 aggregate last two seasons), maintain elite home record with organized structure, possess game-defining set-piece advantage (0.72 xG/10 corners, Europe's highest), and benefit from shorter rest before facing high-pressing Bremen whose defensive structure is inherently vulnerable to transitio"
     }
   },
-  "saved_at": "2026-08-29T12:43:01.941505+00:00"
+  "saved_at": "2026-08-29T18:35:02.813205+00:00"
 }
