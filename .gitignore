@@ -58,3 +58,7 @@ dist/
 .ruff_cache/
 .coverage
 htmlcov/
+
+# Built page output, published by the Pages workflow and never committed.
+# ANCHORED: a bare `site/` also matches `wc2026/site/`, which is source.
+/site/

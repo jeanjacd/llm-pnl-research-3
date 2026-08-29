@@ -1,0 +1,91 @@
+name: publish-site
+
+# JJ's Journal — the published record.
+#
+# The page is BUILT FROM THE LEDGER, never hand-edited, so it cannot drift from
+# what actually happened. It is rebuilt whenever the ledger changes and whenever
+# the renderer changes, which are the only two things that can alter it.
+#
+# WHY `workflow_run` RATHER THAN A STEP INSIDE THE BOARD. Pages deployment needs
+# `pages: write` and `id-token: write`, and a job that both writes the ledger and
+# holds a deployment token is a wider blast radius than either needs. Splitting
+# it also means a failed deploy can never cost a board run: by the time this
+# fires, the state it reads is already persisted.
+#
+# The trade is that this reads the ledger from `automation-state` rather than
+# from the run that produced it, so it publishes whatever is committed there.
+# That is the same thing every other consumer of the record sees, which is the
+# point -- the site cannot show a number the branch does not hold.
+
+on:
+  workflow_run:
+    workflows: ["matchday-board", "paper-maintenance"]
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - "wc2026/site/**"
+      - ".github/workflows/publish-site.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; a queued newer build supersedes an older one that
+# has not started, but a running deploy is never cancelled midway.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    # A cancelled or failed board still leaves the previous ledger intact, but
+    # there is nothing new to publish and the run would just burn a deployment.
+    if: >
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e ".[dev]"
+
+      # The ledger is not in the repo -- `data/paper/` is gitignored and the
+      # real record lives on the state branch.
+      - name: Restore paper state
+        run: python scripts/state_sync.py restore --branch automation-state
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Fails loudly on a malformed ledger and renders an honest empty page on
+      # a missing one -- the two are not the same and must not look alike.
+      - name: Build the page
+        run: |
+          python -m wc2026.site.build \
+            --ledger data/paper/portfolio.json \
+            --out site/index.html
+          echo "### Published" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json, os
+          p = "data/paper/portfolio.json"
+          d = json.load(open(p, encoding="utf-8")) if os.path.exists(p) else {}
+          print("ledger written :", d.get("saved_at") or "(no ledger)")
+          print("page bytes     :", os.path.getsize("site/index.html"))
+          PY
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
