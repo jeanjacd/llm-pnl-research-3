@@ -100,8 +100,14 @@ def invoke_member(prompt: str, model: str, allowed_tools=(),
     except OSError as exc:
         raise BoardFailure("member invocation failed: %s" % exc) from exc
     if proc.returncode != 0:
-        raise BoardFailure("member exited %s: %s"
-                           % (proc.returncode, proc.stderr[:400]))
+        # `claude -p --output-format json` reports its errors on STDOUT, not
+        # stderr. Reading only stderr produced 37 consecutive failures logged
+        # as `member exited 1: ` with an empty cause -- 57% of slate chunks
+        # lost, and no way to find out why. Both streams are recorded now.
+        detail = (proc.stderr or "").strip() or (proc.stdout or "").strip()
+        raise BoardFailure("member exited %s (%s, %d-char prompt): %s"
+                           % (proc.returncode, model, len(prompt),
+                              detail[:400] or "no output on either stream"))
     try:
         outer = json.loads(proc.stdout)
         raw = outer.get("result", proc.stdout) if isinstance(outer, dict) \

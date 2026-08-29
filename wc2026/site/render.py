@@ -786,13 +786,12 @@ html[data-mode="dark"] .fig:hover{background:#26262C}
 .grid2{display:grid;grid-template-columns:1.55fr 1fr;gap:var(--s6);
   align-items:start;margin-bottom:var(--s5)}
 .grid2.tight{grid-template-columns:1fr 1fr;gap:var(--s5)}
-.lede{columns:2;column-gap:var(--s5);
-  column-rule:var(--rule-thin) solid var(--rule);
-  font-size:14px;line-height:1.62;text-wrap:pretty;hanging-punctuation:first}
+.lede{font-size:15px;line-height:1.66;text-wrap:pretty;
+  hanging-punctuation:first;max-width:92ch;margin-bottom:var(--s6)}
 .lede p{margin:0 0 .9em}
 .lede p:first-of-type::first-letter{float:left;font-family:var(--black);
   font-size:3.4em;line-height:.82;margin:.02em .10em -.06em 0;color:var(--ink)}
-dl.leaders{margin:0;font-family:var(--dense)}
+dl.leaders{margin:0 0 var(--s6);font-family:var(--dense)}
 dl.leaders>div{display:flex;align-items:baseline;gap:7px;padding:9px 0;
   border-bottom:var(--rule-hair) solid var(--rule)}
 dl.leaders>div:first-child{border-top:var(--rule-thin) solid var(--ink);
@@ -1061,10 +1060,8 @@ what was bet, and what was declined.">
   <i class="crop tl"></i><i class="crop tr"></i><i class="crop bl"></i><i class="crop br"></i>
 %s
 %s
-  <div class="grid2">
-    <div class="lede">%s</div>
-    %s
-  </div>
+  <div class="lede">%s</div>
+  %s
 %s
 %s
 %s
@@ -1078,5 +1075,5 @@ what was bet, and what was declined.">
 </body>
 </html>
 """ % (links, CSS, masthead(s, now), form_band(s), lede(s), leaders(s),
-       chart(s), ledger_strip(s), tickets(s), abstentions(s), breakdown(s),
-       bet_table(s), colophon(s), crosshair_data(s), JS)
+       chart(s), ledger_strip(s), tickets(s), bet_table(s), breakdown(s),
+       abstentions(s), colophon(s), crosshair_data(s), JS)

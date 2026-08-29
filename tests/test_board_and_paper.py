@@ -412,3 +412,50 @@ def test_summary_reports_fill_rate_and_realized(tmp_path, book):
     s = p.summary()
     assert s["n_settled"] == 1 and s["realized_pnl_usd"] > 0
     assert 0 < s["fill_rate"] <= 1
+
+
+def test_a_crashed_member_records_why_it_crashed():
+    """`claude -p --output-format json` writes its errors to STDOUT. Reading
+    only stderr logged 37 consecutive failures as `member exited 1: ` with an
+    empty cause -- 57% of slate chunks lost and no way to find out why."""
+    import subprocess as sp
+
+    from wc2026.board.orchestrator import BoardFailure, invoke_member
+
+    class Proc:
+        returncode = 1
+        stdout = '{"type":"error","error":"usage limit reached"}'
+        stderr = ""
+
+    real = sp.run
+    sp.run = lambda *a, **k: Proc()
+    try:
+        with pytest.raises(BoardFailure) as exc:
+            invoke_member("a prompt", "claude-haiku-4-5")
+    finally:
+        sp.run = real
+    message = str(exc.value)
+    assert "usage limit reached" in message, "the cause must survive"
+    assert "claude-haiku-4-5" in message, "which member failed"
+    assert "8-char prompt" in message, "and how big the prompt was"
+
+
+def test_a_crashed_member_says_so_even_with_no_output_at_all():
+    import subprocess as sp
+
+    from wc2026.board.orchestrator import BoardFailure, invoke_member
+
+    class Silent:
+        returncode = 137
+        stdout = ""
+        stderr = ""
+
+    real = sp.run
+    sp.run = lambda *a, **k: Silent()
+    try:
+        with pytest.raises(BoardFailure) as exc:
+            invoke_member("p", "m")
+    finally:
+        sp.run = real
+    assert "137" in str(exc.value)
+    assert "no output on either stream" in str(exc.value)
