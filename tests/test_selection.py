@@ -25,8 +25,15 @@ from wc2026.paper.selection import (
 )
 
 
-def in_window(hours=24.0):
-    """A kick-off the lead-time rule will accept."""
+def in_window(hours=None):
+    """A kick-off the lead-time rule will accept.
+
+    Defaults to the CONFIGURED target rather than a literal, so moving the
+    board window does not silently turn every helper in this file into a
+    fixture that is out of window -- which reads as a ranking bug rather than
+    a changed constant.
+    """
+    hours = BOARD_TARGET_HOURS if hours is None else hours
     return (dt.datetime.now(dt.timezone.utc)
             + dt.timedelta(hours=hours)).isoformat()
 
@@ -177,7 +184,23 @@ def test_a_fixture_days_away_is_not_boarded_yet():
 
 
 def test_a_fixture_at_the_target_lead_time_is_boarded():
-    assert board_window_state(in_window(24)) == "board"
+    assert board_window_state(in_window(BOARD_TARGET_HOURS)) == "board"
+    edge = BOARD_WINDOW_HOURS - 0.1
+    assert board_window_state(in_window(BOARD_TARGET_HOURS - edge)) == "board"
+    assert board_window_state(in_window(BOARD_TARGET_HOURS + edge)) == "board"
+
+
+def test_the_first_sitting_happens_after_team_news_can_exist():
+    """Boarded at a median of 28h, 48% of the coach's rerun requests asked to
+    be run again once line-ups were confirmed. Its whole job is team news, and
+    a full day out there is none to have."""
+    assert BOARD_TARGET_HOURS + BOARD_WINDOW_HOURS <= 18.0
+
+
+def test_the_first_sitting_still_leaves_room_for_the_retry():
+    """A fixture first boarded below the retry deadline could never get its
+    second look, which is the safeguard the deferral rules exist for."""
+    assert BOARD_TARGET_HOURS - BOARD_WINDOW_HOURS > retry_by_hours()
 
 
 def test_a_fixture_about_to_kick_off_is_let_go():
@@ -203,9 +226,14 @@ def test_hours_to_kickoff_handles_both_timestamp_spellings():
 
 
 def test_the_window_is_wider_than_the_schedulers_interval():
-    """Six-hourly runs must not let a fixture slip between two of them."""
-    from wc2026.paper.selection import BOARD_WINDOW_HOURS
-    assert BOARD_WINDOW_HOURS >= 6.0
+    """A fixture must not slip between two runs unboarded.
+
+    The bound is on the window's WIDTH against the run interval, not on the
+    half-width against a literal. Written as `BOARD_WINDOW_HOURS >= 6.0` it
+    tracked a six-hourly cadence that no longer exists, and it would have gone
+    on passing at an interval it could not actually cover."""
+    from wc2026.paper.selection import BOARD_RUN_INTERVAL_HOURS, BOARD_WINDOW_HOURS
+    assert 2 * BOARD_WINDOW_HOURS > BOARD_RUN_INTERVAL_HOURS
 
 
 def test_selection_drops_out_of_window_fixtures_with_a_named_reason():
@@ -273,7 +301,7 @@ def test_a_deferral_is_retried_only_once():
 
 def test_the_retry_is_held_back_for_nearer_kickoff():
     """Retrying immediately wastes it on the same missing team news."""
-    cand = Cand("home_win", kickoff=in_window(28))
+    cand = Cand("home_win", kickoff=in_window(BOARD_TARGET_HOURS))
     slates, skipped = select_fixture_slates(
         [cand], {cand.fixture_key: deferred()})
     assert slates == {}
@@ -375,8 +403,10 @@ def test_only_fixtures_a_run_could_act_on_reach_discovery():
     """A book is fetched per RESOLVED market, so the season-wide table meant
     thousands of fetches for matches weeks away. Measured on one league:
     2,164 Polymarket requests / 251s before, 4 requests / 0.9s after."""
-    frame, skipped = actionable_fixtures(fixture_table(1, 12, 24, 200))
-    assert len(frame) == 2          # 12h and 24h
+    inside = BOARD_TARGET_HOURS
+    frame, skipped = actionable_fixtures(fixture_table(
+        1, inside, inside + 0.5, 200))
+    assert len(frame) == 2          # both inside the window
     assert skipped == 2             # 1h too late, 200h too early
 
 
@@ -427,3 +457,36 @@ def test_a_table_without_kickoffs_is_passed_through_untouched():
 
 def test_an_empty_table_is_handled():
     assert actionable_fixtures(None) == (None, 0)
+
+
+# ── how much one run may spend ────────────────────────────────────────────────
+def test_a_run_boards_at_most_its_cap():
+    """A fixture is ~7 model calls. Uncapped, one run boarded 81 of them --
+    about 570 calls -- which exhausted the usage limit, left every remaining
+    fixture unboarded, and handed the next run all of them plus the new ones.
+    35 fixtures became 81 in a day. The cap breaks that loop."""
+    cands = [Cand("home_win", home="H%02d" % i, away="A%02d" % i,
+                  kickoff=in_window(BOARD_TARGET_HOURS)) for i in range(20)]
+    slates, skipped = select_fixture_slates(cands, max_fixtures=8)
+    assert len(slates) == 8
+    assert any("run is full" in reason for _, reason in skipped)
+
+
+def test_the_cap_keeps_the_fixtures_closest_to_kick_off():
+    """A dropped fixture must still be inside its window when a later run picks
+    it up, so the ones let go are the ones with the most time left."""
+    soon = Cand("home_win", home="Soon", away="X",
+                kickoff=in_window(BOARD_TARGET_HOURS - 1))
+    later = Cand("home_win", home="Later", away="Y",
+                 kickoff=in_window(BOARD_TARGET_HOURS + 1))
+    slates, skipped = select_fixture_slates([later, soon], max_fixtures=1)
+    kept = next(iter(slates.values()))
+    assert kept[0].leg.kickoff_utc == soon.leg.kickoff_utc
+    assert "run is full" in skipped[0][1]
+
+
+def test_no_cap_boards_everything():
+    cands = [Cand("home_win", home="H%02d" % i, away="A%02d" % i)
+             for i in range(12)]
+    slates, _ = select_fixture_slates(cands, max_fixtures=None)
+    assert len(slates) == 12

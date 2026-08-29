@@ -586,6 +586,15 @@ def run_cycle(league_ids=None, state_path: str | None = None,
                     stats.setdefault("board_failure_reasons", {})
                     stats["board_failure_reasons"][why[:120]] = (
                         stats["board_failure_reasons"].get(why[:120], 0) + 1)
+                    # An exhausted usage limit is not one broken batch, it is
+                    # every remaining call in the run. Carrying on burned 80
+                    # sittings in under a minute on 2026-08-28, all failing
+                    # identically. Stop, and leave the rest unboarded so a
+                    # later run takes them while they are still in window.
+                    if verdict.get("unavailable"):
+                        stats["board_stopped_early"] = why[:200]
+                        board_enabled = False
+                        break
                     continue
                 usable = True
                 batch_decisions = verdict.get("decisions") or {}

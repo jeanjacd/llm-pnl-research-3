@@ -51,6 +51,34 @@ class BoardFailure(RuntimeError):
     """Any reason a board verdict cannot be fully trusted. Fails closed."""
 
 
+class BoardUnavailable(BoardFailure):
+    """The member could not run AT ALL, and retrying will not help.
+
+    Separated from `BoardFailure` because the two want opposite handling. A
+    transient crash deserves one retry; an exhausted usage limit deserves the
+    run stopping immediately, because every remaining call will fail the same
+    way. Measured 2026-08-28: two sessions burned 15 and 14 consecutive
+    sittings in under a minute, every one of them failing instantly, and a
+    third ran 8 sittings before hitting the wall and losing the next 8.
+    """
+
+
+# `claude -p` writes these to STDOUT and exits 1. Matched on substrings rather
+# than exit codes because the CLI returns 1 for every failure alike.
+_UNAVAILABLE_MARKERS = (
+    "usage limit", "rate limit", "rate_limit", "quota",
+    "credit balance", "insufficient credit", "billing",
+    "overloaded", "429", "authentication", "invalid api key",
+    "oauth token has expired", "please run /login",
+)
+
+
+def unavailable(text: str) -> bool:
+    """True when the message says the member cannot run, not that it failed."""
+    low = (text or "").lower()
+    return any(m in low for m in _UNAVAILABLE_MARKERS)
+
+
 def _utcnow():
     return dt.datetime.now(dt.timezone.utc).isoformat()
 
@@ -85,10 +113,38 @@ def _extract_json(raw: str) -> dict:
         raise BoardFailure("response is not valid JSON: %s" % exc) from exc
 
 
+# One retry, and only for a crash. A member that returns a VERDICT is never
+# re-asked -- re-rolling a decision until it says yes is how a board becomes
+# decoration. But a member that never ran has not decided anything, and failing
+# closed on a crash silently discards the whole chunk of markets it was holding.
+MEMBER_ATTEMPTS = 2
+
+
 def invoke_member(prompt: str, model: str, allowed_tools=(),
                   timeout: float = _DEFAULT_TIMEOUT,
-                  command=("claude", "-p")) -> dict:
-    """Run one member in a FRESH headless session. Never retried."""
+                  command=("claude", "-p"), attempts: int = MEMBER_ATTEMPTS
+                  ) -> dict:
+    """Run one member in a FRESH headless session.
+
+    Retries ONLY a crash, and never an exhausted quota: re-asking a member
+    whose usage limit is gone costs another failure and another second, and
+    the run has 500 more calls queued behind it.
+    """
+    last = None
+    for attempt in range(max(1, attempts)):
+        try:
+            return _invoke_once(prompt, model, allowed_tools, timeout, command)
+        except BoardUnavailable:
+            raise                      # retrying an exhausted quota is waste
+        except BoardFailure as exc:
+            last = exc
+    raise BoardFailure("%s (after %d attempts)" % (last, max(1, attempts)))
+
+
+def _invoke_once(prompt: str, model: str, allowed_tools=(),
+                 timeout: float = _DEFAULT_TIMEOUT,
+                 command=("claude", "-p")) -> dict:
+    """One headless attempt."""
     cmd = list(command) + ["--output-format", "json", "--model", model]
     if allowed_tools:
         cmd += ["--allowedTools", *allowed_tools]
@@ -105,9 +161,10 @@ def invoke_member(prompt: str, model: str, allowed_tools=(),
         # as `member exited 1: ` with an empty cause -- 57% of slate chunks
         # lost, and no way to find out why. Both streams are recorded now.
         detail = (proc.stderr or "").strip() or (proc.stdout or "").strip()
-        raise BoardFailure("member exited %s (%s, %d-char prompt): %s"
-                           % (proc.returncode, model, len(prompt),
-                              detail[:400] or "no output on either stream"))
+        message = ("member exited %s (%s, %d-char prompt): %s"
+                   % (proc.returncode, model, len(prompt),
+                      detail[:400] or "no output on either stream"))
+        raise (BoardUnavailable if unavailable(detail) else BoardFailure)(message)
     try:
         outer = json.loads(proc.stdout)
         raw = outer.get("result", proc.stdout) if isinstance(outer, dict) \
@@ -163,6 +220,7 @@ def run_board(case, fixture: dict, invoke=invoke_member,
     except (BoardFailure, SchemaError) as exc:
         result["failure"] = "quant: %s" % exc
         result["failed_closed"] = True
+        result["unavailable"] = isinstance(exc, BoardUnavailable)
         audit("board_failed_closed", result, log_path)
         return result
 
@@ -193,6 +251,7 @@ def run_board(case, fixture: dict, invoke=invoke_member,
     except (BoardFailure, SchemaError) as exc:
         result["failure"] = "coach: %s" % exc
         result["failed_closed"] = True
+        result["unavailable"] = isinstance(exc, BoardUnavailable)
         result["quant"] = quant
         audit("board_failed_closed", result, log_path)
         return result
@@ -212,9 +271,19 @@ def run_board(case, fixture: dict, invoke=invoke_member,
         result["failure"] = "coach veto (%s)" % coach["verdict"]
         audit("board_vetoed", result, log_path)
         return result
-    if coach["verdict"] == "DEFER" or coach["required_reruns"]:
+    # A rerun request is ADVICE, not a veto. Nothing in this system has ever
+    # executed one: the coach asks to be re-run "with confirmed lineups" and no
+    # such rerun exists, so the request was a permanent stop with no path to
+    # resolution. Measured over ten runs, all 17 coach-stage deferrals carried
+    # one, and 4 of them had verdict ACCEPT -- the coach approved the sporting
+    # case and the fixture died on its own footnote.
+    #
+    # Only an explicit DEFER stops the board now. The reruns still travel to
+    # the judge, which is the member whose job is weighing an incomplete case
+    # against a price, and which can already see them.
+    if coach["verdict"] == "DEFER":
         result["action"] = "DEFER"
-        result["failure"] = "coach requires a rerun or deferred"
+        result["failure"] = "coach deferred"
         audit("board_deferred", result, log_path)
         return result
 
@@ -231,6 +300,7 @@ def run_board(case, fixture: dict, invoke=invoke_member,
     except (BoardFailure, SchemaError) as exc:
         result["failure"] = "judge: %s" % exc
         result["failed_closed"] = True
+        result["unavailable"] = isinstance(exc, BoardUnavailable)
         audit("board_failed_closed", result, log_path)
         return result
 
@@ -472,6 +542,7 @@ def run_board_slate(cases, fixture, invoke=invoke_member,
     except (BoardFailure, SchemaError) as exc:
         result["failure"] = "quant: %s" % exc
         result["failed_closed"] = True
+        result["unavailable"] = isinstance(exc, BoardUnavailable)
         audit("board_failed_closed", result, log_path)
         return result
     result["quant"] = quant
@@ -495,6 +566,7 @@ def run_board_slate(cases, fixture, invoke=invoke_member,
     except (BoardFailure, SchemaError) as exc:
         result["failure"] = "coach: %s" % exc
         result["failed_closed"] = True
+        result["unavailable"] = isinstance(exc, BoardUnavailable)
         audit("board_failed_closed", result, log_path)
         return result
     result["coach"] = coach
@@ -505,8 +577,18 @@ def run_board_slate(cases, fixture, invoke=invoke_member,
         result["failure"] = "coach veto (%s)" % coach["verdict"]
         audit("board_vetoed", result, log_path)
         return result
-    if coach["verdict"] == "DEFER" or coach["required_reruns"]:
-        result["failure"] = "coach requires a rerun or deferred"
+    # A rerun request is ADVICE, not a veto. Nothing in this system has ever
+    # executed one: the coach asks to be re-run "with confirmed lineups" and no
+    # such rerun exists, so the request was a permanent stop with no path to
+    # resolution. Measured over ten runs, all 17 coach-stage deferrals carried
+    # one, and 4 of them had verdict ACCEPT -- the coach approved the sporting
+    # case and the fixture died on its own footnote.
+    #
+    # Only an explicit DEFER stops the board now. The reruns still travel to
+    # the judge, which is the member whose job is weighing an incomplete case
+    # against a price, and which can already see them.
+    if coach["verdict"] == "DEFER":
+        result["failure"] = "coach deferred"
         audit("board_deferred", result, log_path)
         return result
 
@@ -532,6 +614,7 @@ def run_board_slate(cases, fixture, invoke=invoke_member,
     except (BoardFailure, SchemaError) as exc:
         result["failure"] = "judge: %s" % exc
         result["failed_closed"] = True
+        result["unavailable"] = isinstance(exc, BoardUnavailable)
         audit("board_failed_closed", result, log_path)
         return result
 

@@ -167,13 +167,25 @@ def test_a_coach_veto_stops_the_entire_slate():
     assert out["failed_closed"] is False, "a veto is a decision, not a breakage"
 
 
-def test_a_coach_rerun_request_defers_the_entire_slate():
+def test_a_coach_rerun_request_does_not_stop_the_slate():
+    """All 17 coach-stage deferrals measured over ten runs carried a rerun
+    request, and 4 of them had verdict ACCEPT. Nothing ever runs a rerun, so
+    the request was a permanent stop for a case the coach had approved."""
     cases = [a_case("home_win")]
     coach = a_coach(case_id=cases[0].case_id)
     coach["required_reruns"] = ["rerun without the suspended centre-back"]
     inv = Invoker(quant_yes(cases), coach, judge_yes(cases))
     out = orch.run_board_slate(cases, FIXTURE, invoke=inv)
-    assert out["decisions"] == {} and "rerun" in out["failure"]
+    assert out["decisions"], "the judge decides it instead"
+
+
+def test_an_explicit_coach_defer_still_stops_the_slate():
+    cases = [a_case("home_win")]
+    coach = a_coach(case_id=cases[0].case_id)
+    coach["verdict"] = "DEFER"
+    inv = Invoker(quant_yes(cases), coach, judge_yes(cases))
+    out = orch.run_board_slate(cases, FIXTURE, invoke=inv)
+    assert out["decisions"] == {} and "coach deferred" in out["failure"]
 
 
 def test_a_broken_member_fails_closed_and_says_so():
