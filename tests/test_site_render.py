@@ -59,8 +59,8 @@ def test_signed_figures_use_a_true_minus():
     """U+2212 is drawn to the same width as `+` in a tabular face; a hyphen is
     narrower, so a signed column set with hyphens visibly steps."""
     html = page(positions=[pos(pnl=-2500, clv=-3.0)])
-    assert "−2.50u" in html and "−3.0¢" in html
-    assert "-2.50u" not in html and "-3.0¢" not in html
+    assert "−$25.00" in html and "−3.0¢" in html
+    assert "-$25.00" not in html and "-3.0¢" not in html
 
 
 # --- injection -----------------------------------------------------------------
@@ -217,21 +217,21 @@ def test_a_running_ticket_shows_what_it_still_pays_not_a_settled_zero():
     number answering a question nobody asked."""
     html = page(positions=[live_pos(claim="draw", cost=20.0, size=100.0),
                            live_pos(claim="btts", cost=40.0, size=50.0)])
-    # 100 x (100-20) + 50 x (100-40) = 8000 + 3000 = 11000c = 11u
-    assert "+11.00u" in html
+    # 100 x (100-20) + 50 x (100-40) = 8000 + 3000 = 11000c
+    assert "+$110.00" in html
     assert "Live · 2 of 2 open" in html
 
 
 def test_a_running_ticket_reports_its_stake_separately_from_its_upside():
     html = page(positions=[live_pos(claim="draw", cost=20.0, size=100.0)])
-    assert "+8.00u" in html, "upside is the hero figure"
-    assert "+2.00u" in html, "and the stake is reported beside it"
+    assert "+$80.00" in html, "upside is the hero figure"
+    assert "$20.00" in html, "and the stake is reported beside it"
     assert "1 markets staked" in html
 
 
 def test_a_settled_ticket_still_reports_realised_money():
     html = page(positions=[pos(claim="draw", pnl=4000, clv=1.0)])
-    assert "+4.00u" in html and "1 of 1 markets cashed" in html
+    assert "+$40.00" in html and "1 of 1 markets cashed" in html
 
 
 def test_two_venues_quoting_one_claim_are_not_one_repeated_row():
@@ -244,19 +244,25 @@ def test_two_venues_quoting_one_claim_are_not_one_repeated_row():
     assert "64¢" in html and "66¢" in html
 
 
-# --- what a unit is -----------------------------------------------------------
-def test_the_page_says_what_a_unit_is():
-    """`u` is the primary figure everywhere. An unstated convention is just a
-    number nobody can check."""
-    html = page(positions=[pos(clv=1.0, pnl=500)])
-    assert "One unit is 1% of the starting bankroll" in html
-    assert "$10.00 on this book" in html
+# --- money is money -----------------------------------------------------------
+def test_the_page_reports_dollars_and_never_units():
+    """A unit is only worth printing when the bankroll moves. This one does
+    not, so `u` was the dollar figure divided by ten and one more number that
+    could disagree with the first."""
+    html = page(positions=[pos(clv=1.0, pnl=500)],
+                boarded=[verdict()],
+                ledger=[{"ts": "2026-08-28T20:00:00+00:00",
+                         "instrument_id": "draw-A", "side": "yes",
+                         "pnl_cents": 500, "won": True}])
+    assert "+$5.00" in html
+    import re
+    assert not re.search(r"[+−]\d[\d,.]*u", html), "no unit figures"
 
 
-def test_units_follow_the_bankroll_rather_than_a_literal():
-    html = render.page(book([pos(pnl=5000)], start=500_000), now=NOW)
-    assert "$50.00 on this book" in html
-    assert "+1.00u" in html, "5000c against a 5000c unit"
+def test_closing_line_value_stays_in_cents():
+    """It is a price difference per contract, not an amount of money."""
+    html = page(positions=[pos(clv=4.0, pnl=500)])
+    assert "+4.0¢" in html
 
 
 def test_a_negative_percentage_uses_a_true_minus():

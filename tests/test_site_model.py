@@ -119,10 +119,15 @@ def test_a_negated_claim_files_with_the_claim_it_negates():
 
 
 # --- headline arithmetic ------------------------------------------------------
-def test_a_unit_is_one_percent_of_the_starting_bankroll():
-    assert model.unit_cents(book(start=100_000)) == 1000.0
+def test_money_is_reported_in_cents_and_never_in_units():
+    """Units keep a record readable across a bankroll that MOVES. Every
+    position here is sized against the starting balance, so a unit was a flat
+    $10 -- a second representation carrying no second fact."""
     p = book([pos(pnl=7310)], start=100_000)
-    assert model.pnl(p)["realized_units"] == pytest.approx(7.31)
+    out = model.pnl(p)
+    assert out["realized_cents"] == pytest.approx(7310.0)
+    assert not [k for k in out if k.endswith("_units")]
+    assert not hasattr(model, "unit_cents")
 
 
 def test_the_decline_rate_counts_every_boarded_fixture():
@@ -146,9 +151,9 @@ def test_the_fill_rate_ignores_orders_that_are_still_open():
 def test_signed_values_use_a_real_minus_not_a_hyphen():
     """U+2212 is the same width as + in a tabular face, so signed columns
     align. A hyphen is narrower and the column visibly steps."""
-    assert model.signed_units(-1.5).startswith("−")
-    assert model.signed_units(1.5).startswith("+")
-    assert "-" not in model.signed_units(-1.5)
+    assert model.signed_money(-150) == "−$1.50"
+    assert model.signed_money(150) == "+$1.50"
+    assert "-" not in model.signed_money(-150)
 
 
 # --- the thin-sample cases that must not crash or lie --------------------------
@@ -173,4 +178,4 @@ def test_a_position_with_no_closing_line_is_excluded_from_clv():
 def test_the_summary_carries_every_section_the_page_renders():
     keys = set(model.summary(book()))
     assert {"clv", "pnl", "fills", "board", "fixtures", "form", "leagues",
-            "families", "equity", "daily", "unit_cents"} <= keys
+            "families", "equity", "daily"} <= keys

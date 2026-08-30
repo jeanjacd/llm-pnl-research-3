@@ -55,8 +55,21 @@ def signed(value: float, places: int = 2, suffix: str = "") -> str:
     return "%s%.*f%s" % (sign, places, abs(value), suffix)
 
 
-def units(value: float, places: int = 2) -> str:
-    return signed(value, places, "u")
+def dollars(cents_value: float, places: int = 2) -> str:
+    """Signed money. The page reports P&L in dollars, not units.
+
+    Units earn their keep when the bankroll moves, so that "+18u" means the
+    same thing at any size. `paper.cycle` sizes every position against
+    `starting_cash_cents`, so this bankroll does not move and a unit was a flat
+    $10 -- every `u` figure was the dollar figure divided by ten, which is a
+    second representation carrying no second fact.
+
+    Closing line value stays in cents: it is a price difference per contract,
+    not an amount of money.
+    """
+    sign = "+" if cents_value >= 0 else MINUS
+    return "%s$%s" % (sign, "{:,.{p}f}".format(abs(cents_value) / 100.0,
+                                               p=places))
 
 
 def cents(value: float, places: int = 1) -> str:
@@ -138,9 +151,9 @@ def lede(s: dict) -> str:
     if pnl["n_settled"]:
         third = ("The book is {net} on {n} settled market{s} against "
                  "{st} staked.".format(
-                     net=units(pnl["realized_units"]), n=pnl["n_settled"],
+                     net=dollars(pnl["realized_cents"]), n=pnl["n_settled"],
                      s="" if pnl["n_settled"] == 1 else "s",
-                     st=units(pnl["staked_units"])))
+                     st=dollars(pnl["staked_cents"])))
     else:
         third = "Nothing has settled yet."
 
@@ -250,10 +263,10 @@ def leaders(s: dict) -> str:
          or_dash(clv["mean_cents"], cents), n_of(clv["n_fixtures"]), True),
         ("Declined to bet", or_dash(board["decline_rate"], lambda v: pct(v, 0)),
          n_of(board["n_fixtures"]), False),
-        ("Net", units(pnl["realized_units"]),
-         "<i>%s</i>" % esc(money(pnl["realized_cents"])), False),
+        ("Net", dollars(pnl["realized_cents"]),
+         "<i>over %d settled markets</i>" % pnl["n_settled"], False),
         ("Return on stake", or_dash(pnl["roi"], pct),
-         "<i>%s staked</i>" % esc(units(pnl["staked_units"])), False),
+         "<i>%s staked</i>" % esc(money(pnl["staked_cents"])), False),
         ("Strike rate", or_dash(pnl["strike_rate"], pct),
          n_of(pnl["n_settled"]), False),
         ("Resting orders filled", or_dash(fills["rate"], pct),
@@ -267,12 +280,7 @@ def leaders(s: dict) -> str:
         out.append(
             '<div%s><dt>%s</dt><span class="dots"></span><dd>%s%s</dd></div>'
             % (' class="head"' if head else "", esc(label), esc(value), note))
-    return ('<dl class="leaders">%s</dl>'
-            '<p class="unitnote">One unit is 1%% of the starting bankroll — '
-            '%s on this book. Units are primary because a stake means the same '
-            'thing at any bankroll; the dollar figures are the same numbers in '
-            'the currency they were actually risked in.</p>'
-            % ("".join(out), esc(money(s["unit_cents"]))))
+    return '<dl class="leaders">%s</dl>' % "".join(out)
 
 
 def chart(s: dict) -> str:
@@ -292,8 +300,8 @@ def chart(s: dict) -> str:
   </section>""" % len(curve)
 
     W, H = 720.0, 180.0
-    actual = [p["actual_units"] for p in curve]
-    expected = [p["expected_units"] for p in curve]
+    actual = [p["actual_cents"] for p in curve]
+    expected = [p["expected_cents"] for p in curve]
     lo = min(min(actual), min(expected), 0.0)
     hi = max(max(actual), max(expected), 0.0)
     span = (hi - lo) or 1.0
@@ -319,7 +327,7 @@ def chart(s: dict) -> str:
 
     labels = "".join(
         '<text x="-10" y="%.2f" class="axis" text-anchor="end">%s</text>'
-        % (y(v) + 3.5, esc(units(v, 1)))
+        % (y(v) + 3.5, esc(dollars(v, 0)))
         for v in (hi - pad / 2, 0.0, lo + pad / 2))
 
     return """
@@ -351,7 +359,7 @@ def chart(s: dict) -> str:
     gap between them is variance, and at %d settlement%s it is nearly all of
     what you can see.</p>
   </section>""" % (
-        esc("%s · %s" % (units(actual[-1]), cents(
+        esc("%s · %s" % (dollars(actual[-1]), cents(
             s["clv"]["mean_cents"] or 0.0))),
         grid, labels, path(expected), path(actual), zero, zero, H,
         len(curve), "" if len(curve) == 1 else "s")
@@ -361,22 +369,22 @@ def ledger_strip(s: dict) -> str:
     days = s["daily"]
     if not days:
         return ""
-    peak = max(abs(d["pnl_units"]) for d in days) or 1.0
-    stake_peak = max(d["stake_units"] for d in days) or 1.0
+    peak = max(abs(d["pnl_cents"]) for d in days) or 1.0
+    stake_peak = max(d["stake_cents"] for d in days) or 1.0
     # Width is stake, in PIXELS rather than flex-grow. With flex-grow a single
     # day expands to the full measure and the strip reads as a solid rule --
     # a filled bar where the design means one mark.
     span = max(3, min(22, round(880 / max(len(days), 40))))
     marks = []
     for d in days:
-        height = max(2, round(abs(d["pnl_units"]) / peak * 25))
-        width = max(3, round(span * max(0.35, d["stake_units"] / stake_peak)))
+        height = max(2, round(abs(d["pnl_cents"]) / peak * 25))
+        width = max(3, round(span * max(0.35, d["stake_cents"] / stake_peak)))
         marks.append(
             '<span class="mark %s" style="height:%dpx;width:%dpx" '
             'title="%s"></span>'
-            % ("up" if d["pnl_units"] >= 0 else "dn", height, width,
-               esc("%s · %s · %s staked" % (d["date"], units(d["pnl_units"]),
-                                            units(d["stake_units"])))))
+            % ("up" if d["pnl_cents"] >= 0 else "dn", height, width,
+               esc("%s · %s · %s staked" % (d["date"], dollars(d["pnl_cents"]),
+                                            money(d["stake_cents"])))))
     return "%s\n<div class=\"ledger\" role=\"img\" aria-label=\"%s\">%s</div>" % (
         kicker("Daily ledger · %d day%s · width = stake, height = result"
                % (len(days), "" if len(days) == 1 else "s")),
@@ -463,14 +471,14 @@ def ticket(row: dict) -> str:
     if live:
         tag = "Live · %d of %d open" % (row["n_open"], row["n_markets"])
         # The brief's rule for a running ticket: the hero figure is what is
-        # still to play for, not what has been banked. `pnl_units` counts
+        # still to play for, not what has been banked. `pnl_cents` counts
         # SETTLED markets and a live fixture has none, so printing it read
         # "+0.00u" against "if every open market holds" -- a true number
         # answering a question nobody asked.
-        figure, figclass = units(row["open_upside_units"]), " live"
+        figure, figclass = dollars(row["open_upside_cents"]), " live"
     else:
         tag = "%s · %s" % ("Cashed" if cashed else "Settled", row["date"])
-        figure, figclass = units(row["pnl_units"]), ""
+        figure, figclass = dollars(row["pnl_cents"]), ""
 
     legs = []
     for p in held:
@@ -512,8 +520,8 @@ def ticket(row: dict) -> str:
                                  row["n_markets"])),
         esc(row["home"]), esc(row["away"]), "".join(legs), esc(foot_left),
         "" if live else ("pos" if row["pnl_cents"] >= 0 else "neg"),
-        esc(units(row["open_staked_units"]) if live
-            else units(row["pnl_units"])))
+        esc(money(row["open_staked_cents"]) if live
+            else dollars(row["pnl_cents"])))
 
 
 def tickets(s: dict) -> str:
@@ -580,13 +588,13 @@ def breakdown(s: dict) -> str:
         '<td class="r">%s</td><td class="r %s">%s</td></tr>'
         % (esc(str(r["league_id"]).replace("_", " ")), esc(r["n_fixtures"]),
            esc(r["n_markets"]), esc(_clv_cell(r)),
-           "w" if r["pnl_units"] >= 0 else "l", esc(units(r["pnl_units"])))
+           "w" if r["pnl_cents"] >= 0 else "l", esc(dollars(r["pnl_cents"])))
         for r in s["leagues"])
     family_rows = "".join(
         '<tr><td>%s</td><td>%s</td><td class="r">%s</td>'
         '<td class="r">%s</td><td class="r %s">%s</td></tr>'
         % (esc(r["period"]), esc(r["family"]), esc(r["n"]), esc(_clv_cell(r)),
-           "w" if r["pnl_units"] >= 0 else "l", esc(units(r["pnl_units"])))
+           "w" if r["pnl_cents"] >= 0 else "l", esc(dollars(r["pnl_cents"])))
         for r in s["families"])
     return """
   <div class="grid2 tight">
@@ -611,7 +619,6 @@ def breakdown(s: dict) -> str:
 
 
 def bet_table(s: dict) -> str:
-    unit = s["unit_cents"]
     held = []
     for row in s["fixtures"]:
         for p in row["positions"]:
@@ -623,7 +630,7 @@ def bet_table(s: dict) -> str:
     for row, p in held[:24]:
         settled = bool(p.get("settled"))
         pnl = float(p.get("realized_pnl_cents") or 0)
-        result = units(pnl / unit) if settled else "open"
+        result = dollars(pnl) if settled else "open"
         cls = ("" if not settled else "w" if pnl >= 0 else "l")
         rows.append(
             '<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td>'
@@ -902,8 +909,7 @@ dl.leaders>div.head dd{font-family:var(--fig);font-size:24px;font-weight:600;
 .spine em{font-style:normal;font-family:var(--dense);font-size:9.5px;
   font-weight:600;letter-spacing:.09em;text-transform:uppercase;
   color:var(--ink-soft);margin-left:6px}
-.unitnote{margin:calc(-1 * var(--s4)) 0 var(--s6);font-size:12px;
-  line-height:1.55;color:var(--ink-mid);max-width:72ch;text-wrap:pretty}
+
 .spine li.dead,.spine li.dead .odds{color:var(--ink-soft)}
 .spine li.dead .dot{background:none;border-color:var(--loss);
   color:var(--loss)}
@@ -1030,8 +1036,8 @@ def crosshair_data(s: dict) -> str:
     if len(curve) < 2:
         return "[]"
     W, H = 720.0, 180.0
-    actual = [p["actual_units"] for p in curve]
-    expected = [p["expected_units"] for p in curve]
+    actual = [p["actual_cents"] for p in curve]
+    expected = [p["expected_cents"] for p in curve]
     lo = min(min(actual), min(expected), 0.0)
     hi = max(max(actual), max(expected), 0.0)
     span = (hi - lo) or 1.0
@@ -1041,10 +1047,10 @@ def crosshair_data(s: dict) -> str:
     for i, p in enumerate(curve):
         points.append({
             "x": round((i / max(1, len(curve) - 1)) * W, 2),
-            "y": round(H - ((p["actual_units"] - lo) / span) * H, 2),
+            "y": round(H - ((p["actual_cents"] - lo) / span) * H, 2),
             "label": "settle %d · %s actual · %s at close"
-                     % (i + 1, units(p["actual_units"]),
-                        units(p["expected_units"])),
+                     % (i + 1, dollars(p["actual_cents"]),
+                        dollars(p["expected_cents"])),
         })
     return json.dumps(points)
 
