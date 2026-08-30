@@ -1,6 +1,6 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 88670,
+  "cash_cents": 88720,
   "reserved_cents": 5077,
   "orders": {
     "80b2551a-861c-4ab1-a377-48fd802c86ae": {
@@ -50936,7 +50936,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "328ee003-e8b2-44e0-ad82-b984d5fba15b": {
       "order_id": "328ee003-e8b2-44e0-ad82-b984d5fba15b",
@@ -50969,7 +50969,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "e1c0f120-3517-4ca3-9113-57bfcddeb219": {
       "order_id": "e1c0f120-3517-4ca3-9113-57bfcddeb219",
@@ -51002,7 +51002,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "446f0697-205c-49a8-a02e-ae130eb09d23": {
       "order_id": "446f0697-205c-49a8-a02e-ae130eb09d23",
@@ -51035,7 +51035,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "17cd7bf6-02f3-4a46-a791-2521e293c3da": {
       "order_id": "17cd7bf6-02f3-4a46-a791-2521e293c3da",
@@ -51068,7 +51068,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "e3bf48a5-707b-487e-96f3-eef4eea0e15f": {
       "order_id": "e3bf48a5-707b-487e-96f3-eef4eea0e15f",
@@ -51101,7 +51101,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "f1927ffc-4031-4d33-ab97-be5b9711ddee": {
       "order_id": "f1927ffc-4031-4d33-ab97-be5b9711ddee",
@@ -51134,7 +51134,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "d6cfb0ca-fc0b-4d4c-83bc-6b1f406904e9": {
       "order_id": "d6cfb0ca-fc0b-4d4c-83bc-6b1f406904e9",
@@ -51167,7 +51167,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "8dc7ba60-53ff-4adf-8395-a0ee786ddcee": {
       "order_id": "8dc7ba60-53ff-4adf-8395-a0ee786ddcee",
@@ -51200,7 +51200,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "8c4941e1-36ba-4286-ae6e-db16f90bf0ff": {
       "order_id": "8c4941e1-36ba-4286-ae6e-db16f90bf0ff",
@@ -51233,7 +51233,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "86449cbc-90b9-4f81-b9e4-fe02c4537bd1": {
       "order_id": "86449cbc-90b9-4f81-b9e4-fe02c4537bd1",
@@ -51266,7 +51266,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "64b29812-b2cd-4171-9892-b2733a400c3b": {
       "order_id": "64b29812-b2cd-4171-9892-b2733a400c3b",
@@ -51299,7 +51299,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "22559b0a-b283-4a3b-954c-b8e4e7a1c9fe": {
       "order_id": "22559b0a-b283-4a3b-954c-b8e4e7a1c9fe",
@@ -51332,7 +51332,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "bc563207-188c-40c2-ae8e-bd44a28c95da": {
       "order_id": "bc563207-188c-40c2-ae8e-bd44a28c95da",
@@ -51365,7 +51365,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "29bc9d8b-e9b0-4421-8f3e-c7e241bcd201": {
       "order_id": "29bc9d8b-e9b0-4421-8f3e-c7e241bcd201",
@@ -51398,7 +51398,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "45b5c3ca-954a-484f-880a-a07d8b147d4b": {
       "order_id": "45b5c3ca-954a-484f-880a-a07d8b147d4b",
@@ -51431,7 +51431,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "a0ea0cd2-056d-4ded-88e9-df6479d2df0a": {
       "order_id": "a0ea0cd2-056d-4ded-88e9-df6479d2df0a",
@@ -51464,7 +51464,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "014835e4-05a2-47fa-886d-4afbfe6b1cb7": {
       "order_id": "014835e4-05a2-47fa-886d-4afbfe6b1cb7",
@@ -51497,7 +51497,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "ebfb297b-5f6f-4aaf-aa7e-16dc526dd06b": {
       "order_id": "ebfb297b-5f6f-4aaf-aa7e-16dc526dd06b",
@@ -51530,7 +51530,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "5a0ecf28-3354-435a-bb97-07a41238e201": {
       "order_id": "5a0ecf28-3354-435a-bb97-07a41238e201",
@@ -51563,7 +51563,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "263e1311-8183-473f-a520-fc33dd9e0cd2": {
       "order_id": "263e1311-8183-473f-a520-fc33dd9e0cd2",
@@ -51596,7 +51596,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "3d5648f3-c977-4951-8310-81376a951b68": {
       "order_id": "3d5648f3-c977-4951-8310-81376a951b68",
@@ -51629,7 +51629,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "2ac705b7-abda-4c2d-92e7-a47cca512e5a": {
       "order_id": "2ac705b7-abda-4c2d-92e7-a47cca512e5a",
@@ -51662,7 +51662,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "3d1d3e12-8da3-4ef9-bbcd-a191e27e6522": {
       "order_id": "3d1d3e12-8da3-4ef9-bbcd-a191e27e6522",
@@ -51695,7 +51695,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "43afdef6-cde7-4a4f-8200-89ff3b170d35": {
       "order_id": "43afdef6-cde7-4a4f-8200-89ff3b170d35",
@@ -51728,7 +51728,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "94f0c00b-b468-4dfa-84e1-e59dd956ec31": {
       "order_id": "94f0c00b-b468-4dfa-84e1-e59dd956ec31",
@@ -51761,7 +51761,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "e501969b-71f1-4c37-a3ab-7f3cbbd81c0d": {
       "order_id": "e501969b-71f1-4c37-a3ab-7f3cbbd81c0d",
@@ -51794,7 +51794,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "24a5aac8-cb39-4774-81ab-95a605325340": {
       "order_id": "24a5aac8-cb39-4774-81ab-95a605325340",
@@ -51827,7 +51827,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "389c99fe-06ed-44da-bf48-2201e79e93d6": {
       "order_id": "389c99fe-06ed-44da-bf48-2201e79e93d6",
@@ -51860,7 +51860,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "626347e2-1aa2-4da1-9fd4-fd33273b7bf7": {
       "order_id": "626347e2-1aa2-4da1-9fd4-fd33273b7bf7",
@@ -51893,7 +51893,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "5c7b755b-1a9c-4b28-a250-17309a2a1a70": {
       "order_id": "5c7b755b-1a9c-4b28-a250-17309a2a1a70",
@@ -51926,7 +51926,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "cacc28a9-499c-4ef2-b30c-2aaccceb5a1d": {
       "order_id": "cacc28a9-499c-4ef2-b30c-2aaccceb5a1d",
@@ -51959,7 +51959,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "207c3154-8fba-44d7-883d-c9fc3c64bf2e": {
       "order_id": "207c3154-8fba-44d7-883d-c9fc3c64bf2e",
@@ -51992,7 +51992,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "a4a0475e-097d-481c-a2be-49cc10687ae4": {
       "order_id": "a4a0475e-097d-481c-a2be-49cc10687ae4",
@@ -52025,7 +52025,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "1e997a1c-990d-484d-b422-7b48723f2360": {
       "order_id": "1e997a1c-990d-484d-b422-7b48723f2360",
@@ -52058,7 +52058,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "c9ba3caa-5fbd-49d3-b0fd-eb6dda8f757f": {
       "order_id": "c9ba3caa-5fbd-49d3-b0fd-eb6dda8f757f",
@@ -52091,7 +52091,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "2b440649-1d3a-486f-b00a-8b318dcc35a3": {
       "order_id": "2b440649-1d3a-486f-b00a-8b318dcc35a3",
@@ -52124,7 +52124,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "888d8503-51f7-42ed-8813-3839110b5579": {
       "order_id": "888d8503-51f7-42ed-8813-3839110b5579",
@@ -52157,7 +52157,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "870c90f6-3b43-46e5-828c-262a3129fd8a": {
       "order_id": "870c90f6-3b43-46e5-828c-262a3129fd8a",
@@ -52190,7 +52190,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "5803a02a-45c2-4b1c-ae2a-9bc7aacd7636": {
       "order_id": "5803a02a-45c2-4b1c-ae2a-9bc7aacd7636",
@@ -52223,7 +52223,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "78c5f52c-e917-4207-b981-458bc92b72f8": {
       "order_id": "78c5f52c-e917-4207-b981-458bc92b72f8",
@@ -52256,7 +52256,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "e7c27b19-be2c-4d29-aa92-fc5a589d8331": {
       "order_id": "e7c27b19-be2c-4d29-aa92-fc5a589d8331",
@@ -52289,7 +52289,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "6bbb072d-31d4-48b2-b8cf-5cd1e8d7d693": {
       "order_id": "6bbb072d-31d4-48b2-b8cf-5cd1e8d7d693",
@@ -52322,7 +52322,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "927de394-a1af-4c89-8220-18e999bed6a4": {
       "order_id": "927de394-a1af-4c89-8220-18e999bed6a4",
@@ -52355,7 +52355,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "ae5055db-0287-4a89-82e3-100e444abfcb": {
       "order_id": "ae5055db-0287-4a89-82e3-100e444abfcb",
@@ -52388,7 +52388,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "4f4978b3-f7a5-43b3-992d-e9bafe782580": {
       "order_id": "4f4978b3-f7a5-43b3-992d-e9bafe782580",
@@ -52421,7 +52421,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "e7cfdfc7-825d-4c8f-a28a-cc803b88fe0a": {
       "order_id": "e7cfdfc7-825d-4c8f-a28a-cc803b88fe0a",
@@ -52454,7 +52454,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "3b33dae0-4208-4521-a9d5-3180826f63f8": {
       "order_id": "3b33dae0-4208-4521-a9d5-3180826f63f8",
@@ -52487,7 +52487,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "ce413dfc-ae49-4a32-b950-4b937bfebe26": {
       "order_id": "ce413dfc-ae49-4a32-b950-4b937bfebe26",
@@ -52520,7 +52520,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "59942eff-d500-47d8-a187-2f9e99da8c7f": {
       "order_id": "59942eff-d500-47d8-a187-2f9e99da8c7f",
@@ -52553,7 +52553,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "3e1ae0aa-fc9c-4949-842f-52105b0acca1": {
       "order_id": "3e1ae0aa-fc9c-4949-842f-52105b0acca1",
@@ -52586,7 +52586,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "74090977-cb24-424e-ba50-c1de67b9d648": {
       "order_id": "74090977-cb24-424e-ba50-c1de67b9d648",
@@ -52619,7 +52619,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "26233019-b9b5-4308-881b-fa848338b834": {
       "order_id": "26233019-b9b5-4308-881b-fa848338b834",
@@ -52652,7 +52652,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "ea10d068-75a4-423c-af41-75369362387f": {
       "order_id": "ea10d068-75a4-423c-af41-75369362387f",
@@ -52685,7 +52685,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "fac056d3-037f-4852-873e-d7c9551dfc92": {
       "order_id": "fac056d3-037f-4852-873e-d7c9551dfc92",
@@ -52718,7 +52718,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "7cdf3612-94c3-4ec6-817f-d23c439736c4": {
       "order_id": "7cdf3612-94c3-4ec6-817f-d23c439736c4",
@@ -52751,7 +52751,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "8a98ee3c-7a88-4092-bd0c-23d53b78f718": {
       "order_id": "8a98ee3c-7a88-4092-bd0c-23d53b78f718",
@@ -52784,7 +52784,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "bc409743-319b-4f1e-a21a-60e98ed7cd30": {
       "order_id": "bc409743-319b-4f1e-a21a-60e98ed7cd30",
@@ -52817,7 +52817,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "c8a2a65d-daaf-4f1b-9ebc-18b0fab35652": {
       "order_id": "c8a2a65d-daaf-4f1b-9ebc-18b0fab35652",
@@ -52850,7 +52850,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "4df170f2-4823-4673-b45f-b1831a13f5ae": {
       "order_id": "4df170f2-4823-4673-b45f-b1831a13f5ae",
@@ -52883,7 +52883,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "3d977036-09dd-4313-9557-90bd4848f8f2": {
       "order_id": "3d977036-09dd-4313-9557-90bd4848f8f2",
@@ -52916,7 +52916,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "f2d1bcf7-fe37-4ec5-9fcf-3dc5d1142e08": {
       "order_id": "f2d1bcf7-fe37-4ec5-9fcf-3dc5d1142e08",
@@ -52949,7 +52949,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "6f7b9e3c-5a6f-4131-af21-804d17c2834c": {
       "order_id": "6f7b9e3c-5a6f-4131-af21-804d17c2834c",
@@ -52982,7 +52982,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "15fde32a-cca2-4d85-bf7e-cf89ee596470": {
       "order_id": "15fde32a-cca2-4d85-bf7e-cf89ee596470",
@@ -53015,7 +53015,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "b00fa22d-5ae2-4a45-97fb-5c09a50d9885": {
       "order_id": "b00fa22d-5ae2-4a45-97fb-5c09a50d9885",
@@ -53048,7 +53048,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "f0f5cccb-5d84-49b1-b57f-cb23e250ceb0": {
       "order_id": "f0f5cccb-5d84-49b1-b57f-cb23e250ceb0",
@@ -53081,7 +53081,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "e488eb19-cf2d-44f7-910d-3985139f5206": {
       "order_id": "e488eb19-cf2d-44f7-910d-3985139f5206",
@@ -53114,7 +53114,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "b4709fbf-b0b3-464c-ad6b-781855c072f3": {
       "order_id": "b4709fbf-b0b3-464c-ad6b-781855c072f3",
@@ -53147,7 +53147,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "73978b74-7f7e-4252-8c76-953e4c44ee00": {
       "order_id": "73978b74-7f7e-4252-8c76-953e4c44ee00",
@@ -53180,7 +53180,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "e7647026-410b-46cc-b72d-a2a38ba6c958": {
       "order_id": "e7647026-410b-46cc-b72d-a2a38ba6c958",
@@ -53213,7 +53213,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "818467f2-b18a-4806-808c-8be9d36e43f0": {
       "order_id": "818467f2-b18a-4806-808c-8be9d36e43f0",
@@ -53246,7 +53246,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "fb6b9be9-e8a9-4f13-8264-22e80e3c57a5": {
       "order_id": "fb6b9be9-e8a9-4f13-8264-22e80e3c57a5",
@@ -53279,7 +53279,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "0b0b0fff-8e2a-4634-8a35-566480486c98": {
       "order_id": "0b0b0fff-8e2a-4634-8a35-566480486c98",
@@ -53312,7 +53312,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "1ee26503-9580-432e-a1a0-50c2c7e9a020": {
       "order_id": "1ee26503-9580-432e-a1a0-50c2c7e9a020",
@@ -53345,7 +53345,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "c2e4bd55-773c-47ad-b547-111caff9d068": {
       "order_id": "c2e4bd55-773c-47ad-b547-111caff9d068",
@@ -53378,7 +53378,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "e45285c2-7266-4c86-9a71-b7b3cb0003ae": {
       "order_id": "e45285c2-7266-4c86-9a71-b7b3cb0003ae",
@@ -53411,7 +53411,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "8f68a997-6d55-4d43-8238-4f5defe2b00c": {
       "order_id": "8f68a997-6d55-4d43-8238-4f5defe2b00c",
@@ -53444,7 +53444,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "27b1b75c-7900-4a45-8c7b-1469d7b54e35": {
       "order_id": "27b1b75c-7900-4a45-8c7b-1469d7b54e35",
@@ -53477,7 +53477,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "66f6143d-8cb2-4bc4-a0e7-2e0307a7b05d": {
       "order_id": "66f6143d-8cb2-4bc4-a0e7-2e0307a7b05d",
@@ -53510,7 +53510,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "1d17c07a-3022-44e6-aef5-70237415e9d8": {
       "order_id": "1d17c07a-3022-44e6-aef5-70237415e9d8",
@@ -53543,7 +53543,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "4c6f6aa3-e532-436b-bfdf-f31d2900ea35": {
       "order_id": "4c6f6aa3-e532-436b-bfdf-f31d2900ea35",
@@ -53576,7 +53576,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "d949f020-c464-4f70-8234-4eae74b3bdcc": {
       "order_id": "d949f020-c464-4f70-8234-4eae74b3bdcc",
@@ -53609,7 +53609,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "8cdc1745-10b6-472b-8ae7-9ff6fa1e0fcb": {
       "order_id": "8cdc1745-10b6-472b-8ae7-9ff6fa1e0fcb",
@@ -53642,7 +53642,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "b1041504-2043-47c1-954c-663bbe7b137f": {
       "order_id": "b1041504-2043-47c1-954c-663bbe7b137f",
@@ -53675,7 +53675,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "421d82c6-2dbd-4ce9-82c5-77d8d5c99066": {
       "order_id": "421d82c6-2dbd-4ce9-82c5-77d8d5c99066",
@@ -53708,7 +53708,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "dd0682f5-87f0-47fc-9d1b-dbcdb749c128": {
       "order_id": "dd0682f5-87f0-47fc-9d1b-dbcdb749c128",
@@ -53741,7 +53741,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "e724598b-2220-45f1-83db-9236dfeb3011": {
       "order_id": "e724598b-2220-45f1-83db-9236dfeb3011",
@@ -53774,7 +53774,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "b97cf740-169f-4bf7-9508-302648e874eb": {
       "order_id": "b97cf740-169f-4bf7-9508-302648e874eb",
@@ -53807,7 +53807,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "3424437a-074d-43be-855a-983efc6ef876": {
       "order_id": "3424437a-074d-43be-855a-983efc6ef876",
@@ -53840,7 +53840,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "4755fa43-abc9-460e-a11e-ae4f945d4aff": {
       "order_id": "4755fa43-abc9-460e-a11e-ae4f945d4aff",
@@ -53873,7 +53873,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "c98b7c1b-0a4b-447c-b6a2-6b6beb409233": {
       "order_id": "c98b7c1b-0a4b-447c-b6a2-6b6beb409233",
@@ -53906,7 +53906,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "82849768-903e-422b-9910-2cb007780857": {
       "order_id": "82849768-903e-422b-9910-2cb007780857",
@@ -53939,7 +53939,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "0ecb44a4-6fdb-434c-b0f7-55aa8bd2afec": {
       "order_id": "0ecb44a4-6fdb-434c-b0f7-55aa8bd2afec",
@@ -53972,7 +53972,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "e5572175-ba07-48e0-ad58-f07155668baf": {
       "order_id": "e5572175-ba07-48e0-ad58-f07155668baf",
@@ -54005,7 +54005,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "646d86c3-adbc-4475-9f6b-60673473d310": {
       "order_id": "646d86c3-adbc-4475-9f6b-60673473d310",
@@ -54038,7 +54038,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "afb4c349-bafb-4626-98dc-fd0151713b21": {
       "order_id": "afb4c349-bafb-4626-98dc-fd0151713b21",
@@ -54071,7 +54071,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "f2cf8918-23fb-4771-87ef-16144d84430a": {
       "order_id": "f2cf8918-23fb-4771-87ef-16144d84430a",
@@ -54104,7 +54104,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "14d99363-f285-4a02-883f-ad7324ed2266": {
       "order_id": "14d99363-f285-4a02-883f-ad7324ed2266",
@@ -54137,7 +54137,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "71e591fe-0fe1-4d55-afad-b1d784a299c7": {
       "order_id": "71e591fe-0fe1-4d55-afad-b1d784a299c7",
@@ -54170,7 +54170,7 @@
       "away_team": "FC Dallas",
       "kickoff_utc": "2026-08-30T23:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+      "last_checked_at": "2026-08-30T22:01:11.385008+00:00"
     },
     "7d4de645-9161-40f8-93de-7604e6c05fab": {
       "order_id": "7d4de645-9161-40f8-93de-7604e6c05fab",
@@ -65250,10 +65250,10 @@
       "closing_price_cents": 12.5,
       "clv_cents": -3.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -17.0
     },
     "KXEPL1HSCORE-26AUG30MUNIPS-MUN2IPS0|yes": {
       "position_id": "05c284a9-033f-4591-a5b9-c74253947025",
@@ -67962,10 +67962,10 @@
       "closing_price_cents": 68.0,
       "clv_cents": 5.0,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 50.0,
+      "realized_pnl_cents": 16.5
     },
     "KXLALIGASPREAD-26AUG30RCCATH-RCC3|yes": {
       "position_id": "3e194bb3-29c9-47e0-95bf-b75842a5baa5",
@@ -67986,10 +67986,10 @@
       "closing_price_cents": 4.5,
       "clv_cents": 1.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -2.5
     },
     "0x83e57242d910a425d7384d7b33ddc8175cc9d093f0455859f649aefb11d8e009|no": {
       "position_id": "7978a12e-2eb0-428a-b8b8-f3dc65c9adbb",
@@ -68010,10 +68010,10 @@
       "closing_price_cents": 98.05,
       "clv_cents": 6.05,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -1380.0
     },
     "KXLALIGASCORE-26AUG30RCCATH-RCC1ATH2|no": {
       "position_id": "c7600d6d-a17a-45ea-8905-a4e1969f7d46",
@@ -68034,10 +68034,10 @@
       "closing_price_cents": 91.5,
       "clv_cents": 5.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -1737.0
     },
     "0x49390ba67bd30a08baca48332a35b3195576f366d5c070a48b0beb53d75ff32b|no": {
       "position_id": "52b2e954-f0df-44a4-a040-ab732459bdb9",
@@ -68058,10 +68058,10 @@
       "closing_price_cents": 95.5,
       "clv_cents": 7.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -1056.0
     },
     "KXMLSGAME-26AUG29CLBNE-NE|no": {
       "position_id": "1449ba1d-841e-42d0-8d3d-2f03b0d68d8f",
@@ -74672,6 +74672,90 @@
       "pnl_cents": -89.0,
       "league_id": "ligue_1",
       "case_id": "polymarket:0x92d8508dee3b45dbe7f1986296cf7a1cde5e69d94746c8ad14b1e00fc1a1c894:no"
+    },
+    {
+      "ts": "2026-08-30T22:02:22.593171+00:00",
+      "instrument_id": "KXLALIGASPREAD-26AUG30RCCATH-RCC2",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 16.0,
+      "fees_cents": 1,
+      "payout_cents": 0.0,
+      "pnl_cents": -17.0,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGASPREAD-26AUG30RCCATH-RCC2:yes"
+    },
+    {
+      "ts": "2026-08-30T22:02:22.604072+00:00",
+      "instrument_id": "KXLALIGATEAMTOTAL-26AUG30RCCATH-ATH2",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 0.5,
+      "avg_cost_cents": 63.0,
+      "fees_cents": 2,
+      "payout_cents": 50.0,
+      "pnl_cents": 16.5,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGATEAMTOTAL-26AUG30RCCATH-ATH2:no"
+    },
+    {
+      "ts": "2026-08-30T22:02:22.605997+00:00",
+      "instrument_id": "KXLALIGASPREAD-26AUG30RCCATH-RCC3",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 0.5,
+      "avg_cost_cents": 3.0,
+      "fees_cents": 1,
+      "payout_cents": 0.0,
+      "pnl_cents": -2.5,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGASPREAD-26AUG30RCCATH-RCC3:yes"
+    },
+    {
+      "ts": "2026-08-30T22:02:22.607932+00:00",
+      "instrument_id": "0x83e57242d910a425d7384d7b33ddc8175cc9d093f0455859f649aefb11d8e009",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 15.0,
+      "avg_cost_cents": 92.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -1380.0,
+      "league_id": "la_liga",
+      "case_id": "polymarket:0x83e57242d910a425d7384d7b33ddc8175cc9d093f0455859f649aefb11d8e009:no"
+    },
+    {
+      "ts": "2026-08-30T22:02:22.609857+00:00",
+      "instrument_id": "KXLALIGASCORE-26AUG30RCCATH-RCC1ATH2",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 20.0,
+      "avg_cost_cents": 86.0,
+      "fees_cents": 17,
+      "payout_cents": 0.0,
+      "pnl_cents": -1737.0,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGASCORE-26AUG30RCCATH-RCC1ATH2:no"
+    },
+    {
+      "ts": "2026-08-30T22:02:22.611775+00:00",
+      "instrument_id": "0x49390ba67bd30a08baca48332a35b3195576f366d5c070a48b0beb53d75ff32b",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 12.0,
+      "avg_cost_cents": 88.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -1056.0,
+      "league_id": "la_liga",
+      "case_id": "polymarket:0x49390ba67bd30a08baca48332a35b3195576f366d5c070a48b0beb53d75ff32b:no"
     }
   ],
   "boarded": {
@@ -75278,5 +75362,5 @@
       "reason": "While FC Dallas has historical advantage (3-1-3 all-time), they arrive exhausted after a 9-game road trip culminating in a demoralizing 5-0 loss at Vancouver four days ago. St. Louis CITY enters in elite form with a franchise-record 12-game unbeaten streak (11 in MLS), having just defeated top-seeded Houston 2-1 at home. St. Louis' home record at Energizer Park has been strong, and they've demonst"
     }
   },
-  "saved_at": "2026-08-30T21:09:33.155662+00:00"
+  "saved_at": "2026-08-30T22:02:22.791591+00:00"
 }
