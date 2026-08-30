@@ -12,9 +12,16 @@ bets would overstate the sample by roughly 34x. So every headline rate here is
 computed over per-fixture means and carries the DISTINCT FIXTURE count as its
 sample size, not the bet count.
 
-WHAT A UNIT IS. One unit is 1% of the starting bankroll -- $10 on the $1,000
-book. Stated here because a unit is a convention, and an unstated convention is
-just a number nobody can check.
+MONEY IS REPORTED IN DOLLARS, NOT UNITS. Units exist to make a record readable
+across a bankroll that moves -- "+18u" means the same thing whether a unit is
+$10 or $1,000. This book's does not move: `paper.cycle` sizes every position
+against `starting_cash_cents`, so a unit was a fixed $10 and every `u` figure
+was the dollar figure divided by ten. A second representation that carries no
+extra information is one more thing that can disagree with the first.
+
+Closing line value stays in CENTS, because it is a price difference per
+contract rather than an amount of money -- "+4.8c" is how far the market moved
+toward us on each contract, and dividing it by anything would be meaningless.
 
 THE FORM NOTATION. Racing form adapted to a book that mostly declines to bet:
 
@@ -34,16 +41,9 @@ from __future__ import annotations
 import collections
 import datetime as dt
 
-# One unit is 1% of the starting bankroll.
-UNIT_FRACTION = 0.01
 FORM_DECLINED = "·"
 FORM_CASHED = "✓"
 FORM_MONTH = "/"
-
-
-def unit_cents(portfolio: dict) -> float:
-    start = float(portfolio.get("starting_cash_cents") or 0)
-    return max(1.0, start * UNIT_FRACTION)
 
 
 def _parse(value):
@@ -79,7 +79,6 @@ def fixtures(portfolio: dict) -> list:
     decision the system makes most often, and leaving it out would flatter the
     record by hiding everything that was passed over.
     """
-    unit = unit_cents(portfolio)
     rows: dict = {}
 
     for raw, rec in (portfolio.get("boarded") or {}).items():
@@ -116,7 +115,7 @@ def fixtures(portfolio: dict) -> list:
             rows[key]["kickoff_utc"] = pos["kickoff_utc"]
 
     for row in rows.values():
-        _summarise(row, unit)
+        _summarise(row)
 
     out = list(rows.values())
     out.sort(key=lambda r: (r.get("kickoff_utc") or r.get("boarded_at") or ""),
@@ -134,7 +133,7 @@ def _blank(key) -> dict:
             "boarded_at": None}
 
 
-def _summarise(row: dict, unit: float) -> None:
+def _summarise(row: dict) -> None:
     held = row["positions"]
     settled = [p for p in held if p.get("settled")]
     row["n_markets"] = len(held)
@@ -144,10 +143,22 @@ def _summarise(row: dict, unit: float) -> None:
                           if float(p.get("realized_pnl_cents") or 0) > 0)
     row["pnl_cents"] = sum(float(p.get("realized_pnl_cents") or 0)
                            for p in settled)
-    row["pnl_units"] = row["pnl_cents"] / unit
     row["staked_cents"] = sum(float(p.get("size") or 0)
                               * float(p.get("avg_cost_cents") or 0)
                               for p in held)
+    # What the still-open markets pay if every one of them lands. A binary
+    # settles at 100c, so the profit on a contract bought at P is (100 - P)
+    # less its fees. This is NOT `pnl_cents`: that sums SETTLED positions, and
+    # a live fixture has none by definition, which is why the card's footer
+    # read "+0.00u" under "if every open market holds" -- a true statement
+    # about a number nobody wanted and a false answer to the question asked.
+    still_open = [p for p in held if not p.get("settled")]
+    row["open_upside_cents"] = sum(
+        float(p.get("size") or 0) * (100.0 - float(p.get("avg_cost_cents") or 0))
+        - float(p.get("fees_cents") or 0) for p in still_open)
+    row["open_staked_cents"] = sum(float(p.get("size") or 0)
+                                   * float(p.get("avg_cost_cents") or 0)
+                                   for p in still_open)
     scored = [float(p["clv_cents"]) for p in held
               if p.get("clv_cents") is not None]
     row["clv_cents"] = (sum(scored) / len(scored)) if scored else None
@@ -223,13 +234,14 @@ def form_detail(row: dict, stamp=None) -> str:
         return "%s · %s" % (head, why) if why else head
     return "%s · %s · %d of %d cashed · %s" % (
         when, match, row["n_cashed"], row["n_settled"],
-        signed_units(row["pnl_units"]))
+        signed_money(row["pnl_cents"]))
 
 
 # --- headline numbers ---------------------------------------------------------
-def signed_units(units: float, places: int = 2) -> str:
-    sign = "+" if units >= 0 else "−"
-    return "%s%.*fu" % (sign, places, abs(units))
+def signed_money(cents: float, places: int = 2) -> str:
+    """An explicit sign, and U+2212 rather than a hyphen for the negative."""
+    sign = "+" if cents >= 0 else "−"
+    return "%s$%s" % (sign, "{:,.{p}f}".format(abs(cents) / 100.0, p=places))
 
 
 def clv(portfolio: dict) -> dict:
@@ -252,7 +264,6 @@ def clv(portfolio: dict) -> dict:
 
 
 def pnl(portfolio: dict) -> dict:
-    unit = unit_cents(portfolio)
     settled = [p for p in positions(portfolio) if p.get("settled")]
     realized = sum(float(p.get("realized_pnl_cents") or 0) for p in settled)
     staked = sum(float(p.get("size") or 0) * float(p.get("avg_cost_cents") or 0)
@@ -262,15 +273,12 @@ def pnl(portfolio: dict) -> dict:
               if float(p.get("realized_pnl_cents") or 0) > 0)
     return {
         "realized_cents": realized,
-        "realized_units": realized / unit,
         "staked_cents": staked,
-        "staked_units": staked / unit,
         "roi": (realized / staked) if staked else None,
         "fees_cents": fees,
         "n_settled": len(settled),
         "n_won": won,
         "strike_rate": (won / len(settled)) if settled else None,
-        "unit_cents": unit,
     }
 
 
@@ -325,7 +333,6 @@ def _median(values):
 
 
 def by_league(portfolio: dict) -> list:
-    unit = unit_cents(portfolio)
     rows: dict = collections.defaultdict(
         lambda: {"n_markets": 0, "n_settled": 0, "pnl_cents": 0.0,
                  "clv": [], "fixtures": set()})
@@ -348,7 +355,7 @@ def by_league(portfolio: dict) -> list:
             "n_markets": row["n_markets"],
             "n_fixtures": len(row["fixtures"]),
             "n_settled": row["n_settled"],
-            "pnl_units": row["pnl_cents"] / unit,
+            "pnl_cents": row["pnl_cents"],
             "clv_cents": (sum(row["clv"]) / len(row["clv"])
                           if row["clv"] else None),
             "n_clv": len(row["clv"]),
@@ -384,9 +391,8 @@ def claim_families(portfolio: dict) -> list:
             row["pnl_cents"] += float(pos.get("realized_pnl_cents") or 0)
         if pos.get("clv_cents") is not None:
             row["clv"].append(float(pos["clv_cents"]))
-    unit = unit_cents(portfolio)
     out = [{"period": p, "family": f, "n": r["n"], "settled": r["settled"],
-            "pnl_units": r["pnl_cents"] / unit,
+            "pnl_cents": r["pnl_cents"],
             "clv_cents": (sum(r["clv"]) / len(r["clv"])) if r["clv"] else None,
             "n_clv": len(r["clv"])}
            for (p, f), r in rows.items()]
@@ -403,7 +409,6 @@ def equity_curve(portfolio: dict) -> list:
     expected step is the CLV -- what the position was worth at the number the
     market closed at, which is the only forward-looking value available.
     """
-    unit = unit_cents(portfolio)
     ledger = sorted((portfolio.get("ledger") or []),
                     key=lambda e: str(e.get("ts") or ""))
     by_instrument = {}
@@ -418,8 +423,8 @@ def equity_curve(portfolio: dict) -> list:
         if pos is not None and pos.get("clv_cents") is not None:
             expected += float(pos["clv_cents"]) * float(pos.get("size") or 0)
         out.append({"ts": entry.get("ts"),
-                    "actual_units": actual / unit,
-                    "expected_units": expected / unit,
+                    "actual_cents": actual,
+                    "expected_cents": expected,
                     "instrument_id": entry.get("instrument_id"),
                     "won": bool(entry.get("won"))})
     return out
@@ -427,7 +432,6 @@ def equity_curve(portfolio: dict) -> list:
 
 def daily_ledger(portfolio: dict) -> list:
     """One mark per day: result by sign, stake by width."""
-    unit = unit_cents(portfolio)
     days: dict = collections.defaultdict(lambda: {"pnl": 0.0, "stake": 0.0})
     by_instrument = {}
     for pos in positions(portfolio):
@@ -442,8 +446,8 @@ def daily_ledger(portfolio: dict) -> list:
         if pos is not None:
             days[day]["stake"] += (float(pos.get("size") or 0)
                                    * float(pos.get("avg_cost_cents") or 0))
-    return [{"date": day, "pnl_units": row["pnl"] / unit,
-             "stake_units": row["stake"] / unit}
+    return [{"date": day, "pnl_cents": row["pnl"],
+             "stake_cents": row["stake"]}
             for day, row in sorted(days.items())]
 
 
@@ -454,7 +458,6 @@ def summary(portfolio: dict) -> dict:
         "cash_cents": portfolio.get("cash_cents"),
         "reserved_cents": portfolio.get("reserved_cents"),
         "starting_cash_cents": portfolio.get("starting_cash_cents"),
-        "unit_cents": unit_cents(portfolio),
         "clv": clv(portfolio),
         "pnl": pnl(portfolio),
         "fills": fills(portfolio),

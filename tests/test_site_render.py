@@ -59,8 +59,8 @@ def test_signed_figures_use_a_true_minus():
     """U+2212 is drawn to the same width as `+` in a tabular face; a hyphen is
     narrower, so a signed column set with hyphens visibly steps."""
     html = page(positions=[pos(pnl=-2500, clv=-3.0)])
-    assert "−2.50u" in html and "−3.0¢" in html
-    assert "-2.50u" not in html and "-3.0¢" not in html
+    assert "−$25.00" in html and "−3.0¢" in html
+    assert "-$25.00" not in html and "-3.0¢" not in html
 
 
 # --- injection -----------------------------------------------------------------
@@ -201,3 +201,71 @@ def test_the_page_is_self_contained(tmp_path):
     hosts = set(re.findall(r'https?://([^/"\')\s]+)', html))
     assert hosts <= {"fonts.googleapis.com", "fonts.gstatic.com",
                      "www.w3.org"}, hosts
+
+
+# --- a live ticket ------------------------------------------------------------
+def live_pos(**kw):
+    p = pos(**kw)
+    p["settled"] = False
+    p["realized_pnl_cents"] = None
+    return p
+
+
+def test_a_running_ticket_shows_what_it_still_pays_not_a_settled_zero():
+    """`pnl_units` counts SETTLED markets and a live fixture has none, so the
+    footer printed "+0.00u" under "if every open market holds" -- a true
+    number answering a question nobody asked."""
+    html = page(positions=[live_pos(claim="draw", cost=20.0, size=100.0),
+                           live_pos(claim="btts", cost=40.0, size=50.0)])
+    # 100 x (100-20) + 50 x (100-40) = 8000 + 3000 = 11000c
+    assert "+$110.00" in html
+    assert "Live · 2 of 2 open" in html
+
+
+def test_a_running_ticket_reports_its_stake_separately_from_its_upside():
+    html = page(positions=[live_pos(claim="draw", cost=20.0, size=100.0)])
+    assert "+$80.00" in html, "upside is the hero figure"
+    assert "$20.00" in html, "and the stake is reported beside it"
+    assert "1 markets staked" in html
+
+
+def test_a_settled_ticket_still_reports_realised_money():
+    html = page(positions=[pos(claim="draw", pnl=4000, clv=1.0)])
+    assert "+$40.00" in html and "1 of 1 markets cashed" in html
+
+
+def test_two_venues_quoting_one_claim_are_not_one_repeated_row():
+    """They are two positions at two prices. Rendered without the venue they
+    are identical lines and read as a duplication bug."""
+    html = page(positions=[
+        pos(claim="total_over_2.5", venue="kalshi", cost=64.0, pnl=100),
+        pos(claim="total_over_2.5", venue="polymarket", cost=66.0, pnl=100)])
+    assert "kals" in html and "poly" in html
+    assert "64¢" in html and "66¢" in html
+
+
+# --- money is money -----------------------------------------------------------
+def test_the_page_reports_dollars_and_never_units():
+    """A unit is only worth printing when the bankroll moves. This one does
+    not, so `u` was the dollar figure divided by ten and one more number that
+    could disagree with the first."""
+    html = page(positions=[pos(clv=1.0, pnl=500)],
+                boarded=[verdict()],
+                ledger=[{"ts": "2026-08-28T20:00:00+00:00",
+                         "instrument_id": "draw-A", "side": "yes",
+                         "pnl_cents": 500, "won": True}])
+    assert "+$5.00" in html
+    import re
+    assert not re.search(r"[+−]\d[\d,.]*u", html), "no unit figures"
+
+
+def test_closing_line_value_stays_in_cents():
+    """It is a price difference per contract, not an amount of money."""
+    html = page(positions=[pos(clv=4.0, pnl=500)])
+    assert "+4.0¢" in html
+
+
+def test_a_negative_percentage_uses_a_true_minus():
+    html = page(positions=[pos(pnl=-2000, cost=40.0, size=100.0)])
+    assert "−" in html
+    assert "-7.5%" not in html and "-5.0%" not in html
