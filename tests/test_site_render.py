@@ -201,3 +201,65 @@ def test_the_page_is_self_contained(tmp_path):
     hosts = set(re.findall(r'https?://([^/"\')\s]+)', html))
     assert hosts <= {"fonts.googleapis.com", "fonts.gstatic.com",
                      "www.w3.org"}, hosts
+
+
+# --- a live ticket ------------------------------------------------------------
+def live_pos(**kw):
+    p = pos(**kw)
+    p["settled"] = False
+    p["realized_pnl_cents"] = None
+    return p
+
+
+def test_a_running_ticket_shows_what_it_still_pays_not_a_settled_zero():
+    """`pnl_units` counts SETTLED markets and a live fixture has none, so the
+    footer printed "+0.00u" under "if every open market holds" -- a true
+    number answering a question nobody asked."""
+    html = page(positions=[live_pos(claim="draw", cost=20.0, size=100.0),
+                           live_pos(claim="btts", cost=40.0, size=50.0)])
+    # 100 x (100-20) + 50 x (100-40) = 8000 + 3000 = 11000c = 11u
+    assert "+11.00u" in html
+    assert "Live · 2 of 2 open" in html
+
+
+def test_a_running_ticket_reports_its_stake_separately_from_its_upside():
+    html = page(positions=[live_pos(claim="draw", cost=20.0, size=100.0)])
+    assert "+8.00u" in html, "upside is the hero figure"
+    assert "+2.00u" in html, "and the stake is reported beside it"
+    assert "1 markets staked" in html
+
+
+def test_a_settled_ticket_still_reports_realised_money():
+    html = page(positions=[pos(claim="draw", pnl=4000, clv=1.0)])
+    assert "+4.00u" in html and "1 of 1 markets cashed" in html
+
+
+def test_two_venues_quoting_one_claim_are_not_one_repeated_row():
+    """They are two positions at two prices. Rendered without the venue they
+    are identical lines and read as a duplication bug."""
+    html = page(positions=[
+        pos(claim="total_over_2.5", venue="kalshi", cost=64.0, pnl=100),
+        pos(claim="total_over_2.5", venue="polymarket", cost=66.0, pnl=100)])
+    assert "kals" in html and "poly" in html
+    assert "64¢" in html and "66¢" in html
+
+
+# --- what a unit is -----------------------------------------------------------
+def test_the_page_says_what_a_unit_is():
+    """`u` is the primary figure everywhere. An unstated convention is just a
+    number nobody can check."""
+    html = page(positions=[pos(clv=1.0, pnl=500)])
+    assert "One unit is 1% of the starting bankroll" in html
+    assert "$10.00 on this book" in html
+
+
+def test_units_follow_the_bankroll_rather_than_a_literal():
+    html = render.page(book([pos(pnl=5000)], start=500_000), now=NOW)
+    assert "$50.00 on this book" in html
+    assert "+1.00u" in html, "5000c against a 5000c unit"
+
+
+def test_a_negative_percentage_uses_a_true_minus():
+    html = page(positions=[pos(pnl=-2000, cost=40.0, size=100.0)])
+    assert "−" in html
+    assert "-7.5%" not in html and "-5.0%" not in html

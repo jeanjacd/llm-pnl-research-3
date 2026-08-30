@@ -148,6 +148,21 @@ def _summarise(row: dict, unit: float) -> None:
     row["staked_cents"] = sum(float(p.get("size") or 0)
                               * float(p.get("avg_cost_cents") or 0)
                               for p in held)
+    # What the still-open markets pay if every one of them lands. A binary
+    # settles at 100c, so the profit on a contract bought at P is (100 - P)
+    # less its fees. This is NOT `pnl_cents`: that sums SETTLED positions, and
+    # a live fixture has none by definition, which is why the card's footer
+    # read "+0.00u" under "if every open market holds" -- a true statement
+    # about a number nobody wanted and a false answer to the question asked.
+    still_open = [p for p in held if not p.get("settled")]
+    row["open_upside_cents"] = sum(
+        float(p.get("size") or 0) * (100.0 - float(p.get("avg_cost_cents") or 0))
+        - float(p.get("fees_cents") or 0) for p in still_open)
+    row["open_upside_units"] = row["open_upside_cents"] / unit
+    row["open_staked_cents"] = sum(float(p.get("size") or 0)
+                                   * float(p.get("avg_cost_cents") or 0)
+                                   for p in still_open)
+    row["open_staked_units"] = row["open_staked_cents"] / unit
     scored = [float(p["clv_cents"]) for p in held
               if p.get("clv_cents") is not None]
     row["clv_cents"] = (sum(scored) / len(scored)) if scored else None

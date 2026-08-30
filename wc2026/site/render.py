@@ -70,9 +70,15 @@ def money(cents_value: float) -> str:
 
 
 def pct(fraction, places: int = 1) -> str:
+    """A percentage, with a true minus when it is negative.
+
+    `-7.5%` slipped through here while every other signed figure on the page
+    used U+2212. In a tabular face the hyphen is narrower than the plus, so a
+    column mixing the two steps in and out by a fraction of a character.
+    """
     if fraction is None:
         return "—"
-    return "%.*f%%" % (places, 100.0 * fraction)
+    return ("%.*f%%" % (places, 100.0 * fraction)).replace("-", MINUS)
 
 
 def n_of(count) -> str:
@@ -261,7 +267,12 @@ def leaders(s: dict) -> str:
         out.append(
             '<div%s><dt>%s</dt><span class="dots"></span><dd>%s%s</dd></div>'
             % (' class="head"' if head else "", esc(label), esc(value), note))
-    return '<dl class="leaders">%s</dl>' % "".join(out)
+    return ('<dl class="leaders">%s</dl>'
+            '<p class="unitnote">One unit is 1%% of the starting bankroll — '
+            '%s on this book. Units are primary because a stake means the same '
+            'thing at any bankroll; the dollar figures are the same numbers in '
+            'the currency they were actually risked in.</p>'
+            % ("".join(out), esc(money(s["unit_cents"]))))
 
 
 def chart(s: dict) -> str:
@@ -451,7 +462,12 @@ def ticket(row: dict) -> str:
 
     if live:
         tag = "Live · %d of %d open" % (row["n_open"], row["n_markets"])
-        figure, figclass = units(row["staked_cents"] / 1000.0), " live"
+        # The brief's rule for a running ticket: the hero figure is what is
+        # still to play for, not what has been banked. `pnl_units` counts
+        # SETTLED markets and a live fixture has none, so printing it read
+        # "+0.00u" against "if every open market holds" -- a true number
+        # answering a question nobody asked.
+        figure, figclass = units(row["open_upside_units"]), " live"
     else:
         tag = "%s · %s" % ("Cashed" if cashed else "Settled", row["date"])
         figure, figclass = units(row["pnl_units"]), ""
@@ -469,14 +485,16 @@ def ticket(row: dict) -> str:
                     else " · clv %s" % cents(float(p["clv_cents"])))
         legs.append(
             '<li class="%s"><span class="dot">%s</span>'
-            '<span>%s</span><span class="odds">%s%s</span></li>'
+            '<span>%s <em>%s</em></span>'
+            '<span class="odds">%s%s</span></li>'
             % (state, glyph,
                esc(claim_label(str(p.get("claim") or ""), row["home"],
                                row["away"])),
+               esc(str(p.get("venue") or "")[:4]),
                esc("%d¢" % round(float(p.get("avg_cost_cents") or 0))),
                esc(clv_note)))
 
-    foot_left = ("If every open market holds" if live else
+    foot_left = ("%d markets staked" % row["n_open"] if live else
                  "%d of %d markets cashed" % (row["n_cashed"],
                                               row["n_settled"]))
     return """
@@ -493,8 +511,9 @@ def ticket(row: dict) -> str:
         esc("%s · %d markets" % (str(row["league_id"]).replace("_", " "),
                                  row["n_markets"])),
         esc(row["home"]), esc(row["away"]), "".join(legs), esc(foot_left),
-        "pos" if row["pnl_cents"] >= 0 else "neg",
-        esc(units(row["pnl_units"])))
+        "" if live else ("pos" if row["pnl_cents"] >= 0 else "neg"),
+        esc(units(row["open_staked_units"]) if live
+            else units(row["pnl_units"])))
 
 
 def tickets(s: dict) -> str:
@@ -592,6 +611,7 @@ def breakdown(s: dict) -> str:
 
 
 def bet_table(s: dict) -> str:
+    unit = s["unit_cents"]
     held = []
     for row in s["fixtures"]:
         for p in row["positions"]:
@@ -603,7 +623,7 @@ def bet_table(s: dict) -> str:
     for row, p in held[:24]:
         settled = bool(p.get("settled"))
         pnl = float(p.get("realized_pnl_cents") or 0)
-        result = units(pnl / 1000.0) if settled else "open"
+        result = units(pnl / unit) if settled else "open"
         cls = ("" if not settled else "w" if pnl >= 0 else "l")
         rows.append(
             '<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td>'
@@ -877,6 +897,13 @@ dl.leaders>div.head dd{font-family:var(--fig);font-size:24px;font-weight:600;
   line-height:1;font-family:var(--fig)}
 .spine .odds{font-family:var(--dense);font-size:11px;color:var(--ink-mid);
   white-space:nowrap;font-variant-numeric:tabular-nums lining-nums}
+/* Two venues quoting one claim is two positions at two prices, not a repeated
+   row. Without the venue the lines render identically and read as a bug. */
+.spine em{font-style:normal;font-family:var(--dense);font-size:9.5px;
+  font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-soft);margin-left:6px}
+.unitnote{margin:calc(-1 * var(--s4)) 0 var(--s6);font-size:12px;
+  line-height:1.55;color:var(--ink-mid);max-width:72ch;text-wrap:pretty}
 .spine li.dead,.spine li.dead .odds{color:var(--ink-soft)}
 .spine li.dead .dot{background:none;border-color:var(--loss);
   color:var(--loss)}
