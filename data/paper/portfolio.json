@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 91288,
-  "reserved_cents": 20,
+  "reserved_cents": 0,
   "orders": {
     "80b2551a-861c-4ab1-a377-48fd802c86ae": {
       "order_id": "80b2551a-861c-4ab1-a377-48fd802c86ae",
@@ -59647,11 +59647,11 @@
       "requested_size": 1.0,
       "league_id": "premier_league",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 20,
+      "reserved_cents": 0,
       "created_at": "2026-08-31T10:27:16.360003+00:00",
       "expires_at": "2026-08-31T19:00:00+00:00",
       "events": [
@@ -59660,6 +59660,10 @@
           "event": "submitted",
           "key": "kalshi:KXEPLTEAMTOTAL-26AUG31AVLARS-AVL2:yes|KXEPLTEAMTOTAL-26AUG31AVLARS-AVL2|yes|18",
           "reserved_cents": 20
+        },
+        {
+          "ts": "2026-08-31T19:01:06.379963+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -59668,7 +59672,7 @@
       "away_team": "Arsenal",
       "kickoff_utc": "2026-08-31T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-08-31T16:01:02.942937+00:00"
+      "last_checked_at": "2026-08-31T19:01:06.192786+00:00"
     },
     "3dd1ac9b-c6cb-4e3d-b16e-c288d358c31e": {
       "order_id": "3dd1ac9b-c6cb-4e3d-b16e-c288d358c31e",
@@ -71920,9 +71924,9 @@
       "kickoff_utc": "2026-08-31T19:00:00",
       "settles_on_regulation": true,
       "opened_at": "2026-08-31T10:27:16.360266+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
+      "closing_price_cents": 60.5,
+      "clv_cents": -2.5,
+      "clv_source": "kalshi",
       "settled": false,
       "result": null,
       "payout_cents": 0.0,
@@ -79689,5 +79693,5 @@
       "reason": "Barcelona is the overwhelming favorite for this fixture. The home team's current form (undefeated at home with 20 consecutive league wins, 5-0 and 2-0 victories in opening matches, zero goals conceded), roster quality (new signings Rodri and Anthony Gordon, full strength attacking force), and head-to-head dominance (8 consecutive wins, 17-3 all-time record vs Rayo) stands in stark contrast to Rayo"
     }
   },
-  "saved_at": "2026-08-31T16:02:31.989183+00:00"
+  "saved_at": "2026-08-31T19:01:56.424592+00:00"
 }
