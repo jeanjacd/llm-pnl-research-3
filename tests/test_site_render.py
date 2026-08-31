@@ -269,3 +269,58 @@ def test_a_negative_percentage_uses_a_true_minus():
     html = page(positions=[pos(pnl=-2000, cost=40.0, size=100.0)])
     assert "−" in html
     assert "-7.5%" not in html and "-5.0%" not in html
+
+
+# --- the side is half the proposition -----------------------------------------
+# Real Madrid beat Málaga 4-0 (3-0 at the interval) and the book won exactly two
+# of its 24 score markets on that fixture -- which is what a CORRECT book looks
+# like, since one full-time score can be right and one half-time score. The page
+# printed both winners, and all 22 losers, under the wrong name.
+def test_a_no_side_position_is_named_for_what_it_actually_backs():
+    """Holding `no` on `not_score_4-0` is a double negative: it backs the score
+    BEING 4-0. Printing the claim alone renders it as its own opposite."""
+    assert render.claim_label("not_score_4-0", "A", "B", "no") == "score 4-0"
+    assert render.claim_label("not_1h_score_3-0", "A", "B", "no") == \
+        "1st half score 3-0"
+    assert render.claim_label("not_total_over_2.5", "A", "B", "no") == \
+        "over 2.5 goals"
+
+
+def test_a_yes_side_position_keeps_its_negation():
+    assert render.claim_label("not_draw", "A", "B", "yes") == "not draw"
+    assert render.claim_label("draw", "A", "B", "yes") == "draw"
+
+
+def test_selling_an_unnegated_claim_reads_as_the_negation():
+    assert render.claim_label("draw", "A", "B", "no") == "not draw"
+    assert render.claim_label("home_win", "Real Madrid", "B", "no") == \
+        "not Real Madrid win"
+
+
+def test_the_side_reaches_the_label_from_the_position():
+    """The fold is worthless if the call site drops the side, which is exactly
+    how this shipped: 341 of 508 positions were held `no`, so two thirds of
+    the record read backwards."""
+    sold = pos(claim="not_score_4-0", home="Real Madrid", away="Málaga",
+               pnl=1500, clv=2.0)
+    sold["side"] = "no"
+    html = page(positions=[sold])
+    assert "score 4-0" in html
+    assert "not score 4-0" not in html
+
+
+def test_only_one_full_time_score_can_win_and_the_page_shows_that():
+    """The screenshot that surfaced this: eleven `not score X-Y` rows all
+    marked lost, which is impossible for the claim as printed and ordinary
+    for the position actually held."""
+    held = []
+    for score, pnl in (("4-0", 1500), ("0-1", -8900), ("2-1", -8500)):
+        p = pos(claim="not_score_%s" % score, home="Real Madrid",
+                away="Málaga", pnl=pnl, clv=2.0)
+        p["side"] = "no"
+        p["instrument_id"] = "inst-%s" % score
+        held.append(p)
+    html = page(positions=held)
+    for score in ("4-0", "0-1", "2-1"):
+        assert "score %s" % score in html
+    assert "not score" not in html, "every one of them backs a score"
