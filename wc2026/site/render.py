@@ -398,15 +398,25 @@ CLAIM_WORDS = {
 }
 
 
-def claim_label(claim: str, home: str, away: str) -> str:
-    """Say what the contract actually is, in words a reader parses at a glance.
+def claim_label(claim: str, home: str, away: str, side: str = "yes") -> str:
+    """Say what the position actually BACKS, in words read at a glance.
 
-    `not_1h_total_over_2.5` is precise and unreadable. The page is dense on
-    purpose, but density only reads as a luxury signal when the reader can
-    decode it -- otherwise it is just noise wearing a form book's clothes.
+    THE SIDE IS HALF THE PROPOSITION AND WAS BEING DROPPED. `claim` names what
+    the market's YES pays on; `side` says which side is held. Holding `no` on
+    `not_score_4-0` is a double negative -- it backs the score BEING 4-0 -- and
+    printing the claim alone rendered every such position as its own opposite.
+
+    It looked like a settlement bug and was not. Real Madrid finished 4-0 and
+    the book won exactly two of its 24 score markets on that fixture, which is
+    what a correct book looks like: one full-time score can be right, and one
+    half-time score. The page just called each of them by the wrong name. 341
+    of 508 positions were held `no`, so two thirds of the record read
+    backwards.
     """
     negated = claim.startswith("not_")
-    base = claim[4:] if negated else claim
+    if str(side) == "no":
+        negated = not negated
+    base = claim[4:] if claim.startswith("not_") else claim
     half = base.startswith("1h_")
     if half:
         base = base[3:]
@@ -497,7 +507,7 @@ def ticket(row: dict) -> str:
             '<span class="odds">%s%s</span></li>'
             % (state, glyph,
                esc(claim_label(str(p.get("claim") or ""), row["home"],
-                               row["away"])),
+                               row["away"], p.get("side"))),
                esc(str(p.get("venue") or "")[:4]),
                esc("%d¢" % round(float(p.get("avg_cost_cents") or 0))),
                esc(clv_note)))
@@ -638,7 +648,7 @@ def bet_table(s: dict) -> str:
             '<td class="r">%s</td><td class="r %s">%s</td></tr>'
             % (esc(row["date"]), esc("%s v %s" % (row["home"], row["away"])),
                esc(claim_label(str(p.get("claim") or ""), row["home"],
-                               row["away"])),
+                               row["away"], p.get("side"))),
                esc(p.get("venue")),
                esc("%d¢" % round(float(p.get("avg_cost_cents") or 0))),
                esc("%g" % float(p.get("size") or 0)),
