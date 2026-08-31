@@ -25,16 +25,23 @@ toward us on each contract, and dividing it by anything would be meaningless.
 
 THE FORM NOTATION. Racing form adapted to a book that mostly declines to bet:
 
-    .   boarded, no action taken        (the abstention -- most of the record)
-    0-9 markets that cashed on a fixture that still finished DOWN
+    .   boarded, declined               (the abstention -- most of the record)
+    -   ordered, nothing filled         (the market never came to our price)
+    0-9 TENTHS OF STAKE RETURNED on a fixture that finished down
     v   the fixture finished up
     /   month boundary
 
-Reading it answers the question that matters for this system: when it does act,
-does it lose with nothing landing, or with several landing and still finish
-down? The first is a pricing problem, the second is a sizing problem. The
-abstentions are not filler -- 30 of the first 35 boarded fixtures were declined,
-and a record that hid that would be describing a different system.
+THE DIGIT IS A SHARE, NOT A COUNT. It first read "markets that cashed", capped
+at 9, and that was close to meaningless: the denominator ran from 1 market to
+76, so a raw count compared nothing to nothing. Five fixtures returning 22%,
+47%, 65%, 68% and 88% of their stake all printed the same `9`. As tenths
+returned they print 7, 4, 8, 6, 8, and a `0` finally means what it looks like
+-- Celta Vigo returned $0.29 of $42.05 and used to show a `1`.
+
+AND A FIXTURE THAT FILLED NOTHING IS NOT A FIXTURE THAT WAS DECLINED. Leeds v
+Brentford placed 130 orders and filled none of them; the record showed `.`, the
+same character as a board that passed. The board approving 130 markets and the
+market never reaching our price are opposite facts about the same fixture.
 """
 from __future__ import annotations
 
@@ -42,6 +49,7 @@ import collections
 import datetime as dt
 
 FORM_DECLINED = "·"
+FORM_UNFILLED = "–"
 FORM_CASHED = "✓"
 FORM_MONTH = "/"
 
@@ -114,6 +122,20 @@ def fixtures(portfolio: dict) -> list:
         if pos.get("kickoff_utc"):
             rows[key]["kickoff_utc"] = pos["kickoff_utc"]
 
+    # Orders carry the same fixture identity as positions, so what was ATTEMPTED
+    # can be told from what was HELD. 879 of 1,440 resting orders never filled;
+    # without this a fixture that ordered and missed is indistinguishable from
+    # one the board declined.
+    for order in orders(portfolio):
+        key = fixture_key(order.get("league_id"), order.get("home_team"),
+                          order.get("away_team"), order.get("kickoff_utc"))
+        rows.setdefault(key, _blank(key))
+        rows[key]["orders"].append(order)
+        if order.get("kickoff_utc"):
+            rows[key].setdefault("kickoff_utc", None)
+            rows[key]["kickoff_utc"] = (rows[key]["kickoff_utc"]
+                                        or order["kickoff_utc"])
+
     for row in rows.values():
         _summarise(row)
 
@@ -127,6 +149,7 @@ def _blank(key) -> dict:
     league, home, away, day = key
     return {"key": key, "league_id": league, "home": home, "away": away,
             "date": day, "kickoff_utc": None, "positions": [],
+            "orders": [],
             "boarded": False, "action": None, "decided_by": None,
             "reason": None, "attempts": None, "hours_to_kickoff": None,
             "markets_considered": None, "markets_approved": None,
@@ -163,21 +186,42 @@ def _summarise(row: dict) -> None:
               if p.get("clv_cents") is not None]
     row["clv_cents"] = (sum(scored) / len(scored)) if scored else None
     row["n_clv"] = len(scored)
-    # A fixture is "acted on" when money actually went out on it.
+    # A fixture is "acted on" when money actually went out on it, and
+    # "ordered" when the board approved something whether or not it filled.
+    resolved = [o for o in row["orders"]
+                if o.get("status") in ("filled", "expired")]
+    row["n_orders"] = len(row["orders"])
+    row["n_unfilled"] = sum(1 for o in resolved if o.get("status") == "expired")
+    row["fill_rate"] = ((len(resolved) - row["n_unfilled"]) / len(resolved)
+                        if resolved else None)
+    row["ordered"] = bool(row["orders"])
     row["acted"] = bool(held)
+    # Declined means the BOARD said no. Ordering and filling nothing is the
+    # market's answer, not the board's, and must not read the same way.
+    row["declined"] = row["boarded"] and not row["ordered"] and not held
     row["live"] = row["n_open"] > 0
     row["settled_fixture"] = bool(settled) and row["n_open"] == 0
+    staked = row["staked_cents"] or 0.0
+    row["returned_share"] = (((staked + row["pnl_cents"]) / staked)
+                             if staked > 0 else None)
 
 
 def form_figure(row: dict) -> str:
     """One character for one fixture -- see the module docstring."""
     if not row["acted"]:
-        return FORM_DECLINED
+        # Ordered and filled nothing is the MARKET's answer; declined is the
+        # board's. Printing both as `.` merged the two.
+        return FORM_UNFILLED if row["ordered"] else FORM_DECLINED
     if row["n_open"] > 0:
         return FORM_DECLINED       # still running; not part of the record yet
     if row["pnl_cents"] > 0:
         return FORM_CASHED
-    return str(min(9, row["n_cashed"]))
+    # Tenths of stake returned. A count had no denominator: 23 of 53 and 29 of
+    # 76 both saturated the cap and printed the same character.
+    share = row.get("returned_share")
+    if share is None:
+        return "0"
+    return str(max(0, min(9, int(share * 10))))
 
 
 def form_line(portfolio: dict, limit: int = 48) -> list:
@@ -206,7 +250,7 @@ def form_line(portfolio: dict, limit: int = 48) -> list:
 
 def _form_kind(row: dict) -> str:
     if not row["acted"]:
-        return "declined"
+        return "unfilled" if row.get("ordered") else "declined"
     if row["pnl_cents"] > 0:
         return "cash"
     # Losing with several markets landing is a different failure from losing
@@ -228,13 +272,24 @@ def form_detail(row: dict, stamp=None) -> str:
     when = stamp.strftime("%d %b") if stamp else "--"
     match = "%s v %s" % (row["home"], row["away"])
     if not row["acted"]:
+        if row.get("ordered"):
+            return ("%s · %s · ordered %d, filled none — the market never "
+                    "came to our price" % (when, match, row["n_orders"]))
         why = _clip(row.get("reason") or "", 72)
         head = "%s · %s · %s" % (when, match,
                                  (row.get("action") or "declined").lower())
         return "%s · %s" % (head, why) if why else head
-    return "%s · %s · %d of %d cashed · %s" % (
+    share = row.get("returned_share")
+    # Fees can carry a total loss past 100%, and "−4% of stake back" reads as
+    # a bug rather than a fee. The dollar figure beside it already carries it.
+    got = ("" if share is None
+           else " · %.0f%% of stake back" % max(0.0, 100 * share))
+    missed = ("" if not row.get("n_unfilled")
+              else " · %d order%s never filled"
+                   % (row["n_unfilled"], "" if row["n_unfilled"] == 1 else "s"))
+    return "%s · %s · %d of %d cashed · %s%s%s" % (
         when, match, row["n_cashed"], row["n_settled"],
-        signed_money(row["pnl_cents"]))
+        signed_money(row["pnl_cents"]), got, missed)
 
 
 # --- headline numbers ---------------------------------------------------------

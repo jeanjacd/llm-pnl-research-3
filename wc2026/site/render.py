@@ -247,7 +247,8 @@ def form_band(s: dict) -> str:
     %s
     <div class="figkey">
       <span>&middot; = boarded, declined</span>
-      <span>digit = markets that cashed on a fixture that finished down</span>
+      <span>&ndash; = ordered, nothing filled</span>
+      <span>digit = tenths of stake returned on a fixture that finished down</span>
       <span>&#10003; = fixture finished up</span>
       <span>/ = month</span>
       <span class="figread" id="figread" data-rest="1" aria-live="polite">Hover or focus a figure to read its fixture</span>
@@ -515,6 +516,8 @@ def ticket(row: dict) -> str:
     foot_left = ("%d markets staked" % row["n_open"] if live else
                  "%d of %d markets cashed" % (row["n_cashed"],
                                               row["n_settled"]))
+    if row.get("n_unfilled"):
+        foot_left += " · %d never filled" % row["n_unfilled"]
     return """
     <article class="card">%s
       <div class="card-head">
@@ -553,7 +556,7 @@ def abstentions(s: dict) -> str:
     a more reckless system than the one that produced it, and on this book the
     declines are the overwhelming majority of the evidence.
     """
-    declined = [r for r in s["fixtures"] if r["boarded"] and not r["acted"]]
+    declined = [r for r in s["fixtures"] if r.get("declined")]
     if not declined:
         return ""
     rows = []
@@ -795,6 +798,8 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:99;
 .fig[data-r="late"]{color:var(--ink)}
 .fig[data-r="early"]{color:var(--ink)}
 .fig[data-r="declined"]{color:var(--ink-soft)}
+/* The market's answer, not the board's: ordered and never reached. */
+.fig[data-r="unfilled"]{color:var(--ink-soft);opacity:.75}
 .fig.brk{color:var(--ink-soft);cursor:default;opacity:.5;align-self:center}
 .fig:hover,.fig:focus-visible{background:var(--rule-soft);color:var(--ink);
   outline:none}

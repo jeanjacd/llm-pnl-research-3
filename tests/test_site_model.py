@@ -56,13 +56,15 @@ def test_a_fixture_that_finished_up_reads_as_cashed():
     assert [f["char"] for f in model.form_line(p)] == [model.FORM_CASHED]
 
 
-def test_a_losing_fixture_reads_as_the_count_that_landed():
-    """The digit separates losing with nothing landing from losing with several
-    landing -- a pricing problem from a sizing problem."""
+def test_a_losing_fixture_reads_as_the_share_of_stake_it_returned():
+    """The digit separates a graze from a wipeout, which is the question a
+    reader has about a fixture that finished down."""
+    # two markets, $20 staked each; lost $10 of each -> $20 back of $40 -> 5
     p = book([pos("draw", pnl=-1000), pos("btts", pnl=-1000)])
-    assert [f["char"] for f in model.form_line(p)] == ["0"]
-    q = book([pos("draw", pnl=+500), pos("btts", pnl=-2000)])
-    assert [f["char"] for f in model.form_line(q)] == ["1"], "net down, 1 landed"
+    assert [f["char"] for f in model.form_line(p)] == ["5"]
+    # same book, nearly all of it lost -> 0
+    q = book([pos("draw", pnl=-1900), pos("btts", pnl=-1900)])
+    assert [f["char"] for f in model.form_line(q)] == ["0"]
 
 
 def test_a_live_fixture_is_absent_from_the_record_rather_than_scored():
@@ -179,3 +181,84 @@ def test_the_summary_carries_every_section_the_page_renders():
     keys = set(model.summary(book()))
     assert {"clv", "pnl", "fills", "board", "fixtures", "form", "leagues",
             "families", "equity", "daily"} <= keys
+
+
+# ── the form figure has to carry a denominator ────────────────────────────────
+def order(status="expired", league="mls", home="A", away="B",
+          kickoff="2026-08-28"):
+    return {"status": status, "kind": "limit", "league_id": league,
+            "home_team": home, "away_team": away,
+            "kickoff_utc": kickoff + "T18:00:00"}
+
+
+def test_the_digit_is_a_share_of_stake_and_not_a_raw_count():
+    """A count compared nothing to nothing: the denominator ran from 1 market
+    to 76, so 23-of-53 and 29-of-76 both saturated the cap and printed `9`."""
+    # 10 markets at 50c: 8 win (8 x 50c profit), 2 lose (2 x 50c). Staked 500c,
+    # returned 500 + 400 - 100 = 800c -> 8 tenths... but that is a WIN, so use
+    # a losing book: 2 win, 8 lose -> staked 500, pnl = 100 - 400 = -300,
+    # returned 200 of 500 = 4 tenths.
+    held = [pos(claim="score_%d-0" % i, pnl=(50 if i < 2 else -50), cost=50.0,
+                size=1.0) for i in range(10)]
+    for i, p in enumerate(held):
+        p["instrument_id"] = "i%d" % i
+    p = book(held)
+    assert [f["char"] for f in model.form_line(p)] == ["4"]
+
+
+def test_a_near_total_loss_reads_as_zero_however_many_markets_cashed():
+    """Celta Vigo returned $0.29 of $42.05 with one market cashing, and the
+    old notation printed `1` -- indistinguishable from a graze."""
+    held = [pos(claim="a", pnl=20, cost=1.0, size=1.0),
+            pos(claim="b", pnl=-4000, cost=40.0, size=100.0)]
+    held[0]["instrument_id"], held[1]["instrument_id"] = "a", "b"
+    assert [f["char"] for f in model.form_line(book(held))] == ["0"]
+
+
+def test_a_graze_and_a_wipeout_no_longer_print_the_same_character():
+    graze = [pos(claim="x", pnl=-100, cost=50.0, size=20.0)]
+    wipe = [pos(claim="x", pnl=-1000, cost=50.0, size=20.0)]
+    a = model.form_line(book(graze))[0]["char"]
+    b = model.form_line(book(wipe))[0]["char"]
+    assert a != b and a > b
+
+
+# ── ordering and filling nothing is not declining ─────────────────────────────
+def test_a_fixture_that_filled_nothing_is_not_shown_as_declined():
+    """Leeds v Brentford placed 130 orders and filled none. The record printed
+    `·` -- the same character as a board that passed on the fixture."""
+    p = book(boarded=[verdict(home="Leeds", away="Brentford",
+                              action="PAPER_PLACE_LIMIT")],
+             orders=[order(home="Leeds", away="Brentford") for _ in range(130)])
+    row = model.fixtures(p)[0]
+    assert row["ordered"] and not row["acted"]
+    assert not row["declined"], "the market declined, not the board"
+    assert model.form_figure(row) == model.FORM_UNFILLED
+    assert "filled none" in model.form_line(p)[0]["detail"]
+
+
+def test_a_board_that_passed_is_still_shown_as_declined():
+    p = book(boarded=[verdict()])
+    row = model.fixtures(p)[0]
+    assert row["declined"] and not row["ordered"]
+    assert model.form_figure(row) == model.FORM_DECLINED
+
+
+def test_a_fixture_counts_the_orders_that_never_filled():
+    """39% of resting orders fill. A ticket showing only what filled presents
+    a fifth of the attempt as the whole of it."""
+    p = book([pos(claim="draw", pnl=100)],
+             orders=[order(status="filled"), order(status="expired"),
+                     order(status="expired"), order(status="open")])
+    row = model.fixtures(p)[0]
+    assert row["n_unfilled"] == 2
+    assert row["fill_rate"] == pytest.approx(1 / 3), "open orders are undecided"
+
+
+def test_an_unfilled_order_is_never_counted_as_a_settled_loss():
+    """The strike rate is computed over POSITIONS, and a position exists only
+    on a fill, so a missed order cannot depress it."""
+    p = book([pos(claim="draw", pnl=500)],
+             orders=[order(status="expired") for _ in range(50)])
+    out = model.pnl(p)
+    assert out["n_settled"] == 1 and out["strike_rate"] == pytest.approx(1.0)
