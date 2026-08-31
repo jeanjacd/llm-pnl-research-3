@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 91353,
-  "reserved_cents": 0,
+  "cash_cents": 91288,
+  "reserved_cents": 20,
   "orders": {
     "80b2551a-861c-4ab1-a377-48fd802c86ae": {
       "order_id": "80b2551a-861c-4ab1-a377-48fd802c86ae",
@@ -59636,6 +59636,79 @@
       "kickoff_utc": "2026-08-30T20:30:00",
       "settles_on_regulation": true,
       "last_checked_at": "2026-08-30T21:08:38.429711+00:00"
+    },
+    "51a3eaca-5c66-4065-ab58-dad61eefca61": {
+      "order_id": "51a3eaca-5c66-4065-ab58-dad61eefca61",
+      "case_id": "kalshi:KXEPLTEAMTOTAL-26AUG31AVLARS-AVL2:yes",
+      "venue": "kalshi",
+      "instrument_id": "KXEPLTEAMTOTAL-26AUG31AVLARS-AVL2",
+      "side": "yes",
+      "limit_price_cents": 18,
+      "requested_size": 1.0,
+      "league_id": "premier_league",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 20,
+      "created_at": "2026-08-31T10:27:16.360003+00:00",
+      "expires_at": "2026-08-31T19:00:00+00:00",
+      "events": [
+        {
+          "ts": "2026-08-31T10:27:16.360012+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXEPLTEAMTOTAL-26AUG31AVLARS-AVL2:yes|KXEPLTEAMTOTAL-26AUG31AVLARS-AVL2|yes|18",
+          "reserved_cents": 20
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "home_over_1.5",
+      "home_team": "Aston Villa",
+      "away_team": "Arsenal",
+      "kickoff_utc": "2026-08-31T19:00:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "3dd1ac9b-c6cb-4e3d-b16e-c288d358c31e": {
+      "order_id": "3dd1ac9b-c6cb-4e3d-b16e-c288d358c31e",
+      "case_id": "kalshi:KXEPLSPREAD-26AUG31AVLARS-ARS2:no",
+      "venue": "kalshi",
+      "instrument_id": "KXEPLSPREAD-26AUG31AVLARS-ARS2",
+      "side": "no",
+      "limit_price_cents": 63,
+      "requested_size": 1.0,
+      "league_id": "premier_league",
+      "kind": "limit",
+      "status": "filled",
+      "filled_size": 1.0,
+      "avg_fill_price_cents": 63.0,
+      "fees_cents": 2,
+      "reserved_cents": 0,
+      "created_at": "2026-08-31T10:27:16.360196+00:00",
+      "expires_at": "2026-08-31T19:00:00+00:00",
+      "events": [
+        {
+          "ts": "2026-08-31T10:27:16.360201+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXEPLSPREAD-26AUG31AVLARS-ARS2:no|KXEPLSPREAD-26AUG31AVLARS-ARS2|no|63",
+          "reserved_cents": 65
+        },
+        {
+          "ts": "2026-08-31T10:27:16.360248+00:00",
+          "event": "fill",
+          "size": 1.0,
+          "price_cents": 63.0,
+          "fee_cents": 2
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_away_wins_by_over_1.5",
+      "home_team": "Aston Villa",
+      "away_team": "Arsenal",
+      "kickoff_utc": "2026-08-31T19:00:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
     }
   },
   "positions": {
@@ -71830,6 +71903,30 @@
       "result": "no",
       "payout_cents": 100.0,
       "realized_pnl_cents": 42.0
+    },
+    "KXEPLSPREAD-26AUG31AVLARS-ARS2|no": {
+      "position_id": "a08ddfd3-7bc2-4703-9385-dfcda9f6b6a6",
+      "venue": "kalshi",
+      "instrument_id": "KXEPLSPREAD-26AUG31AVLARS-ARS2",
+      "side": "no",
+      "size": 1.0,
+      "avg_cost_cents": 63.0,
+      "fees_cents": 2,
+      "league_id": "premier_league",
+      "case_id": "kalshi:KXEPLSPREAD-26AUG31AVLARS-ARS2:no",
+      "claim": "not_away_wins_by_over_1.5",
+      "home_team": "Aston Villa",
+      "away_team": "Arsenal",
+      "kickoff_utc": "2026-08-31T19:00:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-08-31T10:27:16.360266+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0
     }
   },
   "ledger": [
@@ -79550,32 +79647,32 @@
       "reason": "While FC Dallas has historical advantage (3-1-3 all-time), they arrive exhausted after a 9-game road trip culminating in a demoralizing 5-0 loss at Vancouver four days ago. St. Louis CITY enters in elite form with a franchise-record 12-game unbeaten streak (11 in MLS), having just defeated top-seeded Houston 2-1 at home. St. Louis' home record at Energizer Park has been strong, and they've demonst"
     },
     "la_liga|Osasuna|Getafe|2026-08-31": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-08-31T01:09:36.544379+00:00",
-      "hours_to_kickoff": 16.3,
-      "ts": "2026-08-31T01:09:36.544404+00:00",
+      "hours_to_kickoff": 7.4,
+      "ts": "2026-08-31T10:07:16.452267+00:00",
       "action": "DEFER",
-      "claim": "draw",
+      "claim": "away_win",
       "home": "Osasuna",
       "away": "Getafe",
-      "markets_considered": 120,
+      "markets_considered": 123,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Osasuna vs Getafe on 2026-08-31 favors a decisive outcome over a draw. Osasuna hold material advantages: home fixture at El Sadar, positive momentum (back-to-back 0-0 then 2-1 away comeback), strong recent home record (14 wins in last 27 home fixtures vs Getafe, 0 recent draws at El Sadar), and tactical setup under Luis Miguel Ramis that combines defensive solidity with transition play. Getafe fac"
+      "reason": "Sporting foundation appears sound but material squad composition details remain uncertain as of match eve. Osasuna show home advantage and early-season momentum (2 wins from 2, 4 points). Getafe have structural defensive setup suited to away football but carry unresolved fullback depth (Femenia availability unclear as of 31 Aug, Mojica still suspended). Getafe's Conference League progression (beat"
     },
     "premier_league|Aston Villa|Arsenal|2026-08-31": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-08-31T01:15:42.942735+00:00",
-      "hours_to_kickoff": 17.7,
-      "ts": "2026-08-31T01:15:42.942758+00:00",
-      "action": "DEFER",
+      "hours_to_kickoff": 8.5,
+      "ts": "2026-08-31T10:27:16.359451+00:00",
+      "action": "PAPER_PLACE_LIMIT",
       "claim": "not_away_win",
       "home": "Aston Villa",
       "away": "Arsenal",
-      "markets_considered": 130,
-      "markets_approved": 0,
-      "decided_by": "coach",
-      "reason": "The position 'no away win' (betting against an Arsenal victory) is not supported by the current sporting context. Arsenal enters as reigning title champions with strong early-season form (3-0 over Coventry), while Aston Villa has suffered a catastrophic start (0-4 collapse to Brighton with 10-man red card). Arsenal's injury profile is more manageable than Villa's acute crisis: Arsenal are missing "
+      "markets_considered": 133,
+      "markets_approved": 3,
+      "decided_by": "quant",
+      "reason": "Negative EV at -3.29 cents. Market price (98\u00a2) is 1.97\u00a2 above the lower-bound-implied fair value (~96\u00a2). Even if probability is above the 96.03% lower bound, the adverse_selection penalty and fee structure make this unprofitable."
     },
     "la_liga|Barcelona|Rayo Vallecano|2026-08-31": {
       "attempts": 1,
@@ -79592,5 +79689,5 @@
       "reason": "Barcelona's 2-0 start with 0 goals conceded, home advantage, and champion status vs. Rayo's 0-1-1 record and critical squad depletion (Batalla out 3-6 months, Palaz\u00f3n absent, Kumbulla fitness concerns) creates asymmetric risk. While Barcelona's defensive fragility is flagged by Flick, results have not yet materialized; Rayo's prior ability to draw/upset Barcelona relied on full-squad availability "
     }
   },
-  "saved_at": "2026-08-31T07:03:27.805525+00:00"
+  "saved_at": "2026-08-31T10:27:16.443272+00:00"
 }
