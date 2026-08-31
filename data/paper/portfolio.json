@@ -59668,7 +59668,7 @@
       "away_team": "Arsenal",
       "kickoff_utc": "2026-08-31T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-08-31T13:01:19.773907+00:00"
     },
     "3dd1ac9b-c6cb-4e3d-b16e-c288d358c31e": {
       "order_id": "3dd1ac9b-c6cb-4e3d-b16e-c288d358c31e",
@@ -79675,19 +79675,19 @@
       "reason": "Negative EV at -3.29 cents. Market price (98\u00a2) is 1.97\u00a2 above the lower-bound-implied fair value (~96\u00a2). Even if probability is above the 96.03% lower bound, the adverse_selection penalty and fee structure make this unprofitable."
     },
     "la_liga|Barcelona|Rayo Vallecano|2026-08-31": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-08-31T04:08:23.150548+00:00",
-      "hours_to_kickoff": 15.4,
-      "ts": "2026-08-31T04:08:23.150569+00:00",
+      "hours_to_kickoff": 6.3,
+      "ts": "2026-08-31T13:09:16.975916+00:00",
       "action": "DEFER",
       "claim": "not_home_win",
       "home": "Barcelona",
       "away": "Rayo Vallecano",
-      "markets_considered": 117,
+      "markets_considered": 96,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Barcelona's 2-0 start with 0 goals conceded, home advantage, and champion status vs. Rayo's 0-1-1 record and critical squad depletion (Batalla out 3-6 months, Palaz\u00f3n absent, Kumbulla fitness concerns) creates asymmetric risk. While Barcelona's defensive fragility is flagged by Flick, results have not yet materialized; Rayo's prior ability to draw/upset Barcelona relied on full-squad availability "
+      "reason": "Barcelona is the overwhelming favorite for this fixture. The home team's current form (undefeated at home with 20 consecutive league wins, 5-0 and 2-0 victories in opening matches, zero goals conceded), roster quality (new signings Rodri and Anthony Gordon, full strength attacking force), and head-to-head dominance (8 consecutive wins, 17-3 all-time record vs Rayo) stands in stark contrast to Rayo"
     }
   },
-  "saved_at": "2026-08-31T10:27:16.443272+00:00"
+  "saved_at": "2026-08-31T13:09:17.055703+00:00"
 }
