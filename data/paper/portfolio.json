@@ -1,6 +1,6 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 88053,
+  "cash_cents": 91353,
   "reserved_cents": 0,
   "orders": {
     "80b2551a-861c-4ab1-a377-48fd802c86ae": {
@@ -70386,10 +70386,10 @@
       "closing_price_cents": 32.5,
       "clv_cents": 10.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -24.0
     },
     "0xf4887060d2cfe675dd49101651e8746e0a65e4f3ddbaa50c9921f91523720520|yes": {
       "position_id": "69cfafca-cc8c-44d5-8fd4-e21e034c8e64",
@@ -70410,10 +70410,10 @@
       "closing_price_cents": 32.5,
       "clv_cents": 9.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -23.0
     },
     "0xf43fca3123b5e97195b314d8b57c414c318cd870abaadd1ac7fb857e28566234|no": {
       "position_id": "3105fd71-9f62-4008-8919-25f692d7319c",
@@ -70434,10 +70434,10 @@
       "closing_price_cents": 73.5,
       "clv_cents": 3.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 30.0
     },
     "KXMLSGAME-26AUG30STLDAL-STL|no": {
       "position_id": "9fff4138-ce93-4cd5-92e0-76178fe643f7",
@@ -70458,10 +70458,10 @@
       "closing_price_cents": 57.5,
       "clv_cents": 12.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -47.0
     },
     "0x4d77bddcf297cd7b026e143dc1c310a99c793946b96776644b241a2c5b97f9bb|no": {
       "position_id": "777243af-c516-444f-8cb7-4f5c4c9777cf",
@@ -70482,10 +70482,10 @@
       "closing_price_cents": 57.5,
       "clv_cents": 10.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -47.0
     },
     "KXMLSGAME-26AUG30STLDAL-TIE|yes": {
       "position_id": "aacde97f-f186-4246-bb2c-c18407e0e5f2",
@@ -70506,10 +70506,10 @@
       "closing_price_cents": 25.5,
       "clv_cents": 9.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "yes",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 83.0
     },
     "0xf43fca3123b5e97195b314d8b57c414c318cd870abaadd1ac7fb857e28566234|yes": {
       "position_id": "4ee3b20b-e7fb-4766-81b7-d7c294ce637d",
@@ -70530,10 +70530,10 @@
       "closing_price_cents": 26.5,
       "clv_cents": 9.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "yes",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 83.0
     },
     "0x4d77bddcf297cd7b026e143dc1c310a99c793946b96776644b241a2c5b97f9bb|yes": {
       "position_id": "c8b70b91-b86c-4884-9d44-6821dbcf2849",
@@ -70554,10 +70554,10 @@
       "closing_price_cents": 42.5,
       "clv_cents": 2.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -40.0
     },
     "KXMLSBTTS-26AUG30STLDAL-BTTS|no": {
       "position_id": "2f638fe9-0b79-49e7-9a65-2dd0bcd4fb37",
@@ -70578,10 +70578,10 @@
       "closing_price_cents": 35.5,
       "clv_cents": 6.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 69.0
     },
     "0xd93e7e47fc85d6ecded98039390507a73b3297da9378a1c264c2de5753e552e5|no": {
       "position_id": "d656c114-d863-4201-ba4f-eb47ac56cac8",
@@ -70602,10 +70602,10 @@
       "closing_price_cents": 35.5,
       "clv_cents": 4.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 69.0
     },
     "KXMLSTOTAL-26AUG30STLDAL-6|no": {
       "position_id": "2485cc4d-c7a0-467a-a41c-1309372cd72e",
@@ -70626,10 +70626,10 @@
       "closing_price_cents": 90.5,
       "clv_cents": 8.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 16.0
     },
     "KXMLSTOTAL-26AUG30STLDAL-2|no": {
       "position_id": "79968a89-3b95-4627-a649-b58796ea7699",
@@ -70650,10 +70650,10 @@
       "closing_price_cents": 18.5,
       "clv_cents": 8.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 89.0
     },
     "0x2d090a0ce9e58394d0e80202697aab1e10d1c11b5d89336b5c096bc8d0875d07|no": {
       "position_id": "840d6cc0-b382-498d-ae6d-d3fc59b3af81",
@@ -70674,10 +70674,10 @@
       "closing_price_cents": 90.5,
       "clv_cents": 7.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 17.0
     },
     "0x6f84b9cef373bd054522a80fc9c76b29393815da5f36873494fba61b2bf76628|no": {
       "position_id": "9ecf5fdd-14a5-4a0a-b312-67bd44d26603",
@@ -70698,10 +70698,10 @@
       "closing_price_cents": 17.5,
       "clv_cents": 6.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 89.0
     },
     "KXMLSTOTAL-26AUG30STLDAL-5|no": {
       "position_id": "390228c4-88e5-46aa-947d-8a118c03913c",
@@ -70722,10 +70722,10 @@
       "closing_price_cents": 80.5,
       "clv_cents": 10.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 28.0
     },
     "0x1b24f556b57dbdb1a31058e9143389221dc5756c014448b6abc45c6061d046be|no": {
       "position_id": "9daa3884-fff7-466d-aea6-5cdef6a59720",
@@ -70746,10 +70746,10 @@
       "closing_price_cents": 80.5,
       "clv_cents": 8.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 28.0
     },
     "KXMLSTOTAL-26AUG30STLDAL-3|no": {
       "position_id": "9aa9a635-b002-4fdf-b971-f6026f5f62ef",
@@ -70770,10 +70770,10 @@
       "closing_price_cents": 39.5,
       "clv_cents": 9.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 68.0
     },
     "0x689a52944aa08fbf5573447e3336e968a38e4328038a5a7974ab2566f61efe2d|no": {
       "position_id": "a29dae47-5a7e-40e9-8bd9-53bbdd020c54",
@@ -70794,10 +70794,10 @@
       "closing_price_cents": 39.5,
       "clv_cents": 7.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 68.0
     },
     "KXMLSTOTAL-26AUG30STLDAL-4|no": {
       "position_id": "abb1edb1-e645-421d-b2be-8578427e1c6b",
@@ -70818,10 +70818,10 @@
       "closing_price_cents": 62.5,
       "clv_cents": 10.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 46.0
     },
     "0x8eb29dae3123a57eb9e542bd4ddc6ed5f2939283e112290948ea0932ce26b00e|no": {
       "position_id": "6d04650d-6cdd-4b15-91b6-2ae88dc7bc9d",
@@ -70842,10 +70842,10 @@
       "closing_price_cents": 62.5,
       "clv_cents": 8.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 46.0
     },
     "KXMLSTEAMTOTAL-26AUG30STLDAL-DAL2|yes": {
       "position_id": "519f45b9-a2cd-4027-9662-e693d3297015",
@@ -70866,10 +70866,10 @@
       "closing_price_cents": 44.0,
       "clv_cents": 12.0,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "yes",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 66.0
     },
     "0xe8aa39258f32a3dd1fce006ec4b047460d78c1c63beda5bdddb1f2e7ab22e760|yes": {
       "position_id": "11269d40-984f-462f-adc9-ffaa0d9adff2",
@@ -70890,10 +70890,10 @@
       "closing_price_cents": 17.5,
       "clv_cents": 7.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "yes",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 90.0
     },
     "KXMLSTEAMTOTAL-26AUG30STLDAL-STL1|no": {
       "position_id": "aac1b4cf-8b3b-4e86-9a66-86fb20d3f052",
@@ -70914,10 +70914,10 @@
       "closing_price_cents": 17.5,
       "clv_cents": 7.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 89.0
     },
     "0x13ad088f6f3ce7c5363c6e96a08b4627e5a2e9f1dfcfc114e515f3c32f08fa6f|yes": {
       "position_id": "7098b1a5-fbc9-45e4-b681-b66819ee9b43",
@@ -70938,10 +70938,10 @@
       "closing_price_cents": 43.0,
       "clv_cents": 9.0,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "yes",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 66.0
     },
     "0x348f402030569b732eda790f97dcc33ae0d457947075bc1f6efdf278d123031b|no": {
       "position_id": "c0421677-f127-49f8-86b0-981ec665cc7f",
@@ -70962,10 +70962,10 @@
       "closing_price_cents": 18.0,
       "clv_cents": 8.0,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 90.0
     },
     "KXMLSTEAMTOTAL-26AUG30STLDAL-DAL1|no": {
       "position_id": "4a440ede-b96b-4678-893f-976f21070af1",
@@ -70986,10 +70986,10 @@
       "closing_price_cents": 22.5,
       "clv_cents": 5.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 82.0
     },
     "KXMLSTEAMTOTAL-26AUG30STLDAL-STL2|no": {
       "position_id": "f27ff2a5-9dd7-4fe8-9c79-2a8a93cddc33",
@@ -71010,10 +71010,10 @@
       "closing_price_cents": 49.5,
       "clv_cents": 10.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 59.0
     },
     "KXMLSTEAMTOTAL-26AUG30STLDAL-DAL3|no": {
       "position_id": "c8300550-fd35-4bd7-b222-62d33980831c",
@@ -71034,10 +71034,10 @@
       "closing_price_cents": 83.5,
       "clv_cents": 7.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 22.0
     },
     "KXMLSTEAMTOTAL-26AUG30STLDAL-STL3|no": {
       "position_id": "46fa8591-11e2-4e8b-b6b0-2372867193b6",
@@ -71058,10 +71058,10 @@
       "closing_price_cents": 78.0,
       "clv_cents": 12.0,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 32.0
     },
     "0xe8aa39258f32a3dd1fce006ec4b047460d78c1c63beda5bdddb1f2e7ab22e760|no": {
       "position_id": "79cdfa06-6547-4a78-ad64-436969928bf1",
@@ -71082,10 +71082,10 @@
       "closing_price_cents": 82.5,
       "clv_cents": 5.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 23.0
     },
     "0xc1c3e91842f6db2b991d6d94aac9dd4c1c91f4d4104f35b2398ed07f4a0be930|no": {
       "position_id": "b727af22-4768-426f-9df0-b21e413c3fd3",
@@ -71106,10 +71106,10 @@
       "closing_price_cents": 77.5,
       "clv_cents": 10.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 33.0
     },
     "0xa71a78a0925bb40a18f8dd3ad706404947c8e9eb014ef9ab814134403135d3f6|no": {
       "position_id": "bbe0989b-19f8-4501-8230-4b17c8fec1e3",
@@ -71130,10 +71130,10 @@
       "closing_price_cents": 50.0,
       "clv_cents": 10.0,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 60.0
     },
     "0xc75aa6e5db33c6f4992ffbcce954160e9dea065c7f6bd7bace8c2c9c795eaead|no": {
       "position_id": "400fa69d-6990-48d8-88e2-eeee0b6c3296",
@@ -71154,10 +71154,10 @@
       "closing_price_cents": 23.0,
       "clv_cents": 5.0,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 82.0
     },
     "KXMLSTEAMTOTAL-26AUG30STLDAL-DAL2|no": {
       "position_id": "fd856bae-96bc-4204-81a0-7eabb4da8d7a",
@@ -71178,10 +71178,10 @@
       "closing_price_cents": 56.0,
       "clv_cents": 5.0,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 47.0
     },
     "0x13ad088f6f3ce7c5363c6e96a08b4627e5a2e9f1dfcfc114e515f3c32f08fa6f|no": {
       "position_id": "689b71bf-bf5d-49df-9bed-b6dabca73a49",
@@ -71202,10 +71202,10 @@
       "closing_price_cents": 57.0,
       "clv_cents": 5.0,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 48.0
     },
     "KXMLSSPREAD-26AUG30STLDAL-DAL2|yes": {
       "position_id": "daeb46df-1044-4a63-85a9-ee5cacd84baa",
@@ -71226,10 +71226,10 @@
       "closing_price_cents": 13.5,
       "clv_cents": 7.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -7.0
     },
     "0x804cd0bba036cff7a38b29bbe6aef6e7698c28e9981ab7800fd61f30cc8161b0|yes": {
       "position_id": "5949a0c5-cf01-4025-80f2-d36b7973d51d",
@@ -71250,10 +71250,10 @@
       "closing_price_cents": 14.5,
       "clv_cents": 7.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -7.0
     },
     "KXMLSSPREAD-26AUG30STLDAL-STL3|yes": {
       "position_id": "e8d56696-1fd5-40eb-b956-fe7e97470d65",
@@ -71274,10 +71274,10 @@
       "closing_price_cents": 8.5,
       "clv_cents": 4.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -5.0
     },
     "KXMLSSPREAD-26AUG30STLDAL-STL2|yes": {
       "position_id": "d08edca2-333e-4021-b354-5513eef7763f",
@@ -71298,10 +71298,10 @@
       "closing_price_cents": 20.5,
       "clv_cents": 3.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -18.0
     },
     "KXMLSSPREAD-26AUG30STLDAL-STL3|no": {
       "position_id": "2cb686d1-079f-4c7f-a12c-c72db3852d02",
@@ -71322,10 +71322,10 @@
       "closing_price_cents": 91.5,
       "clv_cents": 10.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -83.0
     },
     "0x0b1e6126a6eb5ecf04cbdde3f449a330ab58a069f7e10b4765e9aea3c78c8a45|yes": {
       "position_id": "14e52de7-36d4-4460-b360-136040c873c9",
@@ -71346,10 +71346,10 @@
       "closing_price_cents": 21.5,
       "clv_cents": 3.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -18.0
     },
     "0x2d82056af63c38a3d64c7d0d751843f7b56533ad0dbacd385727651e5ed2638f|no": {
       "position_id": "1ba1e29b-0536-4fd2-919c-b50718884209",
@@ -71370,10 +71370,10 @@
       "closing_price_cents": 91.0,
       "clv_cents": 9.0,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -82.0
     },
     "0x8873de7ebfff060be7de3ea5fa353f4bfb0f8dc3ee312f18b9c333fa4726a614|no": {
       "position_id": "1140beff-303d-4c8e-9978-1936e330825e",
@@ -71394,10 +71394,10 @@
       "closing_price_cents": 94.65,
       "clv_cents": 5.65,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -89.0
     },
     "KXMLSSPREAD-26AUG30STLDAL-STL2|no": {
       "position_id": "d0e72e83-548b-4ba8-a670-6c2612ad11ee",
@@ -71418,10 +71418,10 @@
       "closing_price_cents": 79.5,
       "clv_cents": 12.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -69.0
     },
     "0x0b1e6126a6eb5ecf04cbdde3f449a330ab58a069f7e10b4765e9aea3c78c8a45|no": {
       "position_id": "8cbf9138-701a-4a71-b63e-75e8bfdec059",
@@ -71442,10 +71442,10 @@
       "closing_price_cents": 78.5,
       "clv_cents": 10.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -68.0
     },
     "0x644a01533cf21c0a0e1070d10b4d6d42b0c6640d43aeca35678e2315f42e23f8|no": {
       "position_id": "a60f34e4-a76f-4429-a91d-6cb5a41a2043",
@@ -71466,10 +71466,10 @@
       "closing_price_cents": 96.75,
       "clv_cents": 7.75,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -89.0
     },
     "0xc65540fe5a9bec3829f3382deb2a31cd60547223ec2ab0abb8297b897e443e3a|no": {
       "position_id": "7bc5196b-dd3b-44be-b6a9-c55afc9c4309",
@@ -71490,10 +71490,10 @@
       "closing_price_cents": 88.5,
       "clv_cents": 5.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -83.0
     },
     "KXMLSSCORE-26AUG30STLDAL-STL2DAL1|no": {
       "position_id": "e7e37725-7e48-40a3-a73d-3d4a18b1758a",
@@ -71514,10 +71514,10 @@
       "closing_price_cents": 91.0,
       "clv_cents": 8.0,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -84.0
     },
     "0x28d1dbad726ec587ecb24b545068e7b0313d2af9eed15836e40e27ab75464ea9|no": {
       "position_id": "546753fd-81ce-4285-a642-4c3deb7e5a82",
@@ -71538,10 +71538,10 @@
       "closing_price_cents": 98.15,
       "clv_cents": 6.15,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 8.0
     },
     "0xfc0cfb2fde3f9350b9a194141145e81bb7d9cd6825f0e7114ed8480c5a50ede0|no": {
       "position_id": "21500090-27c0-42ff-af47-fb86028c56b6",
@@ -71562,10 +71562,10 @@
       "closing_price_cents": 95.5,
       "clv_cents": 7.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -88.0
     },
     "0x0f9f8c3dda9506023c27a5806e524ffee95c76f91e0714a73b0fb27fe1cded1d|no": {
       "position_id": "9fe98c74-d913-41f9-b7ff-b805cae7d9b8",
@@ -71586,10 +71586,10 @@
       "closing_price_cents": 97.9,
       "clv_cents": 6.9,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -91.0
     },
     "0x2bcd984d904d2a2536c18a96648d757a5089986b4b724498daac36e149684948|no": {
       "position_id": "2cb4b676-02ad-4351-ae1c-61582447ba1b",
@@ -71610,10 +71610,10 @@
       "closing_price_cents": 92.5,
       "clv_cents": 5.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -87.0
     },
     "KXMLSSCORE-26AUG30STLDAL-STL3DAL2|no": {
       "position_id": "99199522-0d0c-4dee-aa3e-37d105bc5eae",
@@ -71634,10 +71634,10 @@
       "closing_price_cents": 96.0,
       "clv_cents": 7.0,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -90.0
     },
     "0x3553d5f0861b8aeba3b1df9d9013bc6d899fa313bac409114318d2ec998030ae|no": {
       "position_id": "e553e91b-fe1d-413c-b7f9-ca6518e93619",
@@ -71658,10 +71658,10 @@
       "closing_price_cents": 90.5,
       "clv_cents": 6.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -84.0
     },
     "0xfcdd224980c4db24074afd71cbfe7fa732a58a0401fdf0a959ad5c60524310de|no": {
       "position_id": "dae80f28-7cc5-4cd3-aa3c-39e5c036e018",
@@ -71682,10 +71682,10 @@
       "closing_price_cents": 96.3,
       "clv_cents": 6.3,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -90.0
     },
     "0xb407fb57a260df06d9a1be4a5ca5ce5ec642b84c5e9bef04ab51a408e29b2913|no": {
       "position_id": "6cc5bacd-ec0a-424c-9148-354506bd27a3",
@@ -71706,10 +71706,10 @@
       "closing_price_cents": 95.5,
       "clv_cents": 6.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -89.0
     },
     "KXMLSSCORE-26AUG30STLDAL-STL2DAL1|yes": {
       "position_id": "dfa1ac6e-2f99-4fa9-8808-2455faf2d5da",
@@ -71730,10 +71730,10 @@
       "closing_price_cents": 9.0,
       "clv_cents": 7.0,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -3.0
     },
     "0x3553d5f0861b8aeba3b1df9d9013bc6d899fa313bac409114318d2ec998030ae|yes": {
       "position_id": "f5e11425-5b17-4bf1-b455-0b0a0e5315c5",
@@ -71754,10 +71754,10 @@
       "closing_price_cents": 9.5,
       "clv_cents": 6.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -3.0
     },
     "0xc65540fe5a9bec3829f3382deb2a31cd60547223ec2ab0abb8297b897e443e3a|yes": {
       "position_id": "5398307a-3b50-468e-8ac5-e4f0bcf42dd2",
@@ -71778,10 +71778,10 @@
       "closing_price_cents": 11.5,
       "clv_cents": 7.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -4.0
     },
     "KXMLS1HTOTAL-26AUG30STLDAL-1|no": {
       "position_id": "feb4e0d9-1b7f-46d9-9ada-22829b9656e0",
@@ -71802,10 +71802,10 @@
       "closing_price_cents": 25.5,
       "clv_cents": 4.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 77.0
     },
     "KXMLS1HTOTAL-26AUG30STLDAL-2|no": {
       "position_id": "4bc6bc52-81c8-4967-96a5-659cf8998c08",
@@ -71826,10 +71826,10 @@
       "closing_price_cents": 59.5,
       "clv_cents": 3.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 100.0,
+      "realized_pnl_cents": 42.0
     }
   },
   "ledger": [
@@ -78090,6 +78090,860 @@
       "pnl_cents": -3.0,
       "league_id": "mls",
       "case_id": "kalshi:KXMLS1HSCORE-26AUG30CLBNE-CLB0NE1:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.360785+00:00",
+      "instrument_id": "KXMLSGAME-26AUG30STLDAL-DAL",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 22.0,
+      "fees_cents": 2,
+      "payout_cents": 0.0,
+      "pnl_cents": -24.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSGAME-26AUG30STLDAL-DAL:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.363099+00:00",
+      "instrument_id": "0xf4887060d2cfe675dd49101651e8746e0a65e4f3ddbaa50c9921f91523720520",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 23.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -23.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xf4887060d2cfe675dd49101651e8746e0a65e4f3ddbaa50c9921f91523720520:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.365364+00:00",
+      "instrument_id": "0xf43fca3123b5e97195b314d8b57c414c318cd870abaadd1ac7fb857e28566234",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 70.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 30.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xf43fca3123b5e97195b314d8b57c414c318cd870abaadd1ac7fb857e28566234:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.367633+00:00",
+      "instrument_id": "KXMLSGAME-26AUG30STLDAL-STL",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 45.0,
+      "fees_cents": 2,
+      "payout_cents": 0.0,
+      "pnl_cents": -47.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSGAME-26AUG30STLDAL-STL:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.369900+00:00",
+      "instrument_id": "0x4d77bddcf297cd7b026e143dc1c310a99c793946b96776644b241a2c5b97f9bb",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 47.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -47.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x4d77bddcf297cd7b026e143dc1c310a99c793946b96776644b241a2c5b97f9bb:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.372105+00:00",
+      "instrument_id": "KXMLSGAME-26AUG30STLDAL-TIE",
+      "side": "yes",
+      "result": "yes",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 16.0,
+      "fees_cents": 1,
+      "payout_cents": 100.0,
+      "pnl_cents": 83.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSGAME-26AUG30STLDAL-TIE:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.374327+00:00",
+      "instrument_id": "0xf43fca3123b5e97195b314d8b57c414c318cd870abaadd1ac7fb857e28566234",
+      "side": "yes",
+      "result": "yes",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 17.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 83.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xf43fca3123b5e97195b314d8b57c414c318cd870abaadd1ac7fb857e28566234:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.376571+00:00",
+      "instrument_id": "0x4d77bddcf297cd7b026e143dc1c310a99c793946b96776644b241a2c5b97f9bb",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 40.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -40.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x4d77bddcf297cd7b026e143dc1c310a99c793946b96776644b241a2c5b97f9bb:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.378814+00:00",
+      "instrument_id": "KXMLSBTTS-26AUG30STLDAL-BTTS",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 29.0,
+      "fees_cents": 2,
+      "payout_cents": 100.0,
+      "pnl_cents": 69.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSBTTS-26AUG30STLDAL-BTTS:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.381045+00:00",
+      "instrument_id": "0xd93e7e47fc85d6ecded98039390507a73b3297da9378a1c264c2de5753e552e5",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 31.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 69.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xd93e7e47fc85d6ecded98039390507a73b3297da9378a1c264c2de5753e552e5:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.383316+00:00",
+      "instrument_id": "KXMLSTOTAL-26AUG30STLDAL-6",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 82.0,
+      "fees_cents": 2,
+      "payout_cents": 100.0,
+      "pnl_cents": 16.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSTOTAL-26AUG30STLDAL-6:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.385528+00:00",
+      "instrument_id": "KXMLSTOTAL-26AUG30STLDAL-2",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 10.0,
+      "fees_cents": 1,
+      "payout_cents": 100.0,
+      "pnl_cents": 89.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSTOTAL-26AUG30STLDAL-2:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.387722+00:00",
+      "instrument_id": "0x2d090a0ce9e58394d0e80202697aab1e10d1c11b5d89336b5c096bc8d0875d07",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 83.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 17.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x2d090a0ce9e58394d0e80202697aab1e10d1c11b5d89336b5c096bc8d0875d07:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.389953+00:00",
+      "instrument_id": "0x6f84b9cef373bd054522a80fc9c76b29393815da5f36873494fba61b2bf76628",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 11.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 89.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x6f84b9cef373bd054522a80fc9c76b29393815da5f36873494fba61b2bf76628:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.392248+00:00",
+      "instrument_id": "KXMLSTOTAL-26AUG30STLDAL-5",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 70.0,
+      "fees_cents": 2,
+      "payout_cents": 100.0,
+      "pnl_cents": 28.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSTOTAL-26AUG30STLDAL-5:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.394485+00:00",
+      "instrument_id": "0x1b24f556b57dbdb1a31058e9143389221dc5756c014448b6abc45c6061d046be",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 72.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 28.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x1b24f556b57dbdb1a31058e9143389221dc5756c014448b6abc45c6061d046be:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.396700+00:00",
+      "instrument_id": "KXMLSTOTAL-26AUG30STLDAL-3",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 30.0,
+      "fees_cents": 2,
+      "payout_cents": 100.0,
+      "pnl_cents": 68.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSTOTAL-26AUG30STLDAL-3:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.398897+00:00",
+      "instrument_id": "0x689a52944aa08fbf5573447e3336e968a38e4328038a5a7974ab2566f61efe2d",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 32.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 68.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x689a52944aa08fbf5573447e3336e968a38e4328038a5a7974ab2566f61efe2d:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.401084+00:00",
+      "instrument_id": "KXMLSTOTAL-26AUG30STLDAL-4",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 52.0,
+      "fees_cents": 2,
+      "payout_cents": 100.0,
+      "pnl_cents": 46.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSTOTAL-26AUG30STLDAL-4:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.403447+00:00",
+      "instrument_id": "0x8eb29dae3123a57eb9e542bd4ddc6ed5f2939283e112290948ea0932ce26b00e",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 54.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 46.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x8eb29dae3123a57eb9e542bd4ddc6ed5f2939283e112290948ea0932ce26b00e:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.405636+00:00",
+      "instrument_id": "KXMLSTEAMTOTAL-26AUG30STLDAL-DAL2",
+      "side": "yes",
+      "result": "yes",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 32.0,
+      "fees_cents": 2,
+      "payout_cents": 100.0,
+      "pnl_cents": 66.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSTEAMTOTAL-26AUG30STLDAL-DAL2:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.407814+00:00",
+      "instrument_id": "0xe8aa39258f32a3dd1fce006ec4b047460d78c1c63beda5bdddb1f2e7ab22e760",
+      "side": "yes",
+      "result": "yes",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 10.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 90.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xe8aa39258f32a3dd1fce006ec4b047460d78c1c63beda5bdddb1f2e7ab22e760:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.410015+00:00",
+      "instrument_id": "KXMLSTEAMTOTAL-26AUG30STLDAL-STL1",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 10.0,
+      "fees_cents": 1,
+      "payout_cents": 100.0,
+      "pnl_cents": 89.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSTEAMTOTAL-26AUG30STLDAL-STL1:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.412221+00:00",
+      "instrument_id": "0x13ad088f6f3ce7c5363c6e96a08b4627e5a2e9f1dfcfc114e515f3c32f08fa6f",
+      "side": "yes",
+      "result": "yes",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 34.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 66.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x13ad088f6f3ce7c5363c6e96a08b4627e5a2e9f1dfcfc114e515f3c32f08fa6f:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.414481+00:00",
+      "instrument_id": "0x348f402030569b732eda790f97dcc33ae0d457947075bc1f6efdf278d123031b",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 10.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 90.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x348f402030569b732eda790f97dcc33ae0d457947075bc1f6efdf278d123031b:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.416729+00:00",
+      "instrument_id": "KXMLSTEAMTOTAL-26AUG30STLDAL-DAL1",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 17.0,
+      "fees_cents": 1,
+      "payout_cents": 100.0,
+      "pnl_cents": 82.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSTEAMTOTAL-26AUG30STLDAL-DAL1:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.418928+00:00",
+      "instrument_id": "KXMLSTEAMTOTAL-26AUG30STLDAL-STL2",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 39.0,
+      "fees_cents": 2,
+      "payout_cents": 100.0,
+      "pnl_cents": 59.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSTEAMTOTAL-26AUG30STLDAL-STL2:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.421113+00:00",
+      "instrument_id": "KXMLSTEAMTOTAL-26AUG30STLDAL-DAL3",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 76.0,
+      "fees_cents": 2,
+      "payout_cents": 100.0,
+      "pnl_cents": 22.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSTEAMTOTAL-26AUG30STLDAL-DAL3:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.423398+00:00",
+      "instrument_id": "KXMLSTEAMTOTAL-26AUG30STLDAL-STL3",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 66.0,
+      "fees_cents": 2,
+      "payout_cents": 100.0,
+      "pnl_cents": 32.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSTEAMTOTAL-26AUG30STLDAL-STL3:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.425596+00:00",
+      "instrument_id": "0xe8aa39258f32a3dd1fce006ec4b047460d78c1c63beda5bdddb1f2e7ab22e760",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 77.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 23.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xe8aa39258f32a3dd1fce006ec4b047460d78c1c63beda5bdddb1f2e7ab22e760:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.427805+00:00",
+      "instrument_id": "0xc1c3e91842f6db2b991d6d94aac9dd4c1c91f4d4104f35b2398ed07f4a0be930",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 67.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 33.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xc1c3e91842f6db2b991d6d94aac9dd4c1c91f4d4104f35b2398ed07f4a0be930:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.430032+00:00",
+      "instrument_id": "0xa71a78a0925bb40a18f8dd3ad706404947c8e9eb014ef9ab814134403135d3f6",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 40.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 60.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xa71a78a0925bb40a18f8dd3ad706404947c8e9eb014ef9ab814134403135d3f6:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.432324+00:00",
+      "instrument_id": "0xc75aa6e5db33c6f4992ffbcce954160e9dea065c7f6bd7bace8c2c9c795eaead",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 18.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 82.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xc75aa6e5db33c6f4992ffbcce954160e9dea065c7f6bd7bace8c2c9c795eaead:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.434556+00:00",
+      "instrument_id": "KXMLSTEAMTOTAL-26AUG30STLDAL-DAL2",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 51.0,
+      "fees_cents": 2,
+      "payout_cents": 100.0,
+      "pnl_cents": 47.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSTEAMTOTAL-26AUG30STLDAL-DAL2:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.436801+00:00",
+      "instrument_id": "0x13ad088f6f3ce7c5363c6e96a08b4627e5a2e9f1dfcfc114e515f3c32f08fa6f",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 52.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 48.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x13ad088f6f3ce7c5363c6e96a08b4627e5a2e9f1dfcfc114e515f3c32f08fa6f:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.438980+00:00",
+      "instrument_id": "KXMLSSPREAD-26AUG30STLDAL-DAL2",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 6.0,
+      "fees_cents": 1,
+      "payout_cents": 0.0,
+      "pnl_cents": -7.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSSPREAD-26AUG30STLDAL-DAL2:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.441254+00:00",
+      "instrument_id": "0x804cd0bba036cff7a38b29bbe6aef6e7698c28e9981ab7800fd61f30cc8161b0",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 7.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -7.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x804cd0bba036cff7a38b29bbe6aef6e7698c28e9981ab7800fd61f30cc8161b0:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.443397+00:00",
+      "instrument_id": "KXMLSSPREAD-26AUG30STLDAL-STL3",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 4.0,
+      "fees_cents": 1,
+      "payout_cents": 0.0,
+      "pnl_cents": -5.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSSPREAD-26AUG30STLDAL-STL3:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.445538+00:00",
+      "instrument_id": "KXMLSSPREAD-26AUG30STLDAL-STL2",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 17.0,
+      "fees_cents": 1,
+      "payout_cents": 0.0,
+      "pnl_cents": -18.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSSPREAD-26AUG30STLDAL-STL2:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.447699+00:00",
+      "instrument_id": "KXMLSSPREAD-26AUG30STLDAL-STL3",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 81.0,
+      "fees_cents": 2,
+      "payout_cents": 0.0,
+      "pnl_cents": -83.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSSPREAD-26AUG30STLDAL-STL3:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.449902+00:00",
+      "instrument_id": "0x0b1e6126a6eb5ecf04cbdde3f449a330ab58a069f7e10b4765e9aea3c78c8a45",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 18.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -18.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x0b1e6126a6eb5ecf04cbdde3f449a330ab58a069f7e10b4765e9aea3c78c8a45:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.452144+00:00",
+      "instrument_id": "0x2d82056af63c38a3d64c7d0d751843f7b56533ad0dbacd385727651e5ed2638f",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 82.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -82.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x2d82056af63c38a3d64c7d0d751843f7b56533ad0dbacd385727651e5ed2638f:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.454370+00:00",
+      "instrument_id": "0x8873de7ebfff060be7de3ea5fa353f4bfb0f8dc3ee312f18b9c333fa4726a614",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 89.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -89.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x8873de7ebfff060be7de3ea5fa353f4bfb0f8dc3ee312f18b9c333fa4726a614:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.456580+00:00",
+      "instrument_id": "KXMLSSPREAD-26AUG30STLDAL-STL2",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 67.0,
+      "fees_cents": 2,
+      "payout_cents": 0.0,
+      "pnl_cents": -69.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSSPREAD-26AUG30STLDAL-STL2:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.458800+00:00",
+      "instrument_id": "0x0b1e6126a6eb5ecf04cbdde3f449a330ab58a069f7e10b4765e9aea3c78c8a45",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 68.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -68.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x0b1e6126a6eb5ecf04cbdde3f449a330ab58a069f7e10b4765e9aea3c78c8a45:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.461542+00:00",
+      "instrument_id": "0x644a01533cf21c0a0e1070d10b4d6d42b0c6640d43aeca35678e2315f42e23f8",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 89.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -89.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x644a01533cf21c0a0e1070d10b4d6d42b0c6640d43aeca35678e2315f42e23f8:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.463733+00:00",
+      "instrument_id": "0xc65540fe5a9bec3829f3382deb2a31cd60547223ec2ab0abb8297b897e443e3a",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 83.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -83.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xc65540fe5a9bec3829f3382deb2a31cd60547223ec2ab0abb8297b897e443e3a:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.465917+00:00",
+      "instrument_id": "KXMLSSCORE-26AUG30STLDAL-STL2DAL1",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 83.0,
+      "fees_cents": 1,
+      "payout_cents": 0.0,
+      "pnl_cents": -84.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSSCORE-26AUG30STLDAL-STL2DAL1:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.468124+00:00",
+      "instrument_id": "0x28d1dbad726ec587ecb24b545068e7b0313d2af9eed15836e40e27ab75464ea9",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 92.0,
+      "fees_cents": 0,
+      "payout_cents": 100.0,
+      "pnl_cents": 8.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x28d1dbad726ec587ecb24b545068e7b0313d2af9eed15836e40e27ab75464ea9:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.470357+00:00",
+      "instrument_id": "0xfc0cfb2fde3f9350b9a194141145e81bb7d9cd6825f0e7114ed8480c5a50ede0",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 88.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -88.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xfc0cfb2fde3f9350b9a194141145e81bb7d9cd6825f0e7114ed8480c5a50ede0:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.472590+00:00",
+      "instrument_id": "0x0f9f8c3dda9506023c27a5806e524ffee95c76f91e0714a73b0fb27fe1cded1d",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 91.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -91.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x0f9f8c3dda9506023c27a5806e524ffee95c76f91e0714a73b0fb27fe1cded1d:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.474808+00:00",
+      "instrument_id": "0x2bcd984d904d2a2536c18a96648d757a5089986b4b724498daac36e149684948",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 87.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -87.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x2bcd984d904d2a2536c18a96648d757a5089986b4b724498daac36e149684948:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.476987+00:00",
+      "instrument_id": "KXMLSSCORE-26AUG30STLDAL-STL3DAL2",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 89.0,
+      "fees_cents": 1,
+      "payout_cents": 0.0,
+      "pnl_cents": -90.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSSCORE-26AUG30STLDAL-STL3DAL2:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.479189+00:00",
+      "instrument_id": "0x3553d5f0861b8aeba3b1df9d9013bc6d899fa313bac409114318d2ec998030ae",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 84.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -84.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x3553d5f0861b8aeba3b1df9d9013bc6d899fa313bac409114318d2ec998030ae:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.481411+00:00",
+      "instrument_id": "0xfcdd224980c4db24074afd71cbfe7fa732a58a0401fdf0a959ad5c60524310de",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 90.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -90.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xfcdd224980c4db24074afd71cbfe7fa732a58a0401fdf0a959ad5c60524310de:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.483592+00:00",
+      "instrument_id": "0xb407fb57a260df06d9a1be4a5ca5ce5ec642b84c5e9bef04ab51a408e29b2913",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 89.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -89.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xb407fb57a260df06d9a1be4a5ca5ce5ec642b84c5e9bef04ab51a408e29b2913:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.485732+00:00",
+      "instrument_id": "KXMLSSCORE-26AUG30STLDAL-STL2DAL1",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 2.0,
+      "fees_cents": 1,
+      "payout_cents": 0.0,
+      "pnl_cents": -3.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSSCORE-26AUG30STLDAL-STL2DAL1:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.487891+00:00",
+      "instrument_id": "0x3553d5f0861b8aeba3b1df9d9013bc6d899fa313bac409114318d2ec998030ae",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 3.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -3.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x3553d5f0861b8aeba3b1df9d9013bc6d899fa313bac409114318d2ec998030ae:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.490072+00:00",
+      "instrument_id": "0xc65540fe5a9bec3829f3382deb2a31cd60547223ec2ab0abb8297b897e443e3a",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 4.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -4.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xc65540fe5a9bec3829f3382deb2a31cd60547223ec2ab0abb8297b897e443e3a:yes"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.492274+00:00",
+      "instrument_id": "KXMLS1HTOTAL-26AUG30STLDAL-1",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 21.0,
+      "fees_cents": 2,
+      "payout_cents": 100.0,
+      "pnl_cents": 77.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLS1HTOTAL-26AUG30STLDAL-1:no"
+    },
+    {
+      "ts": "2026-08-31T04:03:02.494496+00:00",
+      "instrument_id": "KXMLS1HTOTAL-26AUG30STLDAL-2",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 1.0,
+      "avg_cost_cents": 56.0,
+      "fees_cents": 2,
+      "payout_cents": 100.0,
+      "pnl_cents": 42.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLS1HTOTAL-26AUG30STLDAL-2:no"
     }
   ],
   "boarded": {
@@ -78722,7 +79576,21 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "The position 'no away win' (betting against an Arsenal victory) is not supported by the current sporting context. Arsenal enters as reigning title champions with strong early-season form (3-0 over Coventry), while Aston Villa has suffered a catastrophic start (0-4 collapse to Brighton with 10-man red card). Arsenal's injury profile is more manageable than Villa's acute crisis: Arsenal are missing "
+    },
+    "la_liga|Barcelona|Rayo Vallecano|2026-08-31": {
+      "attempts": 1,
+      "first_boarded_at": "2026-08-31T04:08:23.150548+00:00",
+      "hours_to_kickoff": 15.4,
+      "ts": "2026-08-31T04:08:23.150569+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "Barcelona",
+      "away": "Rayo Vallecano",
+      "markets_considered": 117,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Barcelona's 2-0 start with 0 goals conceded, home advantage, and champion status vs. Rayo's 0-1-1 record and critical squad depletion (Batalla out 3-6 months, Palaz\u00f3n absent, Kumbulla fitness concerns) creates asymmetric risk. While Barcelona's defensive fragility is flagged by Flick, results have not yet materialized; Rayo's prior ability to draw/upset Barcelona relied on full-squad availability "
     }
   },
-  "saved_at": "2026-08-31T01:15:43.025734+00:00"
+  "saved_at": "2026-08-31T04:08:23.226855+00:00"
 }
