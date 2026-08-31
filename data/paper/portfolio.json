@@ -71927,10 +71927,10 @@
       "closing_price_cents": 60.5,
       "clv_cents": -2.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -65.0
     }
   },
   "ledger": [
@@ -79045,6 +79045,20 @@
       "pnl_cents": 42.0,
       "league_id": "mls",
       "case_id": "kalshi:KXMLS1HTOTAL-26AUG30STLDAL-2:no"
+    },
+    {
+      "ts": "2026-08-31T22:52:15.692133+00:00",
+      "instrument_id": "KXEPLSPREAD-26AUG31AVLARS-ARS2",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 63.0,
+      "fees_cents": 2,
+      "payout_cents": 0.0,
+      "pnl_cents": -65.0,
+      "league_id": "premier_league",
+      "case_id": "kalshi:KXEPLSPREAD-26AUG31AVLARS-ARS2:no"
     }
   ],
   "boarded": {
@@ -79693,5 +79707,5 @@
       "reason": "Barcelona is the overwhelming favorite for this fixture. The home team's current form (undefeated at home with 20 consecutive league wins, 5-0 and 2-0 victories in opening matches, zero goals conceded), roster quality (new signings Rodri and Anthony Gordon, full strength attacking force), and head-to-head dominance (8 consecutive wins, 17-3 all-time record vs Rayo) stands in stark contrast to Rayo"
     }
   },
-  "saved_at": "2026-08-31T19:01:56.424592+00:00"
+  "saved_at": "2026-08-31T22:52:15.770602+00:00"
 }
