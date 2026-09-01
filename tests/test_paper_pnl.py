@@ -28,11 +28,18 @@ def a_portfolio(tmp_path, cash=100_000):
 
 
 def an_order(portfolio, price=30, size=10.0, claim="home_win", venue="kalshi",
-             kickoff="2026-08-20T19:00:00+00:00", case="c1"):
-    return portfolio.submit(case, venue, "INST-1", "yes", price, size,
-                            league_id="mls", claim=claim, home_team="A",
-                            away_team="B", kickoff_utc=kickoff,
-                            expires_at="2026-08-20T18:00:00+00:00")
+             kickoff="2026-08-20T19:00:00+00:00", case="c1",
+             created="2026-08-19T18:00:00+00:00"):
+    order = portfolio.submit(case, venue, "INST-1", "yes", price, size,
+                             league_id="mls", claim=claim, home_team="A",
+                             away_team="B", kickoff_utc=kickoff,
+                             expires_at="2026-08-20T18:00:00+00:00")
+    # Placed while it was LIVE. `submit` stamps the wall clock, which in a test
+    # sits long after the fixture, so the replay window would be empty --
+    # the tape is now read from creation to expiry, not to whenever the cron
+    # happens to run.
+    order.created_at = created
+    return order
 
 
 class StubProbe:

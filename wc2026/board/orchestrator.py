@@ -210,7 +210,12 @@ def run_board(case, fixture: dict, invoke=invoke_member,
         return result
 
     ceiling_price = case.max_limit_price_cents
-    ceiling_size = None
+    # The prompt tells the quant it may "CONFIRM or REDUCE the computed maximum
+    # price and size". Passing None for the size meant there was nothing to
+    # reduce, so the member invented one -- and a stake nobody computed is a
+    # stake nobody can check. It is now the deterministic Kelly size, and the
+    # ceiling makes REDUCE the only move available.
+    ceiling_size = case.max_contracts or None
 
     # --- stage 1: independent, sealed ------------------------------------
     try:
@@ -532,7 +537,9 @@ def run_board_slate(cases, fixture, invoke=invoke_member,
         return result
 
     rows = quant_slate_packet(cases)
-    ceilings = {c.case_id: {"price": c.max_limit_price_cents, "size": None}
+    # See `run_board`: a size ceiling of None left the member inventing stakes.
+    ceilings = {c.case_id: {"price": c.max_limit_price_cents,
+                            "size": c.max_contracts or None}
                 for c in cases}
 
     try:

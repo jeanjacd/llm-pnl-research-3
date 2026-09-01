@@ -622,7 +622,10 @@ def run_cycle(league_ids=None, state_path: str | None = None,
                 approved.append((cand.case.case_id, {
                     "action": "PAPER_" + cand.case.action,
                     "limit_price_cents": cand.case.max_limit_price_cents,
-                    "contracts": 1.0}))
+                    # The deterministic size, not a token contract: with the
+                    # board off this IS the whole decision, and a hardcoded 1
+                    # made every market the same bet whatever its edge.
+                    "contracts": float(cand.case.max_contracts or 0)}))
 
         # Attempts accumulate so a deferral is retried ONCE, never indefinitely.
         prior = portfolio.boarded.get(fkey) or {}
