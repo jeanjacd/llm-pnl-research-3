@@ -93,12 +93,39 @@ def cmd_leagues(args):
 
 
 def cmd_update(args):
+    """Refresh each league. ONE FAILING LEAGUE MUST NOT TAKE THE REST DOWN.
+
+    A single Ligue 1 season came back short on 2026-09-02 and the exception
+    ended the whole command, so bundesliga and la_liga were refreshed and
+    everything after was not -- and `update --all` is a prerequisite step for
+    the board, the maintenance cycle and the rebuild alike. One degraded feed
+    stopped the entire pipeline.
+
+    Each league is now attempted, the failures are named, and the command
+    still exits non-zero so nothing about it is quiet. A league that fails
+    keeps the data it already had on disk, which is stale rather than absent.
+    """
     from .data.espn import ingest_league
+    failed = []
     for spec in _targets(args):
-        manifest = ingest_league(spec, verbose=True)
+        try:
+            manifest = ingest_league(spec, verbose=True)
+        except Exception as exc:                              # noqa: BLE001
+            failed.append((spec.league_id, str(exc)))
+            print("  %s: REFRESH FAILED, keeping the data already on disk"
+                  % spec.league_id)
+            print("     %s" % str(exc)[:300])
+            continue
         print("  %s: %d rows, %d teams, sha %s"
               % (spec.league_id, manifest["n_rows"], manifest["n_teams"],
                  manifest["matches_csv_sha256"][:12]))
+    if failed:
+        print("")
+        print("%d of %d league(s) did not refresh:"
+              % (len(failed), len(_targets(args))))
+        for league_id, why in failed:
+            print("  %-16s %s" % (league_id, why[:160]))
+        sys.exit(1)
 
 
 def cmd_fit(args):

@@ -339,3 +339,27 @@ def test_a_dry_run_writes_nothing_to_the_state_branch():
     save = [s for s in doc["jobs"]["rebuild"]["steps"]
             if "Persist" in str(s.get("name"))][0]
     assert "dry_run == 'false'" in str(save.get("if"))
+
+
+def test_a_stale_league_does_not_stop_a_board_or_a_rebuild():
+    """One Ligue 1 season came back short on 2026-09-02 and the exception ended
+    `update --all`, which is a prerequisite step for the board, the maintenance
+    cycle and the rebuild alike. A league that fails to refresh is STALE, not
+    absent -- its previous matches.csv is still on disk."""
+    for name in ("matchday-board", "paper-rebuild"):
+        doc = load(name)
+        job = list(doc["jobs"].values())[0]
+        step = [s for s in job["steps"]
+                if s.get("name") == "Fetch match data"][0]
+        assert step.get("continue-on-error") is True, name
+
+
+def test_the_ingest_workflow_itself_still_fails_on_a_bad_refresh():
+    """`daily-data` exists to ingest. Tolerating a failed refresh there would
+    make the one job whose whole purpose is fresh data report success without
+    any."""
+    doc = load("daily-data")
+    job = list(doc["jobs"].values())[0]
+    steps = [s for s in job["steps"] if "update" in str(s.get("run", ""))]
+    assert steps, "daily-data must actually run the ingest"
+    assert not any(s.get("continue-on-error") for s in steps)

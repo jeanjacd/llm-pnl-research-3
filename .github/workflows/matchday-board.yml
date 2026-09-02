@@ -114,7 +114,13 @@ jobs:
       # fixtures and no training data, so every league is skipped and the
       # whole cycle is a silent no-op. (Found 2026-08-25; the workflow had
       # never had a data step.)
+      # A LEAGUE THAT FAILS TO REFRESH IS STALE, NOT ABSENT: its previous
+      # matches.csv is still on disk. `update --all` now attempts every league
+      # and exits non-zero only to report which ones did not refresh, so this
+      # step is allowed to fail without taking the run with it -- one degraded
+      # upstream season stopped the whole pipeline on 2026-09-02.
       - name: Fetch match data
+        continue-on-error: true
         run: python -m wc2026 update --all
 
       - name: Run one paper cycle
