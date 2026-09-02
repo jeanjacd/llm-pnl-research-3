@@ -244,7 +244,13 @@ def form_line(portfolio: dict, limit: int = 48) -> list:
             out.append({"char": FORM_MONTH, "kind": "brk", "detail": "month"})
         month = this if this is not None else month
         out.append({"char": form_figure(row), "kind": _form_kind(row),
-                    "detail": form_detail(row, stamp)})
+                    "detail": form_detail(row, stamp),
+                    # The hero metric, carried on the signature element. The
+                    # form line said what HAPPENED and never what the closing
+                    # line thought of it, so the page's own leading indicator
+                    # was absent from the one display everybody reads first.
+                    "clv_cents": row.get("clv_cents"),
+                    "staked_cents": row.get("staked_cents") or 0.0})
     return out
 
 
@@ -506,6 +512,43 @@ def daily_ledger(portfolio: dict) -> list:
             for day, row in sorted(days.items())]
 
 
+def funnel(portfolio: dict) -> list:
+    """Where the candidates went, stage by stage.
+
+    The record is mostly abstentions and misses, and a reader looking at a row
+    of dots deserves to know what they are. This is the shape of the system:
+    a very wide top and a very narrow bottom, with the two big losses being
+    the board declining and the market never reaching our price.
+    """
+    # EVERY STAGE IS COUNTED IN MARKETS. A first draft mixed fixtures into the
+    # ladder, so a 45-long bar sat under a 5,107-long one and invited a
+    # comparison that means nothing -- a fixture is not a subset of a market.
+    # The fixture counts are real and belong on the page, but beside the
+    # ladder rather than inside it.
+    rows = fixtures(portfolio)
+    every = orders(portfolio)
+    resolved = [o for o in every if o.get("status") in ("filled", "expired")]
+    settled = [p for p in positions(portfolio) if p.get("settled")]
+    read = sum(int(r["markets_considered"] or 0) for r in rows)
+    # `markets_approved` is deliberately NOT a stage. It records only each
+    # fixture's LAST sitting, while the order history spans every attempt, so
+    # it reads as 85 against 1,327 offered -- a funnel that runs backwards and
+    # invites the reader to distrust the rest of it. A stage that cannot be
+    # counted on the same basis as its neighbours is better left out than
+    # shown with an apology.
+    return [
+        {"stage": "read", "n": read,
+         "note": "prices the board looked at"},
+        {"stage": "offered", "n": len(every),
+         "note": "resting limits actually placed"},
+        {"stage": "filled", "n": sum(
+            1 for o in resolved if o.get("status") == "filled"),
+         "note": "the market came to our price"},
+        {"stage": "settled", "n": len(settled),
+         "note": "results in"},
+    ]
+
+
 def summary(portfolio: dict) -> dict:
     """Everything the page needs, in one structure."""
     return {
@@ -523,4 +566,5 @@ def summary(portfolio: dict) -> dict:
         "families": claim_families(portfolio),
         "equity": equity_curve(portfolio),
         "daily": daily_ledger(portfolio),
+        "funnel": funnel(portfolio),
     }

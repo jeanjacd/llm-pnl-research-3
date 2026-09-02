@@ -262,3 +262,44 @@ def test_an_unfilled_order_is_never_counted_as_a_settled_loss():
              orders=[order(status="expired") for _ in range(50)])
     out = model.pnl(p)
     assert out["n_settled"] == 1 and out["strike_rate"] == pytest.approx(1.0)
+
+
+# ── the cascade ───────────────────────────────────────────────────────────────
+def test_the_ladder_only_ever_narrows():
+    """A funnel whose third rung is wider than its second invites the reader to
+    distrust the whole thing. `markets_approved` records only each fixture's
+    LAST sitting while orders span every attempt, so it read 85 against 1,327
+    offered -- it is left out rather than shown with an apology."""
+    p = book([pos(claim="draw", pnl=100)],
+             [verdict(considered=120)],
+             orders=[order(status="filled")] + [order() for _ in range(9)])
+    counts = [r["n"] for r in model.funnel(p)]
+    assert counts == sorted(counts, reverse=True), counts
+
+
+def test_every_rung_of_the_ladder_counts_the_same_thing():
+    """A fixture is not a subset of a market, so a 45-long bar under a
+    5,107-long one compares nothing to nothing."""
+    stages = {r["stage"] for r in model.funnel(book())}
+    assert stages == {"read", "offered", "filled", "settled"}
+    assert not any("fixture" in s for s in stages)
+
+
+def test_the_ladder_survives_an_empty_book():
+    assert [r["n"] for r in model.funnel(book())] == [0, 0, 0, 0]
+
+
+# ── the closing line reaches the signature element ────────────────────────────
+def test_a_form_figure_carries_the_closing_line_it_was_measured_at():
+    """The band said what HAPPENED and never what the closing line thought of
+    it, so the page's own leading indicator was absent from the one display
+    everybody reads first."""
+    p = book([pos(claim="draw", pnl=-500, clv=2.5)])
+    entry = model.form_line(p)[0]
+    assert entry["clv_cents"] == pytest.approx(2.5)
+    assert entry["staked_cents"] > 0
+
+
+def test_a_figure_with_no_closing_line_carries_none_rather_than_zero():
+    p = book(boarded=[verdict()])
+    assert model.form_line(p)[0]["clv_cents"] is None
