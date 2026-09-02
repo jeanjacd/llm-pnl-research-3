@@ -229,31 +229,87 @@ def form_band(s: dict) -> str:
                 'starts at the first sitting.</p>')
     else:
         cells = []
+        # One scale for the whole band, so two ticks of equal height mean two
+        # equal closing lines. Per-column scaling would make the shape lie.
+        measured = [abs(float(f["clv_cents"])) for f in figures
+                    if f.get("clv_cents") is not None]
+        scale = max(measured) if measured else 0.0
         for f in figures:
             if f["kind"] == "brk":
-                cells.append('<span class="fig brk" aria-hidden="true">%s</span>'
+                cells.append('<span class="fig brk" aria-hidden="true">'
+                             '<span class="clvbox"></span>'
+                             '<span class="mark">%s</span></span>'
                              % esc(f["char"]))
             else:
                 # No entry animation and therefore no stagger delay: the
                 # record is looked at daily, and the frequency rule says a
                 # thing seen that often gets no motion at all.
+                clv = f.get("clv_cents")
+                tick = ""
+                if clv is not None and scale:
+                    # Height off a shared hairline, up when the market closed
+                    # our way. Capped at the box so one outlier cannot set the
+                    # scale for everything else.
+                    h = min(1.0, abs(float(clv)) / scale)
+                    tick = ('<i class="clv %s" style="--h:%.3f" '
+                            'aria-hidden="true"></i>'
+                            % ("up" if float(clv) >= 0 else "dn", h))
                 cells.append(
-                    '<button class="fig" data-r="%s" data-d="%s">%s</button>'
-                    % (esc(f["kind"]), esc(f["detail"]), esc(f["char"])))
+                    '<button class="fig" data-r="%s" data-d="%s">'
+                    '<span class="clvbox">%s</span>'
+                    '<span class="mark">%s</span></button>'
+                    % (esc(f["kind"]), esc(f["detail"]), tick,
+                       esc(f["char"])))
         body = '<div class="figures" id="figures">%s</div>' % "".join(cells)
     return """
   <section class="formband">
     %s
     %s
     <div class="figkey">
+      <span>tick above the rule = beat the closing line, below = missed it</span>
       <span>&middot; = boarded, declined</span>
-      <span>digit = markets that cashed on a fixture that finished down</span>
+      <span>&ndash; = ordered, nothing filled</span>
+      <span>digit = tenths of stake returned on a fixture that finished down</span>
       <span>&#10003; = fixture finished up</span>
       <span>/ = month</span>
       <span class="figread" id="figread" data-rest="1" aria-live="polite">Hover or focus a figure to read its fixture</span>
     </div>
   </section>""" % (kicker("Form · %d fixtures, oldest first" % len(
         [f for f in figures if f["kind"] != "brk"])), body)
+
+
+def cascade(s: dict) -> str:
+    """Where the candidates went, as a shape rather than a list of numbers.
+
+    Answers the question the form band raises and cannot itself answer: the
+    record is mostly dots and dashes, and this is why. The two big losses are
+    the board declining and the market never reaching our price, and they are
+    different failures -- one is judgement, the other is the price we chose.
+    """
+    rows = [r for r in s.get("funnel") or [] if r["n"] or True]
+    if not rows:
+        return ""
+    top = max(r["n"] for r in rows) or 1
+    out = []
+    for r in rows:
+        share = r["n"] / top
+        out.append(
+            '<div><dt>%s<small>%s</small></dt>'
+            '<span class="bar" style="--w:%.4f"><i></i></span>'
+            '<dd>%s</dd></div>'
+            % (esc(r["stage"]), esc(r["note"]), share,
+               esc("{:,}".format(r["n"]))))
+    board = s["board"]
+    # The fixture-level facts sit BESIDE the ladder, not in it: they are a
+    # different unit and would invite a comparison of bar lengths that means
+    # nothing.
+    aside = ("%d fixtures boarded, %d of them declined outright. Every figure "
+             "in the ladder counts markets, so the bars are comparable to each "
+             "other and to nothing else."
+             % (board["n_fixtures"], board["n_declined"]))
+    return (kicker("How the record narrows")
+            + '<dl class="cascade">%s</dl>' % "".join(out)
+            + '<p class="cascade-note">%s</p>' % esc(aside))
 
 
 def leaders(s: dict) -> str:
@@ -515,6 +571,8 @@ def ticket(row: dict) -> str:
     foot_left = ("%d markets staked" % row["n_open"] if live else
                  "%d of %d markets cashed" % (row["n_cashed"],
                                               row["n_settled"]))
+    if row.get("n_unfilled"):
+        foot_left += " · %d never filled" % row["n_unfilled"]
     return """
     <article class="card">%s
       <div class="card-head">
@@ -553,7 +611,7 @@ def abstentions(s: dict) -> str:
     a more reckless system than the one that produced it, and on this book the
     declines are the overwhelming majority of the evidence.
     """
-    declined = [r for r in s["fixtures"] if r["boarded"] and not r["acted"]]
+    declined = [r for r in s["fixtures"] if r.get("declined")]
     if not declined:
         return ""
     rows = []
@@ -787,14 +845,33 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:99;
 .figures{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));gap:4px;
   font-family:var(--fig);font-size:clamp(12px,1.9vw,22px);font-weight:500;
   line-height:1}
-.fig{position:relative;padding:9px 0;min-width:0;width:100%;text-align:center;
+/* Each column is one fixture read top to bottom: what the closing line said,
+   then what happened. The band was a flat row of mostly dots -- true, but it
+   put the page's leading indicator nowhere near its signature element. */
+.fig{position:relative;padding:5px 0 7px;min-width:0;width:100%;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
   border:0;background:none;color:var(--ink-soft);cursor:pointer;font:inherit;
   border-radius:var(--radius);
   transition:color 140ms var(--ease-out),background 140ms var(--ease-out)}
+.fig .mark{display:block;line-height:1}
+/* A fixed box with the zero rule through the middle, so a tick above and a
+   tick below are measured against the same line. */
+.clvbox{position:relative;display:block;width:100%;height:16px}
+/* Edge to edge, so adjacent cells join into one ruled axis broken only by the
+   grid gap. A per-cell stub read as scattered debris; a continuous line reads
+   as the instrument it is, and stays legible while the record is still thin. */
+.clvbox::after{content:"";position:absolute;left:0;right:0;top:50%;
+  height:var(--rule-hair);background:var(--rule)}
+.clv{position:absolute;left:32%;right:32%;background:var(--ink-mid);
+  border-radius:.5px}
+.clv.up{bottom:50%;height:calc(var(--h) * 8px)}
+.clv.dn{top:50%;height:calc(var(--h) * 8px);background:var(--loss)}
 .fig[data-r="cash"]{color:var(--ink);font-weight:700}
 .fig[data-r="late"]{color:var(--ink)}
 .fig[data-r="early"]{color:var(--ink)}
 .fig[data-r="declined"]{color:var(--ink-soft)}
+/* The market's answer, not the board's: ordered and never reached. */
+.fig[data-r="unfilled"]{color:var(--ink-soft);opacity:.75}
 .fig.brk{color:var(--ink-soft);cursor:default;opacity:.5;align-self:center}
 .fig:hover,.fig:focus-visible{background:var(--rule-soft);color:var(--ink);
   outline:none}
@@ -804,21 +881,50 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:99;
   letter-spacing:.03em;color:var(--ink-mid);display:flex;gap:var(--s4);
   flex-wrap:wrap;align-items:baseline}
 .figread{font-family:var(--fig);font-size:11.5px;color:var(--ink);
-  flex:1 1 100%;min-height:2.6em;display:flex;align-items:center;
-  padding:var(--s2) var(--s3);margin-top:var(--s3);
-  background:var(--inset);border:var(--rule-thin) solid var(--rule);
-  border-radius:var(--radius);letter-spacing:0;text-wrap:pretty}
+  flex:1 1 100%;min-height:1.9em;display:flex;align-items:center;
+  padding:var(--s2) 0 0;margin-top:var(--s2);
+  border-top:var(--rule-hair) solid var(--rule);
+  letter-spacing:0;text-wrap:pretty}
 .figread[data-rest="1"]{color:var(--ink-soft);font-family:var(--dense);
   letter-spacing:.06em;text-transform:uppercase;font-size:10.5px}
 .formband{margin-bottom:var(--s6)}
 html[data-mode="dark"] .fig:not(.brk){background:#1D1D22;
   box-shadow:inset 0 0 0 1px #26262C}
-html[data-mode="dark"] .fig:not(.brk)::before{content:"";position:absolute;
-  left:0;right:0;top:50%;height:1px;background:#0A0A0B;opacity:.85}
+html[data-mode="dark"] .clv{background:var(--ink-mid)}
+html[data-mode="dark"] .clv.dn{background:var(--loss)}
 html[data-mode="dark"] .fig[data-r="cash"]{color:var(--live);
   text-shadow:0 0 14px rgb(242 169 59/.45)}
 html[data-mode="dark"] .fig:hover{background:#26262C}
 
+
+/* THE CASCADE. The record is mostly abstentions and misses, so a reader
+   looking at a row of dots is owed the arithmetic behind them. Each stage is
+   a rule whose length is its share of the widest, which makes the attrition
+   the shape of the thing rather than a column of numbers to compare by eye. */
+.cascade{margin:0;display:grid;gap:0}
+.cascade div{display:grid;grid-template-columns:22ch 1fr 10ch;
+  align-items:center;gap:var(--s4);padding:9px 0;
+  border-bottom:var(--rule-hair) solid var(--rule)}
+.cascade div:first-child{border-top:var(--rule-thin) solid var(--ink)}
+.cascade dt{margin:0;font-family:var(--dense);font-size:11px;font-weight:600;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;line-height:1.25}
+/* The note sits under its stage rather than trailing the bar, so a bar at
+   full width has nothing to push off the sheet. */
+.cascade dt small{display:block;font-size:10px;font-weight:400;
+  letter-spacing:.02em;text-transform:none;color:var(--ink-soft);
+  white-space:normal}
+.cascade .bar{position:relative;height:10px;min-width:2px}
+.cascade .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink);
+  width:calc(var(--w) * 100%);min-width:2px}
+.cascade-note{margin:var(--s3) 0 var(--s6);font-size:12px;
+  line-height:1.55;color:var(--ink-mid);max-width:70ch;text-wrap:pretty}
+.cascade dd{margin:0;text-align:right;font-family:var(--fig);font-size:14px;
+  font-variant-numeric:tabular-nums lining-nums;white-space:nowrap}
+@media (max-width:560px){
+  .cascade div{grid-template-columns:1fr 9ch;gap:var(--s3)}
+  .cascade .bar{grid-column:1 / -1;order:3}
+}
 /* ── LEDE + LEADERS ─────────────────────────────────────────── */
 .grid2{display:grid;grid-template-columns:1.55fr 1fr;gap:var(--s6);
   align-items:start;margin-bottom:var(--s5)}
@@ -1112,11 +1218,12 @@ what was bet, and what was declined.">
 %s
 %s
 %s
+%s
 </div>
 <script>window.CURVE=%s;</script>
 <script>%s</script>
 </body>
 </html>
 """ % (links, CSS, masthead(s, now), form_band(s), lede(s), leaders(s),
-       chart(s), ledger_strip(s), tickets(s), bet_table(s), breakdown(s),
-       abstentions(s), colophon(s), crosshair_data(s), JS)
+       cascade(s), chart(s), ledger_strip(s), tickets(s), bet_table(s),
+       breakdown(s), abstentions(s), colophon(s), crosshair_data(s), JS)

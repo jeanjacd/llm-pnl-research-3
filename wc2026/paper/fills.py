@@ -277,6 +277,22 @@ def synthetic_book(side: str, price_cents: float, size: float) -> Book:
             else Book(no_asks=level, observed_at=""))
 
 
+def _parse_dt(value, default):
+    """A timestamp as an aware datetime, or `default`."""
+    if isinstance(value, dt.datetime):
+        return value if value.tzinfo else value.replace(tzinfo=dt.timezone.utc)
+    try:
+        got = dt.datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return default
+    return got if got.tzinfo else got.replace(tzinfo=dt.timezone.utc)
+
+
+def _expiry(order):
+    """When the order stops being live. None when it never expires."""
+    return _parse_dt(getattr(order, "expires_at", None), None)
+
+
 def replay_fills(portfolio, probes: dict, now=None) -> dict:
     """Fill every resting order the tape says traded through. Counted, never guessed."""
     now = now or dt.datetime.now(dt.timezone.utc)
@@ -291,7 +307,35 @@ def replay_fills(portfolio, probes: dict, now=None) -> dict:
             stats["no_probe"] += 1
             continue
         since = order.last_checked_at or order.created_at
-        best = probe.best_executable_cents(order, since, now)
+        # THE WINDOW ENDS WHEN THE ORDER DOES, NOT WHEN THE CRON HAPPENS TO RUN.
+        #
+        # Reading to `now` let a dead order fill on a price that only existed
+        # after kick-off. Measured on the live book: 512 of 519 fills were
+        # sourced from tape running past expiry, a median of an hour and up to
+        # 4.5 hours late.
+        #
+        # That is not a small leak. Before kick-off a price moves on
+        # information and reaching our limit means the market came to a number
+        # we judged good. After kick-off it moves because the match is
+        # happening, and a resting bid sitting BELOW the pre-match price is
+        # only ever reached once the match has turned against that outcome. So
+        # the fill is conditioned on the result: we are filled precisely in the
+        # branches where the bet loses. It also flatters CLV, which is measured
+        # against the kick-off close and so books a cheap entry that never
+        # actually happened.
+        #
+        # Reading to `now` also defeats this module's stated purpose. Replaying
+        # the tape exists so the answer does not depend on the schedule, and a
+        # window that ends at `now` gives a later run more tape and more fills.
+        expiry = _expiry(order)
+        until = min(now, expiry) if expiry else now
+        if expiry is not None and expiry <= _parse_dt(since, now):
+            # Already dead when we last looked: there is no window left to ask
+            # about, and asking anyway is what produced the post-kick-off fills.
+            stats["expired_before_check"] = stats.get(
+                "expired_before_check", 0) + 1
+            continue
+        best = probe.best_executable_cents(order, since, until)
         order.last_checked_at = now.isoformat()
         if best is None:
             stats["no_history"] += 1
@@ -311,5 +355,5 @@ def replay_fills(portfolio, probes: dict, now=None) -> dict:
             stats["filled"] += 1
             order.log("fill_basis", basis="history", venue=order.venue,
                       observed_cents=round(best, 2), window_start=since,
-                      window_end=now.isoformat())
+                      window_end=until.isoformat())
     return stats

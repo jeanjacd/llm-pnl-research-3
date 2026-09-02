@@ -54,6 +54,30 @@ ACTIONS = (BUY_NOW, PLACE_LIMIT, WAIT_FOR_QUOTE, PASS, DEFER, UNSUPPORTED)
 PLACEABLE_ACTIONS = (BUY_NOW, PLACE_LIMIT)
 
 
+def deterministic_size(case, cfg) -> int:
+    """Contracts to buy at the computed limit, from the edge and nothing else.
+
+    Fractional Kelly on `p_lower` -- the CONSERVATIVE end of the probability
+    bound, not the point estimate -- at the price the ladder cleared. Floored
+    to whole contracts, so a market whose edge does not justify one contract
+    gets none rather than a token position.
+    """
+    from ..betting.kelly import contracts_for_stake, single_kelly
+
+    price = case.max_limit_price_cents
+    if not price or case.p_lower is None:
+        return 0
+    cost = price / 100.0
+    if not (0.0 < cost < 1.0):
+        return 0
+    edge_fraction = single_kelly(float(case.p_lower), cost)
+    if edge_fraction <= 0:
+        return 0
+    stake = min(cfg.kelly_fraction * edge_fraction,
+                cfg.max_stake_fraction_per_market)
+    return max(0, contracts_for_stake(stake, cfg.bankroll_cents / 100.0, cost))
+
+
 @dataclass(frozen=True)
 class CalcConfig:
     min_edge: float = 0.03
@@ -65,6 +89,25 @@ class CalcConfig:
     adverse_selection_cents: float = 1.0
     adverse_selection_per_hour: float = 0.02
     adverse_selection_max_cents: float = 4.0
+    # --- deterministic sizing -------------------------------------------------
+    # The board's quant prompt says a member may "CONFIRM or REDUCE the computed
+    # maximum price and size". No size was ever computed: `run_board` passed
+    # `ceiling_size = None`, so there was nothing to reduce and the member
+    # invented a number. On the live book that produced 333 positions of one
+    # contract and a handful of 20, 50, 60 and 100 -- six positions holding 40%
+    # of all money staked, with no rule behind the split.
+    #
+    # Quarter Kelly on the conservative probability bound. Quarter because it is
+    # the documented floor in `betting.confidence`, and a floor is the right
+    # choice while the forecasts are still unproven: half Kelly on a mis-stated
+    # edge is ruinous, quarter Kelly on a real one is merely slow.
+    kelly_fraction: float = 0.25
+    # Sized against the STARTING bankroll, matching the exposure cap, so that a
+    # run of luck cannot compound the stake before the edge is established.
+    bankroll_cents: float = 100_000.0
+    # No single market may take more than this share of the bankroll, so one
+    # high-probability contract cannot swallow a fixture's whole budget.
+    max_stake_fraction_per_market: float = 0.0125
     # Probability uncertainty: how much of the calibration gap to treat as
     # error when computing the conservative bound.
     uncertainty_floor: float = 0.02
@@ -204,6 +247,7 @@ class DeterministicCase:
     roi: float | None = None
     uncertainty_adjusted_ev: float | None = None
     max_limit_price_cents: int | None = None
+    max_contracts: int = 0
     ladder: list = field(default_factory=list)
 
     # decision
@@ -391,6 +435,7 @@ def build_case(instrument, p_raw: float | None, p_calibrated: float | None,
             immediately_executable=size_here >= cfg.min_depth_contracts))
     case.ladder = ladder
     case.max_limit_price_cents = max_limit
+    case.max_contracts = deterministic_size(case, cfg)
 
     # --- headline value at the current executable price --------------------
     price_now = int(round(avg))

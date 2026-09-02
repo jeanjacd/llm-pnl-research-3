@@ -91,9 +91,31 @@ def claim_is_true(claim: str, home_goals: int, away_goals: int) -> bool:
     return (not out) if negate else out
 
 
+def market_claim(claim: str) -> str:
+    """The proposition the MARKET's yes side pays on.
+
+    `paper.cycle` builds the no side of a market as `"not_" + leg.claim` and
+    prices it with `probability_for(claim)`, so a position's `claim` is the
+    proposition THAT POSITION pays on -- already carrying the side. The broker
+    then settles with `won = (result == side)`, which applies the side a
+    second time. Stripping the prefix here recovers the market's own question,
+    so exactly one negation survives.
+    """
+    return claim[4:] if str(claim).startswith("not_") else str(claim)
+
+
 def winning_side(claim: str, home_goals: int, away_goals: int) -> str:
-    """"yes" if the claim happened, else "no" -- the broker's `result`."""
-    return "yes" if claim_is_true(claim, home_goals, away_goals) else "no"
+    """Which SIDE of the market won -- the broker's `result`.
+
+    Computed on the market's proposition, not the position's. Handed the
+    position's own already-negated claim, this returned the opposite of the
+    truth for every no-side holding: on the live book 296 of 447 settled
+    positions were scored backwards, and the `no` book won 47% of the time
+    while paying an average 64c -- a 17-point gap that the `yes` book, settled
+    correctly, did not show (paid 25.5c, won 26.5%).
+    """
+    base = market_claim(claim)
+    return "yes" if claim_is_true(base, home_goals, away_goals) else "no"
 
 
 # --- what a fixture row can settle --------------------------------------------

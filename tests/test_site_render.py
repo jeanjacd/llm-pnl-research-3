@@ -324,3 +324,45 @@ def test_only_one_full_time_score_can_win_and_the_page_shows_that():
     for score in ("4-0", "0-1", "2-1"):
         assert "score %s" % score in html
     assert "not score" not in html, "every one of them backs a score"
+
+
+# --- the band is an instrument, not a line -------------------------------------
+def test_the_band_carries_a_closing_line_axis():
+    """CLV is the hero metric and appeared nowhere on the signature element."""
+    html = page(positions=[pos(claim="draw", pnl=-500, clv=3.0)])
+    assert 'class="clvbox"' in html
+    assert 'class="clv up"' in html or 'class="clv dn"' in html
+    assert "beat the closing line" in html
+
+
+def test_a_tick_points_up_when_the_market_closed_our_way():
+    up = page(positions=[pos(claim="draw", pnl=-500, clv=4.0)])
+    dn = page(positions=[pos(claim="draw", pnl=-500, clv=-4.0)])
+    assert 'class="clv up"' in up and 'class="clv dn"' not in up
+    assert 'class="clv dn"' in dn and 'class="clv up"' not in dn
+
+
+def test_one_scale_serves_the_whole_band():
+    """Per-column scaling would make two equal ticks mean two different
+    closing lines, which is worse than no chart at all."""
+    html = page(positions=[
+        pos(claim="draw", home="A", away="B", pnl=-500, clv=10.0),
+        pos(claim="draw", home="C", away="D", pnl=-500, clv=5.0)])
+    import re
+    heights = sorted(float(h) for h in re.findall(r"--h:([\d.]+)", html))
+    assert heights == pytest.approx([0.5, 1.0])
+
+
+def test_a_fixture_with_no_closing_line_gets_no_tick():
+    html = page(boarded=[verdict()])
+    assert 'class="clvbox"' in html, "the axis still runs"
+    assert "--h:" not in html, "but nothing is drawn on it"
+
+
+def test_the_cascade_explains_where_the_candidates_went():
+    html = page(positions=[pos(claim="draw", pnl=100)],
+                boarded=[verdict(considered=120)],
+                orders=[{"status": "expired", "kind": "limit"}])
+    assert "How the record narrows" in html
+    assert "prices the board looked at" in html
+    assert "fixtures boarded" in html, "the fixture counts sit beside it"

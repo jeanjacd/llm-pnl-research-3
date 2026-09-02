@@ -284,6 +284,77 @@ def cmd_paper_maintain(args):
                     league_ids=leagues or None)
 
 
+def cmd_paper_rebuild(args):
+    """Recompute the paper book from ORDER INTENT. PAPER ONLY, places nothing.
+
+    Two defects made the recorded book unusable rather than merely inaccurate:
+    fills were taken from tape running past each order's expiry, and every
+    no-side position was settled backwards. Both are fixed, and neither can be
+    patched in place -- which fills happened decides which positions exist.
+
+    Nothing here is guessed. Orders carry their own intent, the venues still
+    serve the tape for the window each order was live for, and the results are
+    in the fixture table.
+    """
+    import json as _json
+
+    from .data import loader
+    from .leagues import all_leagues, get_league
+    from .paper.broker import PaperPortfolio
+    from .paper.rebuild import archive, compare, rebuild
+    from .venues.kalshi_provider import KalshiProvider
+    from .venues.polymarket import PolymarketProvider
+
+    old = PaperPortfolio.load(args.state)
+    if not old.orders:
+        sys.exit("no orders on record at %s -- nothing to rebuild" % args.state)
+
+    leagues = [x.strip() for x in (args.leagues or "").split(",") if x.strip()]
+    specs = [get_league(x) for x in leagues] if leagues else all_leagues()
+    frames = {}
+    for spec in specs:
+        try:
+            frames[spec.league_id] = loader.load_league(spec, tiers="training")
+        except Exception as exc:                              # noqa: BLE001
+            print("  %s: no results available (%s)" % (spec.league_id, exc))
+
+    from .paper.cycle import _default_probes
+    providers = [KalshiProvider(), PolymarketProvider()]
+    print("replaying %d orders against the venue tape..." % len(old.orders))
+    report = rebuild(old, _default_probes(providers), frames)
+
+    book = report.pop("book")
+    diff = compare(old, book)
+    b, a = diff["before"], diff["after"]
+    print()
+    print("  positions   %4d -> %4d" % (b["positions"], a["positions"]))
+    print("  settled     %4d -> %4d" % (b["settled"], a["settled"]))
+    print("  win rate    %s -> %s"
+          % ("  n/a" if b["win_rate"] is None else "%5.1f%%" % (100*b["win_rate"]),
+             "  n/a" if a["win_rate"] is None else "%5.1f%%" % (100*a["win_rate"])))
+    print("  realised    $%8.2f -> $%8.2f   (swing $%.2f)"
+          % (b["realized_cents"]/100, a["realized_cents"]/100,
+             diff["pnl_swing_cents"]/100))
+    unresolved = report["summary"]["unresolved"]
+    if unresolved:
+        print("  %d order(s) could not be resolved from the tape and are left "
+              "neither filled nor expired." % unresolved)
+
+    if args.dry_run:
+        print("")
+        print("dry run: nothing written. Re-run without --dry-run to keep it.")
+        return
+    with open(args.archive, "w", encoding="utf-8") as fh:
+        _json.dump(archive(old.to_dict() if hasattr(old, "to_dict")
+                           else _json.loads(_json.dumps(old, default=str))),
+                   fh, default=str)
+    book.path = args.state
+    book.save()
+    print("")
+    print("  old book archived to %s" % args.archive)
+    print("  rebuilt book written to %s" % args.state)
+
+
 def cmd_tournament(args):
     """Legacy WC-era workflow, reading exclusively from the archive."""
     cfg = CONFIG
@@ -388,6 +459,17 @@ def build_parser() -> argparse.ArgumentParser:
     pc.add_argument("--no-board", action="store_true",
                     help="skip the board (deterministic decisions only)")
     pc.set_defaults(func=cmd_paper_cycle)
+
+    prb = sub.add_parser("paper-rebuild",
+                         help="recompute the paper book from order intent")
+    prb.add_argument("--state", default=os.path.join("data", "paper",
+                                                     "portfolio.json"))
+    prb.add_argument("--archive", default=os.path.join("data", "paper",
+                                                       "portfolio_before_rebuild.json"))
+    prb.add_argument("--leagues", default="")
+    prb.add_argument("--dry-run", action="store_true",
+                     help="report the change without writing anything")
+    prb.set_defaults(func=cmd_paper_rebuild)
 
     pm = sub.add_parser("paper-maintain",
                         help="settle, fill and price-check the paper book "
