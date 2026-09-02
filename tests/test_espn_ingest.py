@@ -278,3 +278,51 @@ def test_response_at_the_page_cap_is_treated_as_truncated():
 def test_normal_response_passes_through():
     evs = fetch_window("eng.1", "20240101", "20241231", session=_Session(10))
     assert len(evs) == 10
+
+
+# ── a malformed event is skipped, not fatal ───────────────────────────────────
+# 2026-09-02: one Ligue 1 event came back with no `competitions`, and the
+# raise took down `update --all` for every league. That command is a
+# prerequisite for the board, the maintenance cycle and the rebuild, so a
+# single junk row upstream stopped the whole pipeline.
+def test_an_event_with_no_competitions_is_skipped_rather_than_fatal():
+    rep = IngestReport("x")
+    ev = event()
+    ev["competitions"] = []
+    assert parse(ev, report=rep) is None
+    assert len(rep.malformed) == 1
+    assert "no competitions" in rep.malformed[0]
+
+
+def test_a_malformed_event_is_not_filed_as_a_deliberate_skip():
+    """Postponed is a decision the feed made about a real match. This is an
+    absence of a match, and conflating them would hide a feed problem inside
+    an ordinary counter."""
+    rep = IngestReport("x")
+    ev = event()
+    ev["competitions"] = []
+    parse(ev, report=rep)
+    assert rep.skipped == []
+    assert rep.malformed
+
+
+def test_the_summary_names_the_malformed_events_it_dropped():
+    rep = IngestReport("x")
+    for i in range(8):
+        ev = event(eid=str(i))
+        ev["competitions"] = []
+        parse(ev, report=rep)
+    text = rep.summary()
+    assert "MALFORMED" in text
+    assert "and 3 more" in text, "the list is capped, the count is not"
+
+
+def test_the_tolerance_is_a_handful_and_a_fraction_not_a_blank_cheque():
+    """One junk row is upstream noise. A season that is mostly junk is a
+    changed payload, and ingesting the remnant would train the model on a
+    fraction of reality without saying so."""
+    from wc2026.data.espn import MALFORMED_ALLOWANCE, MALFORMED_FRACTION
+    assert 0 < MALFORMED_ALLOWANCE <= 10
+    assert 0 < MALFORMED_FRACTION <= 0.05
+    # A full Premier League season is 380 events; the bar stays proportional.
+    assert max(MALFORMED_ALLOWANCE, MALFORMED_FRACTION * 380) < 20

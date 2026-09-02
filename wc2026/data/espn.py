@@ -78,6 +78,13 @@ def _utcnow() -> dt.datetime:
     return dt.datetime.now(dt.timezone.utc)
 
 
+# A feed occasionally returns an event with no competitions attached. Tolerate
+# a few per season -- upstream noise -- and fail beyond that, because a season
+# that is mostly unusable means the payload changed shape.
+MALFORMED_ALLOWANCE = 5
+MALFORMED_FRACTION = 0.02
+
+
 @dataclass
 class IngestReport:
     league_id: str
@@ -85,6 +92,8 @@ class IngestReport:
     team_names: dict = field(default_factory=dict)     # provider id -> name
     renames: dict = field(default_factory=dict)
     skipped: list = field(default_factory=list)
+    # Deliberately skipped (postponed, cancelled) is not the same as unusable.
+    malformed: list = field(default_factory=list)
     warnings: list = field(default_factory=list)
 
     def summary(self) -> str:
@@ -97,6 +106,11 @@ class IngestReport:
                                       for k, v in sorted(c["tiers"].items()))))
         for tid, names in self.renames.items():
             lines.append("  rename merged (id %s): %s" % (tid, " -> ".join(names)))
+        for bad in self.malformed[:5]:
+            lines.append("  MALFORMED (skipped): " + bad)
+        if len(self.malformed) > 5:
+            lines.append("  MALFORMED: and %d more"
+                         % (len(self.malformed) - 5))
         for w in self.warnings:
             lines.append("  WARNING: " + w)
         return "\n".join(lines)
@@ -193,7 +207,20 @@ def parse_event(event: dict, spec: LeagueSpec, feed: CompetitionFeed,
     """One provider event -> one schema row, or None when deliberately skipped."""
     comps = event.get("competitions") or []
     if not comps:
-        raise IngestError("event without competitions: %r" % event.get("id"))
+        # A competition-less event carries no teams, no status and no score --
+        # there is no match in it to parse. Raising here took the ENTIRE ingest
+        # down for every league because one row in one season of one feed came
+        # back malformed, and `update --all` is a prerequisite for the board,
+        # the maintenance cycle and the rebuild alike.
+        #
+        # Counted rather than silently dropped, and `validate_season` fails the
+        # season when they are more than a handful: one junk row is upstream
+        # noise, many means the feed's shape changed and we would otherwise
+        # ingest a fraction of reality without noticing.
+        report.malformed.append("%s %s: event %r had no competitions"
+                                % (spec.league_id, event.get("date") or "?",
+                                   event.get("id")))
+        return None
     comp = comps[0]
     status = (((comp.get("status") or {}).get("type") or {}).get("name") or "")
     if status in SKIPPED_STATUSES:
@@ -392,6 +419,7 @@ def ingest_league(spec: LeagueSpec, first_season: int | None = None,
         season_rows: list = []
         seen_events: set = set()
         skipped_before = len(report.skipped)
+        malformed_before = len(report.malformed)
         for feed in spec.feeds:
             for start, end in windows:
                 events = fetch_window(feed.provider_slug, start, end,
@@ -415,6 +443,18 @@ def ingest_league(spec: LeagueSpec, first_season: int | None = None,
             report.warnings.append("%s %s: no matches returned"
                                    % (spec.league_id, spec.season_label(season)))
             continue
+        # One junk row in a feed is noise and is skipped above. A season that
+        # is mostly junk is a CHANGED FEED, and ingesting the remnant as though
+        # it were the season would quietly train the model on a fraction of
+        # reality. The threshold is deliberately generous in absolute terms and
+        # tight in proportional ones.
+        bad = len(report.malformed) - malformed_before
+        seen = len(season_rows) + bad
+        if bad > max(MALFORMED_ALLOWANCE, MALFORMED_FRACTION * seen):
+            raise IngestError(
+                "%s %s: %d of %d events had no competitions -- the feed's "
+                "shape has changed, not one row"
+                % (spec.league_id, spec.season_label(season), bad, seen))
         counts = validate_season(spec, season, season_rows, report, is_current,
                                  n_skipped=len(report.skipped) - skipped_before)
         report.seasons[season] = counts

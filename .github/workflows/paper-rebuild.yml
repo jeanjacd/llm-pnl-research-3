@@ -60,7 +60,13 @@ jobs:
 
       # Settlement reads the fixture table, and `data/leagues/*/raw/` is
       # gitignored, so a runner starts with no results to settle against.
+      # A LEAGUE THAT FAILS TO REFRESH IS STALE, NOT ABSENT: its previous
+      # matches.csv is still on disk. `update --all` now attempts every league
+      # and exits non-zero only to report which ones did not refresh, so this
+      # step is allowed to fail without taking the run with it -- one degraded
+      # upstream season stopped the whole pipeline on 2026-09-02.
       - name: Fetch match data
+        continue-on-error: true
         run: python -m wc2026 update --all
 
       - name: Rebuild the book from order intent
