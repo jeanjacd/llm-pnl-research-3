@@ -297,3 +297,45 @@ def test_the_site_restores_state_before_building_it():
                 encoding="utf-8").read()
     assert "state_sync.py restore" in text
     assert text.index("state_sync.py restore") < text.index("wc2026.site.build")
+
+
+# ── the rebuild ───────────────────────────────────────────────────────────────
+def test_the_rebuild_is_never_scheduled():
+    """Rebuilding is what you do after fixing a defect that made the recorded
+    book wrong. A healthy system never needs it, and a cron that quietly
+    recomputes history is a cron that can quietly rewrite it."""
+    triggers = load("paper-rebuild")["triggers"]
+    assert "schedule" not in triggers
+    assert "workflow_dispatch" in triggers
+
+
+def test_the_rebuild_defaults_to_reporting_rather_than_writing():
+    """The dangerous direction is writing a ledger nobody looked at first."""
+    inputs = load("paper-rebuild")["triggers"]["workflow_dispatch"]["inputs"]
+    assert inputs["dry_run"]["default"] is True
+
+
+def test_the_rebuild_cannot_race_a_board_run():
+    """Each would write a portfolio the other never saw."""
+    assert (load("paper-rebuild")["concurrency"]["group"]
+            == load("matchday-board")["concurrency"]["group"])
+
+
+def test_the_rebuild_restores_and_persists_the_real_ledger():
+    """`data/paper/` is gitignored, so without the restore it would rebuild an
+    empty book and without the save it would rebuild the right one and throw
+    it away."""
+    text = open(os.path.join(WORKFLOWS, "paper-rebuild.yml"),
+                encoding="utf-8").read()
+    assert "state_sync.py restore" in text
+    assert "state_sync.py save" in text
+    assert text.index("state_sync.py restore") < text.index("paper-rebuild \\")
+    # Settlement needs results, and the runner starts with no match data.
+    assert text.index("wc2026 update") < text.index("paper-rebuild \\")
+
+
+def test_a_dry_run_writes_nothing_to_the_state_branch():
+    doc = load("paper-rebuild")
+    save = [s for s in doc["jobs"]["rebuild"]["steps"]
+            if "Persist" in str(s.get("name"))][0]
+    assert "dry_run == 'false'" in str(save.get("if"))

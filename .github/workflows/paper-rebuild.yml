@@ -1,0 +1,94 @@
+name: paper-rebuild
+
+# Recompute the paper book from ORDER INTENT and persist the result.
+#
+# A ONE-SHOT REPAIR, NOT A SCHEDULE. It is dispatched by hand, never on a cron,
+# because rebuilding is what you do after fixing a defect that made the
+# recorded book wrong -- not something a healthy system needs doing to it.
+#
+# WHY THE BOARD CANNOT DO THIS ITSELF. Every cycle restores the ledger, appends
+# to it and saves it back. Run after a fix, that carries the old broken
+# positions forward untouched and adds correct ones beside them, leaving a book
+# that is half right -- worse than either half alone. The history has to be
+# recomputed in one pass, against the venue tape and the results, and that is a
+# different operation from trading.
+#
+# PAPER TRADING ONLY. No job, step or credential here can place a real order,
+# and this one does not even talk to the board: it reads price history and
+# match results, and writes a ledger.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Report the change without writing anything"
+        type: boolean
+        default: true
+      leagues:
+        description: "Comma-separated league ids (blank = all)"
+        required: false
+        default: ""
+
+permissions:
+  # WRITE: the rebuilt ledger is persisted to `automation-state` the same way
+  # every other paper run persists its state.
+  contents: write
+
+# Shares the board's lock. A rebuild racing a cycle would have each writing a
+# portfolio the other never saw.
+concurrency:
+  group: paper-portfolio
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    # Replaying ~1,400 orders against two venues' price history, one request
+    # per order. Measured at roughly nine minutes locally.
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e ".[dev]"
+
+      - name: Restore paper state
+        run: python scripts/state_sync.py restore --branch automation-state
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Settlement reads the fixture table, and `data/leagues/*/raw/` is
+      # gitignored, so a runner starts with no results to settle against.
+      - name: Fetch match data
+        run: python -m wc2026 update --all
+
+      - name: Rebuild the book from order intent
+        env:
+          WC2026_PAPER_ONLY: "1"
+        run: |
+          echo '### Rebuild' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          python -m wc2026 paper-rebuild \
+            --leagues "${{ github.event.inputs.leagues }}" \
+            ${{ github.event.inputs.dry_run == 'false' && ' ' || '--dry-run' }} \
+            2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      # Only a real run has anything to persist. A dry run deliberately leaves
+      # the branch untouched so the change can be read before it is taken.
+      - name: Persist the rebuilt state
+        if: ${{ github.event.inputs.dry_run == 'false' }}
+        run: python scripts/state_sync.py save --branch automation-state
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # The book as it stood before, kept as the evidence for why it changed.
+      - name: Upload the archived book
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-before-rebuild-${{ github.run_id }}
+          path: data/paper/portfolio_before_rebuild.json
+          if-no-files-found: ignore
+          retention-days: 90
