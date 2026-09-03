@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 99687,
-  "reserved_cents": 0,
+  "reserved_cents": 1826,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -49797,6 +49797,72 @@
       "kickoff_utc": "2026-08-30T20:30:00+00:00",
       "settles_on_regulation": null,
       "last_checked_at": "2100-01-01T00:00:00+00:00"
+    },
+    "4105b52e-4282-4958-98b3-e9b737bb4393": {
+      "order_id": "4105b52e-4282-4958-98b3-e9b737bb4393",
+      "case_id": "kalshi:KXLALIGA1H-26SEP03RSORCC-RSO:yes",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGA1H-26SEP03RSORCC-RSO",
+      "side": "yes",
+      "limit_price_cents": 28,
+      "requested_size": 35.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1030,
+      "created_at": "2026-09-03T01:18:06.503986+00:00",
+      "expires_at": "2026-09-03T19:00:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-03T01:18:06.503993+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLALIGA1H-26SEP03RSORCC-RSO:yes|KXLALIGA1H-26SEP03RSORCC-RSO|yes|28",
+          "reserved_cents": 1030
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "1h_home_win",
+      "home_team": "Real Sociedad",
+      "away_team": "Celta Vigo",
+      "kickoff_utc": "2026-09-03T19:00:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "a6a7759f-df54-471b-93ec-abaca3638b45": {
+      "order_id": "a6a7759f-df54-471b-93ec-abaca3638b45",
+      "case_id": "kalshi:KXLALIGA1H-26SEP03RSORCC-TIE:no",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGA1H-26SEP03RSORCC-TIE",
+      "side": "no",
+      "limit_price_cents": 48,
+      "requested_size": 16.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 796,
+      "created_at": "2026-09-03T01:18:06.504131+00:00",
+      "expires_at": "2026-09-03T19:00:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-03T01:18:06.504136+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLALIGA1H-26SEP03RSORCC-TIE:no|KXLALIGA1H-26SEP03RSORCC-TIE|no|48",
+          "reserved_cents": 796
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_1h_draw",
+      "home_team": "Real Sociedad",
+      "away_team": "Celta Vigo",
+      "kickoff_utc": "2026-09-03T19:00:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
     }
   },
   "positions": {
@@ -52385,7 +52451,35 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Barcelona is the overwhelming favorite for this fixture. The home team's current form (undefeated at home with 20 consecutive league wins, 5-0 and 2-0 victories in opening matches, zero goals conceded), roster quality (new signings Rodri and Anthony Gordon, full strength attacking force), and head-to-head dominance (8 consecutive wins, 17-3 all-time record vs Rayo) stands in stark contrast to Rayo"
+    },
+    "la_liga|Real Sociedad|Celta Vigo|2026-09-03": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-03T01:18:06.503585+00:00",
+      "hours_to_kickoff": 17.7,
+      "ts": "2026-09-03T01:18:06.503642+00:00",
+      "action": "PAPER_PLACE_LIMIT",
+      "claim": "not_home_win",
+      "home": "Real Sociedad",
+      "away": "Celta Vigo",
+      "markets_considered": 122,
+      "markets_approved": 2,
+      "decided_by": "quant",
+      "reason": "Breakeven prob (100.46%) exceeds lower bound (96.84%) \u2014 unfavorable even at limit. High correlation risk across fixture creates correlated loss exposure."
+    },
+    "ligue_1|Toulouse|Lille|2026-09-03": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-03T01:21:52.988630+00:00",
+      "hours_to_kickoff": 17.4,
+      "ts": "2026-09-03T01:21:52.988651+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "Toulouse",
+      "away": "Lille",
+      "markets_considered": 124,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Critical ambiguity: sources conflict on whether this is Matchday 1 (2026-27 season start August) vs Matchday 3 (implied by some), and whether opening results (Lyon 0-2 Toulouse; Angers vs Lille; PSG vs Lille) belong to this fixture context. Unclear whether Hamza Igamane (ACL from January) or Tanguy Nianzou injury status is current as of Sept 3. Olivier Giroud's 'three goal contributions in two fix"
     }
   },
-  "saved_at": "2026-09-02T22:02:01.447089+00:00"
+  "saved_at": "2026-09-03T01:21:53.039494+00:00"
 }
