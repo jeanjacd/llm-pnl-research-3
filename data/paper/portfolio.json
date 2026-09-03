@@ -49829,7 +49829,7 @@
       "away_team": "Celta Vigo",
       "kickoff_utc": "2026-09-03T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-03T04:01:21.144104+00:00"
     },
     "a6a7759f-df54-471b-93ec-abaca3638b45": {
       "order_id": "a6a7759f-df54-471b-93ec-abaca3638b45",
@@ -49862,7 +49862,7 @@
       "away_team": "Celta Vigo",
       "kickoff_utc": "2026-09-03T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-03T04:01:21.144104+00:00"
     }
   },
   "positions": {
@@ -52481,5 +52481,5 @@
       "reason": "Critical ambiguity: sources conflict on whether this is Matchday 1 (2026-27 season start August) vs Matchday 3 (implied by some), and whether opening results (Lyon 0-2 Toulouse; Angers vs Lille; PSG vs Lille) belong to this fixture context. Unclear whether Hamza Igamane (ACL from January) or Tanguy Nianzou injury status is current as of Sept 3. Olivier Giroud's 'three goal contributions in two fix"
     }
   },
-  "saved_at": "2026-09-03T01:21:53.039494+00:00"
+  "saved_at": "2026-09-03T04:03:17.414742+00:00"
 }
