@@ -49829,7 +49829,7 @@
       "away_team": "Celta Vigo",
       "kickoff_utc": "2026-09-03T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-03T07:01:11.538974+00:00"
+      "last_checked_at": "2026-09-03T10:01:27.230862+00:00"
     },
     "a6a7759f-df54-471b-93ec-abaca3638b45": {
       "order_id": "a6a7759f-df54-471b-93ec-abaca3638b45",
@@ -49862,7 +49862,7 @@
       "away_team": "Celta Vigo",
       "kickoff_utc": "2026-09-03T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-03T07:01:11.538974+00:00"
+      "last_checked_at": "2026-09-03T10:01:27.230862+00:00"
     }
   },
   "positions": {
@@ -52467,19 +52467,19 @@
       "reason": "Breakeven prob (100.46%) exceeds lower bound (96.84%) \u2014 unfavorable even at limit. High correlation risk across fixture creates correlated loss exposure."
     },
     "ligue_1|Toulouse|Lille|2026-09-03": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-03T01:21:52.988630+00:00",
-      "hours_to_kickoff": 17.4,
-      "ts": "2026-09-03T01:21:52.988651+00:00",
+      "hours_to_kickoff": 8.6,
+      "ts": "2026-09-03T10:07:15.748223+00:00",
       "action": "DEFER",
       "claim": "home_win",
       "home": "Toulouse",
       "away": "Lille",
-      "markets_considered": 124,
+      "markets_considered": 129,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Critical ambiguity: sources conflict on whether this is Matchday 1 (2026-27 season start August) vs Matchday 3 (implied by some), and whether opening results (Lyon 0-2 Toulouse; Angers vs Lille; PSG vs Lille) belong to this fixture context. Unclear whether Hamza Igamane (ACL from January) or Tanguy Nianzou injury status is current as of Sept 3. Olivier Giroud's 'three goal contributions in two fix"
+      "reason": "Lille are dominant favorites with a 4-match winning streak vs Toulouse (most recent 4-0 home win), and travel to Toulouse having won 2-0 away vs Angers + drawn 2-2 vs PSG in the first three Ligue 1 matches. Toulouse lost 0-2 to Lyon at home, drew 2-2 away at Brest, and sit in early-season instability. Lille's managerial setup under Ancelotti shows early cohesion and attacking intent. Toulouse's de"
     }
   },
-  "saved_at": "2026-09-03T07:02:57.533197+00:00"
+  "saved_at": "2026-09-03T10:07:15.801499+00:00"
 }
