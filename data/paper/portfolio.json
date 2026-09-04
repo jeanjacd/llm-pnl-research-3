@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 99687,
-  "reserved_cents": 2548,
+  "cash_cents": 95734,
+  "reserved_cents": 3204,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -49882,11 +49882,11 @@
       "requested_size": 24.0,
       "league_id": "bundesliga",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
-      "fees_cents": 0,
-      "reserved_cents": 1290,
+      "status": "filled",
+      "filled_size": 24.0,
+      "avg_fill_price_cents": 52.0,
+      "fees_cents": 42,
+      "reserved_cents": 0,
       "created_at": "2026-09-04T01:11:45.986482+00:00",
       "expires_at": "2026-09-04T18:30:00+00:00",
       "events": [
@@ -49895,6 +49895,22 @@
           "event": "submitted",
           "key": "kalshi:KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-2:no|KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-2|no|52",
           "reserved_cents": 1290
+        },
+        {
+          "ts": "2026-09-04T07:01:25.523886+00:00",
+          "event": "fill",
+          "size": 24.0,
+          "price_cents": 52.0,
+          "fee_cents": 42
+        },
+        {
+          "ts": "2026-09-04T07:01:25.523929+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "kalshi",
+          "observed_cents": 51.0,
+          "window_start": "2026-09-04T01:11:45.986482+00:00",
+          "window_end": "2026-09-04T07:01:25.313594+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -49903,7 +49919,7 @@
       "away_team": "FC Cologne",
       "kickoff_utc": "2026-09-04T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-04T07:01:25.313594+00:00"
     },
     "95f8dc71-4ead-4362-ac25-0758320e6558": {
       "order_id": "95f8dc71-4ead-4362-ac25-0758320e6558",
@@ -49936,7 +49952,7 @@
       "away_team": "FC Cologne",
       "kickoff_utc": "2026-09-04T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-04T07:01:25.313594+00:00"
     },
     "ab6125a6-1060-404c-8bf3-35f6bad960f0": {
       "order_id": "ab6125a6-1060-404c-8bf3-35f6bad960f0",
@@ -49948,11 +49964,11 @@
       "requested_size": 8.0,
       "league_id": "ligue_1",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
-      "fees_cents": 0,
-      "reserved_cents": 454,
+      "status": "filled",
+      "filled_size": 8.0,
+      "avg_fill_price_cents": 55.0,
+      "fees_cents": 14,
+      "reserved_cents": 0,
       "created_at": "2026-09-04T01:27:57.889717+00:00",
       "expires_at": "2026-09-04T17:00:00+00:00",
       "events": [
@@ -49961,6 +49977,22 @@
           "event": "submitted",
           "key": "kalshi:KXLIGUE11H-26SEP04OLAUX-OL:no|KXLIGUE11H-26SEP04OLAUX-OL|no|55",
           "reserved_cents": 454
+        },
+        {
+          "ts": "2026-09-04T07:01:25.708575+00:00",
+          "event": "fill",
+          "size": 8.0,
+          "price_cents": 55.0,
+          "fee_cents": 14
+        },
+        {
+          "ts": "2026-09-04T07:01:25.708621+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "kalshi",
+          "observed_cents": 50.0,
+          "window_start": "2026-09-04T01:27:57.889717+00:00",
+          "window_end": "2026-09-04T07:01:25.313594+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -49969,6 +50001,185 @@
       "away_team": "AJ Auxerre",
       "kickoff_utc": "2026-09-04T17:00:00",
       "settles_on_regulation": true,
+      "last_checked_at": "2026-09-04T07:01:25.313594+00:00"
+    },
+    "93133613-c299-443b-ae35-ac51262ea26f": {
+      "order_id": "93133613-c299-443b-ae35-ac51262ea26f",
+      "case_id": "polymarket:0xfbacad163f295dc0f48a3142ccf567d4212cfd3fef066a118383f18d259f0a60:no",
+      "venue": "polymarket",
+      "instrument_id": "0xfbacad163f295dc0f48a3142ccf567d4212cfd3fef066a118383f18d259f0a60",
+      "side": "no",
+      "limit_price_cents": 29,
+      "requested_size": 41.0,
+      "league_id": "ligue_1",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1189,
+      "created_at": "2026-09-04T07:19:26.648692+00:00",
+      "expires_at": "2026-09-04T19:05:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-04T07:19:26.648699+00:00",
+          "event": "submitted",
+          "key": "polymarket:0xfbacad163f295dc0f48a3142ccf567d4212cfd3fef066a118383f18d259f0a60:no|0xfbacad163f295dc0f48a3142ccf567d4212cfd3fef066a118383f18d259f0a60|no|29",
+          "reserved_cents": 1189
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_home_win",
+      "home_team": "Paris Saint-Germain",
+      "away_team": "AS Monaco",
+      "kickoff_utc": "2026-09-04T19:05:00+00:00",
+      "settles_on_regulation": null,
+      "last_checked_at": null
+    },
+    "6ff650d1-1e2a-4d1c-884d-ef6f28ee4179": {
+      "order_id": "6ff650d1-1e2a-4d1c-884d-ef6f28ee4179",
+      "case_id": "kalshi:KXLIGUE1GAME-26SEP04PSGASM-ASM:yes",
+      "venue": "kalshi",
+      "instrument_id": "KXLIGUE1GAME-26SEP04PSGASM-ASM",
+      "side": "yes",
+      "limit_price_cents": 11,
+      "requested_size": 100.0,
+      "league_id": "ligue_1",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1169,
+      "created_at": "2026-09-04T07:19:26.648846+00:00",
+      "expires_at": "2026-09-04T19:05:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-04T07:19:26.648850+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLIGUE1GAME-26SEP04PSGASM-ASM:yes|KXLIGUE1GAME-26SEP04PSGASM-ASM|yes|11",
+          "reserved_cents": 1169
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "away_win",
+      "home_team": "Paris Saint-Germain",
+      "away_team": "AS Monaco",
+      "kickoff_utc": "2026-09-04T19:05:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "5aa214c8-39bc-45c5-8b74-d63ed9b0e25d": {
+      "order_id": "5aa214c8-39bc-45c5-8b74-d63ed9b0e25d",
+      "case_id": "kalshi:KXLIGUE11H-26SEP04PSGASM-PSG:no",
+      "venue": "kalshi",
+      "instrument_id": "KXLIGUE11H-26SEP04PSGASM-PSG",
+      "side": "no",
+      "limit_price_cents": 46,
+      "requested_size": 22.0,
+      "league_id": "ligue_1",
+      "kind": "limit",
+      "status": "filled",
+      "filled_size": 22.0,
+      "avg_fill_price_cents": 46.0,
+      "fees_cents": 39,
+      "reserved_cents": 0,
+      "created_at": "2026-09-04T07:19:26.648938+00:00",
+      "expires_at": "2026-09-04T19:05:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-04T07:19:26.648941+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLIGUE11H-26SEP04PSGASM-PSG:no|KXLIGUE11H-26SEP04PSGASM-PSG|no|46",
+          "reserved_cents": 1051
+        },
+        {
+          "ts": "2026-09-04T07:19:26.648980+00:00",
+          "event": "fill",
+          "size": 22.0,
+          "price_cents": 46.0,
+          "fee_cents": 39
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_1h_home_win",
+      "home_team": "Paris Saint-Germain",
+      "away_team": "AS Monaco",
+      "kickoff_utc": "2026-09-04T19:05:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "1d750b28-a146-46bc-a82a-4d18146dfa27": {
+      "order_id": "1d750b28-a146-46bc-a82a-4d18146dfa27",
+      "case_id": "kalshi:KXLIGUE11H-26SEP04PSGASM-ASM:yes",
+      "venue": "kalshi",
+      "instrument_id": "KXLIGUE11H-26SEP04PSGASM-ASM",
+      "side": "yes",
+      "limit_price_cents": 14,
+      "requested_size": 78.0,
+      "league_id": "ligue_1",
+      "kind": "limit",
+      "status": "filled",
+      "filled_size": 78.0,
+      "avg_fill_price_cents": 14.0,
+      "fees_cents": 66,
+      "reserved_cents": 0,
+      "created_at": "2026-09-04T07:19:26.649075+00:00",
+      "expires_at": "2026-09-04T19:05:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-04T07:19:26.649078+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLIGUE11H-26SEP04PSGASM-ASM:yes|KXLIGUE11H-26SEP04PSGASM-ASM|yes|14",
+          "reserved_cents": 1158
+        },
+        {
+          "ts": "2026-09-04T07:19:26.649100+00:00",
+          "event": "fill",
+          "size": 78.0,
+          "price_cents": 14.0,
+          "fee_cents": 66
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "1h_away_win",
+      "home_team": "Paris Saint-Germain",
+      "away_team": "AS Monaco",
+      "kickoff_utc": "2026-09-04T19:05:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "deed47db-c8eb-4031-8282-364e461cb222": {
+      "order_id": "deed47db-c8eb-4031-8282-364e461cb222",
+      "case_id": "polymarket:0x9239f9795f13233aa447157c80143662ff4f01e28a1f10e3fe7b28420ecfba6e:no",
+      "venue": "polymarket",
+      "instrument_id": "0x9239f9795f13233aa447157c80143662ff4f01e28a1f10e3fe7b28420ecfba6e",
+      "side": "no",
+      "limit_price_cents": 84,
+      "requested_size": 0.5,
+      "league_id": "mls",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 42,
+      "created_at": "2026-09-04T07:33:51.321915+00:00",
+      "expires_at": "2026-09-04T23:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-04T07:33:51.321921+00:00",
+          "event": "submitted",
+          "key": "polymarket:0x9239f9795f13233aa447157c80143662ff4f01e28a1f10e3fe7b28420ecfba6e:no|0x9239f9795f13233aa447157c80143662ff4f01e28a1f10e3fe7b28420ecfba6e|no|84",
+          "reserved_cents": 42
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_score_2-2",
+      "home_team": "New York City FC",
+      "away_team": "Nashville SC",
+      "kickoff_utc": "2026-09-04T23:30:00+00:00",
+      "settles_on_regulation": null,
       "last_checked_at": null
     }
   },
@@ -51196,6 +51407,102 @@
       "result": "no",
       "payout_cents": 0.0,
       "realized_pnl_cents": -17.0
+    },
+    "KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-2|no": {
+      "position_id": "7693c580-be58-424c-ac8b-7793195bf5a2",
+      "venue": "kalshi",
+      "instrument_id": "KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-2",
+      "side": "no",
+      "size": 24.0,
+      "avg_cost_cents": 52.0,
+      "fees_cents": 42,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-2:no",
+      "claim": "not_1h_total_over_1.5",
+      "home_team": "VfB Stuttgart",
+      "away_team": "FC Cologne",
+      "kickoff_utc": "2026-09-04T18:30:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-09-04T07:01:25.523920+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0
+    },
+    "KXLIGUE11H-26SEP04OLAUX-OL|no": {
+      "position_id": "039bed22-1e58-430e-8812-403faad80e5b",
+      "venue": "kalshi",
+      "instrument_id": "KXLIGUE11H-26SEP04OLAUX-OL",
+      "side": "no",
+      "size": 8.0,
+      "avg_cost_cents": 55.0,
+      "fees_cents": 14,
+      "league_id": "ligue_1",
+      "case_id": "kalshi:KXLIGUE11H-26SEP04OLAUX-OL:no",
+      "claim": "not_1h_home_win",
+      "home_team": "Lyon",
+      "away_team": "AJ Auxerre",
+      "kickoff_utc": "2026-09-04T17:00:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-09-04T07:01:25.708611+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0
+    },
+    "KXLIGUE11H-26SEP04PSGASM-PSG|no": {
+      "position_id": "3a81e6bb-1c04-4fe0-b42e-e7b996a3df0e",
+      "venue": "kalshi",
+      "instrument_id": "KXLIGUE11H-26SEP04PSGASM-PSG",
+      "side": "no",
+      "size": 22.0,
+      "avg_cost_cents": 46.0,
+      "fees_cents": 39,
+      "league_id": "ligue_1",
+      "case_id": "kalshi:KXLIGUE11H-26SEP04PSGASM-PSG:no",
+      "claim": "not_1h_home_win",
+      "home_team": "Paris Saint-Germain",
+      "away_team": "AS Monaco",
+      "kickoff_utc": "2026-09-04T19:05:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-09-04T07:19:26.648993+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0
+    },
+    "KXLIGUE11H-26SEP04PSGASM-ASM|yes": {
+      "position_id": "737b3e91-a281-4d82-9b15-4d48a5877eb3",
+      "venue": "kalshi",
+      "instrument_id": "KXLIGUE11H-26SEP04PSGASM-ASM",
+      "side": "yes",
+      "size": 78.0,
+      "avg_cost_cents": 14.0,
+      "fees_cents": 66,
+      "league_id": "ligue_1",
+      "case_id": "kalshi:KXLIGUE11H-26SEP04PSGASM-ASM:yes",
+      "claim": "1h_away_win",
+      "home_team": "Paris Saint-Germain",
+      "away_team": "AS Monaco",
+      "kickoff_utc": "2026-09-04T19:05:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-09-04T07:19:26.649110+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0
     }
   },
   "ledger": [
@@ -52642,7 +52949,35 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Material gaps in current team state prevent confident assessment. Liverpool's offensive personnel status\u2014specifically Alexander Isak's match fitness and integration\u2014remains ambiguous despite scoring in preseason. Ipswich's squad depth concerns post\u2013Manchester United (5-2 loss) are incompletely documented. Recent form is credible (Liverpool 0W\u20132D in league start; Ipswich 1W\u20131L) but both teams appea"
+    },
+    "ligue_1|Paris Saint-Germain|AS Monaco|2026-09-04": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-04T07:19:26.648413+00:00",
+      "hours_to_kickoff": 11.8,
+      "ts": "2026-09-04T07:19:26.648430+00:00",
+      "action": "PAPER_PLACE_LIMIT",
+      "claim": "not_home_win",
+      "home": "Paris Saint-Germain",
+      "away": "AS Monaco",
+      "markets_considered": 119,
+      "markets_approved": 5,
+      "decided_by": "judge",
+      "reason": "approved 5 of 10 market(s): PSG's stark form disadvantage (0W-2D, 11th vs Monaco 2W-0D, 2nd), defensive set-piece vulnerability, and Nuno Mendes suspension justify pricing PSG home win lower. EV +5.46\u00a2 with deep Polymarket liquidity. Chosen over redundant Kalshi equivalent (lower EV at 5.03\u00a2) to avoid concentration on single directional view."
+    },
+    "mls|New York City FC|Nashville SC|2026-09-04": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-04T07:33:51.321637+00:00",
+      "hours_to_kickoff": 15.9,
+      "ts": "2026-09-04T07:33:51.321656+00:00",
+      "action": "PAPER_PLACE_LIMIT",
+      "claim": "not_home_win",
+      "home": "New York City FC",
+      "away": "Nashville SC",
+      "markets_considered": 120,
+      "markets_approved": 1,
+      "decided_by": "quant",
+      "reason": "Negative EV -3.28\u00a2; market pricing (75\u00a2 YES) sits at upper bound of model confidence. Fee structure eliminates edge."
     }
   },
-  "saved_at": "2026-09-04T01:31:25.846602+00:00"
+  "saved_at": "2026-09-04T07:33:51.361746+00:00"
 }
