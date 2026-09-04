@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 92423,
-  "reserved_cents": 2400,
+  "cash_cents": 94823,
+  "reserved_cents": 42,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -50029,11 +50029,11 @@
       "requested_size": 41.0,
       "league_id": "ligue_1",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1189,
+      "reserved_cents": 0,
       "created_at": "2026-09-04T07:19:26.648692+00:00",
       "expires_at": "2026-09-04T19:05:00+00:00",
       "events": [
@@ -50042,6 +50042,10 @@
           "event": "submitted",
           "key": "polymarket:0xfbacad163f295dc0f48a3142ccf567d4212cfd3fef066a118383f18d259f0a60:no|0xfbacad163f295dc0f48a3142ccf567d4212cfd3fef066a118383f18d259f0a60|no|29",
           "reserved_cents": 1189
+        },
+        {
+          "ts": "2026-09-04T20:47:33.692784+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -50050,7 +50054,7 @@
       "away_team": "AS Monaco",
       "kickoff_utc": "2026-09-04T19:05:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-04T19:01:41.822634+00:00"
+      "last_checked_at": "2026-09-04T20:47:32.343600+00:00"
     },
     "6ff650d1-1e2a-4d1c-884d-ef6f28ee4179": {
       "order_id": "6ff650d1-1e2a-4d1c-884d-ef6f28ee4179",
@@ -50062,11 +50066,11 @@
       "requested_size": 100.0,
       "league_id": "ligue_1",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1169,
+      "reserved_cents": 0,
       "created_at": "2026-09-04T07:19:26.648846+00:00",
       "expires_at": "2026-09-04T19:05:00+00:00",
       "events": [
@@ -50075,6 +50079,10 @@
           "event": "submitted",
           "key": "kalshi:KXLIGUE1GAME-26SEP04PSGASM-ASM:yes|KXLIGUE1GAME-26SEP04PSGASM-ASM|yes|11",
           "reserved_cents": 1169
+        },
+        {
+          "ts": "2026-09-04T20:47:33.692795+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -50083,7 +50091,7 @@
       "away_team": "AS Monaco",
       "kickoff_utc": "2026-09-04T19:05:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-04T19:01:41.822634+00:00"
+      "last_checked_at": "2026-09-04T20:47:32.343600+00:00"
     },
     "5aa214c8-39bc-45c5-8b74-d63ed9b0e25d": {
       "order_id": "5aa214c8-39bc-45c5-8b74-d63ed9b0e25d",
@@ -50196,7 +50204,7 @@
       "away_team": "Nashville SC",
       "kickoff_utc": "2026-09-04T23:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-04T19:01:41.822634+00:00"
+      "last_checked_at": "2026-09-04T20:47:32.343600+00:00"
     },
     "c76f46b0-1682-4d33-9ffa-8f921447e46a": {
       "order_id": "c76f46b0-1682-4d33-9ffa-8f921447e46a",
@@ -51569,10 +51577,10 @@
       "closing_price_cents": 47.5,
       "clv_cents": -4.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 2400.0,
+      "realized_pnl_cents": 1110.0
     },
     "KXLIGUE11H-26SEP04OLAUX-OL|no": {
       "position_id": "039bed22-1e58-430e-8812-403faad80e5b",
@@ -51593,10 +51601,10 @@
       "closing_price_cents": 47.0,
       "clv_cents": -8.0,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -454.0
     },
     "KXLIGUE11H-26SEP04PSGASM-PSG|no": {
       "position_id": "3a81e6bb-1c04-4fe0-b42e-e7b996a3df0e",
@@ -51614,9 +51622,9 @@
       "kickoff_utc": "2026-09-04T19:05:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-04T07:19:26.648993+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
+      "closing_price_cents": 43.5,
+      "clv_cents": -2.5,
+      "clv_source": "kalshi",
       "settled": false,
       "result": null,
       "payout_cents": 0.0,
@@ -51638,9 +51646,9 @@
       "kickoff_utc": "2026-09-04T19:05:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-04T07:19:26.649110+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
+      "closing_price_cents": 12.5,
+      "clv_cents": -1.5,
+      "clv_source": "kalshi",
       "settled": false,
       "result": null,
       "payout_cents": 0.0,
@@ -51713,10 +51721,10 @@
       "closing_price_cents": 17.5,
       "clv_cents": -1.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -804.0
     }
   },
   "ledger": [
@@ -52433,6 +52441,48 @@
       "pnl_cents": -17.0,
       "league_id": "la_liga",
       "case_id": "kalshi:KXLALIGASPREAD-26AUG30RCCATH-RCC2:yes"
+    },
+    {
+      "ts": "2026-09-04T20:47:33.763477+00:00",
+      "instrument_id": "KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-2",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 24.0,
+      "avg_cost_cents": 52.0,
+      "fees_cents": 42,
+      "payout_cents": 2400.0,
+      "pnl_cents": 1110.0,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-2:no"
+    },
+    {
+      "ts": "2026-09-04T20:47:33.765126+00:00",
+      "instrument_id": "KXLIGUE11H-26SEP04OLAUX-OL",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 8.0,
+      "avg_cost_cents": 55.0,
+      "fees_cents": 14,
+      "payout_cents": 0.0,
+      "pnl_cents": -454.0,
+      "league_id": "ligue_1",
+      "case_id": "kalshi:KXLIGUE11H-26SEP04OLAUX-OL:no"
+    },
+    {
+      "ts": "2026-09-04T20:47:33.772380+00:00",
+      "instrument_id": "KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-1",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 40.0,
+      "avg_cost_cents": 19.0,
+      "fees_cents": 44,
+      "payout_cents": 0.0,
+      "pnl_cents": -804.0,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-1:no"
     }
   ],
   "boarded": {
@@ -53207,5 +53257,5 @@
       "reason": "Material gaps in confirmed injury/availability status prevent reliable simulation. Newcastle's defensive capacity is uncertain due to unconfirmed Botman status and multiple injury doubts (Joelinton, Dan Burn, Osula, Bruno Guimar\u00e3es). Bournemouth's recent draw pattern (4 draws in last 5) suggests structural factors not yet characterised. Critical: no confirmed lineups available; predicted XIs sugge"
     }
   },
-  "saved_at": "2026-09-04T19:07:45.543963+00:00"
+  "saved_at": "2026-09-04T20:47:33.811762+00:00"
 }
