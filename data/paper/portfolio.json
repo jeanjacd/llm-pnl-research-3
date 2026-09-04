@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 94426,
-  "reserved_cents": 4880,
+  "cash_cents": 93227,
+  "reserved_cents": 3681,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -49952,7 +49952,7 @@
       "away_team": "FC Cologne",
       "kickoff_utc": "2026-09-04T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-04T10:01:25.017380+00:00"
+      "last_checked_at": "2026-09-04T11:20:26.856503+00:00"
     },
     "ab6125a6-1060-404c-8bf3-35f6bad960f0": {
       "order_id": "ab6125a6-1060-404c-8bf3-35f6bad960f0",
@@ -50034,7 +50034,7 @@
       "away_team": "AS Monaco",
       "kickoff_utc": "2026-09-04T19:05:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-04T10:01:25.017380+00:00"
+      "last_checked_at": "2026-09-04T11:20:26.856503+00:00"
     },
     "6ff650d1-1e2a-4d1c-884d-ef6f28ee4179": {
       "order_id": "6ff650d1-1e2a-4d1c-884d-ef6f28ee4179",
@@ -50067,7 +50067,7 @@
       "away_team": "AS Monaco",
       "kickoff_utc": "2026-09-04T19:05:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-04T10:01:25.017380+00:00"
+      "last_checked_at": "2026-09-04T11:20:26.856503+00:00"
     },
     "5aa214c8-39bc-45c5-8b74-d63ed9b0e25d": {
       "order_id": "5aa214c8-39bc-45c5-8b74-d63ed9b0e25d",
@@ -50180,7 +50180,7 @@
       "away_team": "Nashville SC",
       "kickoff_utc": "2026-09-04T23:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-04T10:01:25.017380+00:00"
+      "last_checked_at": "2026-09-04T11:20:26.856503+00:00"
     },
     "c76f46b0-1682-4d33-9ffa-8f921447e46a": {
       "order_id": "c76f46b0-1682-4d33-9ffa-8f921447e46a",
@@ -50192,11 +50192,11 @@
       "requested_size": 18.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
-      "fees_cents": 0,
-      "reserved_cents": 1199,
+      "status": "filled",
+      "filled_size": 18.0,
+      "avg_fill_price_cents": 65.0,
+      "fees_cents": 29,
+      "reserved_cents": 0,
       "created_at": "2026-09-04T10:22:54.180944+00:00",
       "expires_at": "2026-09-04T19:00:00+00:00",
       "events": [
@@ -50205,6 +50205,22 @@
           "event": "submitted",
           "key": "kalshi:KXLALIGA1H-26SEP04RBBRMA-RMA:no|KXLALIGA1H-26SEP04RBBRMA-RMA|no|65",
           "reserved_cents": 1199
+        },
+        {
+          "ts": "2026-09-04T11:20:27.542760+00:00",
+          "event": "fill",
+          "size": 18.0,
+          "price_cents": 65.0,
+          "fee_cents": 29
+        },
+        {
+          "ts": "2026-09-04T11:20:27.542811+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "kalshi",
+          "observed_cents": 48.0,
+          "window_start": "2026-09-04T10:22:54.180944+00:00",
+          "window_end": "2026-09-04T11:20:26.856503+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -50213,7 +50229,7 @@
       "away_team": "Real Madrid",
       "kickoff_utc": "2026-09-04T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-04T11:20:26.856503+00:00"
     },
     "62a4d07b-b75c-46d4-82ad-55de2301e96b": {
       "order_id": "62a4d07b-b75c-46d4-82ad-55de2301e96b",
@@ -50246,7 +50262,7 @@
       "away_team": "Real Madrid",
       "kickoff_utc": "2026-09-04T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-04T11:20:26.856503+00:00"
     },
     "9382e2cc-b1b8-4ae3-bdea-52a3d2e485df": {
       "order_id": "9382e2cc-b1b8-4ae3-bdea-52a3d2e485df",
@@ -51626,6 +51642,30 @@
       "kickoff_utc": "2026-09-04T19:00:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-04T10:22:54.181308+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0
+    },
+    "KXLALIGA1H-26SEP04RBBRMA-RMA|no": {
+      "position_id": "e5a8feac-ef99-44fa-a274-bc2289a44a7b",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGA1H-26SEP04RBBRMA-RMA",
+      "side": "no",
+      "size": 18.0,
+      "avg_cost_cents": 65.0,
+      "fees_cents": 29,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGA1H-26SEP04RBBRMA-RMA:no",
+      "claim": "not_1h_home_win",
+      "home_team": "Real Betis",
+      "away_team": "Real Madrid",
+      "kickoff_utc": "2026-09-04T19:00:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-09-04T11:20:27.542798+00:00",
       "closing_price_cents": null,
       "clv_cents": null,
       "clv_source": null,
@@ -53109,5 +53149,5 @@
       "reason": "Negative EV -3.28\u00a2; market pricing (75\u00a2 YES) sits at upper bound of model confidence. Fee structure eliminates edge."
     }
   },
-  "saved_at": "2026-09-04T10:26:41.266576+00:00"
+  "saved_at": "2026-09-04T11:20:27.840066+00:00"
 }
