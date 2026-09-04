@@ -49952,7 +49952,7 @@
       "away_team": "FC Cologne",
       "kickoff_utc": "2026-09-04T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-04T13:01:16.562311+00:00"
+      "last_checked_at": "2026-09-04T16:01:16.573895+00:00"
     },
     "ab6125a6-1060-404c-8bf3-35f6bad960f0": {
       "order_id": "ab6125a6-1060-404c-8bf3-35f6bad960f0",
@@ -50034,7 +50034,7 @@
       "away_team": "AS Monaco",
       "kickoff_utc": "2026-09-04T19:05:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-04T13:01:16.562311+00:00"
+      "last_checked_at": "2026-09-04T16:01:16.573895+00:00"
     },
     "6ff650d1-1e2a-4d1c-884d-ef6f28ee4179": {
       "order_id": "6ff650d1-1e2a-4d1c-884d-ef6f28ee4179",
@@ -50067,7 +50067,7 @@
       "away_team": "AS Monaco",
       "kickoff_utc": "2026-09-04T19:05:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-04T13:01:16.562311+00:00"
+      "last_checked_at": "2026-09-04T16:01:16.573895+00:00"
     },
     "5aa214c8-39bc-45c5-8b74-d63ed9b0e25d": {
       "order_id": "5aa214c8-39bc-45c5-8b74-d63ed9b0e25d",
@@ -50180,7 +50180,7 @@
       "away_team": "Nashville SC",
       "kickoff_utc": "2026-09-04T23:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-04T13:01:16.562311+00:00"
+      "last_checked_at": "2026-09-04T16:01:16.573895+00:00"
     },
     "c76f46b0-1682-4d33-9ffa-8f921447e46a": {
       "order_id": "c76f46b0-1682-4d33-9ffa-8f921447e46a",
@@ -50262,7 +50262,7 @@
       "away_team": "Real Madrid",
       "kickoff_utc": "2026-09-04T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-04T13:01:16.562311+00:00"
+      "last_checked_at": "2026-09-04T16:01:16.573895+00:00"
     },
     "9382e2cc-b1b8-4ae3-bdea-52a3d2e485df": {
       "order_id": "9382e2cc-b1b8-4ae3-bdea-52a3d2e485df",
@@ -53149,5 +53149,5 @@
       "reason": "Negative EV -3.28\u00a2; market pricing (75\u00a2 YES) sits at upper bound of model confidence. Fee structure eliminates edge."
     }
   },
-  "saved_at": "2026-09-04T13:05:00.873862+00:00"
+  "saved_at": "2026-09-04T16:03:55.980736+00:00"
 }
