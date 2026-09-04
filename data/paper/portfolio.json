@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 95734,
-  "reserved_cents": 3204,
+  "cash_cents": 94426,
+  "reserved_cents": 4880,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -49952,7 +49952,7 @@
       "away_team": "FC Cologne",
       "kickoff_utc": "2026-09-04T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-04T07:01:25.313594+00:00"
+      "last_checked_at": "2026-09-04T10:01:25.017380+00:00"
     },
     "ab6125a6-1060-404c-8bf3-35f6bad960f0": {
       "order_id": "ab6125a6-1060-404c-8bf3-35f6bad960f0",
@@ -50034,7 +50034,7 @@
       "away_team": "AS Monaco",
       "kickoff_utc": "2026-09-04T19:05:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-04T10:01:25.017380+00:00"
     },
     "6ff650d1-1e2a-4d1c-884d-ef6f28ee4179": {
       "order_id": "6ff650d1-1e2a-4d1c-884d-ef6f28ee4179",
@@ -50067,7 +50067,7 @@
       "away_team": "AS Monaco",
       "kickoff_utc": "2026-09-04T19:05:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-04T10:01:25.017380+00:00"
     },
     "5aa214c8-39bc-45c5-8b74-d63ed9b0e25d": {
       "order_id": "5aa214c8-39bc-45c5-8b74-d63ed9b0e25d",
@@ -50180,6 +50180,112 @@
       "away_team": "Nashville SC",
       "kickoff_utc": "2026-09-04T23:30:00+00:00",
       "settles_on_regulation": null,
+      "last_checked_at": "2026-09-04T10:01:25.017380+00:00"
+    },
+    "c76f46b0-1682-4d33-9ffa-8f921447e46a": {
+      "order_id": "c76f46b0-1682-4d33-9ffa-8f921447e46a",
+      "case_id": "kalshi:KXLALIGA1H-26SEP04RBBRMA-RMA:no",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGA1H-26SEP04RBBRMA-RMA",
+      "side": "no",
+      "limit_price_cents": 65,
+      "requested_size": 18.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1199,
+      "created_at": "2026-09-04T10:22:54.180944+00:00",
+      "expires_at": "2026-09-04T19:00:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-04T10:22:54.180952+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLALIGA1H-26SEP04RBBRMA-RMA:no|KXLALIGA1H-26SEP04RBBRMA-RMA|no|65",
+          "reserved_cents": 1199
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_1h_home_win",
+      "home_team": "Real Betis",
+      "away_team": "Real Madrid",
+      "kickoff_utc": "2026-09-04T19:00:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "62a4d07b-b75c-46d4-82ad-55de2301e96b": {
+      "order_id": "62a4d07b-b75c-46d4-82ad-55de2301e96b",
+      "case_id": "kalshi:KXLALIGA1H-26SEP04RBBRMA-RBB:yes",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGA1H-26SEP04RBBRMA-RBB",
+      "side": "yes",
+      "limit_price_cents": 15,
+      "requested_size": 30.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 477,
+      "created_at": "2026-09-04T10:22:54.181098+00:00",
+      "expires_at": "2026-09-04T19:00:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-04T10:22:54.181103+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLALIGA1H-26SEP04RBBRMA-RBB:yes|KXLALIGA1H-26SEP04RBBRMA-RBB|yes|15",
+          "reserved_cents": 477
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "1h_home_win",
+      "home_team": "Real Betis",
+      "away_team": "Real Madrid",
+      "kickoff_utc": "2026-09-04T19:00:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "9382e2cc-b1b8-4ae3-bdea-52a3d2e485df": {
+      "order_id": "9382e2cc-b1b8-4ae3-bdea-52a3d2e485df",
+      "case_id": "kalshi:KXLALIGA1H-26SEP04RBBRMA-TIE:yes",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGA1H-26SEP04RBBRMA-TIE",
+      "side": "yes",
+      "limit_price_cents": 32,
+      "requested_size": 39.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "filled",
+      "filled_size": 39.0,
+      "avg_fill_price_cents": 32.0,
+      "fees_cents": 60,
+      "reserved_cents": 0,
+      "created_at": "2026-09-04T10:22:54.181242+00:00",
+      "expires_at": "2026-09-04T19:00:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-04T10:22:54.181246+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLALIGA1H-26SEP04RBBRMA-TIE:yes|KXLALIGA1H-26SEP04RBBRMA-TIE|yes|32",
+          "reserved_cents": 1308
+        },
+        {
+          "ts": "2026-09-04T10:22:54.181287+00:00",
+          "event": "fill",
+          "size": 39.0,
+          "price_cents": 32.0,
+          "fee_cents": 60
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "1h_draw",
+      "home_team": "Real Betis",
+      "away_team": "Real Madrid",
+      "kickoff_utc": "2026-09-04T19:00:00",
+      "settles_on_regulation": true,
       "last_checked_at": null
     }
   },
@@ -51496,6 +51602,30 @@
       "kickoff_utc": "2026-09-04T19:05:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-04T07:19:26.649110+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0
+    },
+    "KXLALIGA1H-26SEP04RBBRMA-TIE|yes": {
+      "position_id": "c7cb0152-bff8-4335-afd6-0731f1633933",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGA1H-26SEP04RBBRMA-TIE",
+      "side": "yes",
+      "size": 39.0,
+      "avg_cost_cents": 32.0,
+      "fees_cents": 60,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGA1H-26SEP04RBBRMA-TIE:yes",
+      "claim": "1h_draw",
+      "home_team": "Real Betis",
+      "away_team": "Real Madrid",
+      "kickoff_utc": "2026-09-04T19:00:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-09-04T10:22:54.181308+00:00",
       "closing_price_cents": null,
       "clv_cents": null,
       "clv_source": null,
@@ -52909,18 +53039,18 @@
       "reason": "p_lower (0.8209) < breakeven_prob (0.863); negative EV at -4.21\u00a2 persists across all achievable prices. No edge."
     },
     "la_liga|Real Betis|Real Madrid|2026-09-04": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-04T01:17:20.265721+00:00",
-      "hours_to_kickoff": 17.7,
-      "ts": "2026-09-04T01:17:20.265741+00:00",
-      "action": "DEFER",
+      "hours_to_kickoff": 8.6,
+      "ts": "2026-09-04T10:22:54.180548+00:00",
+      "action": "PAPER_PLACE_LIMIT",
       "claim": "not_home_win",
       "home": "Real Betis",
       "away": "Real Madrid",
-      "markets_considered": 105,
-      "markets_approved": 0,
-      "decided_by": "coach",
-      "reason": "The position bets AGAINST a Real Madrid home win (backing Betis win/draw). However, Real Madrid enters as clear favorites with attacking strength (Bellingham, Mbapp\u00e9, Vin\u00edcius), match fitness momentum (3-0 September start: 2-1 Espanyol, 4-1 Sociedad, 4-0 M\u00e1laga), and superior squad depth despite defensive injuries. Real Betis arrives having conceded 7 goals in 3 matches including a shocking 5-2 lo"
+      "markets_considered": 103,
+      "markets_approved": 3,
+      "decided_by": "judge",
+      "reason": "approved 3 of 12 market(s): Negative EV (-6.3\u00a2 at touch). This specific scoreline (Betis 2-0) correlates with cases #2, #5, #12 creating redundant directional exposure without diversification. Even at max_limit of 89\u00a2, insufficient edge after adverse selection (1.18\u00a2) leaves only ~3\u00a2 net."
     },
     "ligue_1|Lyon|AJ Auxerre|2026-09-04": {
       "attempts": 1,
@@ -52937,18 +53067,18 @@
       "reason": "approved 1 of 3 market(s): Analyst evidence (Lyon 2+ goals, strong home form, Auxerre defense in disarray, Fonseca's aggressive tactics) implies higher p(Lyon 1H win) than quant's 33% implied estimate. Tightening from 60\u00a2/10 contracts reflects analyst's fixture verdict while preserving positive EV. Market 1 is clearest expression of bearish-1H view; markets 2 and 3 are redundant restatements."
     },
     "premier_league|Ipswich Town|Liverpool|2026-09-04": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-04T01:31:25.793461+00:00",
-      "hours_to_kickoff": 17.5,
-      "ts": "2026-09-04T01:31:25.793477+00:00",
+      "hours_to_kickoff": 8.6,
+      "ts": "2026-09-04T10:26:41.155976+00:00",
       "action": "DEFER",
       "claim": "away_win",
       "home": "Ipswich Town",
       "away": "Liverpool",
-      "markets_considered": 121,
+      "markets_considered": 123,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Material gaps in current team state prevent confident assessment. Liverpool's offensive personnel status\u2014specifically Alexander Isak's match fitness and integration\u2014remains ambiguous despite scoring in preseason. Ipswich's squad depth concerns post\u2013Manchester United (5-2 loss) are incompletely documented. Recent form is credible (Liverpool 0W\u20132D in league start; Ipswich 1W\u20131L) but both teams appea"
+      "reason": "Away win claim for Liverpool is plausible but hinges on unresolved tactical and rotation factors. Liverpool's documented defensive frailties (0 wins in 2 games, fullback isolation) vs Ipswich's home resilience (beat Sunderland) create genuine competition. However, Champions League fixture Sept 9 (5 days later) may drive Liverpool's lineup/intensity decisions unknowably. Barcola's readiness and Ira"
     },
     "ligue_1|Paris Saint-Germain|AS Monaco|2026-09-04": {
       "attempts": 1,
@@ -52979,5 +53109,5 @@
       "reason": "Negative EV -3.28\u00a2; market pricing (75\u00a2 YES) sits at upper bound of model confidence. Fee structure eliminates edge."
     }
   },
-  "saved_at": "2026-09-04T07:33:51.361746+00:00"
+  "saved_at": "2026-09-04T10:26:41.266576+00:00"
 }
