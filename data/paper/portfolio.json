@@ -1,6 +1,6 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 94823,
+  "cash_cents": 100523,
   "reserved_cents": 42,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
@@ -50204,7 +50204,7 @@
       "away_team": "Nashville SC",
       "kickoff_utc": "2026-09-04T23:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-04T20:47:32.343600+00:00"
+      "last_checked_at": "2026-09-04T22:01:24.603198+00:00"
     },
     "c76f46b0-1682-4d33-9ffa-8f921447e46a": {
       "order_id": "c76f46b0-1682-4d33-9ffa-8f921447e46a",
@@ -51625,10 +51625,10 @@
       "closing_price_cents": 43.5,
       "clv_cents": -2.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -1051.0
     },
     "KXLIGUE11H-26SEP04PSGASM-ASM|yes": {
       "position_id": "737b3e91-a281-4d82-9b15-4d48a5877eb3",
@@ -51649,10 +51649,10 @@
       "closing_price_cents": 12.5,
       "clv_cents": -1.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "realized_pnl_cents": -1158.0
     },
     "KXLALIGA1H-26SEP04RBBRMA-TIE|yes": {
       "position_id": "c7cb0152-bff8-4335-afd6-0731f1633933",
@@ -51673,10 +51673,10 @@
       "closing_price_cents": 32.5,
       "clv_cents": 0.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "yes",
+      "payout_cents": 3900.0,
+      "realized_pnl_cents": 2592.0
     },
     "KXLALIGA1H-26SEP04RBBRMA-RMA|no": {
       "position_id": "e5a8feac-ef99-44fa-a274-bc2289a44a7b",
@@ -51697,10 +51697,10 @@
       "closing_price_cents": 48.5,
       "clv_cents": -16.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0
+      "settled": true,
+      "result": "no",
+      "payout_cents": 1800.0,
+      "realized_pnl_cents": 601.0
     },
     "KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-1|no": {
       "position_id": "c2d50966-2aa7-4d8e-b28f-cc5096df7083",
@@ -52483,6 +52483,62 @@
       "pnl_cents": -804.0,
       "league_id": "bundesliga",
       "case_id": "kalshi:KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-1:no"
+    },
+    {
+      "ts": "2026-09-04T22:07:01.201438+00:00",
+      "instrument_id": "KXLIGUE11H-26SEP04PSGASM-PSG",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 22.0,
+      "avg_cost_cents": 46.0,
+      "fees_cents": 39,
+      "payout_cents": 0.0,
+      "pnl_cents": -1051.0,
+      "league_id": "ligue_1",
+      "case_id": "kalshi:KXLIGUE11H-26SEP04PSGASM-PSG:no"
+    },
+    {
+      "ts": "2026-09-04T22:07:01.203017+00:00",
+      "instrument_id": "KXLIGUE11H-26SEP04PSGASM-ASM",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 78.0,
+      "avg_cost_cents": 14.0,
+      "fees_cents": 66,
+      "payout_cents": 0.0,
+      "pnl_cents": -1158.0,
+      "league_id": "ligue_1",
+      "case_id": "kalshi:KXLIGUE11H-26SEP04PSGASM-ASM:yes"
+    },
+    {
+      "ts": "2026-09-04T22:07:01.204578+00:00",
+      "instrument_id": "KXLALIGA1H-26SEP04RBBRMA-TIE",
+      "side": "yes",
+      "result": "yes",
+      "won": true,
+      "size": 39.0,
+      "avg_cost_cents": 32.0,
+      "fees_cents": 60,
+      "payout_cents": 3900.0,
+      "pnl_cents": 2592.0,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGA1H-26SEP04RBBRMA-TIE:yes"
+    },
+    {
+      "ts": "2026-09-04T22:07:01.206086+00:00",
+      "instrument_id": "KXLALIGA1H-26SEP04RBBRMA-RMA",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 18.0,
+      "avg_cost_cents": 65.0,
+      "fees_cents": 29,
+      "payout_cents": 1800.0,
+      "pnl_cents": 601.0,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGA1H-26SEP04RBBRMA-RMA:no"
     }
   ],
   "boarded": {
@@ -53255,7 +53311,119 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Material gaps in confirmed injury/availability status prevent reliable simulation. Newcastle's defensive capacity is uncertain due to unconfirmed Botman status and multiple injury doubts (Joelinton, Dan Burn, Osula, Bruno Guimar\u00e3es). Bournemouth's recent draw pattern (4 draws in last 5) suggests structural factors not yet characterised. Critical: no confirmed lineups available; predicted XIs sugge"
+    },
+    "bundesliga|SC Paderborn 07|SC Freiburg|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-04T22:11:35.464348+00:00",
+      "hours_to_kickoff": 15.3,
+      "ts": "2026-09-04T22:11:35.464365+00:00",
+      "action": "DEFER",
+      "claim": "draw",
+      "home": "SC Paderborn 07",
+      "away": "SC Freiburg",
+      "markets_considered": 120,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Material contradictions exist between draw probability and the observable team states. Freiburg shows dominant form (7-game winning streak, 4-1 over Bremen with 3+ goals in each outing, 2nd place) versus a Paderborn squad making Bundesliga debut with historical promotion success but unproven at top level. Paderborn held 0-0 at home vs Mainz with no shots on target, raising serious attacking questi"
+    },
+    "bundesliga|Werder Bremen|RB Leipzig|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-04T22:16:03.261631+00:00",
+      "hours_to_kickoff": 15.2,
+      "ts": "2026-09-04T22:16:03.261647+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "Werder Bremen",
+      "away": "RB Leipzig",
+      "markets_considered": 122,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Critical contradictions in injury status (Rocco Reitz listed out weeks but appears in confirmed XI) and confirmed vs predicted lineups prevent assessment of whether Bremen's away-win prospects remain as modeled. Werder faces defensive crisis (Stage + Njinmah both out months) but impact on tactical shape unclear. Leipzig's new manager (Demichelis, 2.5 months tenure) and Nkunku (signed 11 days prior"
+    },
+    "bundesliga|Borussia M\u00f6nchengladbach|SV Elversberg|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-04T22:20:13.799622+00:00",
+      "hours_to_kickoff": 15.2,
+      "ts": "2026-09-04T22:20:13.799640+00:00",
+      "action": "DEFER",
+      "claim": "away_win",
+      "home": "Borussia M\u00f6nchengladbach",
+      "away": "SV Elversberg",
+      "markets_considered": 119,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Elversberg has demonstrated remarkable debut-season form by defeating Bayer Leverkusen 3-2 in their opening Bundesliga match despite being promoted from 2. Bundesliga for the first time. The new manager Vincent Wagner has unified the squad after losing their previous head coach. M\u00f6nchengladbach suffered a 0-3 home defeat to RB Leipzig in Matchday 1, showing defensive vulnerabilities. While M\u00f6nchen"
+    },
+    "bundesliga|Bayer Leverkusen|1. FC Union Berlin|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-04T22:24:37.218563+00:00",
+      "hours_to_kickoff": 15.1,
+      "ts": "2026-09-04T22:24:37.218580+00:00",
+      "action": "DEFER",
+      "claim": "draw",
+      "home": "Bayer Leverkusen",
+      "away": "1. FC Union Berlin",
+      "markets_considered": 118,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Critical sporting assumptions intact but material gaps prevent confident assessment. Leverkusen show defensive brittleness (conceding despite possession dominance in recent matches) and Union Berlin's new high-pressing system under Lustrinelli remains untested in competitive play. Both teams deployed 5-6 key absentees; Leverkusen missing Tella, Dou\u00e9, Ben Seghir, Terrier; Union Berlin missing Ilic "
+    },
+    "bundesliga|TSG Hoffenheim|Borussia Dortmund|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-04T22:29:17.443939+00:00",
+      "hours_to_kickoff": 15.0,
+      "ts": "2026-09-04T22:29:17.443952+00:00",
+      "action": "DEFER",
+      "claim": "away_win",
+      "home": "TSG Hoffenheim",
+      "away": "Borussia Dortmund",
+      "markets_considered": 121,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Dortmund away form and new defensive system under Kovac are intact. Hoffenheim showed attacking intent in Week 1 (2 goals vs Cologne) but defensive fragility (3 conceded at home) raises structural concerns. Critical variable: Serhou Guirassy (Dortmund's primary creator/striker) injury status remains uncertain after reported training withdrawal midweek. His availability materially affects Dortmund'"
+    },
+    "premier_league|Nottingham Forest|Tottenham Hotspur|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-04T22:33:35.543034+00:00",
+      "hours_to_kickoff": 15.4,
+      "ts": "2026-09-04T22:33:35.543051+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "Nottingham Forest",
+      "away": "Tottenham Hotspur",
+      "markets_considered": 120,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Forest home win thesis is undermined by critical sporting factors: (1) Forest have won only 1 of their last 12 Premier League home matches; (2) Forest lost their first two matches (0-1 to Arsenal, 1-1 to Bournemouth) and drew 2-2 at Liverpool\u2014they remain winless in league play and lack competitive rhythm; (3) Tottenham, despite poor form, have three new significant defensive signings (Van Hecke, S"
+    },
+    "premier_league|Manchester City|Coventry City|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-04T22:46:07.671909+00:00",
+      "hours_to_kickoff": 15.2,
+      "ts": "2026-09-04T22:46:07.671921+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "Manchester City",
+      "away": "Coventry City",
+      "markets_considered": 118,
+      "markets_approved": 0,
+      "decided_by": "judge",
+      "reason": "approved 0 of 1 market(s): Single outlier among 31 negative-EV trades is a material red flag for model miscalibration or overfitting to first-half data. While EV math is attractive (+219% ROI) and analyst findings support scoreline restriction, first-half markets carry calibration risk the quant's counterargument explicitly flags. Concentration of all positive signal into one outlier trade rather "
+    },
+    "premier_league|Fulham|Crystal Palace|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-04T22:51:34.396538+00:00",
+      "hours_to_kickoff": 15.1,
+      "ts": "2026-09-04T22:51:34.396553+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "Fulham",
+      "away": "Crystal Palace",
+      "markets_considered": 124,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Key information gaps prevent confident assessment of the away_over_0.5: no position. Crystal Palace's attacking setup is materially uncertain due to: (1) three confirmed injury absences (Mateta, Sarr, Riad) affecting squad depth and tactical flexibility; (2) deadline deadline-day signings (Ahanor, Chilwell, Timber, Osorio) with unclear integration status; (3) insufficient clarity on whether Nketia"
     }
   },
-  "saved_at": "2026-09-04T20:47:33.811762+00:00"
+  "saved_at": "2026-09-04T22:51:34.438209+00:00"
 }
