@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 99687,
-  "reserved_cents": 0,
+  "reserved_cents": 2548,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -49871,6 +49871,105 @@
       "kickoff_utc": "2026-09-03T19:00:00",
       "settles_on_regulation": true,
       "last_checked_at": "2026-09-03T19:01:22.748252+00:00"
+    },
+    "b0a154e2-d685-46a2-bcbd-7a42fdea1f29": {
+      "order_id": "b0a154e2-d685-46a2-bcbd-7a42fdea1f29",
+      "case_id": "kalshi:KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-2:no",
+      "venue": "kalshi",
+      "instrument_id": "KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-2",
+      "side": "no",
+      "limit_price_cents": 52,
+      "requested_size": 24.0,
+      "league_id": "bundesliga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1290,
+      "created_at": "2026-09-04T01:11:45.986482+00:00",
+      "expires_at": "2026-09-04T18:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-04T01:11:45.986490+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-2:no|KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-2|no|52",
+          "reserved_cents": 1290
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_1h_total_over_1.5",
+      "home_team": "VfB Stuttgart",
+      "away_team": "FC Cologne",
+      "kickoff_utc": "2026-09-04T18:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "95f8dc71-4ead-4362-ac25-0758320e6558": {
+      "order_id": "95f8dc71-4ead-4362-ac25-0758320e6558",
+      "case_id": "kalshi:KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-1:no",
+      "venue": "kalshi",
+      "instrument_id": "KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-1",
+      "side": "no",
+      "limit_price_cents": 19,
+      "requested_size": 40.0,
+      "league_id": "bundesliga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 804,
+      "created_at": "2026-09-04T01:11:45.986625+00:00",
+      "expires_at": "2026-09-04T18:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-04T01:11:45.986629+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-1:no|KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-1|no|19",
+          "reserved_cents": 804
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_1h_total_over_0.5",
+      "home_team": "VfB Stuttgart",
+      "away_team": "FC Cologne",
+      "kickoff_utc": "2026-09-04T18:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "ab6125a6-1060-404c-8bf3-35f6bad960f0": {
+      "order_id": "ab6125a6-1060-404c-8bf3-35f6bad960f0",
+      "case_id": "kalshi:KXLIGUE11H-26SEP04OLAUX-OL:no",
+      "venue": "kalshi",
+      "instrument_id": "KXLIGUE11H-26SEP04OLAUX-OL",
+      "side": "no",
+      "limit_price_cents": 55,
+      "requested_size": 8.0,
+      "league_id": "ligue_1",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 454,
+      "created_at": "2026-09-04T01:27:57.889717+00:00",
+      "expires_at": "2026-09-04T17:00:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-04T01:27:57.889723+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLIGUE11H-26SEP04OLAUX-OL:no|KXLIGUE11H-26SEP04OLAUX-OL|no|55",
+          "reserved_cents": 454
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_1h_home_win",
+      "home_team": "Lyon",
+      "away_team": "AJ Auxerre",
+      "kickoff_utc": "2026-09-04T17:00:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
     }
   },
   "positions": {
@@ -52487,7 +52586,63 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Lille are dominant favorites with a 4-match winning streak vs Toulouse (most recent 4-0 home win), and travel to Toulouse having won 2-0 away vs Angers + drawn 2-2 vs PSG in the first three Ligue 1 matches. Toulouse lost 0-2 to Lyon at home, drew 2-2 away at Brest, and sit in early-season instability. Lille's managerial setup under Ancelotti shows early cohesion and attacking intent. Toulouse's de"
+    },
+    "bundesliga|VfB Stuttgart|FC Cologne|2026-09-04": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-04T01:11:45.986118+00:00",
+      "hours_to_kickoff": 17.3,
+      "ts": "2026-09-04T01:11:45.986137+00:00",
+      "action": "PAPER_PLACE_LIMIT",
+      "claim": "not_away_win",
+      "home": "VfB Stuttgart",
+      "away": "FC Cologne",
+      "markets_considered": 69,
+      "markets_approved": 2,
+      "decided_by": "quant",
+      "reason": "p_lower (0.8209) < breakeven_prob (0.863); negative EV at -4.21\u00a2 persists across all achievable prices. No edge."
+    },
+    "la_liga|Real Betis|Real Madrid|2026-09-04": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-04T01:17:20.265721+00:00",
+      "hours_to_kickoff": 17.7,
+      "ts": "2026-09-04T01:17:20.265741+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "Real Betis",
+      "away": "Real Madrid",
+      "markets_considered": 105,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "The position bets AGAINST a Real Madrid home win (backing Betis win/draw). However, Real Madrid enters as clear favorites with attacking strength (Bellingham, Mbapp\u00e9, Vin\u00edcius), match fitness momentum (3-0 September start: 2-1 Espanyol, 4-1 Sociedad, 4-0 M\u00e1laga), and superior squad depth despite defensive injuries. Real Betis arrives having conceded 7 goals in 3 matches including a shocking 5-2 lo"
+    },
+    "ligue_1|Lyon|AJ Auxerre|2026-09-04": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-04T01:27:57.889381+00:00",
+      "hours_to_kickoff": 15.5,
+      "ts": "2026-09-04T01:27:57.889401+00:00",
+      "action": "PAPER_PLACE_LIMIT",
+      "claim": "not_home_win",
+      "home": "Lyon",
+      "away": "AJ Auxerre",
+      "markets_considered": 64,
+      "markets_approved": 1,
+      "decided_by": "judge",
+      "reason": "approved 1 of 3 market(s): Analyst evidence (Lyon 2+ goals, strong home form, Auxerre defense in disarray, Fonseca's aggressive tactics) implies higher p(Lyon 1H win) than quant's 33% implied estimate. Tightening from 60\u00a2/10 contracts reflects analyst's fixture verdict while preserving positive EV. Market 1 is clearest expression of bearish-1H view; markets 2 and 3 are redundant restatements."
+    },
+    "premier_league|Ipswich Town|Liverpool|2026-09-04": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-04T01:31:25.793461+00:00",
+      "hours_to_kickoff": 17.5,
+      "ts": "2026-09-04T01:31:25.793477+00:00",
+      "action": "DEFER",
+      "claim": "away_win",
+      "home": "Ipswich Town",
+      "away": "Liverpool",
+      "markets_considered": 121,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Material gaps in current team state prevent confident assessment. Liverpool's offensive personnel status\u2014specifically Alexander Isak's match fitness and integration\u2014remains ambiguous despite scoring in preseason. Ipswich's squad depth concerns post\u2013Manchester United (5-2 loss) are incompletely documented. Recent form is credible (Liverpool 0W\u20132D in league start; Ipswich 1W\u20131L) but both teams appea"
     }
   },
-  "saved_at": "2026-09-03T22:01:51.896709+00:00"
+  "saved_at": "2026-09-04T01:31:25.846602+00:00"
 }
