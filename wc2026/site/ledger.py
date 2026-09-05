@@ -33,7 +33,7 @@ import datetime as dt
 import math
 import re
 
-from .model import _parse, fixture_key, fixtures, positions
+from .model import _parse, fixture_key, fixtures, is_void, positions
 
 # A fixture is in play from kick-off until the whistle plus a margin for
 # stoppage and the walk to the settlement feed. Anything still unsettled after
@@ -120,7 +120,7 @@ def open_tickets(portfolio: dict, now=None) -> list:
     now = now or dt.datetime.now(dt.timezone.utc)
     rows = {}
     for pos in positions(portfolio):
-        if pos.get("settled"):
+        if pos.get("settled") or is_void(pos):
             continue
         key = fixture_key(pos.get("league_id"), pos.get("home_team"),
                           pos.get("away_team"), pos.get("kickoff_utc"))
@@ -232,6 +232,7 @@ def columns(portfolio: dict, limit: int = 48, now=None) -> list:
             "clv_cents": row["clv_cents"],
             "n_markets": row["n_markets"],
             "n_settled": row["n_settled"],
+            "n_void": row.get("n_void") or 0,
             "n_cashed": row["n_cashed"],
             "n_unfilled": row["n_unfilled"],
             "n_orders": row["n_orders"],
@@ -250,7 +251,7 @@ def _outcome(row, now) -> str:
     if not row["acted"]:
         return "unfilled" if row["ordered"] else "declined"
     if not row["n_settled"]:
-        return "open"
+        return "void" if row.get("n_void") else "open"
     net = row["pnl_cents"]
     return "won" if net > 0 else "lost" if net < 0 else "push"
 
@@ -328,6 +329,7 @@ def settlements(portfolio: dict) -> list:
     for pos in positions(portfolio):
         if not pos.get("settled"):
             continue
+        void = is_void(pos)
         key = fixture_key(pos.get("league_id"), pos.get("home_team"),
                           pos.get("away_team"), pos.get("kickoff_utc"))
         out.append({
@@ -348,7 +350,9 @@ def settlements(portfolio: dict) -> list:
             "result": pos.get("result"),
             "payout_cents": float(pos.get("payout_cents") or 0),
             "pnl_cents": float(pos.get("realized_pnl_cents") or 0),
-            "won": float(pos.get("realized_pnl_cents") or 0) > 0,
+            "won": (not void) and float(pos.get("realized_pnl_cents") or 0) > 0,
+            "void": void,
+            "void_reason": pos.get("void_reason"),
             "opened_at": pos.get("opened_at"),
         })
     out.sort(key=lambda r: (str(r["kickoff_utc"] or ""), str(r["claim"] or "")),
@@ -368,14 +372,18 @@ def settled_fixtures(portfolio: dict) -> list:
         row["markets"].append(market)
     out = []
     for row in rows.values():
-        row["n_markets"] = len(row["markets"])
-        row["n_won"] = sum(1 for m in row["markets"] if m["won"])
-        row["pnl_cents"] = sum(m["pnl_cents"] for m in row["markets"])
-        row["staked_cents"] = sum(m["stake_cents"] for m in row["markets"])
-        scored = [float(m["clv_cents"]) for m in row["markets"]
+        counted = [m for m in row["markets"] if not m["void"]]
+        row["n_markets"] = len(counted)
+        row["n_void"] = len(row["markets"]) - len(counted)
+        row["n_won"] = sum(1 for m in counted if m["won"])
+        row["pnl_cents"] = sum(m["pnl_cents"] for m in counted)
+        row["staked_cents"] = sum(m["stake_cents"] for m in counted)
+        scored = [float(m["clv_cents"]) for m in counted
                   if m["clv_cents"] is not None]
         row["clv_cents"] = (sum(scored) / len(scored)) if scored else None
-        row["markets"].sort(key=lambda m: -m["pnl_cents"])
+        # Voids sink to the bottom: they are part of the record and not part
+        # of the result, and the reader should meet them in that order.
+        row["markets"].sort(key=lambda m: (m["void"], -m["pnl_cents"]))
         out.append(row)
     out.sort(key=lambda r: str(r["kickoff_utc"] or ""), reverse=True)
     return out

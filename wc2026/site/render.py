@@ -411,7 +411,7 @@ def run_curve(s: dict) -> str:
 
 
 BOOK_STATES = {
-    "won": "won", "lost": "lost", "push": "level",
+    "won": "won", "lost": "lost", "push": "level", "void": "voided",
     "declined": "declined", "unfilled": "ordered, never filled",
     "open": "open", "live": "in play",
 }
@@ -431,6 +431,9 @@ def _column_sentence(col) -> str:
             state, money(col["open_staked_cents"]), col["n_markets"])
     elif col["outcome"] == "unfilled":
         body = "ordered %d markets, filled none" % col["n_orders"]
+    elif col["outcome"] == "void":
+        body = "%d market%s voided, none counted" % (
+            col.get("n_void") or 0, "" if col.get("n_void") == 1 else "s")
     else:
         body = state
     clv = col["clv_cents"]
@@ -1272,6 +1275,11 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:99;
 .bar.won{bottom:50%;height:calc(var(--h) * 42px);background:var(--ink)}
 .bar.lost{top:50%;height:calc(var(--h) * 42px);background:var(--ink)}
 .bar.push{top:calc(50% - 1px);height:2px;background:var(--ink)}
+/* Voided: a result the record keeps and the measurement does not. A dash at
+   the baseline, hollow, so it reads as "this happened and counts for nothing"
+   rather than as a fixture that broke even. */
+.bar.void{top:calc(50% - 2px);height:4px;background:none;
+  box-shadow:inset 0 0 0 1px var(--ink)}
 /* Boarded and declined: holds the rhythm of the calendar, claims nothing. */
 .bar.declined{top:calc(50% - .5px);height:1px;background:var(--ink-soft)}
 /* Ordered and never reached is the MARKET's answer, not the board's. Same
@@ -1582,6 +1590,20 @@ table.settlements caption{text-align:left;padding:11px var(--s4) 0;
 table.settlements td.what{white-space:normal;min-width:190px}
 table.settlements td.verdict{font-weight:700;text-transform:capitalize}
 table.settlements td.verdict.lost{color:var(--loss)}
+table.settlements tr.void td{color:var(--ink-soft)}
+table.settlements tr.void td.what{text-decoration:line-through;
+  text-decoration-color:var(--rule)}
+table.settlements td.verdict.void{color:var(--ink-soft);font-weight:400;
+  letter-spacing:.1em;text-transform:uppercase;font-size:10.5px}
+table.settlements tr.voidwhy td{padding-top:0;font-size:11.5px;
+  color:var(--ink-mid);white-space:normal;text-wrap:pretty;
+  border-bottom:var(--rule-hair) solid var(--rule-soft)}
+table.settlements tr.voidwhy:hover{background:none}
+/* Its own line under the figure it qualifies, rather than trailing off the
+   end of one and wrapping mid-phrase. */
+.scoreline dd small{display:block;margin-top:3px;font-family:var(--dense);
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-soft)}
 table.settlements td.up{color:var(--live)}
 table.settlements td.dn{color:var(--loss)}
 table.settlements td.pos{font-weight:700}

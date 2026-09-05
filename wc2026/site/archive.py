@@ -89,8 +89,17 @@ def shell(title: str, body: str, depth: int = 1, description: str = "") -> str:
 
 # --- one fixture --------------------------------------------------------------
 def _market_row(market: dict) -> str:
+    """One market, one row. A VOID keeps every figure it had and loses the
+    two that would be claims about the model: its result and its net. It is
+    printed, struck, with the reason under it -- a record that quietly drops
+    its own mistakes is worth less than one that never had any."""
     clv = market["clv_cents"]
     close = market["closing_price_cents"]
+    void = market["void"]
+    state = "void" if void else ("won" if market["won"] else "lost")
+    reason = ("" if not void else
+              '<tr class="voidwhy"><td colspan="8">Voided &mdash; %s</td></tr>'
+              % esc(market["void_reason"] or "no reason recorded"))
     return """
       <tr class="%s">
         <td class="what">%s</td>
@@ -99,10 +108,10 @@ def _market_row(market: dict) -> str:
         <td class="tnum">%s</td>
         <td class="tnum">%s</td>
         <td class="tnum %s">%s</td>
-        <td class="verdict">%s</td>
+        <td class="verdict %s">%s</td>
         <td class="tnum %s">%s</td>
-      </tr>""" % (
-        "won" if market["won"] else "lost",
+      </tr>%s""" % (
+        state,
         esc(claim_label(str(market["claim"] or ""), market["home"],
                         market["away"])),
         esc(str(market["venue"] or "")[:4]),
@@ -111,9 +120,10 @@ def _market_row(market: dict) -> str:
         esc("—" if close is None else "%d¢" % round(float(close))),
         "up" if (clv or 0) >= 0 else "dn",
         esc(or_dash(clv, lambda v: cents(float(v)))),
-        "won" if market["won"] else "lost",
-        "pos" if market["pnl_cents"] >= 0 else "neg",
-        esc(dollars(market["pnl_cents"])))
+        state, "Void" if void else ("Won" if market["won"] else "Lost"),
+        "" if void else ("pos" if market["pnl_cents"] >= 0 else "neg"),
+        "—" if void else esc(dollars(market["pnl_cents"])),
+        reason)
 
 
 def fixture_page(row: dict, board_record: dict = None) -> str:
@@ -148,7 +158,7 @@ def fixture_page(row: dict, board_record: dict = None) -> str:
     <dl class="scoreline">
       <div><dt>Settled</dt><dd class="tnum %s">%s</dd></div>
       <div><dt>Staked</dt><dd class="tnum">%s</dd></div>
-      <div><dt>Markets</dt><dd class="tnum">%d won of %d</dd></div>
+      <div><dt>Markets</dt><dd class="tnum">%d won of %d%s</dd></div>
       <div><dt>Closing line</dt><dd class="tnum">%s</dd></div>
     </dl>
     %s
@@ -172,6 +182,8 @@ def fixture_page(row: dict, board_record: dict = None) -> str:
             "pos" if row["pnl_cents"] >= 0 else "neg",
             esc(dollars(row["pnl_cents"])),
             esc(money(row["staked_cents"])), won, row["n_markets"],
+            "" if not row.get("n_void") else
+            ("<small>%d void, not counted</small>" % row["n_void"]),
             esc(or_dash(row["clv_cents"], lambda v: cents(float(v)))),
             note, body_rows),
         description="Every market settled on %s v %s, %s."
