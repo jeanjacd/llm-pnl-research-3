@@ -1,6 +1,6 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 93136,
+  "cash_cents": 92535,
   "reserved_cents": 27736,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
@@ -50257,7 +50257,10 @@
       "away_team": "Real Madrid",
       "kickoff_utc": "2026-09-04T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-04T11:20:26.856503+00:00"
+      "last_checked_at": "2026-09-04T11:20:26.856503+00:00",
+      "void": true,
+      "void_reason": "math logic was bad",
+      "voided_at": "2026-09-05T21:30:31.428010+00:00"
     },
     "62a4d07b-b75c-46d4-82ad-55de2301e96b": {
       "order_id": "62a4d07b-b75c-46d4-82ad-55de2301e96b",
@@ -54410,7 +54413,10 @@
       "settled": true,
       "result": "no",
       "payout_cents": 1800.0,
-      "realized_pnl_cents": 601.0
+      "realized_pnl_cents": 601.0,
+      "void": true,
+      "void_reason": "math logic was bad",
+      "voided_at": "2026-09-05T21:30:31.428010+00:00"
     },
     "KXBUNDESLIGA1HTOTAL-26SEP04VFBKOE-1|no": {
       "position_id": "c2d50966-2aa7-4d8e-b28f-cc5096df7083",
@@ -55560,7 +55566,10 @@
       "payout_cents": 1800.0,
       "pnl_cents": 601.0,
       "league_id": "la_liga",
-      "case_id": "kalshi:KXLALIGA1H-26SEP04RBBRMA-RMA:no"
+      "case_id": "kalshi:KXLALIGA1H-26SEP04RBBRMA-RMA:no",
+      "void": true,
+      "void_reason": "math logic was bad",
+      "voided_at": "2026-09-05T21:30:31.428010+00:00"
     },
     {
       "ts": "2026-09-05T16:08:16.885049+00:00",
