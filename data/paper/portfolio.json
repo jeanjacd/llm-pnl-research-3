@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 100523,
-  "reserved_cents": 42,
+  "reserved_cents": 4658,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -50183,11 +50183,11 @@
       "requested_size": 0.5,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 42,
+      "reserved_cents": 0,
       "created_at": "2026-09-04T07:33:51.321915+00:00",
       "expires_at": "2026-09-04T23:30:00+00:00",
       "events": [
@@ -50196,6 +50196,10 @@
           "event": "submitted",
           "key": "polymarket:0x9239f9795f13233aa447157c80143662ff4f01e28a1f10e3fe7b28420ecfba6e:no|0x9239f9795f13233aa447157c80143662ff4f01e28a1f10e3fe7b28420ecfba6e|no|84",
           "reserved_cents": 42
+        },
+        {
+          "ts": "2026-09-05T01:01:22.553969+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -50204,7 +50208,7 @@
       "away_team": "Nashville SC",
       "kickoff_utc": "2026-09-04T23:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-04T22:01:24.603198+00:00"
+      "last_checked_at": "2026-09-05T01:01:22.064592+00:00"
     },
     "c76f46b0-1682-4d33-9ffa-8f921447e46a": {
       "order_id": "c76f46b0-1682-4d33-9ffa-8f921447e46a",
@@ -50330,6 +50334,237 @@
       "away_team": "Real Madrid",
       "kickoff_utc": "2026-09-04T19:00:00",
       "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "eec039bf-a7b4-4e16-9108-678a04fe5fcc": {
+      "order_id": "eec039bf-a7b4-4e16-9108-678a04fe5fcc",
+      "case_id": "kalshi:KXLALIGATEAMTOTAL-26SEP05ATHATM-ATH1:no",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGATEAMTOTAL-26SEP05ATHATM-ATH1",
+      "side": "no",
+      "limit_price_cents": 21,
+      "requested_size": 10.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 222,
+      "created_at": "2026-09-05T01:42:38.035162+00:00",
+      "expires_at": "2026-09-05T14:15:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T01:42:38.035169+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLALIGATEAMTOTAL-26SEP05ATHATM-ATH1:no|KXLALIGATEAMTOTAL-26SEP05ATHATM-ATH1|no|21",
+          "reserved_cents": 222
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_home_over_0.5",
+      "home_team": "Athletic Club",
+      "away_team": "Atl\u00e9tico Madrid",
+      "kickoff_utc": "2026-09-05T14:15:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "f008f9dd-19a7-4b30-b611-8f685c6b7dd3": {
+      "order_id": "f008f9dd-19a7-4b30-b611-8f685c6b7dd3",
+      "case_id": "polymarket:0x852b2dc24dea0d11f92ca59725557c049e2825904b0a4b466d8534a8cc001667:no",
+      "venue": "polymarket",
+      "instrument_id": "0x852b2dc24dea0d11f92ca59725557c049e2825904b0a4b466d8534a8cc001667",
+      "side": "no",
+      "limit_price_cents": 81,
+      "requested_size": 3.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 243,
+      "created_at": "2026-09-05T01:42:38.035298+00:00",
+      "expires_at": "2026-09-05T14:15:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T01:42:38.035302+00:00",
+          "event": "submitted",
+          "key": "polymarket:0x852b2dc24dea0d11f92ca59725557c049e2825904b0a4b466d8534a8cc001667:no|0x852b2dc24dea0d11f92ca59725557c049e2825904b0a4b466d8534a8cc001667|no|81",
+          "reserved_cents": 243
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_home_over_2.5",
+      "home_team": "Athletic Club",
+      "away_team": "Atl\u00e9tico Madrid",
+      "kickoff_utc": "2026-09-05T14:15:00+00:00",
+      "settles_on_regulation": null,
+      "last_checked_at": null
+    },
+    "e1aaa358-564d-457f-a008-cbbe6b9715d3": {
+      "order_id": "e1aaa358-564d-457f-a008-cbbe6b9715d3",
+      "case_id": "polymarket:0x823baf5ae1c7ea4c0788310daa757ce0fe8ee8288bc526fc4f65a0d7b3ec9ea9:no",
+      "venue": "polymarket",
+      "instrument_id": "0x823baf5ae1c7ea4c0788310daa757ce0fe8ee8288bc526fc4f65a0d7b3ec9ea9",
+      "side": "no",
+      "limit_price_cents": 87,
+      "requested_size": 10.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 870,
+      "created_at": "2026-09-05T01:42:38.035424+00:00",
+      "expires_at": "2026-09-05T14:15:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T01:42:38.035429+00:00",
+          "event": "submitted",
+          "key": "polymarket:0x823baf5ae1c7ea4c0788310daa757ce0fe8ee8288bc526fc4f65a0d7b3ec9ea9:no|0x823baf5ae1c7ea4c0788310daa757ce0fe8ee8288bc526fc4f65a0d7b3ec9ea9|no|87",
+          "reserved_cents": 870
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_score_3-1",
+      "home_team": "Athletic Club",
+      "away_team": "Atl\u00e9tico Madrid",
+      "kickoff_utc": "2026-09-05T14:15:00+00:00",
+      "settles_on_regulation": null,
+      "last_checked_at": null
+    },
+    "237cf636-cbf5-4be5-b62a-fd1ac8e2d23b": {
+      "order_id": "237cf636-cbf5-4be5-b62a-fd1ac8e2d23b",
+      "case_id": "polymarket:0xc14dd34de0431b7630fad28423500733a6e307b295f6d8636e7f32786c63db27:no",
+      "venue": "polymarket",
+      "instrument_id": "0xc14dd34de0431b7630fad28423500733a6e307b295f6d8636e7f32786c63db27",
+      "side": "no",
+      "limit_price_cents": 88,
+      "requested_size": 10.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 880,
+      "created_at": "2026-09-05T01:42:38.035602+00:00",
+      "expires_at": "2026-09-05T14:15:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T01:42:38.035610+00:00",
+          "event": "submitted",
+          "key": "polymarket:0xc14dd34de0431b7630fad28423500733a6e307b295f6d8636e7f32786c63db27:no|0xc14dd34de0431b7630fad28423500733a6e307b295f6d8636e7f32786c63db27|no|88",
+          "reserved_cents": 880
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_score_0-3",
+      "home_team": "Athletic Club",
+      "away_team": "Atl\u00e9tico Madrid",
+      "kickoff_utc": "2026-09-05T14:15:00+00:00",
+      "settles_on_regulation": null,
+      "last_checked_at": null
+    },
+    "2fd31829-19da-4d66-96c7-52fbf926fccf": {
+      "order_id": "2fd31829-19da-4d66-96c7-52fbf926fccf",
+      "case_id": "polymarket:0x9559d2dd688dd8db5e7c1e1be74be3be8f4d06b88ebddb32d5058df295421b27:no",
+      "venue": "polymarket",
+      "instrument_id": "0x9559d2dd688dd8db5e7c1e1be74be3be8f4d06b88ebddb32d5058df295421b27",
+      "side": "no",
+      "limit_price_cents": 84,
+      "requested_size": 10.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 840,
+      "created_at": "2026-09-05T01:42:38.035735+00:00",
+      "expires_at": "2026-09-05T14:15:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T01:42:38.035739+00:00",
+          "event": "submitted",
+          "key": "polymarket:0x9559d2dd688dd8db5e7c1e1be74be3be8f4d06b88ebddb32d5058df295421b27:no|0x9559d2dd688dd8db5e7c1e1be74be3be8f4d06b88ebddb32d5058df295421b27|no|84",
+          "reserved_cents": 840
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_score_2-1",
+      "home_team": "Athletic Club",
+      "away_team": "Atl\u00e9tico Madrid",
+      "kickoff_utc": "2026-09-05T14:15:00+00:00",
+      "settles_on_regulation": null,
+      "last_checked_at": null
+    },
+    "100b0e4c-6b4d-4143-9e40-04778efe5200": {
+      "order_id": "100b0e4c-6b4d-4143-9e40-04778efe5200",
+      "case_id": "kalshi:KXLALIGASCORE-26SEP05ATHATM-ATH1ATM0:no",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGASCORE-26SEP05ATHATM-ATH1ATM0",
+      "side": "no",
+      "limit_price_cents": 81,
+      "requested_size": 8.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 657,
+      "created_at": "2026-09-05T01:42:38.035878+00:00",
+      "expires_at": "2026-09-05T14:15:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T01:42:38.035883+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLALIGASCORE-26SEP05ATHATM-ATH1ATM0:no|KXLALIGASCORE-26SEP05ATHATM-ATH1ATM0|no|81",
+          "reserved_cents": 657
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_score_1-0",
+      "home_team": "Athletic Club",
+      "away_team": "Atl\u00e9tico Madrid",
+      "kickoff_utc": "2026-09-05T14:15:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "eaa4a2ff-8754-4314-a6f4-6256ae466cab": {
+      "order_id": "eaa4a2ff-8754-4314-a6f4-6256ae466cab",
+      "case_id": "polymarket:0x77fc1e122454d63d7fdb3d5f83f8108aae1cbfcccd8b8b98ea17b1a816ffa744:no",
+      "venue": "polymarket",
+      "instrument_id": "0x77fc1e122454d63d7fdb3d5f83f8108aae1cbfcccd8b8b98ea17b1a816ffa744",
+      "side": "no",
+      "limit_price_cents": 86,
+      "requested_size": 11.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 946,
+      "created_at": "2026-09-05T01:42:38.036014+00:00",
+      "expires_at": "2026-09-05T14:15:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T01:42:38.036018+00:00",
+          "event": "submitted",
+          "key": "polymarket:0x77fc1e122454d63d7fdb3d5f83f8108aae1cbfcccd8b8b98ea17b1a816ffa744:no|0x77fc1e122454d63d7fdb3d5f83f8108aae1cbfcccd8b8b98ea17b1a816ffa744|no|86",
+          "reserved_cents": 946
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_score_2-0",
+      "home_team": "Athletic Club",
+      "away_team": "Atl\u00e9tico Madrid",
+      "kickoff_utc": "2026-09-05T14:15:00+00:00",
+      "settles_on_regulation": null,
       "last_checked_at": null
     }
   },
@@ -53423,7 +53658,119 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Key information gaps prevent confident assessment of the away_over_0.5: no position. Crystal Palace's attacking setup is materially uncertain due to: (1) three confirmed injury absences (Mateta, Sarr, Riad) affecting squad depth and tactical flexibility; (2) deadline deadline-day signings (Ahanor, Chilwell, Timber, Osorio) with unclear integration status; (3) insufficient clarity on whether Nketia"
+    },
+    "premier_league|Brighton & Hove Albion|Leeds United|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T01:14:32.352248+00:00",
+      "hours_to_kickoff": 12.8,
+      "ts": "2026-09-05T01:14:32.352268+00:00",
+      "action": "DEFER",
+      "claim": "not_draw",
+      "home": "Brighton & Hove Albion",
+      "away": "Leeds United",
+      "markets_considered": 121,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Multiple critical sporting uncertainties prevent reliable assessment. Brighton carries exceptionally heavy injury load (7 confirmed out, 2 doubtful) including key creative/attacking players (Mitoma, Minteh, Rutter, Ferguson, Tzimas, Wieffer). Leeds also compromised (Joe Rodon 8\u201310 weeks out, Gudmundsson hamstring risk). Brighton's recent defensive instability (7 conceded in 2 matches despite stron"
+    },
+    "premier_league|Brentford|Sunderland|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T01:19:33.466877+00:00",
+      "hours_to_kickoff": 12.7,
+      "ts": "2026-09-05T01:19:33.466895+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "Brentford",
+      "away": "Sunderland",
+      "markets_considered": 127,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Brentford's unbeaten, high-volume attacking start (3-0 Tottenham, 24 shots/90, 48 PL shots) faces Sunderland's away vulnerability in London (3 goals conceded in each of last 3 London away fixtures). Tactical mismatch favors Brentford's press vs Sunderland's passive defensive structure. Early integration of Fofana/Danso untested. Europa League fixture Sept 16 creates fatigue management risk for vis"
+    },
+    "la_liga|Athletic Club|Atl\u00e9tico Madrid|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T01:42:38.034833+00:00",
+      "hours_to_kickoff": 12.5,
+      "ts": "2026-09-05T01:42:38.034848+00:00",
+      "action": "PAPER_PLACE_LIMIT",
+      "claim": "not_away_win",
+      "home": "Athletic Club",
+      "away": "Atl\u00e9tico Madrid",
+      "markets_considered": 126,
+      "markets_approved": 8,
+      "decided_by": "judge",
+      "reason": "approved 8 of 59 market(s): Shorting away_win contradicts soccer analyst ACCEPT verdict. Atl\u00e9tico Madrid clear favorites with superior form (3rd/7pts vs 12th/3pts), rest, fitness, and head-to-head edge. -5% ROI insufficient to overcome conviction in away dominance."
+    },
+    "ligue_1|Lens|Lorient|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T01:46:17.269408+00:00",
+      "hours_to_kickoff": 13.5,
+      "ts": "2026-09-05T01:46:17.269427+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "Lens",
+      "away": "Lorient",
+      "markets_considered": 119,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "The 'no home win' position rests on assumptions that do not survive scrutiny. Lens, despite defensive disarray, demonstrates superior attacking capacity and tactical coherence under Toppm\u00f6ller, evidenced by the PSG triumph (1-0) and 5-2 rout of Auxerre. Lorient's single point and 1-2 loss to promoted Troyes expose structural fragility. Lens's sole recent loss (2-1 to Strasbourg) featured defensive"
+    },
+    "bundesliga|Schalke 04|Bayern Munich|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T01:50:23.213549+00:00",
+      "hours_to_kickoff": 14.7,
+      "ts": "2026-09-05T01:50:23.213570+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "Schalke 04",
+      "away": "Bayern Munich",
+      "markets_considered": 104,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Multiple critical unknowns about team readiness prevent confident assessment of away-win likelihood. Bayern's Musiala status unconfirmed at match time despite squad recall reports. Alphonso Davies' actual availability unclear (conflicting ACL/hamstring injury recovery timelines). Schalke's exact first-game squad unclear\u2014Gosens recovery status and other absences not definitively resolved for this f"
+    },
+    "la_liga|Rayo Vallecano|Racing Santander|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T01:53:54.884413+00:00",
+      "hours_to_kickoff": 14.6,
+      "ts": "2026-09-05T01:53:54.884431+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "Rayo Vallecano",
+      "away": "Racing Santander",
+      "markets_considered": 127,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Critical pre-match data integrity issues prevent confident assessment: Rayo's injury list scope (5 players reported missing, including captain Palaz\u00f3n) and defensive baseline are poorly defined; Racing's road record remains untested at La Liga level as a newly promoted side (only 3 fixtures played so far); head-to-head history (Rayo 7-6 Racing) is stale (last 4 meetings favor Rayo heavily: 3-0-1),"
+    },
+    "premier_league|Hull City|Aston Villa|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T01:58:18.985803+00:00",
+      "hours_to_kickoff": 14.5,
+      "ts": "2026-09-05T01:58:18.985823+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "Hull City",
+      "away": "Aston Villa",
+      "markets_considered": 125,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Hull City's form and current squad strength are materially stronger than Aston Villa's crisis state. Hull has won both PL matches without conceding, features a settled defense, and achieved a record for newly-promoted teams. Aston Villa has lost 0-4 to Brighton and 0-1 to Arsenal, lost star forward Ollie Watkins to Saudi Arabia, sold six Europa League final starters (Konsa, Luiz, and others), and "
+    },
+    "ligue_1|Nice|Le Mans|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T02:02:34.951718+00:00",
+      "hours_to_kickoff": 16.7,
+      "ts": "2026-09-05T02:02:34.951737+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "Nice",
+      "away": "Le Mans",
+      "markets_considered": 116,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "The 'no home win' position assumes Nice cannot win. However, material sporting factors create elevated win probability for Nice: (1) home advantage at Allianz Riviera; (2) solid recent home defense; (3) Le Mans arrives with significant defensive personnel losses (Yohou, Colas, Larouci sidelined; Sidibe suspended); (4) Nice's prior 0-3 home loss to Paris FC, while severe, likely triggered tactical/"
     }
   },
-  "saved_at": "2026-09-04T22:51:34.438209+00:00"
+  "saved_at": "2026-09-05T02:02:35.005031+00:00"
 }
