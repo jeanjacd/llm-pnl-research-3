@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 100523,
-  "reserved_cents": 4658,
+  "reserved_cents": 14806,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -50367,7 +50367,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-05T04:01:12.914432+00:00"
     },
     "f008f9dd-19a7-4b30-b611-8f685c6b7dd3": {
       "order_id": "f008f9dd-19a7-4b30-b611-8f685c6b7dd3",
@@ -50400,7 +50400,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-05T04:01:12.914432+00:00"
     },
     "e1aaa358-564d-457f-a008-cbbe6b9715d3": {
       "order_id": "e1aaa358-564d-457f-a008-cbbe6b9715d3",
@@ -50433,7 +50433,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-05T04:01:12.914432+00:00"
     },
     "237cf636-cbf5-4be5-b62a-fd1ac8e2d23b": {
       "order_id": "237cf636-cbf5-4be5-b62a-fd1ac8e2d23b",
@@ -50466,7 +50466,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-05T04:01:12.914432+00:00"
     },
     "2fd31829-19da-4d66-96c7-52fbf926fccf": {
       "order_id": "2fd31829-19da-4d66-96c7-52fbf926fccf",
@@ -50499,7 +50499,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-05T04:01:12.914432+00:00"
     },
     "100b0e4c-6b4d-4143-9e40-04778efe5200": {
       "order_id": "100b0e4c-6b4d-4143-9e40-04778efe5200",
@@ -50532,7 +50532,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-05T04:01:12.914432+00:00"
     },
     "eaa4a2ff-8754-4314-a6f4-6256ae466cab": {
       "order_id": "eaa4a2ff-8754-4314-a6f4-6256ae466cab",
@@ -50564,6 +50564,270 @@
       "home_team": "Athletic Club",
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
+      "settles_on_regulation": null,
+      "last_checked_at": "2026-09-05T04:01:12.914432+00:00"
+    },
+    "d78c4890-4473-4233-9176-1e2de6a64395": {
+      "order_id": "d78c4890-4473-4233-9176-1e2de6a64395",
+      "case_id": "kalshi:KXLIGUE1GAME-26SEP05HACSTB-HAC:yes",
+      "venue": "kalshi",
+      "instrument_id": "KXLIGUE1GAME-26SEP05HACSTB-HAC",
+      "side": "yes",
+      "limit_price_cents": 31,
+      "requested_size": 40.0,
+      "league_id": "ligue_1",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1300,
+      "created_at": "2026-09-05T04:12:16.141757+00:00",
+      "expires_at": "2026-09-05T18:45:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T04:12:16.141764+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLIGUE1GAME-26SEP05HACSTB-HAC:yes|KXLIGUE1GAME-26SEP05HACSTB-HAC|yes|31",
+          "reserved_cents": 1300
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "home_win",
+      "home_team": "Le Havre AC",
+      "away_team": "Brest",
+      "kickoff_utc": "2026-09-05T18:45:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "81fc5264-36b1-4132-8eab-adc9c4197dfb": {
+      "order_id": "81fc5264-36b1-4132-8eab-adc9c4197dfb",
+      "case_id": "kalshi:KXLIGUE1GAME-26SEP05HACSTB-STB:no",
+      "venue": "kalshi",
+      "instrument_id": "KXLIGUE1GAME-26SEP05HACSTB-STB",
+      "side": "no",
+      "limit_price_cents": 59,
+      "requested_size": 21.0,
+      "league_id": "ligue_1",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1275,
+      "created_at": "2026-09-05T04:12:16.141910+00:00",
+      "expires_at": "2026-09-05T18:45:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T04:12:16.141913+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLIGUE1GAME-26SEP05HACSTB-STB:no|KXLIGUE1GAME-26SEP05HACSTB-STB|no|59",
+          "reserved_cents": 1275
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_away_win",
+      "home_team": "Le Havre AC",
+      "away_team": "Brest",
+      "kickoff_utc": "2026-09-05T18:45:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "97f200c4-6d4a-4dae-a7f8-6bbb0ced083d": {
+      "order_id": "97f200c4-6d4a-4dae-a7f8-6bbb0ced083d",
+      "case_id": "kalshi:KXLIGUE1GAME-26SEP05HACSTB-TIE:no",
+      "venue": "kalshi",
+      "instrument_id": "KXLIGUE1GAME-26SEP05HACSTB-TIE",
+      "side": "no",
+      "limit_price_cents": 64,
+      "requested_size": 19.0,
+      "league_id": "ligue_1",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1247,
+      "created_at": "2026-09-05T04:12:16.141985+00:00",
+      "expires_at": "2026-09-05T18:45:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T04:12:16.141988+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLIGUE1GAME-26SEP05HACSTB-TIE:no|KXLIGUE1GAME-26SEP05HACSTB-TIE|no|64",
+          "reserved_cents": 1247
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_draw",
+      "home_team": "Le Havre AC",
+      "away_team": "Brest",
+      "kickoff_utc": "2026-09-05T18:45:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "f87cd02b-aa83-4ece-8ad9-a2cf32ce9304": {
+      "order_id": "f87cd02b-aa83-4ece-8ad9-a2cf32ce9304",
+      "case_id": "kalshi:KXLIGUE1GAME-26SEP05HACSTB-TIE:yes",
+      "venue": "kalshi",
+      "instrument_id": "KXLIGUE1GAME-26SEP05HACSTB-TIE",
+      "side": "yes",
+      "limit_price_cents": 20,
+      "requested_size": 62.0,
+      "league_id": "ligue_1",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1310,
+      "created_at": "2026-09-05T04:12:16.142057+00:00",
+      "expires_at": "2026-09-05T18:45:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T04:12:16.142059+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLIGUE1GAME-26SEP05HACSTB-TIE:yes|KXLIGUE1GAME-26SEP05HACSTB-TIE|yes|20",
+          "reserved_cents": 1310
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "draw",
+      "home_team": "Le Havre AC",
+      "away_team": "Brest",
+      "kickoff_utc": "2026-09-05T18:45:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "7cf1913d-2911-40be-86c1-3f84e0350b05": {
+      "order_id": "7cf1913d-2911-40be-86c1-3f84e0350b05",
+      "case_id": "kalshi:KXEPLGAME-26SEP05NEWBOU-TIE:no",
+      "venue": "kalshi",
+      "instrument_id": "KXEPLGAME-26SEP05NEWBOU-TIE",
+      "side": "no",
+      "limit_price_cents": 67,
+      "requested_size": 18.0,
+      "league_id": "premier_league",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1234,
+      "created_at": "2026-09-05T04:12:16.142463+00:00",
+      "expires_at": "2026-09-05T11:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T04:12:16.142469+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXEPLGAME-26SEP05NEWBOU-TIE:no|KXEPLGAME-26SEP05NEWBOU-TIE|no|67",
+          "reserved_cents": 1234
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_draw",
+      "home_team": "Newcastle United",
+      "away_team": "AFC Bournemouth",
+      "kickoff_utc": "2026-09-05T11:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "9b07bbb4-d2a4-48ce-86b3-8c77edf29935": {
+      "order_id": "9b07bbb4-d2a4-48ce-86b3-8c77edf29935",
+      "case_id": "kalshi:KXEPLGAME-26SEP05NEWBOU-BOU:yes",
+      "venue": "kalshi",
+      "instrument_id": "KXEPLGAME-26SEP05NEWBOU-BOU",
+      "side": "yes",
+      "limit_price_cents": 21,
+      "requested_size": 59.0,
+      "league_id": "premier_league",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1308,
+      "created_at": "2026-09-05T04:12:16.142574+00:00",
+      "expires_at": "2026-09-05T11:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T04:12:16.142577+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXEPLGAME-26SEP05NEWBOU-BOU:yes|KXEPLGAME-26SEP05NEWBOU-BOU|yes|21",
+          "reserved_cents": 1308
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "away_win",
+      "home_team": "Newcastle United",
+      "away_team": "AFC Bournemouth",
+      "kickoff_utc": "2026-09-05T11:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "2d1cde6d-a190-443a-a72b-73ada96ec29b": {
+      "order_id": "2d1cde6d-a190-443a-a72b-73ada96ec29b",
+      "case_id": "polymarket:0xe02bca1d967a13fa2d6ddc2aa948d23f0836f7c1ba7f152fc93b154e66d566d4:no",
+      "venue": "polymarket",
+      "instrument_id": "0xe02bca1d967a13fa2d6ddc2aa948d23f0836f7c1ba7f152fc93b154e66d566d4",
+      "side": "no",
+      "limit_price_cents": 69,
+      "requested_size": 18.0,
+      "league_id": "premier_league",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1242,
+      "created_at": "2026-09-05T04:12:16.142655+00:00",
+      "expires_at": "2026-09-05T11:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T04:12:16.142658+00:00",
+          "event": "submitted",
+          "key": "polymarket:0xe02bca1d967a13fa2d6ddc2aa948d23f0836f7c1ba7f152fc93b154e66d566d4:no|0xe02bca1d967a13fa2d6ddc2aa948d23f0836f7c1ba7f152fc93b154e66d566d4|no|69",
+          "reserved_cents": 1242
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_draw",
+      "home_team": "Newcastle United",
+      "away_team": "AFC Bournemouth",
+      "kickoff_utc": "2026-09-05T11:30:00+00:00",
+      "settles_on_regulation": null,
+      "last_checked_at": null
+    },
+    "a0b5a588-c79b-4b05-839e-fee25c3c93d3": {
+      "order_id": "a0b5a588-c79b-4b05-839e-fee25c3c93d3",
+      "case_id": "polymarket:0x5b37bcfc5297f6059ef3059308bd75c1824fa07db98c7dcca0f7676e5af9170b:yes",
+      "venue": "polymarket",
+      "instrument_id": "0x5b37bcfc5297f6059ef3059308bd75c1824fa07db98c7dcca0f7676e5af9170b",
+      "side": "yes",
+      "limit_price_cents": 22,
+      "requested_size": 56.0,
+      "league_id": "premier_league",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1232,
+      "created_at": "2026-09-05T04:12:16.142726+00:00",
+      "expires_at": "2026-09-05T11:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T04:12:16.142729+00:00",
+          "event": "submitted",
+          "key": "polymarket:0x5b37bcfc5297f6059ef3059308bd75c1824fa07db98c7dcca0f7676e5af9170b:yes|0x5b37bcfc5297f6059ef3059308bd75c1824fa07db98c7dcca0f7676e5af9170b|yes|22",
+          "reserved_cents": 1232
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "away_win",
+      "home_team": "Newcastle United",
+      "away_team": "AFC Bournemouth",
+      "kickoff_utc": "2026-09-05T11:30:00+00:00",
       "settles_on_regulation": null,
       "last_checked_at": null
     }
@@ -53534,18 +53798,18 @@
       "reason": "Negative EV -3.28\u00a2; market pricing (75\u00a2 YES) sits at upper bound of model confidence. Fee structure eliminates edge."
     },
     "premier_league|Newcastle United|AFC Bournemouth|2026-09-05": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-04T19:07:45.460734+00:00",
-      "hours_to_kickoff": 16.4,
-      "ts": "2026-09-04T19:07:45.460755+00:00",
-      "action": "DEFER",
+      "hours_to_kickoff": 7.3,
+      "ts": "2026-09-05T04:12:16.142312+00:00",
+      "action": "PAPER_PLACE_LIMIT",
       "claim": "not_draw",
       "home": "Newcastle United",
       "away": "AFC Bournemouth",
-      "markets_considered": 121,
-      "markets_approved": 0,
-      "decided_by": "coach",
-      "reason": "Material gaps in confirmed injury/availability status prevent reliable simulation. Newcastle's defensive capacity is uncertain due to unconfirmed Botman status and multiple injury doubts (Joelinton, Dan Burn, Osula, Bruno Guimar\u00e3es). Bournemouth's recent draw pattern (4 draws in last 5) suggests structural factors not yet characterised. Critical: no confirmed lineups available; predicted XIs sugge"
+      "markets_considered": 129,
+      "markets_approved": 129,
+      "decided_by": "deterministic",
+      "reason": "board disabled"
     },
     "bundesliga|SC Paderborn 07|SC Freiburg|2026-09-05": {
       "attempts": 1,
@@ -53770,7 +54034,21 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "The 'no home win' position assumes Nice cannot win. However, material sporting factors create elevated win probability for Nice: (1) home advantage at Allianz Riviera; (2) solid recent home defense; (3) Le Mans arrives with significant defensive personnel losses (Yohou, Colas, Larouci sidelined; Sidibe suspended); (4) Nice's prior 0-3 home loss to Paris FC, while severe, likely triggered tactical/"
+    },
+    "ligue_1|Le Havre AC|Brest|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T04:12:16.141393+00:00",
+      "hours_to_kickoff": 14.5,
+      "ts": "2026-09-05T04:12:16.141415+00:00",
+      "action": "PAPER_PLACE_LIMIT",
+      "claim": "home_win",
+      "home": "Le Havre AC",
+      "away": "Brest",
+      "markets_considered": 65,
+      "markets_approved": 65,
+      "decided_by": "deterministic",
+      "reason": "board disabled"
     }
   },
-  "saved_at": "2026-09-05T02:02:35.005031+00:00"
+  "saved_at": "2026-09-05T04:12:16.175366+00:00"
 }
