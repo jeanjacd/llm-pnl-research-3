@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 94582,
-  "reserved_cents": 49923,
+  "reserved_cents": 43632,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -50367,7 +50367,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "f008f9dd-19a7-4b30-b611-8f685c6b7dd3": {
       "order_id": "f008f9dd-19a7-4b30-b611-8f685c6b7dd3",
@@ -50400,7 +50400,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "e1aaa358-564d-457f-a008-cbbe6b9715d3": {
       "order_id": "e1aaa358-564d-457f-a008-cbbe6b9715d3",
@@ -50433,7 +50433,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "237cf636-cbf5-4be5-b62a-fd1ac8e2d23b": {
       "order_id": "237cf636-cbf5-4be5-b62a-fd1ac8e2d23b",
@@ -50466,7 +50466,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "2fd31829-19da-4d66-96c7-52fbf926fccf": {
       "order_id": "2fd31829-19da-4d66-96c7-52fbf926fccf",
@@ -50499,7 +50499,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "100b0e4c-6b4d-4143-9e40-04778efe5200": {
       "order_id": "100b0e4c-6b4d-4143-9e40-04778efe5200",
@@ -50532,7 +50532,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "eaa4a2ff-8754-4314-a6f4-6256ae466cab": {
       "order_id": "eaa4a2ff-8754-4314-a6f4-6256ae466cab",
@@ -50565,7 +50565,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "d78c4890-4473-4233-9176-1e2de6a64395": {
       "order_id": "d78c4890-4473-4233-9176-1e2de6a64395",
@@ -50598,7 +50598,7 @@
       "away_team": "Brest",
       "kickoff_utc": "2026-09-05T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "81fc5264-36b1-4132-8eab-adc9c4197dfb": {
       "order_id": "81fc5264-36b1-4132-8eab-adc9c4197dfb",
@@ -50631,7 +50631,7 @@
       "away_team": "Brest",
       "kickoff_utc": "2026-09-05T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "97f200c4-6d4a-4dae-a7f8-6bbb0ced083d": {
       "order_id": "97f200c4-6d4a-4dae-a7f8-6bbb0ced083d",
@@ -50664,7 +50664,7 @@
       "away_team": "Brest",
       "kickoff_utc": "2026-09-05T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "f87cd02b-aa83-4ece-8ad9-a2cf32ce9304": {
       "order_id": "f87cd02b-aa83-4ece-8ad9-a2cf32ce9304",
@@ -50697,7 +50697,7 @@
       "away_team": "Brest",
       "kickoff_utc": "2026-09-05T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "7cf1913d-2911-40be-86c1-3f84e0350b05": {
       "order_id": "7cf1913d-2911-40be-86c1-3f84e0350b05",
@@ -50709,11 +50709,11 @@
       "requested_size": 18.0,
       "league_id": "premier_league",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1234,
+      "reserved_cents": 0,
       "created_at": "2026-09-05T04:12:16.142463+00:00",
       "expires_at": "2026-09-05T11:30:00+00:00",
       "events": [
@@ -50722,6 +50722,10 @@
           "event": "submitted",
           "key": "kalshi:KXEPLGAME-26SEP05NEWBOU-TIE:no|KXEPLGAME-26SEP05NEWBOU-TIE|no|67",
           "reserved_cents": 1234
+        },
+        {
+          "ts": "2026-09-05T13:01:35.253631+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -50730,7 +50734,7 @@
       "away_team": "AFC Bournemouth",
       "kickoff_utc": "2026-09-05T11:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "9b07bbb4-d2a4-48ce-86b3-8c77edf29935": {
       "order_id": "9b07bbb4-d2a4-48ce-86b3-8c77edf29935",
@@ -50742,11 +50746,11 @@
       "requested_size": 59.0,
       "league_id": "premier_league",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1308,
+      "reserved_cents": 0,
       "created_at": "2026-09-05T04:12:16.142574+00:00",
       "expires_at": "2026-09-05T11:30:00+00:00",
       "events": [
@@ -50755,6 +50759,10 @@
           "event": "submitted",
           "key": "kalshi:KXEPLGAME-26SEP05NEWBOU-BOU:yes|KXEPLGAME-26SEP05NEWBOU-BOU|yes|21",
           "reserved_cents": 1308
+        },
+        {
+          "ts": "2026-09-05T13:01:35.253639+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -50763,7 +50771,7 @@
       "away_team": "AFC Bournemouth",
       "kickoff_utc": "2026-09-05T11:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "2d1cde6d-a190-443a-a72b-73ada96ec29b": {
       "order_id": "2d1cde6d-a190-443a-a72b-73ada96ec29b",
@@ -50775,11 +50783,11 @@
       "requested_size": 18.0,
       "league_id": "premier_league",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1242,
+      "reserved_cents": 0,
       "created_at": "2026-09-05T04:12:16.142655+00:00",
       "expires_at": "2026-09-05T11:30:00+00:00",
       "events": [
@@ -50788,6 +50796,10 @@
           "event": "submitted",
           "key": "polymarket:0xe02bca1d967a13fa2d6ddc2aa948d23f0836f7c1ba7f152fc93b154e66d566d4:no|0xe02bca1d967a13fa2d6ddc2aa948d23f0836f7c1ba7f152fc93b154e66d566d4|no|69",
           "reserved_cents": 1242
+        },
+        {
+          "ts": "2026-09-05T13:01:35.253643+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -50796,7 +50808,7 @@
       "away_team": "AFC Bournemouth",
       "kickoff_utc": "2026-09-05T11:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "a0b5a588-c79b-4b05-839e-fee25c3c93d3": {
       "order_id": "a0b5a588-c79b-4b05-839e-fee25c3c93d3",
@@ -50808,11 +50820,11 @@
       "requested_size": 56.0,
       "league_id": "premier_league",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1232,
+      "reserved_cents": 0,
       "created_at": "2026-09-05T04:12:16.142726+00:00",
       "expires_at": "2026-09-05T11:30:00+00:00",
       "events": [
@@ -50821,6 +50833,10 @@
           "event": "submitted",
           "key": "polymarket:0x5b37bcfc5297f6059ef3059308bd75c1824fa07db98c7dcca0f7676e5af9170b:yes|0x5b37bcfc5297f6059ef3059308bd75c1824fa07db98c7dcca0f7676e5af9170b|yes|22",
           "reserved_cents": 1232
+        },
+        {
+          "ts": "2026-09-05T13:01:35.253647+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -50829,7 +50845,7 @@
       "away_team": "AFC Bournemouth",
       "kickoff_utc": "2026-09-05T11:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "66781bf2-8014-4302-beb4-b7053992783b": {
       "order_id": "66781bf2-8014-4302-beb4-b7053992783b",
@@ -50841,11 +50857,11 @@
       "requested_size": 21.0,
       "league_id": "premier_league",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1275,
+      "reserved_cents": 0,
       "created_at": "2026-09-05T07:26:49.032770+00:00",
       "expires_at": "2026-09-05T11:30:00+00:00",
       "events": [
@@ -50854,6 +50870,10 @@
           "event": "submitted",
           "key": "kalshi:KXEPL1HTOTAL-26SEP05NEWBOU-2:no|KXEPL1HTOTAL-26SEP05NEWBOU-2|no|59",
           "reserved_cents": 1275
+        },
+        {
+          "ts": "2026-09-05T13:01:35.253651+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -50862,7 +50882,7 @@
       "away_team": "AFC Bournemouth",
       "kickoff_utc": "2026-09-05T11:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "75a68bd0-6def-45a9-9aaa-1fee7201e8e0": {
       "order_id": "75a68bd0-6def-45a9-9aaa-1fee7201e8e0",
@@ -50895,7 +50915,7 @@
       "away_team": "RB Leipzig",
       "kickoff_utc": "2026-09-05T13:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "6fbd8a16-98c7-497b-bbf7-1c4d04e9dba2": {
       "order_id": "6fbd8a16-98c7-497b-bbf7-1c4d04e9dba2",
@@ -50928,7 +50948,7 @@
       "away_team": "RB Leipzig",
       "kickoff_utc": "2026-09-05T13:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "9299be69-44ae-4d0e-981d-eb22ba1a4153": {
       "order_id": "9299be69-44ae-4d0e-981d-eb22ba1a4153",
@@ -51001,7 +51021,7 @@
       "away_team": "RB Leipzig",
       "kickoff_utc": "2026-09-05T13:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "bdd5a289-c113-4f37-8254-de6c37202105": {
       "order_id": "bdd5a289-c113-4f37-8254-de6c37202105",
@@ -51034,7 +51054,7 @@
       "away_team": "RB Leipzig",
       "kickoff_utc": "2026-09-05T13:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "26790515-f3b8-4a37-9f7d-3c28b88733c7": {
       "order_id": "26790515-f3b8-4a37-9f7d-3c28b88733c7",
@@ -51067,7 +51087,7 @@
       "away_team": "Crystal Palace",
       "kickoff_utc": "2026-09-05T14:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "304c2e07-aee0-4fec-800d-e7f1789a191f": {
       "order_id": "304c2e07-aee0-4fec-800d-e7f1789a191f",
@@ -51100,7 +51120,7 @@
       "away_team": "Crystal Palace",
       "kickoff_utc": "2026-09-05T14:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "873b6ed6-ac99-4bee-afa9-d4cf1e711a58": {
       "order_id": "873b6ed6-ac99-4bee-afa9-d4cf1e711a58",
@@ -51133,7 +51153,7 @@
       "away_team": "Crystal Palace",
       "kickoff_utc": "2026-09-05T14:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "3f2a97b1-5716-4755-a084-313a3be50faf": {
       "order_id": "3f2a97b1-5716-4755-a084-313a3be50faf",
@@ -51166,7 +51186,7 @@
       "away_team": "Crystal Palace",
       "kickoff_utc": "2026-09-05T14:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "5710bfd5-fb87-48d9-913e-b0bf0c2eb861": {
       "order_id": "5710bfd5-fb87-48d9-913e-b0bf0c2eb861",
@@ -51199,7 +51219,7 @@
       "away_team": "Leeds United",
       "kickoff_utc": "2026-09-05T14:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "56ea8aee-3d5a-4d3d-8644-94367e419805": {
       "order_id": "56ea8aee-3d5a-4d3d-8644-94367e419805",
@@ -51232,7 +51252,7 @@
       "away_team": "Leeds United",
       "kickoff_utc": "2026-09-05T14:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "c67ac338-368c-45b3-8ee7-530dd21f704b": {
       "order_id": "c67ac338-368c-45b3-8ee7-530dd21f704b",
@@ -51265,7 +51285,7 @@
       "away_team": "Leeds United",
       "kickoff_utc": "2026-09-05T14:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "b1cf19e8-3ed9-4618-a5b7-1691bbdb3a18": {
       "order_id": "b1cf19e8-3ed9-4618-a5b7-1691bbdb3a18",
@@ -51298,7 +51318,7 @@
       "away_team": "Leeds United",
       "kickoff_utc": "2026-09-05T14:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "e8cf3032-eb0f-4018-baae-de806c30874d": {
       "order_id": "e8cf3032-eb0f-4018-baae-de806c30874d",
@@ -51331,7 +51351,7 @@
       "away_team": "Sunderland",
       "kickoff_utc": "2026-09-05T14:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "e10f448e-3c90-486e-b116-6772e5502d8c": {
       "order_id": "e10f448e-3c90-486e-b116-6772e5502d8c",
@@ -51364,7 +51384,7 @@
       "away_team": "Sunderland",
       "kickoff_utc": "2026-09-05T14:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "db5d7b16-554b-4c64-9c82-b92b46b2f295": {
       "order_id": "db5d7b16-554b-4c64-9c82-b92b46b2f295",
@@ -51397,7 +51417,7 @@
       "away_team": "Sunderland",
       "kickoff_utc": "2026-09-05T14:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "782685a3-eae2-4124-81d3-738aec7ea5db": {
       "order_id": "782685a3-eae2-4124-81d3-738aec7ea5db",
@@ -51430,7 +51450,7 @@
       "away_team": "Sunderland",
       "kickoff_utc": "2026-09-05T14:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "3220e69c-2c59-42f0-bf42-c627e8854444": {
       "order_id": "3220e69c-2c59-42f0-bf42-c627e8854444",
@@ -51463,7 +51483,7 @@
       "away_team": "Lorient",
       "kickoff_utc": "2026-09-05T15:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "108339f2-85ed-42c1-8e1c-3f52ed5bac03": {
       "order_id": "108339f2-85ed-42c1-8e1c-3f52ed5bac03",
@@ -51496,7 +51516,7 @@
       "away_team": "Lorient",
       "kickoff_utc": "2026-09-05T15:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "568c5382-46d7-426b-8da5-4f9d5e77bbf4": {
       "order_id": "568c5382-46d7-426b-8da5-4f9d5e77bbf4",
@@ -51529,7 +51549,7 @@
       "away_team": "Lorient",
       "kickoff_utc": "2026-09-05T15:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "bb10d4d0-579e-4853-b536-c632b9731c83": {
       "order_id": "bb10d4d0-579e-4853-b536-c632b9731c83",
@@ -51562,7 +51582,7 @@
       "away_team": "Lorient",
       "kickoff_utc": "2026-09-05T15:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "1fef40b8-e98a-41d5-86e5-635d1b150153": {
       "order_id": "1fef40b8-e98a-41d5-86e5-635d1b150153",
@@ -51595,7 +51615,7 @@
       "away_team": "Bayern Munich",
       "kickoff_utc": "2026-09-05T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "becfaeaa-f150-4931-bed3-8ac2e587380f": {
       "order_id": "becfaeaa-f150-4931-bed3-8ac2e587380f",
@@ -51628,7 +51648,7 @@
       "away_team": "Bayern Munich",
       "kickoff_utc": "2026-09-05T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "cc396377-35a7-403d-a34e-486a872b3593": {
       "order_id": "cc396377-35a7-403d-a34e-486a872b3593",
@@ -51661,7 +51681,7 @@
       "away_team": "Bayern Munich",
       "kickoff_utc": "2026-09-05T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "eb3f57f3-e6bd-4b2d-849b-8de620587e54": {
       "order_id": "eb3f57f3-e6bd-4b2d-849b-8de620587e54",
@@ -51694,7 +51714,7 @@
       "away_team": "Bayern Munich",
       "kickoff_utc": "2026-09-05T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "aba3fbee-5651-4d5c-8291-2ef2fdbcb3ab": {
       "order_id": "aba3fbee-5651-4d5c-8291-2ef2fdbcb3ab",
@@ -51727,7 +51747,7 @@
       "away_team": "Racing Santander",
       "kickoff_utc": "2026-09-05T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "507636ed-e8b3-4350-bce9-fc297659c81e": {
       "order_id": "507636ed-e8b3-4350-bce9-fc297659c81e",
@@ -51760,7 +51780,7 @@
       "away_team": "Racing Santander",
       "kickoff_utc": "2026-09-05T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "d276945e-db77-481e-bcc1-0b3ecc36b9f9": {
       "order_id": "d276945e-db77-481e-bcc1-0b3ecc36b9f9",
@@ -51793,7 +51813,7 @@
       "away_team": "Racing Santander",
       "kickoff_utc": "2026-09-05T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "13f4ee30-0cbb-4315-9023-7afbed6b8c72": {
       "order_id": "13f4ee30-0cbb-4315-9023-7afbed6b8c72",
@@ -51826,7 +51846,7 @@
       "away_team": "Racing Santander",
       "kickoff_utc": "2026-09-05T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T10:38:09.515379+00:00"
+      "last_checked_at": "2026-09-05T13:01:24.669234+00:00"
     },
     "0c55cf76-f6ed-4896-a3d7-1267d44d1f11": {
       "order_id": "0c55cf76-f6ed-4896-a3d7-1267d44d1f11",
@@ -55187,18 +55207,18 @@
       "reason": "approved 8 of 59 market(s): Shorting away_win contradicts soccer analyst ACCEPT verdict. Atl\u00e9tico Madrid clear favorites with superior form (3rd/7pts vs 12th/3pts), rest, fitness, and head-to-head edge. -5% ROI insufficient to overcome conviction in away dominance."
     },
     "ligue_1|Nice|Le Mans|2026-09-05": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-05T02:02:34.951718+00:00",
-      "hours_to_kickoff": 16.7,
-      "ts": "2026-09-05T02:02:34.951737+00:00",
+      "hours_to_kickoff": 5.2,
+      "ts": "2026-09-05T13:35:11.791763+00:00",
       "action": "DEFER",
       "claim": "not_home_win",
       "home": "Nice",
       "away": "Le Mans",
-      "markets_considered": 116,
+      "markets_considered": 104,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "The 'no home win' position assumes Nice cannot win. However, material sporting factors create elevated win probability for Nice: (1) home advantage at Allianz Riviera; (2) solid recent home defense; (3) Le Mans arrives with significant defensive personnel losses (Yohou, Colas, Larouci sidelined; Sidibe suspended); (4) Nice's prior 0-3 home loss to Paris FC, while severe, likely triggered tactical/"
+      "reason": "Material simulation gaps prevent a reliable verdict. While both teams show poor early-season form (Nice 0 goals in 2 matches, Le Mans 4 goals in 2 matches), critical information is absent or unconfirmed: (1) confirmed starting lineups are unverified\u2014the predicted XI relies on single-source inference; (2) goalkeeper Y\u00e9hvann Diouf's fitness is unstated despite recent Paris FC match; (3) Le Mans squa"
     },
     "premier_league|Newcastle United|AFC Bournemouth|2026-09-05": {
       "attempts": 1,
@@ -55213,7 +55233,105 @@
       "markets_approved": 1,
       "decided_by": "quant",
       "reason": "p_lower (9.04%) sits 9 percentage points below breakeven (18.04%); negative EV of -8.99 cents/contract persists even at the reduced max_limit of 4 cents. First-half totals are inherently uncertain, but a 9-point gap is implausible to close by kickoff (fixture is today). The algorithm's harsh haircut from touch (16\u00a2) to limit (4\u00a2) reflects genuine low confidence. Reduce max_limit to zero."
+    },
+    "ligue_1|Lens|Lorient|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T13:15:15.139025+00:00",
+      "hours_to_kickoff": 2.0,
+      "ts": "2026-09-05T13:15:15.139041+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "Lens",
+      "away": "Lorient",
+      "markets_considered": 101,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Critical defensive personnel instability at Lens (Nawrocki out long-term via ACL rupture, Abdulhamid and Baidoo unavailable) coincides with managerial transition (Toppm\u00f6ller in first month). \u00c9douard's fitness status unclear (minor injury, possible return but not confirmed for starting). Lorient has lost 2 consecutive and conceded 3 goals in opening two matches despite new manager Dujeux. Early-sea"
+    },
+    "bundesliga|Schalke 04|Bayern Munich|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T13:22:45.314343+00:00",
+      "hours_to_kickoff": 3.1,
+      "ts": "2026-09-05T13:22:45.314363+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "Schalke 04",
+      "away": "Bayern Munich",
+      "markets_considered": 106,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Sporting assumptions intact but Musiala availability unresolved. Bayern's away form, opening sharpness, and H2H dominance (25-3 record, 6-0 in last 6 meetings) strongly support an away win. Schalke's home fortress from 2. Bundesliga promotion is real but untested vs elite and contradicted by 3-0 opening defeat. Musiala (absence seizures, neurological condition) status remains unclear for matchday "
+    },
+    "la_liga|Rayo Vallecano|Racing Santander|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T13:26:10.207693+00:00",
+      "hours_to_kickoff": 3.1,
+      "ts": "2026-09-05T13:26:10.207711+00:00",
+      "action": "DEFER",
+      "claim": "draw",
+      "home": "Rayo Vallecano",
+      "away": "Racing Santander",
+      "markets_considered": 106,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Match presents legitimate scenarios for both draw and decisive outcomes. Rayo's defensive fragility (5-2 loss to Barca, 2-1 to Sevilla) and injury toll (Palaz\u00f3n, Kumbulla status uncertain) conflicts with historical home dominance (5 straight wins, 3+ goal average). Racing's hat-trick-scoring form and offensive momentum contradicts their promoted-team status and typical regression patterns. Playing"
+    },
+    "premier_league|Hull City|Aston Villa|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T13:30:57.143867+00:00",
+      "hours_to_kickoff": 3.0,
+      "ts": "2026-09-05T13:30:57.143882+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "Hull City",
+      "away": "Aston Villa",
+      "markets_considered": 103,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Aston Villa face a severely compromised away fixture against a Hull side entering with maximum early-season confidence, clean sheets, and tactical discipline. Villa's 0-point start (4-0 loss + 1-0 loss, 0 goals scored, 5 conceded) compounds critical midfield suspension (Joao Gomes unavailable Sept 5, on 3-match ban), long-term injury (Onana ACL), and a squad reconstruction (17 departures, only 3 d"
+    },
+    "ligue_1|Le Havre AC|Brest|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T13:39:51.499486+00:00",
+      "hours_to_kickoff": 5.1,
+      "ts": "2026-09-05T13:39:51.499506+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "Le Havre AC",
+      "away": "Brest",
+      "markets_considered": 68,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Material managerial uncertainty at Brest. Julien Lachuer appointed June 2026 following Eric Roy's death; only 3 matches (2 draws, 0-1-1 record) into his tenure. Tactical continuity vs. coherence unknown. Le Havre's medical picture is incomplete (Zagadou long-term absent, Mambimbi/Tour\u00e9 status unclear). Brest's Del Castillo departure (to Osasuna) represents mid-window tactical restructuring. Early-"
+    },
+    "la_liga|Villarreal|Deportivo|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T13:44:42.670396+00:00",
+      "hours_to_kickoff": 5.3,
+      "ts": "2026-09-05T13:44:42.670416+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "Villarreal",
+      "away": "Deportivo",
+      "markets_considered": 124,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Material uncertainty around Villarreal's Champions League rotation strategy (Dortmund Sept 8) prevents confident assessment of home-win claim. Villarreal's defensive vulnerabilities (5 conceded in 3 games) and new-manager bedding-in conflict with their home venue advantage. Deportivo's exceptional early form (unbeaten, 5 pts, 3-1 win vs Valencia) and Aubameyang's prolific start (3 goals in 3 apps)"
+    },
+    "mls|Toronto FC|Chicago Fire FC|2026-09-05": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-05T13:49:28.977921+00:00",
+      "hours_to_kickoff": 9.7,
+      "ts": "2026-09-05T13:49:28.977940+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "Toronto FC",
+      "away": "Chicago Fire FC",
+      "markets_considered": 120,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Critical information gaps preclude assessment of the 'away_win: no' position. Confirmed starting lineups remain unannounced as of research cutoff; available predictions conflict across sources. Toronto's league position unclear (sources show 10th with 25pts vs 12th with 17pts from different match counts). Key injury statuses for Toronto (Laryea, Osorio availability) and Chicago (Gutman, Gasper, Te"
     }
   },
-  "saved_at": "2026-09-05T10:38:19.759745+00:00"
+  "saved_at": "2026-09-05T13:49:29.033384+00:00"
 }
