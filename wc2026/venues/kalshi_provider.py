@@ -79,7 +79,7 @@ from .base import (
     MarketInstrument,
     utcnow_iso,
 )
-from .naming import name_similarity, resolve_fixture
+from .naming import name_similarity, resolve_fixture, team_side
 
 COLLECTIONS_PATH = "/multivariate_event_collections"
 
@@ -229,11 +229,10 @@ def claim_for(family: str, yes_sub_title: str, home: str, away: str,
         return None
 
     def side(team):
-        if name_similarity(team, home) >= 0.6:
-            return "home"
-        if name_similarity(team, away) >= 0.6:
-            return "away"
-        return None
+        # Best of the two, and only when it is clearly better -- see
+        # `naming.team_side`. First-past-a-threshold made both outcome markets
+        # on a "Real X" v "Real Y" fixture resolve to the same claim.
+        return team_side(team, home, away)
 
     if family == "GAME":
         if _TIE_RE.match(sub):

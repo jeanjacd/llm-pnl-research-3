@@ -61,6 +61,7 @@ from .naming import (  # noqa: F401  (re-exported)
     name_similarity,
     normalise_team,
     resolve_fixture,
+    team_side,
 )
 
 GAMMA = "https://gamma-api.polymarket.com"
@@ -198,11 +199,9 @@ class PolymarketProvider(MarketDataProvider):
             return None
 
         def side(team):
-            if name_similarity(team, home) >= 0.6:
-                return "home"
-            if name_similarity(team, away) >= 0.6:
-                return "away"
-            return None
+            # See `naming.team_side`: the best match, and only when it is
+            # clearly ahead of the other side of this same fixture.
+            return team_side(team, home, away)
 
         mo = _EXACT_RE.match(q)
         if mo:                       # outcomes ["Yes","No"]
