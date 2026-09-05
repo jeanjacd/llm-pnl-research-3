@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 100523,
-  "reserved_cents": 14806,
+  "cash_cents": 99244,
+  "reserved_cents": 19550,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -50367,7 +50367,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T04:01:12.914432+00:00"
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
     },
     "f008f9dd-19a7-4b30-b611-8f685c6b7dd3": {
       "order_id": "f008f9dd-19a7-4b30-b611-8f685c6b7dd3",
@@ -50400,7 +50400,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T04:01:12.914432+00:00"
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
     },
     "e1aaa358-564d-457f-a008-cbbe6b9715d3": {
       "order_id": "e1aaa358-564d-457f-a008-cbbe6b9715d3",
@@ -50433,7 +50433,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T04:01:12.914432+00:00"
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
     },
     "237cf636-cbf5-4be5-b62a-fd1ac8e2d23b": {
       "order_id": "237cf636-cbf5-4be5-b62a-fd1ac8e2d23b",
@@ -50466,7 +50466,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T04:01:12.914432+00:00"
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
     },
     "2fd31829-19da-4d66-96c7-52fbf926fccf": {
       "order_id": "2fd31829-19da-4d66-96c7-52fbf926fccf",
@@ -50499,7 +50499,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T04:01:12.914432+00:00"
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
     },
     "100b0e4c-6b4d-4143-9e40-04778efe5200": {
       "order_id": "100b0e4c-6b4d-4143-9e40-04778efe5200",
@@ -50532,7 +50532,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-05T04:01:12.914432+00:00"
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
     },
     "eaa4a2ff-8754-4314-a6f4-6256ae466cab": {
       "order_id": "eaa4a2ff-8754-4314-a6f4-6256ae466cab",
@@ -50565,7 +50565,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-05T14:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-05T04:01:12.914432+00:00"
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
     },
     "d78c4890-4473-4233-9176-1e2de6a64395": {
       "order_id": "d78c4890-4473-4233-9176-1e2de6a64395",
@@ -50598,7 +50598,7 @@
       "away_team": "Brest",
       "kickoff_utc": "2026-09-05T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
     },
     "81fc5264-36b1-4132-8eab-adc9c4197dfb": {
       "order_id": "81fc5264-36b1-4132-8eab-adc9c4197dfb",
@@ -50631,7 +50631,7 @@
       "away_team": "Brest",
       "kickoff_utc": "2026-09-05T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
     },
     "97f200c4-6d4a-4dae-a7f8-6bbb0ced083d": {
       "order_id": "97f200c4-6d4a-4dae-a7f8-6bbb0ced083d",
@@ -50664,7 +50664,7 @@
       "away_team": "Brest",
       "kickoff_utc": "2026-09-05T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
     },
     "f87cd02b-aa83-4ece-8ad9-a2cf32ce9304": {
       "order_id": "f87cd02b-aa83-4ece-8ad9-a2cf32ce9304",
@@ -50697,7 +50697,7 @@
       "away_team": "Brest",
       "kickoff_utc": "2026-09-05T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
     },
     "7cf1913d-2911-40be-86c1-3f84e0350b05": {
       "order_id": "7cf1913d-2911-40be-86c1-3f84e0350b05",
@@ -50730,7 +50730,7 @@
       "away_team": "AFC Bournemouth",
       "kickoff_utc": "2026-09-05T11:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
     },
     "9b07bbb4-d2a4-48ce-86b3-8c77edf29935": {
       "order_id": "9b07bbb4-d2a4-48ce-86b3-8c77edf29935",
@@ -50763,7 +50763,7 @@
       "away_team": "AFC Bournemouth",
       "kickoff_utc": "2026-09-05T11:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
     },
     "2d1cde6d-a190-443a-a72b-73ada96ec29b": {
       "order_id": "2d1cde6d-a190-443a-a72b-73ada96ec29b",
@@ -50796,7 +50796,7 @@
       "away_team": "AFC Bournemouth",
       "kickoff_utc": "2026-09-05T11:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
     },
     "a0b5a588-c79b-4b05-839e-fee25c3c93d3": {
       "order_id": "a0b5a588-c79b-4b05-839e-fee25c3c93d3",
@@ -50829,6 +50829,211 @@
       "away_team": "AFC Bournemouth",
       "kickoff_utc": "2026-09-05T11:30:00+00:00",
       "settles_on_regulation": null,
+      "last_checked_at": "2026-09-05T07:01:24.654679+00:00"
+    },
+    "66781bf2-8014-4302-beb4-b7053992783b": {
+      "order_id": "66781bf2-8014-4302-beb4-b7053992783b",
+      "case_id": "kalshi:KXEPL1HTOTAL-26SEP05NEWBOU-2:no",
+      "venue": "kalshi",
+      "instrument_id": "KXEPL1HTOTAL-26SEP05NEWBOU-2",
+      "side": "no",
+      "limit_price_cents": 59,
+      "requested_size": 21.0,
+      "league_id": "premier_league",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1275,
+      "created_at": "2026-09-05T07:26:49.032770+00:00",
+      "expires_at": "2026-09-05T11:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T07:26:49.032776+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXEPL1HTOTAL-26SEP05NEWBOU-2:no|KXEPL1HTOTAL-26SEP05NEWBOU-2|no|59",
+          "reserved_cents": 1275
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_1h_total_over_1.5",
+      "home_team": "Newcastle United",
+      "away_team": "AFC Bournemouth",
+      "kickoff_utc": "2026-09-05T11:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "75a68bd0-6def-45a9-9aaa-1fee7201e8e0": {
+      "order_id": "75a68bd0-6def-45a9-9aaa-1fee7201e8e0",
+      "case_id": "kalshi:KXBUNDESLIGABTTS-26SEP05SVWRBL-BTTS:no",
+      "venue": "kalshi",
+      "instrument_id": "KXBUNDESLIGABTTS-26SEP05SVWRBL-BTTS",
+      "side": "no",
+      "limit_price_cents": 32,
+      "requested_size": 15.0,
+      "league_id": "bundesliga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 503,
+      "created_at": "2026-09-05T07:51:04.651442+00:00",
+      "expires_at": "2026-09-05T13:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T07:51:04.651449+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXBUNDESLIGABTTS-26SEP05SVWRBL-BTTS:no|KXBUNDESLIGABTTS-26SEP05SVWRBL-BTTS|no|32",
+          "reserved_cents": 503
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_btts",
+      "home_team": "Werder Bremen",
+      "away_team": "RB Leipzig",
+      "kickoff_utc": "2026-09-05T13:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "6fbd8a16-98c7-497b-bbf7-1c4d04e9dba2": {
+      "order_id": "6fbd8a16-98c7-497b-bbf7-1c4d04e9dba2",
+      "case_id": "polymarket:0x8da562141f110fca2de928f7b6a5ed86cbd1e98347bbcbea67eefb3bf299348a:no",
+      "venue": "polymarket",
+      "instrument_id": "0x8da562141f110fca2de928f7b6a5ed86cbd1e98347bbcbea67eefb3bf299348a",
+      "side": "no",
+      "limit_price_cents": 54,
+      "requested_size": 23.0,
+      "league_id": "bundesliga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1242,
+      "created_at": "2026-09-05T07:51:04.651580+00:00",
+      "expires_at": "2026-09-05T13:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T07:51:04.651584+00:00",
+          "event": "submitted",
+          "key": "polymarket:0x8da562141f110fca2de928f7b6a5ed86cbd1e98347bbcbea67eefb3bf299348a:no|0x8da562141f110fca2de928f7b6a5ed86cbd1e98347bbcbea67eefb3bf299348a|no|54",
+          "reserved_cents": 1242
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_total_over_3.5",
+      "home_team": "Werder Bremen",
+      "away_team": "RB Leipzig",
+      "kickoff_utc": "2026-09-05T13:30:00+00:00",
+      "settles_on_regulation": null,
+      "last_checked_at": null
+    },
+    "9299be69-44ae-4d0e-981d-eb22ba1a4153": {
+      "order_id": "9299be69-44ae-4d0e-981d-eb22ba1a4153",
+      "case_id": "kalshi:KXBUNDESLIGATOTAL-26SEP05SVWRBL-3:no",
+      "venue": "kalshi",
+      "instrument_id": "KXBUNDESLIGATOTAL-26SEP05SVWRBL-3",
+      "side": "no",
+      "limit_price_cents": 33,
+      "requested_size": 37.0,
+      "league_id": "bundesliga",
+      "kind": "limit",
+      "status": "filled",
+      "filled_size": 37.0,
+      "avg_fill_price_cents": 33.0,
+      "fees_cents": 58,
+      "reserved_cents": 0,
+      "created_at": "2026-09-05T07:51:04.651723+00:00",
+      "expires_at": "2026-09-05T13:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T07:51:04.651728+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXBUNDESLIGATOTAL-26SEP05SVWRBL-3:no|KXBUNDESLIGATOTAL-26SEP05SVWRBL-3|no|33",
+          "reserved_cents": 1279
+        },
+        {
+          "ts": "2026-09-05T07:51:04.651771+00:00",
+          "event": "fill",
+          "size": 37.0,
+          "price_cents": 33.0,
+          "fee_cents": 58
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_total_over_2.5",
+      "home_team": "Werder Bremen",
+      "away_team": "RB Leipzig",
+      "kickoff_utc": "2026-09-05T13:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null
+    },
+    "953c2626-cc12-4dce-bfe0-29491bfe0a36": {
+      "order_id": "953c2626-cc12-4dce-bfe0-29491bfe0a36",
+      "case_id": "polymarket:0x4d03b1794dabebf7986a013352edbba51b148f7fa68aa58eb2296d41ac48b456:no",
+      "venue": "polymarket",
+      "instrument_id": "0x4d03b1794dabebf7986a013352edbba51b148f7fa68aa58eb2296d41ac48b456",
+      "side": "no",
+      "limit_price_cents": 80,
+      "requested_size": 12.0,
+      "league_id": "bundesliga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 960,
+      "created_at": "2026-09-05T07:51:04.651910+00:00",
+      "expires_at": "2026-09-05T13:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T07:51:04.651914+00:00",
+          "event": "submitted",
+          "key": "polymarket:0x4d03b1794dabebf7986a013352edbba51b148f7fa68aa58eb2296d41ac48b456:no|0x4d03b1794dabebf7986a013352edbba51b148f7fa68aa58eb2296d41ac48b456|no|80",
+          "reserved_cents": 960
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_away_wins_by_over_2.5",
+      "home_team": "Werder Bremen",
+      "away_team": "RB Leipzig",
+      "kickoff_utc": "2026-09-05T13:30:00+00:00",
+      "settles_on_regulation": null,
+      "last_checked_at": null
+    },
+    "bdd5a289-c113-4f37-8254-de6c37202105": {
+      "order_id": "bdd5a289-c113-4f37-8254-de6c37202105",
+      "case_id": "kalshi:KXBUNDESLIGASPREAD-26SEP05SVWRBL-RBL2:no",
+      "venue": "kalshi",
+      "instrument_id": "KXBUNDESLIGASPREAD-26SEP05SVWRBL-RBL2",
+      "side": "no",
+      "limit_price_cents": 62,
+      "requested_size": 12.0,
+      "league_id": "bundesliga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 764,
+      "created_at": "2026-09-05T07:51:04.652039+00:00",
+      "expires_at": "2026-09-05T13:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-05T07:51:04.652043+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXBUNDESLIGASPREAD-26SEP05SVWRBL-RBL2:no|KXBUNDESLIGASPREAD-26SEP05SVWRBL-RBL2|no|62",
+          "reserved_cents": 764
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_away_wins_by_over_1.5",
+      "home_team": "Werder Bremen",
+      "away_team": "RB Leipzig",
+      "kickoff_utc": "2026-09-05T13:30:00",
+      "settles_on_regulation": true,
       "last_checked_at": null
     }
   },
@@ -52224,6 +52429,30 @@
       "result": "yes",
       "payout_cents": 0.0,
       "realized_pnl_cents": -804.0
+    },
+    "KXBUNDESLIGATOTAL-26SEP05SVWRBL-3|no": {
+      "position_id": "e0ef0207-12e5-402b-9943-72110a3be969",
+      "venue": "kalshi",
+      "instrument_id": "KXBUNDESLIGATOTAL-26SEP05SVWRBL-3",
+      "side": "no",
+      "size": 37.0,
+      "avg_cost_cents": 33.0,
+      "fees_cents": 58,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGATOTAL-26SEP05SVWRBL-3:no",
+      "claim": "not_total_over_2.5",
+      "home_team": "Werder Bremen",
+      "away_team": "RB Leipzig",
+      "kickoff_utc": "2026-09-05T13:30:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-09-05T07:51:04.651789+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0
     }
   },
   "ledger": [
@@ -53797,103 +54026,89 @@
       "decided_by": "quant",
       "reason": "Negative EV -3.28\u00a2; market pricing (75\u00a2 YES) sits at upper bound of model confidence. Fee structure eliminates edge."
     },
-    "premier_league|Newcastle United|AFC Bournemouth|2026-09-05": {
-      "attempts": 2,
-      "first_boarded_at": "2026-09-04T19:07:45.460734+00:00",
-      "hours_to_kickoff": 7.3,
-      "ts": "2026-09-05T04:12:16.142312+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "not_draw",
-      "home": "Newcastle United",
-      "away": "AFC Bournemouth",
-      "markets_considered": 129,
-      "markets_approved": 129,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
-    },
     "bundesliga|SC Paderborn 07|SC Freiburg|2026-09-05": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-04T22:11:35.464348+00:00",
-      "hours_to_kickoff": 15.3,
-      "ts": "2026-09-04T22:11:35.464365+00:00",
+      "hours_to_kickoff": 6.0,
+      "ts": "2026-09-05T07:31:02.591505+00:00",
       "action": "DEFER",
-      "claim": "draw",
+      "claim": "not_away_win",
       "home": "SC Paderborn 07",
       "away": "SC Freiburg",
-      "markets_considered": 120,
+      "markets_considered": 121,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Material contradictions exist between draw probability and the observable team states. Freiburg shows dominant form (7-game winning streak, 4-1 over Bremen with 3+ goals in each outing, 2nd place) versus a Paderborn squad making Bundesliga debut with historical promotion success but unproven at top level. Paderborn held 0-0 at home vs Mainz with no shots on target, raising serious attacking questi"
+      "reason": "Key fixture-congestion and rotation uncertainties unresolved. Freiburg completed UEFA Conference League qualifying (4-1 vs Motherwell, 28 Aug) only 7 days before this Bundesliga fixture; typical squad rotation patterns and fatigue state are material to away-win probability but not confirmed in available sources. Paderborn's managerial integration under first-time Bundesliga coach Ralf Kettemann is"
     },
     "bundesliga|Werder Bremen|RB Leipzig|2026-09-05": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-04T22:16:03.261631+00:00",
-      "hours_to_kickoff": 15.2,
-      "ts": "2026-09-04T22:16:03.261647+00:00",
-      "action": "DEFER",
+      "hours_to_kickoff": 5.6,
+      "ts": "2026-09-05T07:51:04.651064+00:00",
+      "action": "PAPER_PLACE_LIMIT",
       "claim": "not_away_win",
       "home": "Werder Bremen",
       "away": "RB Leipzig",
-      "markets_considered": 122,
-      "markets_approved": 0,
-      "decided_by": "coach",
-      "reason": "Critical contradictions in injury status (Rocco Reitz listed out weeks but appears in confirmed XI) and confirmed vs predicted lineups prevent assessment of whether Bremen's away-win prospects remain as modeled. Werder faces defensive crisis (Stage + Njinmah both out months) but impact on tactical shape unclear. Leipzig's new manager (Demichelis, 2.5 months tenure) and Nkunku (signed 11 days prior"
+      "markets_considered": 120,
+      "markets_approved": 8,
+      "decided_by": "judge",
+      "reason": "approved 8 of 25 market(s): Negative ROI (-2.85%) fails hurdle despite directional correctness. Soccer analyst confirms away_win is unlikely, but unprofitable positions should not be funded."
     },
     "bundesliga|Borussia M\u00f6nchengladbach|SV Elversberg|2026-09-05": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-04T22:20:13.799622+00:00",
-      "hours_to_kickoff": 15.2,
-      "ts": "2026-09-04T22:20:13.799640+00:00",
+      "hours_to_kickoff": 5.6,
+      "ts": "2026-09-05T07:54:32.893436+00:00",
       "action": "DEFER",
       "claim": "away_win",
       "home": "Borussia M\u00f6nchengladbach",
       "away": "SV Elversberg",
-      "markets_considered": 119,
+      "markets_considered": 117,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Elversberg has demonstrated remarkable debut-season form by defeating Bayer Leverkusen 3-2 in their opening Bundesliga match despite being promoted from 2. Bundesliga for the first time. The new manager Vincent Wagner has unified the squad after losing their previous head coach. M\u00f6nchengladbach suffered a 0-3 home defeat to RB Leipzig in Matchday 1, showing defensive vulnerabilities. While M\u00f6nchen"
+      "reason": "Core assumptions about Elversberg's away ability remain uncertain. While newly promoted Elversberg demonstrated clinical finishing in a chaotic 3-2 home win vs. Leverkusen, away performance in Bundesliga is unproven. M\u00f6nchengladbach's defensive collapse vs. Leipzig (0-3, xG 1.09-3.96) suggests vulnerability, but Gladbach are now at home where they've shown W6 D6 L5 this season. Material injury/squ"
     },
     "bundesliga|Bayer Leverkusen|1. FC Union Berlin|2026-09-05": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-04T22:24:37.218563+00:00",
-      "hours_to_kickoff": 15.1,
-      "ts": "2026-09-04T22:24:37.218580+00:00",
+      "hours_to_kickoff": 5.5,
+      "ts": "2026-09-05T08:00:39.957912+00:00",
       "action": "DEFER",
       "claim": "draw",
       "home": "Bayer Leverkusen",
       "away": "1. FC Union Berlin",
-      "markets_considered": 118,
+      "markets_considered": 123,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Critical sporting assumptions intact but material gaps prevent confident assessment. Leverkusen show defensive brittleness (conceding despite possession dominance in recent matches) and Union Berlin's new high-pressing system under Lustrinelli remains untested in competitive play. Both teams deployed 5-6 key absentees; Leverkusen missing Tella, Dou\u00e9, Ben Seghir, Terrier; Union Berlin missing Ilic "
+      "reason": "Union Berlin's away attacking profile is contradictory across different timeframes. Historically they score 1.06 goals/game away (2025-26), supporting the 'no' thesis. However, they scored 3 goals at Frankfurt in their opening game, suggesting either improved attacking capability under Lustrinelli or tactical variance not yet fully understood. Bayer Leverkusen's home record is strong (2.24 goals/g"
     },
     "bundesliga|TSG Hoffenheim|Borussia Dortmund|2026-09-05": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-04T22:29:17.443939+00:00",
-      "hours_to_kickoff": 15.0,
-      "ts": "2026-09-04T22:29:17.443952+00:00",
+      "hours_to_kickoff": 5.4,
+      "ts": "2026-09-05T08:05:56.263995+00:00",
       "action": "DEFER",
       "claim": "away_win",
       "home": "TSG Hoffenheim",
       "away": "Borussia Dortmund",
-      "markets_considered": 121,
+      "markets_considered": 115,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Dortmund away form and new defensive system under Kovac are intact. Hoffenheim showed attacking intent in Week 1 (2 goals vs Cologne) but defensive fragility (3 conceded at home) raises structural concerns. Critical variable: Serhou Guirassy (Dortmund's primary creator/striker) injury status remains uncertain after reported training withdrawal midweek. His availability materially affects Dortmund'"
+      "reason": "The sporting fundamentals present a complex risk/reward. Hoffenheim face Dortmund as clear underdogs: Dortmund are on a strong run (8 goals in 3 matches under Kovac), have superior squad depth, and hold a 17-9 historical record vs Hoffenheim. However, the claim (Hoffenheim over 1.5 goals) depends critically on whether Hoffenheim's attacking midfielders and secondary forwards can deliver without Kr"
     },
     "premier_league|Nottingham Forest|Tottenham Hotspur|2026-09-05": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-04T22:33:35.543034+00:00",
-      "hours_to_kickoff": 15.4,
-      "ts": "2026-09-04T22:33:35.543051+00:00",
+      "hours_to_kickoff": 5.8,
+      "ts": "2026-09-05T08:10:21.321789+00:00",
       "action": "DEFER",
       "claim": "home_win",
       "home": "Nottingham Forest",
       "away": "Tottenham Hotspur",
-      "markets_considered": 120,
+      "markets_considered": 124,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Forest home win thesis is undermined by critical sporting factors: (1) Forest have won only 1 of their last 12 Premier League home matches; (2) Forest lost their first two matches (0-1 to Arsenal, 1-1 to Bournemouth) and drew 2-2 at Liverpool\u2014they remain winless in league play and lack competitive rhythm; (3) Tottenham, despite poor form, have three new significant defensive signings (Van Hecke, S"
+      "reason": "Material uncertainties about confirmed team availability preclude reliable assessment of home-win probability. Maddison (shoulder), Savio (muscle), and Sangare (calf) are listed as 'doubtful' but status unclear 6.7 hours pre-kickoff. Nottingham's recent home record vs. Spurs is exceptionally strong (4 straight league wins, 3-0 doubles last season), but Spurs under new manager De Zerbi show tactica"
     },
     "premier_league|Manchester City|Coventry City|2026-09-05": {
       "attempts": 1,
@@ -54035,20 +54250,20 @@
       "decided_by": "coach",
       "reason": "The 'no home win' position assumes Nice cannot win. However, material sporting factors create elevated win probability for Nice: (1) home advantage at Allianz Riviera; (2) solid recent home defense; (3) Le Mans arrives with significant defensive personnel losses (Yohou, Colas, Larouci sidelined; Sidibe suspended); (4) Nice's prior 0-3 home loss to Paris FC, while severe, likely triggered tactical/"
     },
-    "ligue_1|Le Havre AC|Brest|2026-09-05": {
+    "premier_league|Newcastle United|AFC Bournemouth|2026-09-05": {
       "attempts": 1,
-      "first_boarded_at": "2026-09-05T04:12:16.141393+00:00",
-      "hours_to_kickoff": 14.5,
-      "ts": "2026-09-05T04:12:16.141415+00:00",
+      "first_boarded_at": "2026-09-05T07:26:49.032375+00:00",
+      "hours_to_kickoff": 4.1,
+      "ts": "2026-09-05T07:26:49.032395+00:00",
       "action": "PAPER_PLACE_LIMIT",
-      "claim": "home_win",
-      "home": "Le Havre AC",
-      "away": "Brest",
-      "markets_considered": 65,
-      "markets_approved": 65,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
+      "claim": "away_win",
+      "home": "Newcastle United",
+      "away": "AFC Bournemouth",
+      "markets_considered": 123,
+      "markets_approved": 1,
+      "decided_by": "quant",
+      "reason": "p_lower (9.04%) sits 9 percentage points below breakeven (18.04%); negative EV of -8.99 cents/contract persists even at the reduced max_limit of 4 cents. First-half totals are inherently uncertain, but a 9-point gap is implausible to close by kickoff (fixture is today). The algorithm's harsh haircut from touch (16\u00a2) to limit (4\u00a2) reflects genuine low confidence. Reduce max_limit to zero."
     }
   },
-  "saved_at": "2026-09-05T04:12:16.175366+00:00"
+  "saved_at": "2026-09-05T08:13:25.000724+00:00"
 }
