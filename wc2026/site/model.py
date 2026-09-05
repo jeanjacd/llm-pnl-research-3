@@ -35,6 +35,7 @@ from __future__ import annotations
 import collections
 import datetime as dt
 
+
 def _parse(value):
     if not value:
         return None

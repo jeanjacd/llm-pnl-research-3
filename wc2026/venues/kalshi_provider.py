@@ -79,7 +79,7 @@ from .base import (
     MarketInstrument,
     utcnow_iso,
 )
-from .naming import name_similarity, resolve_fixture, team_side
+from .naming import resolve_fixture, team_side
 
 COLLECTIONS_PATH = "/multivariate_event_collections"
 
