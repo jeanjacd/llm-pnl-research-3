@@ -34,7 +34,7 @@ import datetime as dt
 import html
 import json
 
-from . import model
+from . import ledger, model
 
 MINUS = "−"
 
@@ -153,7 +153,7 @@ def lede(s: dict) -> str:
                  "{st} staked.".format(
                      net=dollars(pnl["realized_cents"]), n=pnl["n_settled"],
                      s="" if pnl["n_settled"] == 1 else "s",
-                     st=dollars(pnl["staked_cents"])))
+                     st=money(pnl["staked_cents"])))
     else:
         third = "Nothing has settled yet."
 
@@ -222,66 +222,325 @@ def _roman(n: int) -> str:
     return out or "I"
 
 
-def form_band(s: dict) -> str:
-    figures = s["form"]
-    if not figures:
-        body = ('<p class="empty">No fixture has been boarded yet. The record '
-                'starts at the first sitting.</p>')
-    else:
-        cells = []
-        # One scale for the whole band, so two ticks of equal height mean two
-        # equal closing lines. Per-column scaling would make the shape lie.
-        measured = [abs(float(f["clv_cents"])) for f in figures
-                    if f.get("clv_cents") is not None]
-        scale = max(measured) if measured else 0.0
-        for f in figures:
-            if f["kind"] == "brk":
-                cells.append('<span class="fig brk" aria-hidden="true">'
-                             '<span class="clvbox"></span>'
-                             '<span class="mark">%s</span></span>'
-                             % esc(f["char"]))
-            else:
-                # No entry animation and therefore no stagger delay: the
-                # record is looked at daily, and the frequency rule says a
-                # thing seen that often gets no motion at all.
-                clv = f.get("clv_cents")
-                tick = ""
-                if clv is not None and scale:
-                    # Height off a shared hairline, up when the market closed
-                    # our way. Capped at the box so one outlier cannot set the
-                    # scale for everything else.
-                    h = min(1.0, abs(float(clv)) / scale)
-                    tick = ('<i class="clv %s" style="--h:%.3f" '
-                            'aria-hidden="true"></i>'
-                            % ("up" if float(clv) >= 0 else "dn", h))
-                cells.append(
-                    '<button class="fig" data-r="%s" data-d="%s">'
-                    '<span class="clvbox">%s</span>'
-                    '<span class="mark">%s</span></button>'
-                    % (esc(f["kind"]), esc(f["detail"]), tick,
-                       esc(f["char"])))
-        body = '<div class="figures" id="figures">%s</div>' % "".join(cells)
+def ledger_view(portfolio: dict, now) -> dict:
+    """The ledger's own slice of the record, which depends on the clock.
+
+    `model.summary` is pure over the portfolio and deliberately has no notion
+    of "now". The ledger does: whether a position is in play, awaiting a
+    result, or has not kicked off is a fact about the time the page was built,
+    and is printed as such.
+    """
+    rows = ledger.open_tickets(portfolio, now=now)
+    cols = ledger.columns(portfolio, now=now)
+    return {"open": rows, "exposure": ledger.exposure(rows),
+            "columns": cols, "scale": ledger.scale(cols),
+            "run": ledger.run(cols),
+            "settled_fixtures": ledger.settled_fixtures(portfolio),
+            "settlements": ledger.settlements(portfolio)}
+
+
+def _daystamp(col) -> str:
+    """"Sep 4", without the leading zero, on a platform-independent path."""
+    stamp = col.get("stamp") or col.get("kickoff")
+    if not stamp:
+        return str(col.get("date") or "")
+    return "%s %d" % (stamp.strftime("%b"), stamp.day)
+
+
+def _when(row, now) -> str:
+    """The state of a fixture, in words, honest about being a static build."""
+    minutes = row.get("minutes_to_kickoff")
+    if row["state"] == "live":
+        played = int(-(minutes or 0))
+        return "In play · about %d min gone at press time" % max(0, played)
+    if row["state"] == "awaiting":
+        return "Full time · waiting on the result"
+    if minutes is None:
+        return "Kick-off not recorded"
+    if minutes < 60:
+        return "Kicks off in %d min" % int(minutes)
+    if minutes < 48 * 60:
+        return "Kicks off in %dh %02dm" % (int(minutes // 60),
+                                           int(minutes % 60))
+    return "Kicks off %s" % (row["kickoff"].strftime("%a %d %b, %H:%M UTC")
+                             if row.get("kickoff") else "later")
+
+
+def open_rail(s: dict, now) -> str:
+    """Zone 1. What is riding right now, and what has to happen.
+
+    THE FIXTURE IS THE CARD, NOT THE BET. This book takes up to four correlated
+    markets off one scoreline grid, and `paper/clv.py` establishes the fixture
+    as the unit of independence for exactly that reason. Four cards for one
+    match would show the same opinion four times and read as four opinions.
+    """
+    rows = s["open"]
+    exposure = s["exposure"]
+    if not rows:
+        settled = s["pnl"]["n_settled"]
+        return ("""
+  <section class="open empty" aria-labelledby="open-h">
+    %s
+    <p class="nothing">Nothing open. <span>%d market%s settled, and the book is
+    flat until the next sitting.</span></p>
+  </section>""" % (kicker("Open"), settled, "" if settled == 1 else "s"))
+
+    parts = []
+    for label, count in (("in play", exposure["n_live"]),
+                         ("awaiting settlement", exposure["n_awaiting"]),
+                         ("still to kick off", exposure["n_pending"])):
+        if count:
+            parts.append("%d %s" % (count, label))
+    standfirst = " · ".join(parts)
+
+    cards = []
+    for row in rows:
+        legs = []
+        for leg in row["legs"]:
+            price = float(leg.get("avg_cost_cents") or 0)
+            size = float(leg.get("size") or 0)
+            clv = leg.get("clv_cents")
+            legs.append(
+                '<div class="leg"><dt>%s<small>%s</small></dt>'
+                '<dd class="tnum">%s<span class="times">&times;</span>%s'
+                '<b>%s</b>%s</dd></div>'
+                % (esc(claim_label(str(leg.get("claim") or ""), row["home"],
+                                   row["away"])),
+                   esc(str(leg.get("venue") or "")[:4]),
+                   esc("%d¢" % round(price)), esc("%d" % round(size)),
+                   esc(money(size * price)),
+                   "" if clv is None
+                   else '<i class="clvtag %s">%s</i>'
+                        % ("up" if float(clv) >= 0 else "dn",
+                           esc(cents(float(clv))))))
+        # One sentence, from the largest position on the fixture. The others
+        # are listed above it; repeating a sentence per leg would bury it.
+        instruction = row["legs"][0].get("needs") or ""
+        cards.append("""
+      <article class="ticket %s" role="listitem" tabindex="0"
+               aria-label="%s">
+        <p class="state"><i></i>%s</p>
+        <h3 class="pair">%s <span>v</span> %s</h3>
+        <p class="comp">%s · %d market%s</p>
+        <dl class="legs">%s</dl>
+        <p class="needs">%s</p>
+        <div class="tfoot"><span>%s at risk</span><strong>%s if it all lands</strong></div>
+      </article>""" % (
+            esc(row["state"]),
+            esc("%s versus %s, %s. %s at risk across %d markets."
+                % (row["home"], row["away"], _when(row, now),
+                   money(row["staked_cents"]), row["n_legs"])),
+            esc(_when(row, now)), esc(row["home"]), esc(row["away"]),
+            esc(str(row["league_id"] or "").replace("_", " ")),
+            row["n_legs"], "" if row["n_legs"] == 1 else "s",
+            "".join(legs), esc(instruction),
+            esc(money(row["staked_cents"])),
+            esc(dollars(row["upside_cents"]))))
+
     return """
-  <section class="formband">
+  <section class="open" aria-labelledby="open-h">
     %s
-    %s
-    <div class="figkey">
-      <span>tick above the rule = beat the closing line, below = missed it</span>
-      <span>&middot; = boarded, declined</span>
-      <span>&ndash; = ordered, nothing filled</span>
-      <span>digit = tenths of stake returned on a fixture that finished down</span>
-      <span>&#10003; = fixture finished up</span>
-      <span>/ = month</span>
-      <span class="figread" id="figread" data-rest="1" aria-live="polite">Hover or focus a figure to read its fixture</span>
+    <p class="standfirst" id="open-h"><span>%s</span>
+      <span class="figs"><b class="tnum">%s</b> at risk
+      <b class="tnum">%s</b> to win</span></p>
+    <div class="rail" role="list">%s</div>
+  </section>""" % (kicker("Open"), esc(standfirst),
+                   esc(money(exposure["staked_cents"])),
+                   esc(dollars(exposure["upside_cents"])),
+                   "".join(cards))
+
+
+def run_curve(s: dict) -> str:
+    """Zone 2. Cumulative dollars on the book's own x-positions.
+
+    Drawn on the same 0..1000 grid the book's columns sit on, so a peak in the
+    curve is directly above the fixture that made it. The cone at the right is
+    the open position, floor to ceiling -- exposure, not a forecast.
+    """
+    cols, curve = s["columns"], s["run"]
+    if len(cols) < 2:
+        return ""
+    points = curve["points"]
+    values = [p["cents"] for p in points] + [0.0]
+    lo, hi = min(values), max(values)
+    # The record sets the scale. The cone may extend it by half again and no
+    # further; past that it simply runs off the plate, which is what an
+    # exposure four times the size of the realised record actually looks like.
+    room = ((hi - lo) or 1.0) * 0.5
+    if curve["has_open"]:
+        lo = min(lo, max(curve["floor_cents"], lo - room))
+        hi = max(hi, min(curve["ceiling_cents"], hi + room))
+    span = (hi - lo) or 1.0
+    height_px = 96.0
+
+    def x_at(i):
+        return 1000.0 * (i + 0.5) / len(cols)
+
+    def y_at(value):
+        return height_px - (float(value) - lo) / span * height_px
+
+    line = " ".join("%.1f,%.2f" % (x_at(p["i"]), y_at(p["cents"]))
+                    for p in points)
+    zero = y_at(0.0)
+    cone = ""
+    if curve["has_open"]:
+        x_end = x_at(len(cols) - 1)
+        cone = ('<polygon class="cone" points="%.1f,%.2f 1000,%.2f 1000,%.2f"/>'
+                % (x_end, y_at(curve["final_cents"]),
+                   y_at(curve["ceiling_cents"]), y_at(curve["floor_cents"])))
+    note = ("floor %s if every open market loses, ceiling %s if every one lands"
+            % (dollars(curve["floor_cents"]), dollars(curve["ceiling_cents"]))
+            if curve["has_open"] else "nothing open")
+    return """
+  <section class="run">
+    <div class="runhead"><span>Run</span>
+      <b class="tnum %s">%s</b>
+      <span class="runnote">%s</span></div>
+    <svg class="runplot" viewBox="0 0 1000 %.0f" preserveAspectRatio="none"
+         role="img" aria-label="%s">
+      <line class="zero" x1="0" y1="%.2f" x2="1000" y2="%.2f"/>
+      %s
+      <polyline class="curve" points="%s"/>
+    </svg>
+  </section>""" % (
+        "pos" if curve["final_cents"] >= 0 else "neg",
+        esc(dollars(curve["final_cents"])), esc(note), height_px,
+        esc("Cumulative profit and loss across %d fixtures, ending %s. %s"
+            % (len(cols), dollars(curve["final_cents"]), note)),
+        zero, zero, cone, line)
+
+
+BOOK_STATES = {
+    "won": "won", "lost": "lost", "push": "level",
+    "declined": "declined", "unfilled": "ordered, never filled",
+    "open": "open", "live": "in play",
+}
+
+
+def _column_sentence(col) -> str:
+    """The aria-label, read as a sentence rather than a set of attributes."""
+    when = col["stamp"].strftime("%d %b") if col["stamp"] else col["date"]
+    head = "%s, %s versus %s" % (when, col["home"], col["away"])
+    state = BOOK_STATES.get(col["outcome"], col["outcome"])
+    if col["outcome"] in ("won", "lost"):
+        body = ("%s %s on %d markets, %s of %s staked"
+                % (state, money(abs(col["net_cents"])), col["n_markets"],
+                   dollars(col["net_cents"]), money(col["staked_cents"])))
+    elif col["outcome"] in ("open", "live"):
+        body = "%s, %s staked on %d markets" % (
+            state, money(col["open_staked_cents"]), col["n_markets"])
+    elif col["outcome"] == "unfilled":
+        body = "ordered %d markets, filled none" % col["n_orders"]
+    else:
+        body = state
+    clv = col["clv_cents"]
+    tail = ("" if clv is None else
+            ", %s the close by %s"
+            % ("beat" if clv >= 0 else "missed",
+               cents(abs(float(clv))).lstrip("+")))
+    return "%s: %s%s." % (head, body, tail)
+
+
+def _column(col, scale_info, settled_slugs) -> str:
+    clv = col["clv_cents"]
+    track = ""
+    if clv is not None:
+        track = ('<i class="clvmark %s" aria-hidden="true"></i>'
+                 % ("up" if float(clv) >= 0 else "dn"))
+
+    outcome = col["outcome"]
+    if outcome in ("won", "lost"):
+        frac, over = ledger.height(col["net_cents"], scale_info)
+        bar = ('<i class="bar %s%s" style="--h:%.4f" aria-hidden="true"></i>'
+               % (outcome, " over" if over else "", frac))
+    elif outcome in ("open", "live"):
+        payout = (float(col["open_staked_cents"] or 0)
+                  + float(col["upside_cents"] or 0))
+        frac, over = ledger.height(payout, scale_info)
+        # Filled to the price paid, which is the market's OWN probability at
+        # entry -- a fact the record holds. A live win probability is not: no
+        # part of this system polls an in-play price, and drawing one would be
+        # the only number on the page nothing could check.
+        stake = float(col["open_staked_cents"] or 0)
+        implied = (stake / payout) if payout > 0 else 0.0
+        bar = ('<i class="bar %s%s" style="--h:%.4f;--p:%.4f" '
+               'aria-hidden="true"></i>'
+               % (outcome, " over" if over else "", frac,
+                  max(0.0, min(1.0, implied))))
+    else:
+        bar = '<i class="bar %s" aria-hidden="true"></i>' % outcome
+
+    href = ("settlements/%s.html" % col["slug"]) if col["slug"] in settled_slugs else ""
+    tag, attrs, close = "span", "", "</span>"
+    if href:
+        tag, attrs, close = "a", ' href="%s"' % esc(href), "</a>"
+    sentence = _column_sentence(col)
+    classes = "col %s%s%s" % (outcome, " linked" if href else "",
+                              " newmonth" if col["new_month"] else "")
+    return ('<%s class="%s"%s tabindex="-1" role="listitem" data-d="%s" '
+            'aria-label="%s"><span class="clvtrack">%s</span>'
+            '<span class="barbox">%s</span>%s'
+            % (tag, classes, attrs, esc(sentence), esc(sentence), track, bar,
+               close))
+
+
+def book(s: dict) -> str:
+    """Zone 3. One column per fixture, oldest at the left.
+
+    The direct replacement for the glyph strip. Every fact has one channel:
+    position says won or lost, length says how much, fill says settled or
+    still running, and the track above says what the closing line thought.
+    Nothing is double-encoded, and the legend below is a courtesy rather than
+    a decoder ring -- delete it and the shape still reads.
+    """
+    cols = s["columns"]
+    if not cols:
+        return ('<section class="book empty"><p class="nothing">No fixture has '
+                'been boarded yet. The record starts at the first sitting.'
+                '</p></section>')
+    scale_info = s["scale"]
+    settled_slugs = {r["slug"] for r in s["settled_fixtures"]}
+    first, last = cols[0], cols[-1]
+    when = "%s to %s" % (_daystamp(first), _daystamp(last))
+    marks = "".join(_column(c, scale_info, settled_slugs) for c in cols)
+    months = "".join(
+        '<span style="--i:%d">%s</span>' % (i, esc(c["month"]))
+        for i, c in enumerate(cols) if c["new_month"] or i == 0)
+
+    over = scale_info.get("clamped") or 0
+    key = [
+        "above the line won, below lost",
+        "bar length is dollars",
+        "hollow = still running",
+        "hairline = boarded and declined",
+    ]
+    if over:
+        key.append("notched = past the scale")
+    return """
+  <section class="book" aria-labelledby="book-h">
+    <div class="bookhead" id="book-h"><span>Book</span>
+      <b>%d fixtures, %s</b>
+      <a class="archive" href="settlements/index.html">Every settlement &rarr;</a>
     </div>
-  </section>""" % (kicker("Form · %d fixtures, oldest first" % len(
-        [f for f in figures if f["kind"] != "brk"])), body)
+    <div class="grid" id="book" role="list" style="--n:%d"
+         aria-label="%s">%s</div>
+    <div class="axis" style="--n:%d">%s</div>
+    <p class="readout" id="bookread" data-rest="1" aria-live="polite">%s</p>
+  </section>""" % (
+        len(cols), esc(when), len(cols),
+        esc("The book, %d fixtures from %s, oldest first" % (len(cols), when)),
+        marks, len(cols), months, esc(" · ".join(key)))
+
+
+def ledger_band(s: dict, now) -> str:
+    """The whole ledger: what is open, how the run stands, and the book."""
+    return "%s\n%s\n%s" % (open_rail(s, now), run_curve(s), book(s))
 
 
 def cascade(s: dict) -> str:
     """Where the candidates went, as a shape rather than a list of numbers.
 
-    Answers the question the form band raises and cannot itself answer: the
+    Answers the question the book raises and cannot itself answer: the
     record is mostly dots and dashes, and this is why. The two big losses are
     the board declining and the market never reaching our price, and they are
     different failures -- one is judgement, the other is the price we chose.
@@ -449,57 +708,66 @@ def ledger_strip(s: dict) -> str:
 
 
 CLAIM_WORDS = {
-    "home_win": "%(home)s win", "away_win": "%(away)s win", "draw": "draw",
-    "btts": "both teams score",
+    "home_win": ("%(home)s win", "%(home)s do not win"),
+    "away_win": ("%(away)s win", "%(away)s do not win"),
+    "draw": ("draw", "no draw"),
+    "btts": ("both teams score", "not both teams score"),
 }
 
 
-def claim_label(claim: str, home: str, away: str, side: str = "yes") -> str:
-    """Say what the position actually BACKS, in words read at a glance.
+def claim_label(claim: str, home: str, away: str) -> str:
+    """Say what the position BACKS, in words, read at a glance.
 
-    THE SIDE IS HALF THE PROPOSITION AND WAS BEING DROPPED. `claim` names what
-    the market's YES pays on; `side` says which side is held. Holding `no` on
-    `not_score_4-0` is a double negative -- it backs the score BEING 4-0 -- and
-    printing the claim alone rendered every such position as its own opposite.
+    THE CLAIM ALREADY CARRIES THE SIDE, AND FOLDING `side` IN AGAIN NEGATED IT
+    TWICE. `paper.cycle` builds the no side of a market as `"not_" + leg.claim`
+    and prices it with `probability_for` of that same negated string, so a
+    position's `claim` is the proposition THAT POSITION PAYS ON -- exactly what
+    `outcomes.winning_side` settles it against. `side` is the venue mechanic,
+    not a second negation: across the live book all 792 `no` orders carry a
+    `not_` claim and all 621 `yes` orders do not, so it holds no information
+    the claim does not already have.
 
-    It looked like a settlement bug and was not. Real Madrid finished 4-0 and
-    the book won exactly two of its 24 score markets on that fixture, which is
-    what a correct book looks like: one full-time score can be right, and one
-    half-time score. The page just called each of them by the wrong name. 341
-    of 508 positions were held `no`, so two thirds of the record read
-    backwards.
+    Reading it as one made 46 of 71 positions print as their own opposite. On
+    Real Betis v Real Madrid the page showed a first-half Betis win and a
+    first-half draw both settling as winners -- two mutually exclusive
+    propositions, which is what sent us looking.
+
+    Negation is phrased, not prefixed. `not_total_over_2.5` really is
+    "under 2.5 goals" -- the lines are all halves, so there is no push and the
+    complement is exact. Spreads keep the "not" because the complement of
+    "wins by over 1.5" includes losing, and calling that "by under 1.5" would
+    be a different, friendlier, wrong claim.
     """
-    negated = claim.startswith("not_")
-    if str(side) == "no":
-        negated = not negated
-    base = claim[4:] if claim.startswith("not_") else claim
+    negated = str(claim).startswith("not_")
+    base = claim[4:] if negated else str(claim)
     half = base.startswith("1h_")
     if half:
         base = base[3:]
     names = {"home": home, "away": away}
 
     if base in CLAIM_WORDS:
-        text = CLAIM_WORDS[base] % names
-    elif base.startswith("total_over_"):
-        text = "over %s goals" % base.rsplit("_", 1)[1]
-    elif base.startswith("total_under_"):
-        text = "under %s goals" % base.rsplit("_", 1)[1]
+        text = CLAIM_WORDS[base][1 if negated else 0] % names
+    elif base.startswith(("total_over_", "total_under_")):
+        over = base.startswith("total_over_")
+        word = "under" if over == negated else "over"
+        text = "%s %s goals" % (word, base.rsplit("_", 1)[1])
     # Order matters: `home_wins_by_over_` also starts with `home_`, so the
     # spread test has to come before the team-total one.
     elif base.startswith(("home_wins_by_over_", "away_wins_by_over_")):
-        side = "home" if base.startswith("home") else "away"
-        text = "%s by over %s" % (names[side], base.rsplit("_", 1)[1])
+        who = "home" if base.startswith("home") else "away"
+        text = "%s by over %s" % (names[who], base.rsplit("_", 1)[1])
+        return ("not " + text) if negated else text
     elif base.startswith(("home_over_", "away_over_")):
-        side, line = base.split("_over_")
-        text = "%s over %s" % (names[side], line)
+        who, line = base.split("_over_")
+        text = "%s %s %s" % (names[who], "under" if negated else "over", line)
     elif base.startswith("score_"):
-        text = "score %s" % base.split("_", 1)[1]
+        line = base.split("_", 1)[1]
+        text = ("score not %s" % line) if negated else ("score %s" % line)
     else:
         text = base.replace("_", " ")
-
-    if half:
-        text = "1st half " + text
-    return ("not " + text) if negated else text
+        if negated:
+            text = "not " + text
+    return ("1st half " + text) if half else text
 
 
 STAMP = """
@@ -563,7 +831,7 @@ def ticket(row: dict) -> str:
             '<span class="odds">%s%s</span></li>'
             % (state, glyph,
                esc(claim_label(str(p.get("claim") or ""), row["home"],
-                               row["away"], p.get("side"))),
+                               row["away"])),
                esc(str(p.get("venue") or "")[:4]),
                esc("%d¢" % round(float(p.get("avg_cost_cents") or 0))),
                esc(clv_note)))
@@ -706,7 +974,7 @@ def bet_table(s: dict) -> str:
             '<td class="r">%s</td><td class="r %s">%s</td></tr>'
             % (esc(row["date"]), esc("%s v %s" % (row["home"], row["away"])),
                esc(claim_label(str(p.get("claim") or ""), row["home"],
-                               row["away"], p.get("side"))),
+                               row["away"])),
                esc(p.get("venue")),
                esc("%d¢" % round(float(p.get("avg_cost_cents") or 0))),
                esc("%g" % float(p.get("size") or 0)),
@@ -730,7 +998,7 @@ def colophon(s: dict) -> str:
     <p><b>Colophon</b></p>
     <p>The wordmark is set in UnifrakturMaguntia, the dateline and tagline in
     Libre Baskerville. Everything else is Archivo across its width and weight
-    axes, narrow for the tables, with Martian Mono reserved for the form line
+    axes, narrow for the tables, with Martian Mono reserved for the ledger
     where fixed width carries meaning rather than mood. Figures use tabular
     lining sets throughout, so no column shifts as a value updates, and signed
     values take a true minus rather than a hyphen, because the two are not the
@@ -741,12 +1009,29 @@ def colophon(s: dict) -> str:
     profit is carried by weight and by position above the zero rule, which is
     the heaviest line in the design. Under the lit reading the same sheet
     becomes a tote board, and amber replaces ink.</p>
+    <p>In the ledger every fact takes exactly one channel. A bar sits above the
+    baseline when the fixture won and below it when it lost; its length is
+    dollars; its fill says whether the bet has settled, is still resting, or is
+    being played out. Closing line value is lifted clear of the bars into a
+    track of its own, and teal and red mean that and nothing else on the page —
+    a bar is ink whichever way it went. The board declining is a hairline at
+    the baseline, which holds the rhythm of the calendar without claiming any
+    of the attention: it is the commonest thing in the record and the least
+    worth looking at.</p>
     <p>Every rate prints the sample it was computed over. Rates average over
     fixtures rather than bets, because one match can produce thirty correlated
     markets off a single scoreline grid and counting them separately would
     overstate the evidence roughly thirtyfold. Where there is no measurement
     the page prints an em dash rather than a zero. The record is paper: no
     order here was ever placed with a venue.</p>
+    <p>Nothing here polls a price while a match is running, so no card shows
+    an in-play score, a live win probability or a cash-out value. What an open
+    ticket shows is what it cost, what it returns if it lands, where the market
+    closed if that was captured, and what has to happen — every one of which
+    the record actually holds. The front page carries the most recent 48
+    fixtures; the rest are in <a href="settlements/index.html">the settlement
+    archive</a>, a page per fixture, with the board&rsquo;s own words beside
+    its arithmetic.</p>
     <p>Rebuilt from the ledger on every board and maintenance run.
     Ledger last written %s.</p>
   </footer>""" % esc(s.get("saved_at") or "—")
@@ -788,7 +1073,8 @@ html[data-mode="dark"]{
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);
+body{margin:0;overflow-x:clip;background:var(--paper);color:var(--ink);
+  font-family:var(--ui);
   font-size:15px;line-height:1.5;
   transition:background 260ms var(--ease-out),color 260ms var(--ease-out)}
 .tnum,table,.leaders dd{font-variant-numeric:tabular-nums lining-nums slashed-zero}
@@ -842,59 +1128,231 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:99;
   text-transform:uppercase;color:var(--ink-mid)}
 .kicker::before{content:"";width:22px;height:var(--rule-thick);
   background:var(--ink);flex:none}
-.figures{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));gap:4px;
-  font-family:var(--fig);font-size:clamp(12px,1.9vw,22px);font-weight:500;
-  line-height:1}
-/* Each column is one fixture read top to bottom: what the closing line said,
-   then what happened. The band was a flat row of mostly dots -- true, but it
-   put the page's leading indicator nowhere near its signature element. */
-.fig{position:relative;padding:5px 0 7px;min-width:0;width:100%;
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  border:0;background:none;color:var(--ink-soft);cursor:pointer;font:inherit;
-  border-radius:var(--radius);
-  transition:color 140ms var(--ease-out),background 140ms var(--ease-out)}
-.fig .mark{display:block;line-height:1}
-/* A fixed box with the zero rule through the middle, so a tick above and a
-   tick below are measured against the same line. */
-.clvbox{position:relative;display:block;width:100%;height:16px}
-/* Edge to edge, so adjacent cells join into one ruled axis broken only by the
-   grid gap. A per-cell stub read as scattered debris; a continuous line reads
-   as the instrument it is, and stays legible while the record is still thin. */
-.clvbox::after{content:"";position:absolute;left:0;right:0;top:50%;
-  height:var(--rule-hair);background:var(--rule)}
-.clv{position:absolute;left:32%;right:32%;background:var(--ink-mid);
-  border-radius:.5px}
-.clv.up{bottom:50%;height:calc(var(--h) * 8px)}
-.clv.dn{top:50%;height:calc(var(--h) * 8px);background:var(--loss)}
-.fig[data-r="cash"]{color:var(--ink);font-weight:700}
-.fig[data-r="late"]{color:var(--ink)}
-.fig[data-r="early"]{color:var(--ink)}
-.fig[data-r="declined"]{color:var(--ink-soft)}
-/* The market's answer, not the board's: ordered and never reached. */
-.fig[data-r="unfilled"]{color:var(--ink-soft);opacity:.75}
-.fig.brk{color:var(--ink-soft);cursor:default;opacity:.5;align-self:center}
-.fig:hover,.fig:focus-visible{background:var(--rule-soft);color:var(--ink);
-  outline:none}
-.fig[data-r="cash"]::after{content:"";position:absolute;left:22%;right:22%;
-  bottom:1px;height:2px;background:var(--live)}
-.figkey{margin:var(--s3) 0 0;font-family:var(--dense);font-size:11px;
-  letter-spacing:.03em;color:var(--ink-mid);display:flex;gap:var(--s4);
-  flex-wrap:wrap;align-items:baseline}
-.figread{font-family:var(--fig);font-size:11.5px;color:var(--ink);
-  flex:1 1 100%;min-height:1.9em;display:flex;align-items:center;
-  padding:var(--s2) 0 0;margin-top:var(--s2);
+/* ══ THE LEDGER ════════════════════════════════════════════════════════════
+   Three zones on one column grid. Every fact gets exactly one channel and
+   nothing is double-encoded:
+
+     position above / below the baseline   won or lost
+     bar length                            dollars
+     fill style                            settled, open, or in play
+     the CLV track                         closing line value, alone
+
+   Bars are ink. Won and lost are told apart by which side of the rule they
+   sit on, NOT by colour, which is what leaves teal and red free to mean one
+   thing each in the track above. The moment a bar goes red the track stops
+   being readable, so hold this. */
+
+/* ── ZONE 1 · OPEN ── the hero, and the only place to spend any boldness ── */
+.open{margin:0 0 var(--s5)}
+.standfirst{display:flex;align-items:baseline;justify-content:space-between;
+  gap:var(--s2) var(--s4);flex-wrap:wrap;
+  margin:var(--s2) 0 var(--s3);font-family:var(--dense);font-size:12px;
+  letter-spacing:.02em;color:var(--ink-mid)}
+.standfirst .figs{display:flex;gap:var(--s3);white-space:nowrap}
+.standfirst b{color:var(--ink);font-weight:700;padding-right:3px}
+.open .nothing{margin:var(--s2) 0 0;font-family:var(--serif);font-size:15px}
+.open .nothing span{color:var(--ink-mid)}
+
+.rail{display:flex;gap:var(--s3);overflow-x:auto;overscroll-behavior-x:contain;
+  scroll-snap-type:x proximity;padding:2px 2px var(--s3);margin:0 -2px;
+  scrollbar-width:thin;scrollbar-color:var(--ink-soft) transparent}
+.rail::-webkit-scrollbar{height:5px}
+.rail::-webkit-scrollbar-track{background:var(--rule-soft)}
+.rail::-webkit-scrollbar-thumb{background:var(--ink-soft)}
+.ticket{flex:0 0 clamp(236px,26vw,292px);scroll-snap-align:start;
+  display:flex;flex-direction:column;gap:var(--s2);
+  padding:var(--s3) var(--s3) var(--s2);background:var(--inset);
+  border:var(--rule-thin) solid var(--rule);border-radius:0;
+  transition:border-color 160ms var(--ease-out)}
+.ticket:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+/* The live card is the one thing on the page allowed to raise its voice. */
+.ticket.live{border-color:var(--ink);border-top:var(--rule-thick) solid var(--ink)}
+.ticket.awaiting{border-color:var(--ink-soft)}
+.state{display:flex;align-items:center;gap:6px;margin:0;
+  font-family:var(--dense);font-size:10px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-mid)}
+.state i{width:6px;height:6px;flex:none;background:var(--ink-soft)}
+.ticket.live .state{color:var(--ink)}
+.ticket.live .state i{background:var(--live);animation:beat 2.6s var(--ease-out) infinite}
+@keyframes beat{0%,100%{opacity:1}50%{opacity:.28}}
+.ticket .pair{margin:0;font-family:var(--display);font-size:19px;
+  font-weight:700;line-height:1.16;letter-spacing:-.012em;text-wrap:balance}
+.ticket .pair span{font-family:var(--serif);font-weight:400;font-size:13px;
+  font-style:italic;color:var(--ink-mid);padding:0 2px}
+.ticket .comp{margin:0;font-family:var(--dense);font-size:10.5px;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft)}
+.legs{margin:var(--s1) 0 0;padding:var(--s2) 0 0;
+  border-top:var(--rule-hair) solid var(--rule)}
+.leg{display:flex;align-items:baseline;gap:var(--s2);padding:3px 0;
+  border-bottom:var(--rule-hair) solid var(--rule-soft)}
+.leg:last-child{border-bottom:0}
+.leg dt{flex:1 1 auto;min-width:0;font-size:12.5px;line-height:1.3;
+  text-wrap:pretty}
+.leg dt small{display:block;font-family:var(--dense);font-size:9.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.leg dd{flex:0 1 auto;margin:0;font-family:var(--fig);font-size:10.5px;
+  color:var(--ink-mid);display:flex;align-items:baseline;gap:4px;
+  white-space:nowrap}
+.leg dd b{color:var(--ink);font-weight:500}
+.leg .times{opacity:.5}
+.clvtag{font-style:normal;font-size:9.5px;padding-left:2px}
+.clvtag.up{color:var(--live)}
+.clvtag.dn{color:var(--loss)}
+/* The instruction. A claim is a proposition; this is the thing to watch. */
+.needs{margin:auto 0 0;padding:var(--s2) 0 0;
   border-top:var(--rule-hair) solid var(--rule);
-  letter-spacing:0;text-wrap:pretty}
-.figread[data-rest="1"]{color:var(--ink-soft);font-family:var(--dense);
-  letter-spacing:.06em;text-transform:uppercase;font-size:10.5px}
-.formband{margin-bottom:var(--s6)}
-html[data-mode="dark"] .fig:not(.brk){background:#1D1D22;
-  box-shadow:inset 0 0 0 1px #26262C}
-html[data-mode="dark"] .clv{background:var(--ink-mid)}
-html[data-mode="dark"] .clv.dn{background:var(--loss)}
-html[data-mode="dark"] .fig[data-r="cash"]{color:var(--live);
-  text-shadow:0 0 14px rgb(242 169 59/.45)}
-html[data-mode="dark"] .fig:hover{background:#26262C}
+  font-family:var(--serif);font-size:13px;line-height:1.45;text-wrap:pretty}
+.tfoot{display:flex;justify-content:space-between;align-items:baseline;
+  gap:var(--s2);padding-top:var(--s2);white-space:nowrap;
+  border-top:var(--rule-thin) solid var(--ink);
+  font-family:var(--fig);font-size:9.5px;letter-spacing:-.01em;
+  color:var(--ink-soft)}
+.tfoot strong{color:var(--ink);font-weight:500;font-size:11px}
+.tfoot span{font-size:10px}
+
+/* ── ZONE 2 · RUN ── the same x-positions as the book, so they read as one ── */
+.run{margin:0 0 2px}
+.runhead{display:flex;align-items:baseline;gap:var(--s2);flex-wrap:wrap;
+  font-family:var(--dense);font-size:10.5px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-mid)}
+.runhead b{font-family:var(--fig);font-size:13px;letter-spacing:0;
+  font-weight:500}
+.runhead b.pos{color:var(--ink)}
+.runhead b.neg{color:var(--loss)}
+.runnote{font-weight:400;letter-spacing:.04em;text-transform:none;
+  font-size:10.5px;color:var(--ink-soft)}
+.runplot{display:block;width:100%;height:92px;margin-top:var(--s1);
+  overflow:visible}
+.runplot .zero{stroke:var(--ink);stroke-width:1;opacity:.3;
+  vector-effect:non-scaling-stroke}
+.runplot .curve{fill:none;stroke:var(--ink);stroke-width:1.5;
+  stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+/* Exposure drawn as a range. It is not a forecast and must not look like one,
+   so it has no edge stroke and no midline. */
+.runplot .cone{fill:var(--ink);opacity:.11}
+
+/* ── ZONE 3 · BOOK ── one column per fixture, oldest at the left ── */
+.book{margin:0 0 var(--s6)}
+.bookhead{display:flex;align-items:baseline;gap:var(--s2);flex-wrap:wrap;
+  font-family:var(--dense);font-size:10.5px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-mid);
+  padding-bottom:var(--s1)}
+.bookhead b{font-weight:400;letter-spacing:.04em;text-transform:none;
+  color:var(--ink-soft)}
+.bookhead{padding-bottom:var(--s2)}
+.bookhead .archive{margin-left:auto;letter-spacing:.1em;color:var(--ink);
+  text-decoration:none;border-bottom:var(--rule-thin) solid var(--ink)}
+.bookhead .archive:hover{background:var(--ink);color:var(--paper)}
+.book .grid{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));
+  gap:2px;align-items:start}
+.col{position:relative;display:flex;flex-direction:column;gap:3px;min-width:0;
+  color:inherit;text-decoration:none}
+.col.linked{cursor:pointer}
+.col:focus-visible{outline:2px solid var(--ink);outline-offset:2px;
+  border-radius:1px}
+/* A month is a full-height hairline and a word at the axis, not a character
+   in the same alphabet as the data. */
+.col.newmonth::before{content:"";position:absolute;left:-2px;top:0;bottom:-18px;
+  width:var(--rule-hair);background:var(--rule);pointer-events:none}
+
+/* The single biggest legibility gain in the redesign: CLV lifted out of the
+   bars into its own scannable row. Teal above the midline, red below, so the
+   distinction survives greyscale and colour is never the only carrier. */
+.clvtrack{position:relative;height:7px;flex:none}
+.clvtrack::after{content:"";position:absolute;left:0;right:0;top:50%;
+  height:var(--rule-hair);background:var(--rule)}
+.clvmark{position:absolute;left:12%;right:12%;height:2px}
+.clvmark.up{bottom:50%;margin-bottom:1px;background:var(--live)}
+.clvmark.dn{top:50%;margin-top:1px;background:var(--loss)}
+
+.barbox{position:relative;height:86px;flex:none}
+.barbox::after{content:"";position:absolute;left:0;right:0;top:50%;
+  height:var(--rule-hair);background:var(--rule)}
+.bar{position:absolute;left:0;right:0;display:block}
+.bar.won{bottom:50%;height:calc(var(--h) * 42px);background:var(--ink)}
+.bar.lost{top:50%;height:calc(var(--h) * 42px);background:var(--ink)}
+.bar.push{top:calc(50% - 1px);height:2px;background:var(--ink)}
+/* Boarded and declined: holds the rhythm of the calendar, claims nothing. */
+.bar.declined{top:calc(50% - .5px);height:1px;background:var(--ink-soft)}
+/* Ordered and never reached is the MARKET's answer, not the board's. Same
+   weight, hollow, so the two never read as one fact. */
+.bar.unfilled{top:calc(50% - 2.5px);height:5px;background:none;
+  box-shadow:inset 0 0 0 1px var(--ink-soft)}
+/* Still running: the outline is what it pays, the fill is what it cost --
+   which is the market's own probability at entry, and a number this record
+   actually holds. Nothing here polls an in-play price, so nothing here draws
+   a live win probability. */
+.bar.open,.bar.live{bottom:50%;height:calc(var(--h) * 42px);background:none;
+  box-shadow:inset 0 0 0 1px var(--ink)}
+.bar.live::before,.bar.open::before{content:"";position:absolute;
+  left:0;right:0;bottom:0;height:calc(var(--p) * 100%);background:var(--ink);
+  opacity:.82}
+.bar.live{box-shadow:inset 0 0 0 1.5px var(--ink)}
+.bar.live::after{content:"";position:absolute;left:-1px;right:-1px;top:-1px;
+  bottom:-1px;box-shadow:0 0 0 1px var(--live);
+  animation:beat 2.6s var(--ease-out) infinite}
+/* Past the 95th percentile. One outlier should not flatten the rest, and
+   hiding that it is an outlier would be worse. */
+.bar.over.won::after,.bar.over.lost::after{content:"";position:absolute;
+  left:0;right:0;height:0;border-left:3px solid transparent;
+  border-right:3px solid transparent}
+.bar.over.won::after{top:-4px;border-bottom:4px solid var(--ink)}
+.bar.over.lost::after{bottom:-4px;border-top:4px solid var(--ink)}
+
+.col:hover .bar.won,.col:hover .bar.lost,.col:hover .bar.push{background:var(--live)}
+.col:hover .bar.declined,.col:hover .bar.unfilled{background:var(--ink);
+  box-shadow:inset 0 0 0 1px var(--ink)}
+
+.book .axis{position:relative;height:15px;margin-top:3px;
+  font-family:var(--dense);font-size:9.5px;font-weight:700;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--ink-soft)}
+.book .axis span{position:absolute;top:0;
+  left:calc(var(--i) / var(--n) * 100%);white-space:nowrap}
+.book .readout{margin:var(--s2) 0 0;padding:var(--s2) 0 0;text-align:left;
+  border-top:var(--rule-hair) solid var(--rule);min-height:2.1em;
+  font-family:var(--fig);font-size:11.5px;line-height:1.5;color:var(--ink);
+  text-wrap:pretty}
+/* The legend is a courtesy, not a decoder ring: delete it and the shape still
+   reads, which is the acceptance test this replacement had to pass. */
+.book .readout[data-rest="1"]{font-family:var(--dense);font-size:10.5px;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+
+html[data-mode="dark"] .ticket{background:var(--panel-bg);
+  border-color:var(--panel-line)}
+html[data-mode="dark"] .ticket.live{border-color:var(--live);
+  border-top-color:var(--live);box-shadow:var(--glow)}
+/* Under the lit reading the bars stay INK -- which is cream here -- rather
+   than taking the tote board's amber. Amber is what the CLV track's up-mark
+   uses, and a book drawn in the same colour as its own closing-line track is
+   the exact overload this component exists to undo. */
+html[data-mode="dark"] .bar.won,html[data-mode="dark"] .bar.lost,
+html[data-mode="dark"] .bar.push{background:var(--ink)}
+html[data-mode="dark"] .bar.declined{background:var(--ink-soft)}
+html[data-mode="dark"] .bar.open,html[data-mode="dark"] .bar.live{
+  box-shadow:inset 0 0 0 1px var(--ink)}
+html[data-mode="dark"] .bar.live{box-shadow:inset 0 0 0 1.5px var(--ink)}
+html[data-mode="dark"] .bar.live::before,
+html[data-mode="dark"] .bar.open::before{background:var(--ink)}
+html[data-mode="dark"] .bar.over.won::after{border-bottom-color:var(--ink)}
+html[data-mode="dark"] .bar.over.lost::after{border-top-color:var(--ink)}
+html[data-mode="dark"] .runplot .curve{stroke:var(--series)}
+html[data-mode="dark"] .runplot .cone{fill:var(--series);opacity:.14}
+html[data-mode="dark"] .col:hover .bar.won,
+html[data-mode="dark"] .col:hover .bar.lost{background:var(--live)}
+
+@media (prefers-reduced-motion:reduce){
+  .ticket.live .state i,.bar.live::after{animation:none}
+  .bar.live::after{box-shadow:none;outline:1px dashed var(--live);
+    outline-offset:0}
+}
+@media (max-width:560px){
+  .sheet{padding-left:var(--s3);padding-right:var(--s3)}
+  .ticket{flex-basis:min(78vw,268px)}
+  .book .grid{gap:1px}
+  .barbox{height:70px}
+  .bar.won,.bar.lost,.bar.open,.bar.live{height:calc(var(--h) * 34px)}
+  .bookhead .archive{margin-left:0;flex-basis:100%}
+}
 
 
 /* THE CASCADE. The record is mostly abstentions and misses, so a reader
@@ -926,6 +1384,11 @@ html[data-mode="dark"] .fig:hover{background:#26262C}
   .cascade .bar{grid-column:1 / -1;order:3}
 }
 /* ── LEDE + LEADERS ─────────────────────────────────────────── */
+/* A grid track's automatic minimum is its content's min-content, and a wide
+   table's min-content is the table. Without this the column blew past the
+   container by 80px on a phone and the page scrolled sideways to reach it --
+   `.tablewrap` scrolls for exactly that reason and never got the chance. */
+.grid2 > *{min-width:0}
 .grid2{display:grid;grid-template-columns:1.55fr 1fr;gap:var(--s6);
   align-items:start;margin-bottom:var(--s5)}
 .grid2.tight{grid-template-columns:1fr 1fr;gap:var(--s5)}
@@ -1072,6 +1535,100 @@ tbody tr:hover{background:var(--rule-soft)}
 td.w{font-weight:700} td.l{color:var(--loss);font-weight:700}
 html[data-mode="dark"] td.w{color:var(--win)}
 
+
+/* ── THE SETTLEMENT ARCHIVE ─────────────────────────────────────
+   Sub-pages, sharing this sheet rather than a trimmed copy of it: a second
+   stylesheet is a second thing to keep in step, and these print the same
+   figures in the same faces. */
+.subhead{margin-bottom:var(--s5)}
+.subhead .dateline{margin:15px 0 0}
+.back{color:var(--ink);text-decoration:none;letter-spacing:.16em;
+  border-bottom:var(--rule-thin) solid var(--ink)}
+.back:hover{background:var(--ink);color:var(--paper)}
+.fixture{max-width:100%}
+.fixture-h{margin:var(--s2) 0 var(--s4);font-family:var(--display);
+  font-size:clamp(30px,5.4vw,54px);font-weight:800;line-height:1.04;
+  letter-spacing:-.028em;text-wrap:balance}
+.fixture-h span{font-family:var(--serif);font-style:italic;font-weight:400;
+  font-size:.44em;color:var(--ink-mid);padding:0 .12em}
+.standfirst-long{margin:0 0 var(--s4);font-family:var(--serif);font-size:15px;
+  line-height:1.62;max-width:66ch;text-wrap:pretty}
+.scoreline{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:0;margin:0 0 var(--s5);border-top:var(--rule-thick) solid var(--ink);
+  border-bottom:var(--rule-thin) solid var(--ink)}
+.scoreline > div{padding:var(--s3) var(--s3) var(--s3) 0;
+  border-right:var(--rule-hair) solid var(--rule)}
+.scoreline > div:last-child{border-right:0}
+.scoreline dt{font-family:var(--dense);font-size:10px;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--ink-mid)}
+.scoreline dd{margin:5px 0 0;font-family:var(--fig);font-size:19px;
+  font-weight:500;letter-spacing:-.01em}
+.scoreline dd.pos{color:var(--ink)}
+.scoreline dd.neg{color:var(--loss)}
+
+/* The board's own words, kept beside its arithmetic. The reasoning is the
+   part of this record that cannot be recomputed. */
+.verdictbox{margin:0 0 var(--s5);padding:var(--s3) var(--s4);
+  border-left:var(--rule-thick) solid var(--ink);background:var(--inset)}
+.verdictbox .kicker{margin:0 0 var(--s2)}
+.said{margin:0;font-family:var(--serif);font-size:14px;line-height:1.6;
+  max-width:70ch;text-wrap:pretty}
+.saidfoot{margin:var(--s2) 0 0;font-family:var(--dense);font-size:10.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+
+table.settlements caption{text-align:left;padding:11px var(--s4) 0;
+  font-family:var(--dense);font-size:10px;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-soft)}
+table.settlements td.what{white-space:normal;min-width:190px}
+table.settlements td.verdict{font-weight:700;text-transform:capitalize}
+table.settlements td.verdict.lost{color:var(--loss)}
+table.settlements td.up{color:var(--live)}
+table.settlements td.dn{color:var(--loss)}
+table.settlements td.pos{font-weight:700}
+table.settlements td.neg{color:var(--loss);font-weight:700}
+html[data-mode="dark"] table.settlements td.pos{color:var(--win)}
+html[data-mode="dark"] table.settlements td.verdict.won{color:var(--win)}
+
+.monthblock{margin:0 0 var(--s5)}
+.monthblock h2{margin:0 0 var(--s2);font-family:var(--dense);font-size:11px;
+  font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-mid);padding-bottom:var(--s1);
+  border-bottom:var(--rule-thin) solid var(--ink)}
+.archive-list{list-style:none;margin:0;padding:0}
+.archive-list a{display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto auto auto;
+  align-items:baseline;gap:var(--s3);padding:9px 2px;color:inherit;
+  text-decoration:none;border-bottom:var(--rule-hair) solid var(--rule-soft)}
+.archive-list a:hover,.archive-list a:focus-visible{background:var(--rule-soft);
+  outline:none}
+.archive-list a:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.archive-list .when{font-family:var(--fig);font-size:10.5px;
+  color:var(--ink-soft)}
+.archive-list .who{font-size:14px;min-width:0;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.archive-list .who i{font-family:var(--serif);font-style:italic;font-size:11px;
+  color:var(--ink-mid);padding:0 3px}
+.archive-list .count{font-family:var(--dense);font-size:11px;
+  color:var(--ink-mid)}
+.archive-list .clv{font-family:var(--fig);font-size:11px;min-width:5ch;
+  text-align:right}
+.archive-list .clv.up{color:var(--live)}
+.archive-list .clv.dn{color:var(--loss)}
+.archive-list .net{font-family:var(--fig);font-size:12px;min-width:8ch;
+  text-align:right;font-weight:500}
+.archive-list .net.neg{color:var(--loss)}
+html[data-mode="dark"] .archive-list .net.pos{color:var(--win)}
+.backlink{margin:var(--s5) 0 0;font-family:var(--dense);font-size:11.5px;
+  letter-spacing:.1em;text-transform:uppercase}
+.backlink a{color:var(--ink)}
+.fixture .nothing{font-family:var(--serif);font-size:15px;max-width:60ch}
+
+@media (max-width:560px){
+  .archive-list a{grid-template-columns:auto minmax(0,1fr) auto;
+    row-gap:2px}
+  .archive-list .count{display:none}
+}
+
 /* ── COLOPHON ───────────────────────────────────────────────── */
 .colophon{margin-top:var(--s7);padding-top:var(--s4);
   border-top:var(--rule-thick) solid var(--ink);position:relative}
@@ -1084,9 +1641,6 @@ html[data-mode="dark"] td.w{color:var(--win)}
 
 @media (max-width:900px){ .grid2,.grid2.tight{grid-template-columns:1fr;
   gap:var(--s5)} .lede{columns:1} }
-@media (max-width:760px){ .figures{grid-template-columns:repeat(12,minmax(0,1fr))} }
-@media (max-width:430px){ .figures{grid-template-columns:repeat(8,minmax(0,1fr));
-  gap:3px} .sheet{padding:var(--s5) var(--s4)} .crop{display:none}
   .tagline::before,.tagline::after{display:none} }
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.01ms !important;transition-duration:.01ms !important}
@@ -1095,16 +1649,39 @@ html[data-mode="dark"] td.w{color:var(--win)}
 
 JS = """
 (function(){
-  var read=document.getElementById('figread'),
-      wrap=document.getElementById('figures'),
+  /* THE BOOK. Hover and keyboard focus open the SAME readout, so no fact on
+     this page is reachable by pointer alone. Roving tabindex: the book is one
+     tab stop and the arrows walk it, rather than 48 stops between the header
+     and the next section. */
+  var read=document.getElementById('bookread'),
+      wrap=document.getElementById('book'),
       REST=read?read.textContent:'';
-  if(wrap){
-    function show(e){var b=e.target.closest('.fig[data-d]');
+  if(wrap&&read){
+    var cols=[].slice.call(wrap.querySelectorAll('.col'));
+    if(cols.length) cols[cols.length-1].tabIndex=0;
+    function show(e){var b=e.target.closest('.col[data-d]');
       if(b){read.textContent=b.dataset.d; read.removeAttribute('data-rest');}}
+    function rest(){read.textContent=REST; read.setAttribute('data-rest','1');}
     wrap.addEventListener('pointerover',show);
     wrap.addEventListener('focusin',show);
-    wrap.addEventListener('pointerleave',function(){
-      read.textContent=REST; read.setAttribute('data-rest','1');});
+    wrap.addEventListener('pointerleave',rest);
+    wrap.addEventListener('focusout',function(e){
+      if(!wrap.contains(e.relatedTarget)) rest();});
+    wrap.addEventListener('keydown',function(e){
+      var i=cols.indexOf(document.activeElement); if(i<0) return;
+      var month=function(dir){
+        var j=i;
+        while(true){ j+=dir;
+          if(j<=0) return 0;
+          if(j>=cols.length-1) return cols.length-1;
+          if(cols[j].classList.contains('newmonth')) return j; } };
+      var to={ArrowLeft:i-1,ArrowRight:i+1,Home:0,End:cols.length-1,
+              PageUp:month(-1),PageDown:month(1)}[e.key];
+      if(to===undefined) return;
+      e.preventDefault();
+      to=Math.max(0,Math.min(cols.length-1,to));
+      cols[i].tabIndex=-1; cols[to].tabIndex=0; cols[to].focus();
+    });
   }
 
   /* The readout is fixed-width with tabular figures, so the panel head does
@@ -1188,6 +1765,7 @@ def page(portfolio: dict, now=None) -> str:
     """
     now = now or dt.datetime.now(dt.timezone.utc)
     s = model.summary(portfolio)
+    s.update(ledger_view(portfolio, now))
     links = "\n".join(
         '<link href="%s" rel="stylesheet">' % f for f in FONTS)
 
@@ -1224,6 +1802,6 @@ what was bet, and what was declined.">
 <script>%s</script>
 </body>
 </html>
-""" % (links, CSS, masthead(s, now), form_band(s), lede(s), leaders(s),
+""" % (links, CSS, masthead(s, now), ledger_band(s, now), lede(s), leaders(s),
        cascade(s), chart(s), ledger_strip(s), tickets(s), bet_table(s),
        breakdown(s), abstentions(s), colophon(s), crosshair_data(s), JS)

@@ -21,7 +21,7 @@ import datetime as dt
 import json
 import os
 
-from . import render
+from . import archive, render
 
 DEFAULT_LEDGER = os.path.join("data", "paper", "portfolio.json")
 DEFAULT_OUT = os.path.join("site", "index.html")
@@ -61,6 +61,18 @@ def build(ledger_path: str = DEFAULT_LEDGER, out_path: str = DEFAULT_OUT,
         os.makedirs(parent, exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as fh:
         fh.write(html)
+
+    # THE ARCHIVE IS PART OF THE BUILD, NOT A SEPARATE COMMAND. The front page
+    # links into it from every settled column, so a build that wrote one and
+    # not the other would publish a page full of dead links. Written after the
+    # front page and before `.nojekyll`, all under the same output root.
+    written = [out_path]
+    for rel, page_html in archive.pages(portfolio, now=now).items():
+        path = os.path.join(parent or ".", *rel.split("/"))
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write(page_html)
+        written.append(path)
     # `.nojekyll` stops GitHub Pages running the output through Jekyll, which
     # would otherwise drop any file or directory beginning with an underscore.
     with open(os.path.join(parent or ".", ".nojekyll"), "w",
@@ -72,6 +84,7 @@ def build(ledger_path: str = DEFAULT_LEDGER, out_path: str = DEFAULT_OUT,
     return {
         "out": out_path,
         "bytes": len(html),
+        "pages": len(written),
         "fixtures": summary["board"]["n_fixtures"],
         "declined": summary["board"]["n_declined"],
         "positions": len(summary["fixtures"]),
@@ -87,8 +100,9 @@ def main(argv=None) -> int:
     ap.add_argument("--out", default=DEFAULT_OUT)
     args = ap.parse_args(argv)
     built = build(args.ledger, args.out)
-    print("built %(out)s (%(bytes)d bytes) — %(fixtures)d fixtures boarded, "
-          "%(declined)d declined, %(settled)d markets settled" % built)
+    print("built %(out)s (%(bytes)d bytes) and %(pages)d page(s) — "
+          "%(fixtures)d fixtures boarded, %(declined)d declined, "
+          "%(settled)d markets settled" % built)
     return 0
 
 

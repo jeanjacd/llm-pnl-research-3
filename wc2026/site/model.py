@@ -23,36 +23,17 @@ Closing line value stays in CENTS, because it is a price difference per
 contract rather than an amount of money -- "+4.8c" is how far the market moved
 toward us on each contract, and dividing it by anything would be meaningless.
 
-THE FORM NOTATION. Racing form adapted to a book that mostly declines to bet:
-
-    .   boarded, declined               (the abstention -- most of the record)
-    -   ordered, nothing filled         (the market never came to our price)
-    0-9 TENTHS OF STAKE RETURNED on a fixture that finished down
-    v   the fixture finished up
-    /   month boundary
-
-THE DIGIT IS A SHARE, NOT A COUNT. It first read "markets that cashed", capped
-at 9, and that was close to meaningless: the denominator ran from 1 market to
-76, so a raw count compared nothing to nothing. Five fixtures returning 22%,
-47%, 65%, 68% and 88% of their stake all printed the same `9`. As tenths
-returned they print 7, 4, 8, 6, 8, and a `0` finally means what it looks like
--- Celta Vigo returned $0.29 of $42.05 and used to show a `1`.
-
-AND A FIXTURE THAT FILLED NOTHING IS NOT A FIXTURE THAT WAS DECLINED. Leeds v
-Brentford placed 130 orders and filled none of them; the record showed `.`, the
-same character as a board that passed. The board approving 130 markets and the
-market never reaching our price are opposite facts about the same fixture.
+THE FORM NOTATION IS GONE. It encoded 48 fixtures as `0-9 . - v /` with a
+legend longer than the data, and is replaced by `site/ledger.py`: a bar per
+fixture, position for won or lost, length for dollars, and a separate track
+for closing line value. What survives here is everything that produced its
+numbers -- `fixtures`, the per-fixture summary, and the headline rates -- which
+the ledger reads directly.
 """
 from __future__ import annotations
 
 import collections
 import datetime as dt
-
-FORM_DECLINED = "·"
-FORM_UNFILLED = "–"
-FORM_CASHED = "✓"
-FORM_MONTH = "/"
-
 
 def _parse(value):
     if not value:
@@ -206,64 +187,6 @@ def _summarise(row: dict) -> None:
                              if staked > 0 else None)
 
 
-def form_figure(row: dict) -> str:
-    """One character for one fixture -- see the module docstring."""
-    if not row["acted"]:
-        # Ordered and filled nothing is the MARKET's answer; declined is the
-        # board's. Printing both as `.` merged the two.
-        return FORM_UNFILLED if row["ordered"] else FORM_DECLINED
-    if row["n_open"] > 0:
-        return FORM_DECLINED       # still running; not part of the record yet
-    if row["pnl_cents"] > 0:
-        return FORM_CASHED
-    # Tenths of stake returned. A count had no denominator: 23 of 53 and 29 of
-    # 76 both saturated the cap and printed the same character.
-    share = row.get("returned_share")
-    if share is None:
-        return "0"
-    return str(max(0, min(9, int(share * 10))))
-
-
-def form_line(portfolio: dict, limit: int = 48) -> list:
-    """The record, oldest first, with month rules inserted.
-
-    Only fixtures that have finished -- or were declined -- appear. A live
-    fixture has no result to encode, and inventing one would be the same error
-    as settling a match that has not been played.
-    """
-    done = [r for r in fixtures(portfolio)
-            if (not r["acted"]) or r["settled_fixture"]]
-    done.sort(key=lambda r: (r.get("kickoff_utc") or r.get("boarded_at") or ""))
-    done = done[-limit:]
-
-    out, month = [], None
-    for row in done:
-        stamp = _parse(row.get("kickoff_utc") or row.get("boarded_at"))
-        this = (stamp.year, stamp.month) if stamp else None
-        if month is not None and this is not None and this != month:
-            out.append({"char": FORM_MONTH, "kind": "brk", "detail": "month"})
-        month = this if this is not None else month
-        out.append({"char": form_figure(row), "kind": _form_kind(row),
-                    "detail": form_detail(row, stamp),
-                    # The hero metric, carried on the signature element. The
-                    # form line said what HAPPENED and never what the closing
-                    # line thought of it, so the page's own leading indicator
-                    # was absent from the one display everybody reads first.
-                    "clv_cents": row.get("clv_cents"),
-                    "staked_cents": row.get("staked_cents") or 0.0})
-    return out
-
-
-def _form_kind(row: dict) -> str:
-    if not row["acted"]:
-        return "unfilled" if row.get("ordered") else "declined"
-    if row["pnl_cents"] > 0:
-        return "cash"
-    # Losing with several markets landing is a different failure from losing
-    # with none, and the page distinguishes them by weight.
-    return "late" if row["n_cashed"] else "early"
-
-
 def _clip(text: str, limit: int) -> str:
     """Trim to a word boundary. A readout cut mid-word looks like a bug."""
     text = " ".join(str(text).split())
@@ -271,31 +194,6 @@ def _clip(text: str, limit: int) -> str:
         return text
     cut = text[:limit].rsplit(" ", 1)[0]
     return (cut or text[:limit]).rstrip(".,;:") + "…"
-
-
-def form_detail(row: dict, stamp=None) -> str:
-    stamp = stamp or _parse(row.get("kickoff_utc") or row.get("boarded_at"))
-    when = stamp.strftime("%d %b") if stamp else "--"
-    match = "%s v %s" % (row["home"], row["away"])
-    if not row["acted"]:
-        if row.get("ordered"):
-            return ("%s · %s · ordered %d, filled none — the market never "
-                    "came to our price" % (when, match, row["n_orders"]))
-        why = _clip(row.get("reason") or "", 72)
-        head = "%s · %s · %s" % (when, match,
-                                 (row.get("action") or "declined").lower())
-        return "%s · %s" % (head, why) if why else head
-    share = row.get("returned_share")
-    # Fees can carry a total loss past 100%, and "−4% of stake back" reads as
-    # a bug rather than a fee. The dollar figure beside it already carries it.
-    got = ("" if share is None
-           else " · %.0f%% of stake back" % max(0.0, 100 * share))
-    missed = ("" if not row.get("n_unfilled")
-              else " · %d order%s never filled"
-                   % (row["n_unfilled"], "" if row["n_unfilled"] == 1 else "s"))
-    return "%s · %s · %d of %d cashed · %s%s%s" % (
-        when, match, row["n_cashed"], row["n_settled"],
-        signed_money(row["pnl_cents"]), got, missed)
 
 
 # --- headline numbers ---------------------------------------------------------
@@ -561,7 +459,6 @@ def summary(portfolio: dict) -> dict:
         "fills": fills(portfolio),
         "board": board(portfolio),
         "fixtures": fixtures(portfolio),
-        "form": form_line(portfolio),
         "leagues": by_league(portfolio),
         "families": claim_families(portfolio),
         "equity": equity_curve(portfolio),
