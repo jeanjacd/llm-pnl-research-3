@@ -96,8 +96,9 @@ def test_the_page_carries_every_section():
                 ledger=[{"ts": "2026-08-28T20:00:00+00:00",
                          "instrument_id": "draw-A", "side": "yes",
                          "pnl_cents": 900, "won": True}])
-    for marker in ("Form ·", "Declined", "By league", "By market family",
-                   "Every market held", "Colophon", "Tickets"):
+    for marker in ("Open", "Run", "Book", "Every settlement", "Declined",
+                   "By league", "By market family", "Every market held",
+                   "Colophon", "Tickets"):
         assert marker in html, marker
 
 
@@ -118,9 +119,13 @@ def test_the_zero_line_is_the_heaviest_rule_on_the_chart():
 
 def test_nothing_animates_the_headline_or_the_chart_on_load():
     """Frequency rule: this page is opened daily, and an animation watched
-    daily is a tax."""
+    daily is a tax. The one exception is the live pulse, which is a STATE and
+    only exists while a match is actually being played -- and it is the first
+    thing dropped under `prefers-reduced-motion`."""
     html = page(positions=[pos(clv=1.0, pnl=500)])
-    assert "@keyframes" not in html, "no load animation is defined at all"
+    assert html.count("@keyframes") == 1, "only the live pulse is defined"
+    assert "@keyframes beat" in html
+    assert "prefers-reduced-motion" in html
     assert "animation-delay" not in html, "no stagger survives on the figures"
     # Nothing counts the hero up, and the chart path is emitted complete
     # rather than drawn: no dash-offset trick, no requestAnimationFrame.
@@ -271,50 +276,70 @@ def test_a_negative_percentage_uses_a_true_minus():
     assert "-7.5%" not in html and "-5.0%" not in html
 
 
-# --- the side is half the proposition -----------------------------------------
-# Real Madrid beat Málaga 4-0 (3-0 at the interval) and the book won exactly two
-# of its 24 score markets on that fixture -- which is what a CORRECT book looks
-# like, since one full-time score can be right and one half-time score. The page
-# printed both winners, and all 22 losers, under the wrong name.
-def test_a_no_side_position_is_named_for_what_it_actually_backs():
-    """Holding `no` on `not_score_4-0` is a double negative: it backs the score
-    BEING 4-0. Printing the claim alone renders it as its own opposite."""
-    assert render.claim_label("not_score_4-0", "A", "B", "no") == "score 4-0"
-    assert render.claim_label("not_1h_score_3-0", "A", "B", "no") == \
-        "1st half score 3-0"
-    assert render.claim_label("not_total_over_2.5", "A", "B", "no") == \
+# --- the claim already carries the side ---------------------------------------
+# Real Betis v Real Madrid, 2026-09-04. The page printed "1st half Real Betis
+# win" AND "1st half draw", both settled as winners, on the same fixture. Two
+# propositions that cannot both be true, so one of them was being named wrong.
+#
+# `paper.cycle` builds the no side as `"not_" + leg.claim` and prices it with
+# `probability_for` of that same negated string, so the claim on a position IS
+# the proposition it pays on -- which is what `outcomes.winning_side` settles
+# it against, and what `test_money_correctness` already asserts. Folding `side`
+# in on the way to the page applied the negation a second time.
+def test_a_position_is_named_by_the_claim_it_settles_on():
+    """The label and the settlement must read the claim the same way. They did
+    not: settlement paid `not_score_4-0` when the score was anything else, and
+    the page called that same position a bet ON 4-0."""
+    assert render.claim_label("not_score_4-0", "A", "B") == "score not 4-0"
+    assert render.claim_label("score_4-0", "A", "B") == "score 4-0"
+    assert render.claim_label("not_1h_score_3-0", "A", "B") == \
+        "1st half score not 3-0"
+
+
+def test_the_two_betis_rows_can_no_longer_both_read_as_a_win():
+    """The screenshot that surfaced this. On a drawn half BOTH positions do
+    win -- `1h_draw` and `not_1h_home_win` are compatible -- but only once the
+    second is named for what it backs."""
+    a = render.claim_label("1h_draw", "Real Betis", "Real Madrid")
+    b = render.claim_label("not_1h_home_win", "Real Betis", "Real Madrid")
+    assert a == "1st half draw"
+    assert b == "1st half Real Betis do not win"
+    assert a != b
+
+
+def test_negation_is_phrased_rather_than_prefixed():
+    """`not_total_over_2.5` is exactly "under 2.5": every line is a half, so
+    there is no push and the complement is clean."""
+    assert render.claim_label("not_total_over_2.5", "A", "B") == \
+        "under 2.5 goals"
+    assert render.claim_label("not_total_under_2.5", "A", "B") == \
         "over 2.5 goals"
+    assert render.claim_label("not_draw", "A", "B") == "no draw"
+    assert render.claim_label("not_home_win", "Betis", "Madrid") == \
+        "Betis do not win"
 
 
-def test_a_yes_side_position_keeps_its_negation():
-    assert render.claim_label("not_draw", "A", "B", "yes") == "not draw"
-    assert render.claim_label("draw", "A", "B", "yes") == "draw"
+def test_a_spread_keeps_its_not_because_the_complement_includes_losing():
+    """"Not by over 1.5" covers a one-goal win, a draw and a defeat. Calling
+    it "by under 1.5" would be a different and friendlier claim."""
+    assert render.claim_label("not_home_wins_by_over_1.5", "Betis", "M") == \
+        "not Betis by over 1.5"
 
 
-def test_selling_an_unnegated_claim_reads_as_the_negation():
-    assert render.claim_label("draw", "A", "B", "no") == "not draw"
-    assert render.claim_label("home_win", "Real Madrid", "B", "no") == \
-        "not Real Madrid win"
-
-
-def test_the_side_reaches_the_label_from_the_position():
-    """The fold is worthless if the call site drops the side, which is exactly
-    how this shipped: 341 of 508 positions were held `no`, so two thirds of
-    the record read backwards."""
+def test_the_page_names_a_no_side_holding_by_its_own_proposition():
     sold = pos(claim="not_score_4-0", home="Real Madrid", away="Málaga",
-               pnl=1500, clv=2.0)
+               pnl=-8900, clv=2.0)
     sold["side"] = "no"
     html = page(positions=[sold])
-    assert "score 4-0" in html
-    assert "not score 4-0" not in html
+    assert "score not 4-0" in html
 
 
-def test_only_one_full_time_score_can_win_and_the_page_shows_that():
-    """The screenshot that surfaced this: eleven `not score X-Y` rows all
-    marked lost, which is impossible for the claim as printed and ordinary
-    for the position actually held."""
+def test_most_of_the_score_book_wins_when_the_score_is_something_else():
+    """The inverse of the story this file used to tell. A book holding 24
+    `not_score_X-Y` positions wins 23 of them: paying ~92c for a near-certainty
+    is what the record shows, and exactly one of them can lose."""
     held = []
-    for score, pnl in (("4-0", 1500), ("0-1", -8900), ("2-1", -8500)):
+    for score, pnl in (("4-0", -8900), ("0-1", 700), ("2-1", 700)):
         p = pos(claim="not_score_%s" % score, home="Real Madrid",
                 away="Málaga", pnl=pnl, clv=2.0)
         p["side"] = "no"
@@ -322,41 +347,51 @@ def test_only_one_full_time_score_can_win_and_the_page_shows_that():
         held.append(p)
     html = page(positions=held)
     for score in ("4-0", "0-1", "2-1"):
-        assert "score %s" % score in html
-    assert "not score" not in html, "every one of them backs a score"
+        assert "score not %s" % score in html
 
 
 # --- the band is an instrument, not a line -------------------------------------
-def test_the_band_carries_a_closing_line_axis():
-    """CLV is the hero metric and appeared nowhere on the signature element."""
+def test_the_book_carries_a_closing_line_track_of_its_own():
+    """CLV is the hero metric and was a two-pixel vertical offset inside the
+    figures. Lifting it into its own row is the single biggest legibility gain
+    in the redesign."""
     html = page(positions=[pos(claim="draw", pnl=-500, clv=3.0)])
-    assert 'class="clvbox"' in html
-    assert 'class="clv up"' in html or 'class="clv dn"' in html
-    assert "beat the closing line" in html
+    assert 'class="clvtrack"' in html
+    assert 'class="clvmark up"' in html or 'class="clvmark dn"' in html
 
 
-def test_a_tick_points_up_when_the_market_closed_our_way():
+def test_a_mark_sits_above_the_track_when_the_market_closed_our_way():
+    """Above and below the track's midline, so the distinction survives
+    greyscale and colour is never the only carrier."""
     up = page(positions=[pos(claim="draw", pnl=-500, clv=4.0)])
     dn = page(positions=[pos(claim="draw", pnl=-500, clv=-4.0)])
-    assert 'class="clv up"' in up and 'class="clv dn"' not in up
-    assert 'class="clv dn"' in dn and 'class="clv up"' not in dn
+    assert 'class="clvmark up"' in up and 'class="clvmark dn"' not in up
+    assert 'class="clvmark dn"' in dn and 'class="clvmark up"' not in dn
 
 
-def test_one_scale_serves_the_whole_band():
-    """Per-column scaling would make two equal ticks mean two different
-    closing lines, which is worse than no chart at all."""
-    html = page(positions=[
-        pos(claim="draw", home="A", away="B", pnl=-500, clv=10.0),
-        pos(claim="draw", home="C", away="D", pnl=-500, clv=5.0)])
+def test_a_bar_is_ink_whether_it_won_or_lost():
+    """The encoding discipline the whole component rests on: won and lost are
+    told apart by WHICH SIDE OF THE RULE they sit on, never by colour, which is
+    what leaves teal and red free to mean one thing each in the track above.
+    The moment a bar goes red the track stops being readable."""
+    html = page(positions=[pos(claim="draw", home="A", away="B", pnl=900,
+                               clv=1.0),
+                           pos(claim="draw", home="C", away="D", pnl=-900,
+                               clv=1.0)])
     import re
-    heights = sorted(float(h) for h in re.findall(r"--h:([\d.]+)", html))
-    assert heights == pytest.approx([0.5, 1.0])
+    # Anchored: a hover affordance may tint a bar, an ENCODING may not, and
+    # the two are told apart by the selector the rule starts with.
+    for rule in re.findall(r"(?m)^\.bar\.(?:won|lost|push)[^{]*\{[^}]*\}",
+                           html):
+        assert "--loss" not in rule and "--live" not in rule, rule
+    assert ".bar.won{bottom:50%" in html, "won sits above the rule"
+    assert ".bar.lost{top:50%" in html, "lost sits below it"
 
 
-def test_a_fixture_with_no_closing_line_gets_no_tick():
+def test_a_fixture_with_no_closing_line_gets_no_mark():
     html = page(boarded=[verdict()])
-    assert 'class="clvbox"' in html, "the axis still runs"
-    assert "--h:" not in html, "but nothing is drawn on it"
+    assert 'class="clvtrack"' in html, "the track still runs"
+    assert '<i class="clvmark' not in html, "but nothing is drawn on it"
 
 
 def test_the_cascade_explains_where_the_candidates_went():

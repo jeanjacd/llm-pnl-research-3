@@ -311,6 +311,74 @@ def cmd_paper_maintain(args):
                     league_ids=leagues or None)
 
 
+def cmd_paper_void(args):
+    """Withdraw positions from the MEASUREMENT, not from the record.
+
+    PAPER ONLY, places nothing. A void keeps the position, its price, its size
+    and its result, marks it with a reason, returns the stake to cash, and
+    stops every rate on the page counting it. The order behind it is voided
+    too, or the next rebuild would raise the position from the dead.
+
+    Only for a position that could not be MEASURED -- one priced against a
+    proposition the model never evaluated. Never for a losing trade, and never
+    for one that only looks bad afterwards.
+    """
+    import json as _json
+
+    from .paper.void import VoidError, apply, plan
+
+    ids = [x.strip() for x in (args.positions or "").split(",") if x.strip()]
+    if not ids:
+        sys.exit("no position ids given")
+
+    # READ AND WRITE THE JSON DIRECTLY. Round-tripping through the broker would
+    # rewrite every record it does not know about, and a repair that quietly
+    # reshapes the rest of the file is not a repair.
+    try:
+        with open(args.state, encoding="utf-8") as fh:
+            raw = _json.load(fh)
+    except OSError as exc:
+        sys.exit("cannot read %s: %s" % (args.state, exc))
+    # Captured BEFORE either branch runs. `plan` leaves the book alone and
+    # `apply` does not, so deriving the opening balance from the file after the
+    # fact prints a different number depending on which one ran.
+    opening = int(raw.get("cash_cents") or 0)
+    try:
+        report = (plan if args.dry_run else apply)(raw, ids, args.reason)
+    except VoidError as exc:
+        sys.exit(str(exc))
+
+    for step in report["steps"]:
+        print("%s  %s" % (step["position_id"], step["fixture"]))
+        print("   claim      %s  (%s)" % (step["claim"], step["instrument_id"]))
+        print("   realised   %s" % _money(step["realized_pnl_cents"]))
+        print("   cash moves %s" % _money(step["cash_delta_cents"]))
+        print("   also voids %d order(s), %d ledger line(s)"
+              % (len(step["orders"]), len(step["ledger"])))
+    if report["already_void"]:
+        print("already void, left alone: %s"
+              % ", ".join(report["already_void"]))
+    print("")
+    print("reason: %s" % report["reason"])
+    print("cash %s -> %s" % (_money(opening),
+                             _money(opening + report["cash_delta_cents"])))
+
+    if args.dry_run:
+        print("")
+        print("dry run: nothing written. Re-run without --dry-run to keep it.")
+        return
+
+    with open(args.state, "w", encoding="utf-8") as fh:
+        _json.dump(raw, fh, indent=2)
+    print("")
+    print("written to %s" % args.state)
+
+
+def _money(cents_value) -> str:
+    sign = "-" if cents_value < 0 else ""
+    return "%s$%.2f" % (sign, abs(float(cents_value)) / 100.0)
+
+
 def cmd_paper_rebuild(args):
     """Recompute the paper book from ORDER INTENT. PAPER ONLY, places nothing.
 
@@ -497,6 +565,19 @@ def build_parser() -> argparse.ArgumentParser:
     prb.add_argument("--dry-run", action="store_true",
                      help="report the change without writing anything")
     prb.set_defaults(func=cmd_paper_rebuild)
+
+    pv = sub.add_parser("paper-void",
+                        help="withdraw positions from the measurement, "
+                             "keeping them on the record")
+    pv.add_argument("--positions", required=True,
+                    help="comma-separated position ids")
+    pv.add_argument("--reason", required=True,
+                    help="why it cannot be measured -- printed on the page")
+    pv.add_argument("--state", default=os.path.join("data", "paper",
+                                                    "portfolio.json"))
+    pv.add_argument("--dry-run", action="store_true",
+                    help="report the change without writing anything")
+    pv.set_defaults(func=cmd_paper_void)
 
     pm = sub.add_parser("paper-maintain",
                         help="settle, fill and price-check the paper book "

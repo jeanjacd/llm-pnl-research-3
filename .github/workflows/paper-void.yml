@@ -1,0 +1,100 @@
+name: paper-void
+
+# Withdraw positions from the MEASUREMENT, keeping them on the record.
+#
+# A ONE-SHOT REPAIR, NOT A SCHEDULE, and dispatched by hand with the position
+# ids typed in. There is no automatic path to this on purpose: a book that can
+# void its own trades without a person naming them is a book that can quietly
+# improve its own numbers.
+#
+# WHAT A VOID IS. The position stays where it is, keeps its price, size,
+# closing line and result, and gains a flag and a reason. Nothing that claims
+# to be a measurement counts it again -- not CLV, not P&L, not the strike rate
+# -- and the stake is returned to cash, so the balance is what it would have
+# been had the order never been placed. It still appears on its fixture's page,
+# struck through, with the reason printed beside it.
+#
+# WHEN IT IS THE RIGHT TOOL. Only when the DECISION could not be measured: a
+# position priced against a proposition the model never evaluated is not
+# evidence about the model in either direction. Never for a losing trade, and
+# never for one that merely looks bad in hindsight. Voiding on the outcome
+# rather than the input destroys the thing this protects.
+#
+# PAPER TRADING ONLY. No job, step or credential here can place a real order.
+
+on:
+  workflow_dispatch:
+    inputs:
+      positions:
+        description: "Comma-separated position ids to void"
+        required: true
+      reason:
+        description: "Why it cannot be measured (printed on the page)"
+        required: true
+      dry_run:
+        description: "Report the change without writing anything"
+        type: boolean
+        default: true
+
+permissions:
+  # WRITE: the marked ledger is persisted to `automation-state` the same way
+  # every other paper run persists its state.
+  contents: write
+
+# Shares the board's lock. A void racing a cycle would have each writing a
+# portfolio the other never saw.
+concurrency:
+  group: paper-portfolio
+  cancel-in-progress: false
+
+jobs:
+  void:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e ".[dev]"
+
+      - name: Restore paper state
+        run: python scripts/state_sync.py restore --branch automation-state
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # The book as it stood before, kept as the evidence for why it changed.
+      # Uploaded whatever happens, including on a dry run, so the run that
+      # decided something always carries what it decided against.
+      - name: Keep the book as it stands
+        run: cp data/paper/portfolio.json data/paper/portfolio_before_void.json
+
+      - name: Void
+        env:
+          WC2026_PAPER_ONLY: "1"
+        run: |
+          echo '### Void' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          python -m wc2026 paper-void \
+            --positions "${{ github.event.inputs.positions }}" \
+            --reason "${{ github.event.inputs.reason }}" \
+            ${{ github.event.inputs.dry_run == 'false' && ' ' || '--dry-run' }} \
+            2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      # Only a real run has anything to persist. A dry run deliberately leaves
+      # the branch untouched so the change can be read before it is taken.
+      - name: Persist the marked state
+        if: ${{ github.event.inputs.dry_run == 'false' }}
+        run: python scripts/state_sync.py save --branch automation-state
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload the book from before
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-before-void-${{ github.run_id }}
+          path: data/paper/portfolio_before_void.json
+          if-no-files-found: ignore
+          retention-days: 90

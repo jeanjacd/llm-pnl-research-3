@@ -58,7 +58,12 @@ def order_intent(order) -> dict:
         "case_id", "venue", "instrument_id", "side", "limit_price_cents",
         "requested_size", "league_id", "kind", "created_at", "expires_at",
         "claim", "home_team", "away_team", "kickoff_utc",
-        "settles_on_regulation")}
+        "settles_on_regulation",
+        # A VOID TRAVELS WITH THE INTENT. Voiding a position without voiding
+        # the order that made it would leave the next rebuild raising it from
+        # the dead, because a rebuild replays intent and knows nothing about
+        # what was later found wrong with it.
+        "void", "void_reason", "voided_at")}
 
 
 def blank_book(portfolio) -> PaperPortfolio:
@@ -80,8 +85,11 @@ def blank_book(portfolio) -> PaperPortfolio:
 
 def resubmit(book: PaperPortfolio, intents: list) -> dict:
     """Re-place every order, oldest first, exactly as it was offered."""
-    stats = {"submitted": 0, "unplaceable": 0, "problems": []}
+    stats = {"submitted": 0, "unplaceable": 0, "voided": 0, "problems": []}
     for intent in sorted(intents, key=lambda i: str(i.get("created_at") or "")):
+        if intent.get("void"):
+            stats["voided"] += 1
+            continue
         price = intent.get("limit_price_cents")
         size = intent.get("requested_size")
         if not price or not size:

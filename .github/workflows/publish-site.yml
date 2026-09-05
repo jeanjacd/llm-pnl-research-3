@@ -80,10 +80,16 @@ jobs:
           d = json.load(open(p, encoding="utf-8")) if os.path.exists(p) else {}
           print("ledger written :", d.get("saved_at") or "(no ledger)")
           print("page bytes     :", os.path.getsize("site/index.html"))
+          sub = "site/settlements"
+          n = len(os.listdir(sub)) if os.path.isdir(sub) else 0
+          print("archive pages  :", n)
           PY
           echo '```' >> "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/configure-pages@v5
+      # The whole directory: `site/index.html` plus `site/settlements/`, which
+      # the front page links into from every settled fixture. Uploading only
+      # the front page would publish a sheet full of dead links.
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

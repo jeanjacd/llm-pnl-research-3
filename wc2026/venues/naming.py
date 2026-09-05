@@ -115,6 +115,51 @@ def name_similarity(a: str, b: str) -> float:
     return score
 
 
+# Two candidates, and they are the two halves of one fixture -- so the runner-up
+# is always available and the margin rule below always has something to compare
+# against. `resolve_fixture` already refuses an ambiguous pair when picking the
+# MATCH; this applies the same discipline to picking the TEAM WITHIN a match,
+# which is where the wrong answer is most expensive.
+SIDE_MIN_SCORE = 0.6
+SIDE_MARGIN = 0.15
+
+
+def team_side(team, home, away, min_score=SIDE_MIN_SCORE, margin=SIDE_MARGIN):
+    """Which side of this fixture is `team` -- "home", "away", or None.
+
+    TAKING THE FIRST MATCH OVER A THRESHOLD IS NOT A MATCH, IT IS AN ORDERING.
+    Both venues resolved a market's team by testing home first and returning on
+    the first score over 0.6. Clubs sharing a first token score 0.667 against
+    each other -- Real Madrid/Real Betis, Real Madrid/Real Sociedad, Manchester
+    City/Manchester United, Atletico/Real Madrid -- so for those fixtures the
+    home side won every test and BOTH outcome markets resolved to the same
+    claim.
+
+    That is not a labelling slip. On Real Betis v Real Madrid, 2026-09-04, the
+    Kalshi market `...-RMA` ("Real Madrid wins 1st Half") was recorded as
+    `1h_home_win` and therefore priced with P(Betis win the half). The board
+    compared a Madrid market against a Betis probability, found imaginary edge,
+    and bought 18 contracts of it. It settled a winner only because the half
+    was drawn, which makes both readings true.
+
+    So: score BOTH sides, take the better one, and require it to be clearly
+    ahead. Where the wording cannot separate them the caller gets None and
+    records an abstention -- an unpriced market costs nothing, a market priced
+    on the opposing team's probability costs the whole stake.
+    """
+    if not team:
+        return None
+    scores = {"home": name_similarity(team, home) if home else 0.0,
+              "away": name_similarity(team, away) if away else 0.0}
+    best = max(scores, key=lambda k: scores[k])
+    other = "away" if best == "home" else "home"
+    if scores[best] < min_score:
+        return None
+    if scores[best] - scores[other] < margin:
+        return None
+    return best
+
+
 def resolve_fixture(home_raw, away_raw, kickoff, fixtures, min_score=0.6,
                     margin=0.05):
     """Resolve a venue event to exactly one of OUR fixtures, or None.

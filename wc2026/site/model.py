@@ -23,35 +23,17 @@ Closing line value stays in CENTS, because it is a price difference per
 contract rather than an amount of money -- "+4.8c" is how far the market moved
 toward us on each contract, and dividing it by anything would be meaningless.
 
-THE FORM NOTATION. Racing form adapted to a book that mostly declines to bet:
-
-    .   boarded, declined               (the abstention -- most of the record)
-    -   ordered, nothing filled         (the market never came to our price)
-    0-9 TENTHS OF STAKE RETURNED on a fixture that finished down
-    v   the fixture finished up
-    /   month boundary
-
-THE DIGIT IS A SHARE, NOT A COUNT. It first read "markets that cashed", capped
-at 9, and that was close to meaningless: the denominator ran from 1 market to
-76, so a raw count compared nothing to nothing. Five fixtures returning 22%,
-47%, 65%, 68% and 88% of their stake all printed the same `9`. As tenths
-returned they print 7, 4, 8, 6, 8, and a `0` finally means what it looks like
--- Celta Vigo returned $0.29 of $42.05 and used to show a `1`.
-
-AND A FIXTURE THAT FILLED NOTHING IS NOT A FIXTURE THAT WAS DECLINED. Leeds v
-Brentford placed 130 orders and filled none of them; the record showed `.`, the
-same character as a board that passed. The board approving 130 markets and the
-market never reaching our price are opposite facts about the same fixture.
+THE FORM NOTATION IS GONE. It encoded 48 fixtures as `0-9 . - v /` with a
+legend longer than the data, and is replaced by `site/ledger.py`: a bar per
+fixture, position for won or lost, length for dollars, and a separate track
+for closing line value. What survives here is everything that produced its
+numbers -- `fixtures`, the per-fixture summary, and the headline rates -- which
+the ledger reads directly.
 """
 from __future__ import annotations
 
 import collections
 import datetime as dt
-
-FORM_DECLINED = "·"
-FORM_UNFILLED = "–"
-FORM_CASHED = "✓"
-FORM_MONTH = "/"
 
 
 def _parse(value):
@@ -71,7 +53,20 @@ def fixture_key(league_id, home, away, kickoff) -> tuple:
 
 
 def positions(portfolio: dict) -> list:
+    """Everything that happened, voids included. The display needs all of it."""
     return list((portfolio.get("positions") or {}).values())
+
+
+def is_void(record) -> bool:
+    return bool((record or {}).get("void"))
+
+
+def measured(portfolio: dict) -> list:
+    """Everything that is EVIDENCE. A voided position is neither a win nor a
+    loss: it was priced against a proposition the model never evaluated, so
+    counting it in either direction would be counting a number that measures
+    nothing. It stays on its fixture's page, marked, with the reason."""
+    return [p for p in positions(portfolio) if not is_void(p)]
 
 
 def orders(portfolio: dict) -> list:
@@ -158,24 +153,27 @@ def _blank(key) -> dict:
 
 def _summarise(row: dict) -> None:
     held = row["positions"]
-    settled = [p for p in held if p.get("settled")]
+    voided = [p for p in held if is_void(p)]
+    settled = [p for p in held if p.get("settled") and not is_void(p)]
+    still_open = [p for p in held if not p.get("settled") and not is_void(p)]
     row["n_markets"] = len(held)
+    row["n_void"] = len(voided)
     row["n_settled"] = len(settled)
-    row["n_open"] = len(held) - len(settled)
+    row["n_open"] = len(still_open)
     row["n_cashed"] = sum(1 for p in settled
                           if float(p.get("realized_pnl_cents") or 0) > 0)
     row["pnl_cents"] = sum(float(p.get("realized_pnl_cents") or 0)
                            for p in settled)
+    # A voided stake was returned, so it was never at risk and never staked.
     row["staked_cents"] = sum(float(p.get("size") or 0)
                               * float(p.get("avg_cost_cents") or 0)
-                              for p in held)
+                              for p in held if not is_void(p))
     # What the still-open markets pay if every one of them lands. A binary
     # settles at 100c, so the profit on a contract bought at P is (100 - P)
     # less its fees. This is NOT `pnl_cents`: that sums SETTLED positions, and
     # a live fixture has none by definition, which is why the card's footer
     # read "+0.00u" under "if every open market holds" -- a true statement
     # about a number nobody wanted and a false answer to the question asked.
-    still_open = [p for p in held if not p.get("settled")]
     row["open_upside_cents"] = sum(
         float(p.get("size") or 0) * (100.0 - float(p.get("avg_cost_cents") or 0))
         - float(p.get("fees_cents") or 0) for p in still_open)
@@ -183,7 +181,7 @@ def _summarise(row: dict) -> None:
                                    * float(p.get("avg_cost_cents") or 0)
                                    for p in still_open)
     scored = [float(p["clv_cents"]) for p in held
-              if p.get("clv_cents") is not None]
+              if p.get("clv_cents") is not None and not is_void(p)]
     row["clv_cents"] = (sum(scored) / len(scored)) if scored else None
     row["n_clv"] = len(scored)
     # A fixture is "acted on" when money actually went out on it, and
@@ -206,64 +204,6 @@ def _summarise(row: dict) -> None:
                              if staked > 0 else None)
 
 
-def form_figure(row: dict) -> str:
-    """One character for one fixture -- see the module docstring."""
-    if not row["acted"]:
-        # Ordered and filled nothing is the MARKET's answer; declined is the
-        # board's. Printing both as `.` merged the two.
-        return FORM_UNFILLED if row["ordered"] else FORM_DECLINED
-    if row["n_open"] > 0:
-        return FORM_DECLINED       # still running; not part of the record yet
-    if row["pnl_cents"] > 0:
-        return FORM_CASHED
-    # Tenths of stake returned. A count had no denominator: 23 of 53 and 29 of
-    # 76 both saturated the cap and printed the same character.
-    share = row.get("returned_share")
-    if share is None:
-        return "0"
-    return str(max(0, min(9, int(share * 10))))
-
-
-def form_line(portfolio: dict, limit: int = 48) -> list:
-    """The record, oldest first, with month rules inserted.
-
-    Only fixtures that have finished -- or were declined -- appear. A live
-    fixture has no result to encode, and inventing one would be the same error
-    as settling a match that has not been played.
-    """
-    done = [r for r in fixtures(portfolio)
-            if (not r["acted"]) or r["settled_fixture"]]
-    done.sort(key=lambda r: (r.get("kickoff_utc") or r.get("boarded_at") or ""))
-    done = done[-limit:]
-
-    out, month = [], None
-    for row in done:
-        stamp = _parse(row.get("kickoff_utc") or row.get("boarded_at"))
-        this = (stamp.year, stamp.month) if stamp else None
-        if month is not None and this is not None and this != month:
-            out.append({"char": FORM_MONTH, "kind": "brk", "detail": "month"})
-        month = this if this is not None else month
-        out.append({"char": form_figure(row), "kind": _form_kind(row),
-                    "detail": form_detail(row, stamp),
-                    # The hero metric, carried on the signature element. The
-                    # form line said what HAPPENED and never what the closing
-                    # line thought of it, so the page's own leading indicator
-                    # was absent from the one display everybody reads first.
-                    "clv_cents": row.get("clv_cents"),
-                    "staked_cents": row.get("staked_cents") or 0.0})
-    return out
-
-
-def _form_kind(row: dict) -> str:
-    if not row["acted"]:
-        return "unfilled" if row.get("ordered") else "declined"
-    if row["pnl_cents"] > 0:
-        return "cash"
-    # Losing with several markets landing is a different failure from losing
-    # with none, and the page distinguishes them by weight.
-    return "late" if row["n_cashed"] else "early"
-
-
 def _clip(text: str, limit: int) -> str:
     """Trim to a word boundary. A readout cut mid-word looks like a bug."""
     text = " ".join(str(text).split())
@@ -271,31 +211,6 @@ def _clip(text: str, limit: int) -> str:
         return text
     cut = text[:limit].rsplit(" ", 1)[0]
     return (cut or text[:limit]).rstrip(".,;:") + "…"
-
-
-def form_detail(row: dict, stamp=None) -> str:
-    stamp = stamp or _parse(row.get("kickoff_utc") or row.get("boarded_at"))
-    when = stamp.strftime("%d %b") if stamp else "--"
-    match = "%s v %s" % (row["home"], row["away"])
-    if not row["acted"]:
-        if row.get("ordered"):
-            return ("%s · %s · ordered %d, filled none — the market never "
-                    "came to our price" % (when, match, row["n_orders"]))
-        why = _clip(row.get("reason") or "", 72)
-        head = "%s · %s · %s" % (when, match,
-                                 (row.get("action") or "declined").lower())
-        return "%s · %s" % (head, why) if why else head
-    share = row.get("returned_share")
-    # Fees can carry a total loss past 100%, and "−4% of stake back" reads as
-    # a bug rather than a fee. The dollar figure beside it already carries it.
-    got = ("" if share is None
-           else " · %.0f%% of stake back" % max(0.0, 100 * share))
-    missed = ("" if not row.get("n_unfilled")
-              else " · %d order%s never filled"
-                   % (row["n_unfilled"], "" if row["n_unfilled"] == 1 else "s"))
-    return "%s · %s · %d of %d cashed · %s%s%s" % (
-        when, match, row["n_cashed"], row["n_settled"],
-        signed_money(row["pnl_cents"]), got, missed)
 
 
 # --- headline numbers ---------------------------------------------------------
@@ -314,7 +229,7 @@ def clv(portfolio: dict) -> dict:
     """
     per_fixture = [r["clv_cents"] for r in fixtures(portfolio)
                    if r.get("clv_cents") is not None]
-    scored = [p for p in positions(portfolio) if p.get("clv_cents") is not None]
+    scored = [p for p in measured(portfolio) if p.get("clv_cents") is not None]
     if not per_fixture:
         return {"mean_cents": None, "n_fixtures": 0, "n_bets": len(scored),
                 "beat": 0, "beat_rate": None}
@@ -325,11 +240,11 @@ def clv(portfolio: dict) -> dict:
 
 
 def pnl(portfolio: dict) -> dict:
-    settled = [p for p in positions(portfolio) if p.get("settled")]
+    settled = [p for p in measured(portfolio) if p.get("settled")]
     realized = sum(float(p.get("realized_pnl_cents") or 0) for p in settled)
     staked = sum(float(p.get("size") or 0) * float(p.get("avg_cost_cents") or 0)
                  for p in settled)
-    fees = sum(float(p.get("fees_cents") or 0) for p in positions(portfolio))
+    fees = sum(float(p.get("fees_cents") or 0) for p in measured(portfolio))
     won = sum(1 for p in settled
               if float(p.get("realized_pnl_cents") or 0) > 0)
     return {
@@ -397,7 +312,7 @@ def by_league(portfolio: dict) -> list:
     rows: dict = collections.defaultdict(
         lambda: {"n_markets": 0, "n_settled": 0, "pnl_cents": 0.0,
                  "clv": [], "fixtures": set()})
-    for pos in positions(portfolio):
+    for pos in measured(portfolio):
         row = rows[pos.get("league_id") or "?"]
         row["n_markets"] += 1
         row["fixtures"].add(fixture_key(pos.get("league_id"),
@@ -429,7 +344,7 @@ def claim_families(portfolio: dict) -> list:
     """Full-match against first-half, which is the newest thing the book does."""
     rows: dict = collections.defaultdict(
         lambda: {"n": 0, "settled": 0, "pnl_cents": 0.0, "clv": []})
-    for pos in positions(portfolio):
+    for pos in measured(portfolio):
         claim = str(pos.get("claim") or "")
         base = claim[4:] if claim.startswith("not_") else claim
         half = base.startswith("1h_")
@@ -470,7 +385,8 @@ def equity_curve(portfolio: dict) -> list:
     expected step is the CLV -- what the position was worth at the number the
     market closed at, which is the only forward-looking value available.
     """
-    ledger = sorted((portfolio.get("ledger") or []),
+    ledger = sorted([e for e in (portfolio.get("ledger") or [])
+                     if not is_void(e)],
                     key=lambda e: str(e.get("ts") or ""))
     by_instrument = {}
     for pos in positions(portfolio):
@@ -498,6 +414,8 @@ def daily_ledger(portfolio: dict) -> list:
     for pos in positions(portfolio):
         by_instrument[(pos.get("instrument_id"), pos.get("side"))] = pos
     for entry in (portfolio.get("ledger") or []):
+        if is_void(entry):
+            continue
         day = str(entry.get("ts") or "")[:10]
         if not day:
             continue
@@ -528,7 +446,7 @@ def funnel(portfolio: dict) -> list:
     rows = fixtures(portfolio)
     every = orders(portfolio)
     resolved = [o for o in every if o.get("status") in ("filled", "expired")]
-    settled = [p for p in positions(portfolio) if p.get("settled")]
+    settled = [p for p in measured(portfolio) if p.get("settled")]
     read = sum(int(r["markets_considered"] or 0) for r in rows)
     # `markets_approved` is deliberately NOT a stage. It records only each
     # fixture's LAST sitting, while the order history spans every attempt, so
@@ -561,7 +479,6 @@ def summary(portfolio: dict) -> dict:
         "fills": fills(portfolio),
         "board": board(portfolio),
         "fixtures": fixtures(portfolio),
-        "form": form_line(portfolio),
         "leagues": by_league(portfolio),
         "families": claim_families(portfolio),
         "equity": equity_curve(portfolio),

@@ -45,58 +45,17 @@ def test_a_declined_fixture_merges_with_positions_later_taken_on_it():
     assert rows[0]["league_id"] == "ligue_1"
 
 
-# --- the form notation --------------------------------------------------------
-def test_a_declined_fixture_reads_as_an_abstention():
-    p = book(boarded=[verdict()])
-    assert [f["char"] for f in model.form_line(p)] == [model.FORM_DECLINED]
-
-
-def test_a_fixture_that_finished_up_reads_as_cashed():
-    p = book([pos(pnl=4000, clv=1.0)])
-    assert [f["char"] for f in model.form_line(p)] == [model.FORM_CASHED]
-
-
-def test_a_losing_fixture_reads_as_the_share_of_stake_it_returned():
-    """The digit separates a graze from a wipeout, which is the question a
-    reader has about a fixture that finished down."""
-    # two markets, $20 staked each; lost $10 of each -> $20 back of $40 -> 5
-    p = book([pos("draw", pnl=-1000), pos("btts", pnl=-1000)])
-    assert [f["char"] for f in model.form_line(p)] == ["5"]
-    # same book, nearly all of it lost -> 0
-    q = book([pos("draw", pnl=-1900), pos("btts", pnl=-1900)])
-    assert [f["char"] for f in model.form_line(q)] == ["0"]
-
-
-def test_a_live_fixture_is_absent_from_the_record_rather_than_scored():
-    """It has no result. Encoding one would be settling an unplayed match."""
-    p = book([pos("draw", pnl=None), pos("btts", pnl=3000)])
-    assert model.form_line(p) == []
-
-
-def test_a_month_boundary_sets_a_rule():
-    p = book(boarded=[verdict(home="A", day="2026-08-30"),
-                      verdict(home="C", day="2026-09-02")])
-    chars = [f["char"] for f in model.form_line(p)]
-    assert chars == [model.FORM_DECLINED, model.FORM_MONTH,
-                     model.FORM_DECLINED]
-
-
-def test_the_record_reads_oldest_first():
-    p = book(boarded=[verdict(home="Late", day="2026-08-30"),
-                      verdict(home="Early", day="2026-08-20")])
-    details = [f["detail"] for f in model.form_line(p)]
-    assert "Early" in details[0] and "Late" in details[-1]
-
-
+# --- trimming a board reason -------------------------------------------------
 def test_a_board_reason_is_trimmed_on_a_word_boundary():
-    """A readout cut mid-word looks like a bug rather than a measurement."""
-    long = "Hoffenheim projects favorably for over 2.5 away goals because " \
-           "their expected goals against sits well above the league median"
-    p = book(boarded=[verdict(reason=long)])
-    detail = model.form_line(p)[0]["detail"]
-    assert detail.endswith("…")
-    assert not detail.rstrip("…").endswith(" ")
-    assert " ".join(detail.rstrip("…").split()[-1:]) in long
+    """A readout cut mid-word looks like a bug rather than a measurement. The
+    form line is gone; the fixture pages and the abstentions table still trim
+    the board's own words to fit a cell."""
+    long = "Hoffenheim projects favorably for over 2.5 away goals because "            "their expected goals against sits well above the league median"
+    got = model._clip(long, 72)
+    assert got.endswith("…")
+    assert not got.rstrip("…").endswith(" ")
+    assert got.rstrip("…").split()[-1] in long
+    assert model._clip("short enough", 72) == "short enough"
 
 
 # --- families -----------------------------------------------------------------
@@ -167,7 +126,6 @@ def test_an_empty_book_reports_absent_rather_than_zero():
     assert model.pnl(empty)["strike_rate"] is None
     assert model.fills(empty)["rate"] is None
     assert model.board(empty)["decline_rate"] is None
-    assert model.form_line(empty) == []
     assert model.summary(empty)["fixtures"] == []
 
 
@@ -179,11 +137,12 @@ def test_a_position_with_no_closing_line_is_excluded_from_clv():
 
 def test_the_summary_carries_every_section_the_page_renders():
     keys = set(model.summary(book()))
-    assert {"clv", "pnl", "fills", "board", "fixtures", "form", "leagues",
-            "families", "equity", "daily"} <= keys
+    assert {"clv", "pnl", "fills", "board", "fixtures", "leagues",
+            "families", "equity", "daily", "funnel"} <= keys
+    assert "form" not in keys, "the glyph strip is gone; site/ledger.py has it"
 
 
-# ── the form figure has to carry a denominator ────────────────────────────────
+# ── what a fixture row records ────────────────────────────────────────────────
 def order(status="expired", league="mls", home="A", away="B",
           kickoff="2026-08-28"):
     return {"status": status, "kind": "limit", "league_id": league,
@@ -191,39 +150,6 @@ def order(status="expired", league="mls", home="A", away="B",
             "kickoff_utc": kickoff + "T18:00:00"}
 
 
-def test_the_digit_is_a_share_of_stake_and_not_a_raw_count():
-    """A count compared nothing to nothing: the denominator ran from 1 market
-    to 76, so 23-of-53 and 29-of-76 both saturated the cap and printed `9`."""
-    # 10 markets at 50c: 8 win (8 x 50c profit), 2 lose (2 x 50c). Staked 500c,
-    # returned 500 + 400 - 100 = 800c -> 8 tenths... but that is a WIN, so use
-    # a losing book: 2 win, 8 lose -> staked 500, pnl = 100 - 400 = -300,
-    # returned 200 of 500 = 4 tenths.
-    held = [pos(claim="score_%d-0" % i, pnl=(50 if i < 2 else -50), cost=50.0,
-                size=1.0) for i in range(10)]
-    for i, p in enumerate(held):
-        p["instrument_id"] = "i%d" % i
-    p = book(held)
-    assert [f["char"] for f in model.form_line(p)] == ["4"]
-
-
-def test_a_near_total_loss_reads_as_zero_however_many_markets_cashed():
-    """Celta Vigo returned $0.29 of $42.05 with one market cashing, and the
-    old notation printed `1` -- indistinguishable from a graze."""
-    held = [pos(claim="a", pnl=20, cost=1.0, size=1.0),
-            pos(claim="b", pnl=-4000, cost=40.0, size=100.0)]
-    held[0]["instrument_id"], held[1]["instrument_id"] = "a", "b"
-    assert [f["char"] for f in model.form_line(book(held))] == ["0"]
-
-
-def test_a_graze_and_a_wipeout_no_longer_print_the_same_character():
-    graze = [pos(claim="x", pnl=-100, cost=50.0, size=20.0)]
-    wipe = [pos(claim="x", pnl=-1000, cost=50.0, size=20.0)]
-    a = model.form_line(book(graze))[0]["char"]
-    b = model.form_line(book(wipe))[0]["char"]
-    assert a != b and a > b
-
-
-# ── ordering and filling nothing is not declining ─────────────────────────────
 def test_a_fixture_that_filled_nothing_is_not_shown_as_declined():
     """Leeds v Brentford placed 130 orders and filled none. The record printed
     `·` -- the same character as a board that passed on the fixture."""
@@ -233,15 +159,14 @@ def test_a_fixture_that_filled_nothing_is_not_shown_as_declined():
     row = model.fixtures(p)[0]
     assert row["ordered"] and not row["acted"]
     assert not row["declined"], "the market declined, not the board"
-    assert model.form_figure(row) == model.FORM_UNFILLED
-    assert "filled none" in model.form_line(p)[0]["detail"]
+    assert row["n_orders"] == 130 and row["n_unfilled"] == 130
 
 
 def test_a_board_that_passed_is_still_shown_as_declined():
     p = book(boarded=[verdict()])
     row = model.fixtures(p)[0]
     assert row["declined"] and not row["ordered"]
-    assert model.form_figure(row) == model.FORM_DECLINED
+    assert not row["acted"] and row["n_markets"] == 0
 
 
 def test_a_fixture_counts_the_orders_that_never_filled():
@@ -289,17 +214,3 @@ def test_the_ladder_survives_an_empty_book():
     assert [r["n"] for r in model.funnel(book())] == [0, 0, 0, 0]
 
 
-# ── the closing line reaches the signature element ────────────────────────────
-def test_a_form_figure_carries_the_closing_line_it_was_measured_at():
-    """The band said what HAPPENED and never what the closing line thought of
-    it, so the page's own leading indicator was absent from the one display
-    everybody reads first."""
-    p = book([pos(claim="draw", pnl=-500, clv=2.5)])
-    entry = model.form_line(p)[0]
-    assert entry["clv_cents"] == pytest.approx(2.5)
-    assert entry["staked_cents"] > 0
-
-
-def test_a_figure_with_no_closing_line_carries_none_rather_than_zero():
-    p = book(boarded=[verdict()])
-    assert model.form_line(p)[0]["clv_cents"] is None
