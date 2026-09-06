@@ -1,6 +1,6 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 85670,
+  "cash_cents": 93170,
   "reserved_cents": 0,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
@@ -62650,10 +62650,10 @@
       "closing_price_cents": 61.5,
       "clv_cents": -2.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "no",
+      "payout_cents": 1900.0,
+      "realized_pnl_cents": 653.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -62677,10 +62677,10 @@
       "closing_price_cents": 24.5,
       "clv_cents": 2.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "yes",
+      "payout_cents": 5600.0,
+      "realized_pnl_cents": 4368.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -63991,6 +63991,34 @@
       "pnl_cents": -1232.0,
       "league_id": "ligue_1",
       "case_id": "polymarket:0x60a363fd659c98d465e5d7e84b8b3fad187e2033cd3e923c3e2e17942c79bdaf:no"
+    },
+    {
+      "ts": "2026-09-06T22:02:21.273311+00:00",
+      "instrument_id": "KXLIGUE11H-26SEP06OLMPAR-OLM",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 19.0,
+      "avg_cost_cents": 64.0,
+      "fees_cents": 31,
+      "payout_cents": 1900.0,
+      "pnl_cents": 653.0,
+      "league_id": "ligue_1",
+      "case_id": "kalshi:KXLIGUE11H-26SEP06OLMPAR-OLM:no"
+    },
+    {
+      "ts": "2026-09-06T22:02:21.275541+00:00",
+      "instrument_id": "0xf67fef311073dfbf1776f2266c9eee3cd407f8f642b45bbca2f22086071960a1",
+      "side": "yes",
+      "result": "yes",
+      "won": true,
+      "size": 56.0,
+      "avg_cost_cents": 22.0,
+      "fees_cents": 0,
+      "payout_cents": 5600.0,
+      "pnl_cents": 4368.0,
+      "league_id": "ligue_1",
+      "case_id": "polymarket:0xf67fef311073dfbf1776f2266c9eee3cd407f8f642b45bbca2f22086071960a1:yes"
     }
   ],
   "boarded": {
@@ -65115,5 +65143,5 @@
       "reason": "Rennes enter as clear favorites with superior form, dominant H2H record (unbeaten in 6 meetings), early-season points advantage (4 vs 3), and key attacking threat from Lepaul. Angers face compounding disadvantages: a 7-match home winless streak, injury absences (Belkebla, Mouton), and vulnerability against Rennes' attacking setup. The sporting narrative strongly favors an away win."
     }
   },
-  "saved_at": "2026-09-06T20:25:51.248151+00:00"
+  "saved_at": "2026-09-06T22:02:21.341668+00:00"
 }
