@@ -57785,7 +57785,7 @@
       "away_team": "Barcelona",
       "kickoff_utc": "2026-09-06T14:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58002,7 +58002,7 @@
       "away_team": "FC Augsburg",
       "kickoff_utc": "2026-09-06T15:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58038,7 +58038,7 @@
       "away_team": "FC Augsburg",
       "kickoff_utc": "2026-09-06T15:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58074,7 +58074,7 @@
       "away_team": "FC Augsburg",
       "kickoff_utc": "2026-09-06T15:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58110,7 +58110,7 @@
       "away_team": "FC Augsburg",
       "kickoff_utc": "2026-09-06T15:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58146,7 +58146,7 @@
       "away_team": "Chelsea",
       "kickoff_utc": "2026-09-06T15:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58182,7 +58182,7 @@
       "away_team": "Chelsea",
       "kickoff_utc": "2026-09-06T15:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58218,7 +58218,7 @@
       "away_team": "Chelsea",
       "kickoff_utc": "2026-09-06T15:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58254,7 +58254,7 @@
       "away_team": "Chelsea",
       "kickoff_utc": "2026-09-06T15:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58462,7 +58462,7 @@
       "away_team": "Sevilla",
       "kickoff_utc": "2026-09-06T19:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58498,7 +58498,7 @@
       "away_team": "Sevilla",
       "kickoff_utc": "2026-09-06T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58534,7 +58534,7 @@
       "away_team": "Sevilla",
       "kickoff_utc": "2026-09-06T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58570,7 +58570,7 @@
       "away_team": "Sevilla",
       "kickoff_utc": "2026-09-06T19:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58606,7 +58606,7 @@
       "away_team": "Osasuna",
       "kickoff_utc": "2026-09-06T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58642,7 +58642,7 @@
       "away_team": "Osasuna",
       "kickoff_utc": "2026-09-06T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58678,7 +58678,7 @@
       "away_team": "Osasuna",
       "kickoff_utc": "2026-09-06T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58714,7 +58714,7 @@
       "away_team": "Osasuna",
       "kickoff_utc": "2026-09-06T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58750,7 +58750,7 @@
       "away_team": "Paris FC",
       "kickoff_utc": "2026-09-06T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58786,7 +58786,7 @@
       "away_team": "Paris FC",
       "kickoff_utc": "2026-09-06T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58822,7 +58822,7 @@
       "away_team": "Paris FC",
       "kickoff_utc": "2026-09-06T18:45:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58858,7 +58858,7 @@
       "away_team": "Paris FC",
       "kickoff_utc": "2026-09-06T18:45:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58894,7 +58894,7 @@
       "away_team": "Stade Rennais",
       "kickoff_utc": "2026-09-06T15:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58930,7 +58930,7 @@
       "away_team": "Stade Rennais",
       "kickoff_utc": "2026-09-06T15:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -58966,7 +58966,7 @@
       "away_team": "Stade Rennais",
       "kickoff_utc": "2026-09-06T15:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59002,7 +59002,7 @@
       "away_team": "Stade Rennais",
       "kickoff_utc": "2026-09-06T15:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59038,7 +59038,7 @@
       "away_team": "Strasbourg",
       "kickoff_utc": "2026-09-06T13:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59074,7 +59074,7 @@
       "away_team": "Strasbourg",
       "kickoff_utc": "2026-09-06T13:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59110,7 +59110,7 @@
       "away_team": "Strasbourg",
       "kickoff_utc": "2026-09-06T13:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59146,7 +59146,7 @@
       "away_team": "Strasbourg",
       "kickoff_utc": "2026-09-06T13:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59182,7 +59182,7 @@
       "away_team": "Chelsea",
       "kickoff_utc": "2026-09-06T15:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59218,7 +59218,7 @@
       "away_team": "Chelsea",
       "kickoff_utc": "2026-09-06T15:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59254,7 +59254,7 @@
       "away_team": "Chelsea",
       "kickoff_utc": "2026-09-06T15:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59290,7 +59290,7 @@
       "away_team": "Chelsea",
       "kickoff_utc": "2026-09-06T15:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59369,7 +59369,7 @@
       "away_team": "Levante",
       "kickoff_utc": "2026-09-06T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59405,7 +59405,7 @@
       "away_team": "Levante",
       "kickoff_utc": "2026-09-06T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59441,7 +59441,7 @@
       "away_team": "Levante",
       "kickoff_utc": "2026-09-06T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59477,7 +59477,7 @@
       "away_team": "Levante",
       "kickoff_utc": "2026-09-06T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59513,7 +59513,7 @@
       "away_team": "Levante",
       "kickoff_utc": "2026-09-06T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59549,7 +59549,7 @@
       "away_team": "Levante",
       "kickoff_utc": "2026-09-06T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59585,7 +59585,7 @@
       "away_team": "Levante",
       "kickoff_utc": "2026-09-06T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-06T10:01:20.240112+00:00",
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59621,7 +59621,7 @@
       "away_team": "Sevilla",
       "kickoff_utc": "2026-09-06T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59657,7 +59657,7 @@
       "away_team": "Sevilla",
       "kickoff_utc": "2026-09-06T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59693,7 +59693,7 @@
       "away_team": "Osasuna",
       "kickoff_utc": "2026-09-06T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59729,7 +59729,7 @@
       "away_team": "Osasuna",
       "kickoff_utc": "2026-09-06T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59765,7 +59765,7 @@
       "away_team": "Stade Rennais",
       "kickoff_utc": "2026-09-06T15:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -59801,7 +59801,7 @@
       "away_team": "Strasbourg",
       "kickoff_utc": "2026-09-06T13:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-06T10:59:29.263418+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -64344,34 +64344,6 @@
       "decided_by": "judge",
       "reason": "approved 9 of 20 market(s): Strong EV (9.15\u00a2) and high ROI align with analyst's Barcelona dominance (61.62% win prob). Market pricing at ~77\u00a2 (27.56% implied for Barcelona) is below analyst's conviction. However, depth=1 is severely limiting; reduce size for execution safety."
     },
-    "ligue_1|Troyes|Strasbourg|2026-09-06": {
-      "attempts": 2,
-      "first_boarded_at": "2026-09-06T07:09:20.848609+00:00",
-      "hours_to_kickoff": 2.9,
-      "ts": "2026-09-06T10:06:49.902376+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "away_win",
-      "home": "Troyes",
-      "away": "Strasbourg",
-      "markets_considered": 114,
-      "markets_approved": 114,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
-    },
-    "ligue_1|Angers|Stade Rennais|2026-09-06": {
-      "attempts": 2,
-      "first_boarded_at": "2026-09-06T07:18:39.873715+00:00",
-      "hours_to_kickoff": 5.1,
-      "ts": "2026-09-06T10:06:49.901805+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "not_away_win",
-      "home": "Angers",
-      "away": "Stade Rennais",
-      "markets_considered": 124,
-      "markets_approved": 124,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
-    },
     "bundesliga|Eintracht Frankfurt|FC Augsburg|2026-09-06": {
       "attempts": 1,
       "first_boarded_at": "2026-09-06T07:23:24.682735+00:00",
@@ -64413,49 +64385,7 @@
       "markets_approved": 9,
       "decided_by": "quant",
       "reason": "Negative EV of -6.34\u00a2. Market price (31\u00a2) requires 33.69% breakeven; model only assigns 27.35%. Gap of 6.34pp not justified despite decent depth (2494). Every contract loses value at entry."
-    },
-    "la_liga|Espanyol|Sevilla|2026-09-06": {
-      "attempts": 1,
-      "first_boarded_at": "2026-09-06T10:06:49.899785+00:00",
-      "hours_to_kickoff": 8.9,
-      "ts": "2026-09-06T10:06:49.899802+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "home_win",
-      "home": "Espanyol",
-      "away": "Sevilla",
-      "markets_considered": 125,
-      "markets_approved": 125,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
-    },
-    "la_liga|Alav\u00e9s|Osasuna|2026-09-06": {
-      "attempts": 1,
-      "first_boarded_at": "2026-09-06T10:06:49.900673+00:00",
-      "hours_to_kickoff": 6.4,
-      "ts": "2026-09-06T10:06:49.900679+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "not_draw",
-      "home": "Alav\u00e9s",
-      "away": "Osasuna",
-      "markets_considered": 125,
-      "markets_approved": 125,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
-    },
-    "ligue_1|Marseille|Paris FC|2026-09-06": {
-      "attempts": 1,
-      "first_boarded_at": "2026-09-06T10:06:49.901279+00:00",
-      "hours_to_kickoff": 8.6,
-      "ts": "2026-09-06T10:06:49.901287+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "away_win",
-      "home": "Marseille",
-      "away": "Paris FC",
-      "markets_considered": 124,
-      "markets_approved": 124,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
     }
   },
-  "saved_at": "2026-09-06T10:06:49.953681+00:00"
+  "saved_at": "2026-09-06T10:59:36.769822+00:00"
 }
