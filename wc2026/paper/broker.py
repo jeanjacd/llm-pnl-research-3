@@ -28,7 +28,7 @@ import datetime as dt
 import json
 import os
 import uuid
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, fields
 
 from ..decision.calculator import fee_cents
 
@@ -55,6 +55,39 @@ def _utcnow():
 
 def _iso(stamp=None):
     return (stamp or _utcnow()).isoformat()
+
+
+def _from_record(cls, raw: dict):
+    """Build a record from stored JSON, keeping what this build does not know.
+
+    THE STATE FILE IS A CONTRACT BETWEEN WORKERS THAT ARE NOT ALL ON THE SAME
+    COMMIT. The board runs from `main`; a repair may have been written by a
+    branch, or by a build from ten minutes later. Passing the stored record
+    straight into the constructor made every newly-added field a hard crash for
+    every older reader -- adding `void` did exactly that and took matchday-board
+    down on 2026-09-06, three hours after the field was introduced.
+
+    Dropping the unknown keys instead would be worse in a quieter way: the next
+    save would write the record back without them, so an older worker running
+    once would silently erase a newer one's work. They are carried in `extra`
+    and merged back on the way out, so an unknown field survives a round trip
+    through a build that has never heard of it.
+    """
+    names = {f.name for f in fields(cls)}
+    known = {k: v for k, v in raw.items() if k in names and k != "extra"}
+    carried = dict(raw.get("extra") or {})
+    carried.update({k: v for k, v in raw.items() if k not in names})
+    record = cls(**known)
+    record.extra = carried
+    return record
+
+
+def _to_record(record) -> dict:
+    """The inverse: flatten `extra` back out so the file shape is unchanged."""
+    data = asdict(record)
+    for key, value in (data.pop("extra", None) or {}).items():
+        data.setdefault(key, value)
+    return data
 
 
 @dataclass
@@ -95,6 +128,16 @@ class PaperOrder:
     # How far the fill replay has already looked. Without it a re-run would
     # re-scan the same window, and a gap between runs would go unexamined.
     last_checked_at: str | None = None
+    # --- voided out of the measurement -----------------------------------
+    # Set by `paper.void` when a trade turns out to have been made on a
+    # defective input and cannot be evidence about the model in either
+    # direction. The record keeps it; nothing that reports a rate counts it.
+    void: bool = False
+    void_reason: str | None = None
+    voided_at: str | None = None
+    # Anything a NEWER writer put here that this build does not know about,
+    # carried through untouched -- see `_from_record`.
+    extra: dict = field(default_factory=dict)
 
     @property
     def remaining(self) -> float:
@@ -144,6 +187,16 @@ class PaperPosition:
     result: str | None = None
     payout_cents: float = 0.0
     realized_pnl_cents: float = 0.0
+    # --- voided out of the measurement -----------------------------------
+    # Set by `paper.void` when a trade turns out to have been made on a
+    # defective input and cannot be evidence about the model in either
+    # direction. The record keeps it; nothing that reports a rate counts it.
+    void: bool = False
+    void_reason: str | None = None
+    voided_at: str | None = None
+    # Anything a NEWER writer put here that this build does not know about,
+    # carried through untouched -- see `_from_record`.
+    extra: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -406,8 +459,8 @@ class PaperPortfolio:
             "starting_cash_cents": self.starting_cash_cents,
             "cash_cents": self.cash_cents,
             "reserved_cents": self.reserved_cents,
-            "orders": {k: asdict(v) for k, v in self.orders.items()},
-            "positions": {k: asdict(v) for k, v in self.positions.items()},
+            "orders": {k: _to_record(v) for k, v in self.orders.items()},
+            "positions": {k: _to_record(v) for k, v in self.positions.items()},
             "ledger": self.ledger,
             "boarded": self.boarded,
             "saved_at": _iso(),
@@ -432,7 +485,7 @@ class PaperPortfolio:
             ledger=payload.get("ledger", []),
             boarded=payload.get("boarded", {}), path=target)
         for key, raw in (payload.get("orders") or {}).items():
-            portfolio.orders[key] = PaperOrder(**raw)
+            portfolio.orders[key] = _from_record(PaperOrder, raw)
         for key, raw in (payload.get("positions") or {}).items():
-            portfolio.positions[key] = PaperPosition(**raw)
+            portfolio.positions[key] = _from_record(PaperPosition, raw)
         return portfolio

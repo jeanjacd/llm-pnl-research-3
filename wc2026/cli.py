@@ -323,6 +323,7 @@ def cmd_paper_void(args):
     proposition the model never evaluated. Never for a losing trade, and never
     for one that only looks bad afterwards.
     """
+    import datetime as dt
     import json as _json
 
     from .paper.void import VoidError, apply, plan
@@ -368,6 +369,10 @@ def cmd_paper_void(args):
         print("dry run: nothing written. Re-run without --dry-run to keep it.")
         return
 
+    # Stamped, because everything else that writes this file stamps it. The
+    # void left `saved_at` reading three hours earlier than the write, which is
+    # a small lie in the one file whose whole job is to be believed.
+    raw["saved_at"] = dt.datetime.now(dt.timezone.utc).isoformat()
     with open(args.state, "w", encoding="utf-8") as fh:
         _json.dump(raw, fh, indent=2)
     print("")
