@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 92866,
-  "reserved_cents": 3341,
+  "cash_cents": 91541,
+  "reserved_cents": 2016,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -60180,11 +60180,11 @@
       "requested_size": 104.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
-      "fees_cents": 0,
-      "reserved_cents": 1325,
+      "status": "filled",
+      "filled_size": 104.0,
+      "avg_fill_price_cents": 12.0,
+      "fees_cents": 77,
+      "reserved_cents": 0,
       "created_at": "2026-09-07T04:15:39.622964+00:00",
       "expires_at": "2026-09-07T19:30:00+00:00",
       "events": [
@@ -60193,6 +60193,22 @@
           "event": "submitted",
           "key": "kalshi:KXLALIGASPREAD-26SEP07ELCRSO-ELC2:yes|KXLALIGASPREAD-26SEP07ELCRSO-ELC2|yes|12",
           "reserved_cents": 1325
+        },
+        {
+          "ts": "2026-09-07T19:01:06.928779+00:00",
+          "event": "fill",
+          "size": 104.0,
+          "price_cents": 12.0,
+          "fee_cents": 77
+        },
+        {
+          "ts": "2026-09-07T19:01:06.928824+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "kalshi",
+          "observed_cents": 11.0,
+          "window_start": "2026-09-07T16:01:21.922782+00:00",
+          "window_end": "2026-09-07T19:01:06.859237+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -60201,7 +60217,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-07T16:01:21.922782+00:00",
+      "last_checked_at": "2026-09-07T19:01:06.859237+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60237,7 +60253,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-07T16:01:21.922782+00:00",
+      "last_checked_at": "2026-09-07T19:01:06.859237+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60273,7 +60289,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-07T16:01:21.922782+00:00",
+      "last_checked_at": "2026-09-07T19:01:06.859237+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -62871,6 +62887,33 @@
       "void": false,
       "void_reason": null,
       "voided_at": null
+    },
+    "KXLALIGASPREAD-26SEP07ELCRSO-ELC2|yes": {
+      "position_id": "72b3c7a6-bfed-4011-8117-1d7beddce72c",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGASPREAD-26SEP07ELCRSO-ELC2",
+      "side": "yes",
+      "size": 104.0,
+      "avg_cost_cents": 12.0,
+      "fees_cents": 77,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGASPREAD-26SEP07ELCRSO-ELC2:yes",
+      "claim": "home_wins_by_over_1.5",
+      "home_team": "Elche",
+      "away_team": "Real Sociedad",
+      "kickoff_utc": "2026-09-07T19:30:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-09-07T19:01:06.928812+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0,
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
     }
   },
   "ledger": [
@@ -65358,5 +65401,5 @@
       "reason": "p_lower (31.18%) falls below breakeven (38.93%); no edge even against lower-bound probability estimate. Negative EV persists through max_limit anchor. Depth (1871) is adequate but cannot overcome unfavorable odds."
     }
   },
-  "saved_at": "2026-09-07T16:02:33.882562+00:00"
+  "saved_at": "2026-09-07T19:01:57.702588+00:00"
 }
