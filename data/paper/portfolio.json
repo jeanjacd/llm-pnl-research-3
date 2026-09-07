@@ -60201,7 +60201,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-07T12:35:55.655259+00:00",
+      "last_checked_at": "2026-09-07T13:01:12.219435+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60237,7 +60237,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-07T12:35:55.655259+00:00",
+      "last_checked_at": "2026-09-07T13:01:12.219435+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60273,7 +60273,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-07T12:35:55.655259+00:00",
+      "last_checked_at": "2026-09-07T13:01:12.219435+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65358,5 +65358,5 @@
       "reason": "p_lower (31.18%) falls below breakeven (38.93%); no edge even against lower-bound probability estimate. Negative EV persists through max_limit anchor. Depth (1871) is adequate but cannot overcome unfavorable odds."
     }
   },
-  "saved_at": "2026-09-07T12:35:56.156607+00:00"
+  "saved_at": "2026-09-07T13:02:54.887775+00:00"
 }
