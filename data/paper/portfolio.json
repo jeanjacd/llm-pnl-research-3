@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 93170,
-  "reserved_cents": 0,
+  "reserved_cents": 3645,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -60117,6 +60117,150 @@
       "void": false,
       "void_reason": null,
       "voided_at": null
+    },
+    "c40e99ed-e44b-4351-b74d-06aba4e8644f": {
+      "order_id": "c40e99ed-e44b-4351-b74d-06aba4e8644f",
+      "case_id": "kalshi:KXLALIGAGAME-26SEP07ELCRSO-RSO:no",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGAGAME-26SEP07ELCRSO-RSO",
+      "side": "no",
+      "limit_price_cents": 59,
+      "requested_size": 5.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 304,
+      "created_at": "2026-09-07T04:15:39.622806+00:00",
+      "expires_at": "2026-09-07T19:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-07T04:15:39.622814+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLALIGAGAME-26SEP07ELCRSO-RSO:no|KXLALIGAGAME-26SEP07ELCRSO-RSO|no|59",
+          "reserved_cents": 304
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_away_win",
+      "home_team": "Elche",
+      "away_team": "Real Sociedad",
+      "kickoff_utc": "2026-09-07T19:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null,
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
+    },
+    "06c461d8-9dad-491f-b67a-f8027013604f": {
+      "order_id": "06c461d8-9dad-491f-b67a-f8027013604f",
+      "case_id": "kalshi:KXLALIGASPREAD-26SEP07ELCRSO-ELC2:yes",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGASPREAD-26SEP07ELCRSO-ELC2",
+      "side": "yes",
+      "limit_price_cents": 12,
+      "requested_size": 104.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1325,
+      "created_at": "2026-09-07T04:15:39.622964+00:00",
+      "expires_at": "2026-09-07T19:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-07T04:15:39.622969+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLALIGASPREAD-26SEP07ELCRSO-ELC2:yes|KXLALIGASPREAD-26SEP07ELCRSO-ELC2|yes|12",
+          "reserved_cents": 1325
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "home_wins_by_over_1.5",
+      "home_team": "Elche",
+      "away_team": "Real Sociedad",
+      "kickoff_utc": "2026-09-07T19:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null,
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
+    },
+    "775ed4b1-68af-43fa-9977-3b677c4cfb81": {
+      "order_id": "775ed4b1-68af-43fa-9977-3b677c4cfb81",
+      "case_id": "kalshi:KXLALIGASPREAD-26SEP07ELCRSO-RSO2:no",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGASPREAD-26SEP07ELCRSO-RSO2",
+      "side": "no",
+      "limit_price_cents": 77,
+      "requested_size": 16.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1252,
+      "created_at": "2026-09-07T04:15:39.623115+00:00",
+      "expires_at": "2026-09-07T19:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-07T04:15:39.623123+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLALIGASPREAD-26SEP07ELCRSO-RSO2:no|KXLALIGASPREAD-26SEP07ELCRSO-RSO2|no|77",
+          "reserved_cents": 1252
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_away_wins_by_over_1.5",
+      "home_team": "Elche",
+      "away_team": "Real Sociedad",
+      "kickoff_utc": "2026-09-07T19:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null,
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
+    },
+    "fd72dac8-5c49-47db-9129-c18b3df966ee": {
+      "order_id": "fd72dac8-5c49-47db-9129-c18b3df966ee",
+      "case_id": "kalshi:KXLALIGA1H-26SEP07ELCRSO-RSO:no",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGA1H-26SEP07ELCRSO-RSO",
+      "side": "no",
+      "limit_price_cents": 62,
+      "requested_size": 12.0,
+      "league_id": "la_liga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 764,
+      "created_at": "2026-09-07T04:15:39.623269+00:00",
+      "expires_at": "2026-09-07T19:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-07T04:15:39.623311+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXLALIGA1H-26SEP07ELCRSO-RSO:no|KXLALIGA1H-26SEP07ELCRSO-RSO|no|62",
+          "reserved_cents": 764
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_1h_away_win",
+      "home_team": "Elche",
+      "away_team": "Real Sociedad",
+      "kickoff_utc": "2026-09-07T19:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null,
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
     }
   },
   "positions": {
@@ -65155,7 +65299,21 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Celta Vigo is winless (0W-2D-2L) in La Liga 2026-27 with only 1-3 points and is in severe offensive crisis (1 goal in recent matches). Getafe, despite mixed form, has home advantage at the Coliseum Alfonso P\u00e9rez (9W-4L-6D record at home vs Celta), superior recent win rate (2W vs 0W), and significantly better underlying form. Celta's structural build-up play under Gir\u00e1ldez should struggle against G"
+    },
+    "la_liga|Elche|Real Sociedad|2026-09-07": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-07T04:15:39.622339+00:00",
+      "hours_to_kickoff": 15.2,
+      "ts": "2026-09-07T04:15:39.622361+00:00",
+      "action": "PAPER_PLACE_LIMIT",
+      "claim": "not_away_win",
+      "home": "Elche",
+      "away": "Real Sociedad",
+      "markets_considered": 127,
+      "markets_approved": 4,
+      "decided_by": "quant",
+      "reason": "p_lower (31.18%) falls below breakeven (38.93%); no edge even against lower-bound probability estimate. Negative EV persists through max_limit anchor. Depth (1871) is adequate but cannot overcome unfavorable odds."
     }
   },
-  "saved_at": "2026-09-07T01:07:14.805125+00:00"
+  "saved_at": "2026-09-07T04:15:39.687213+00:00"
 }
