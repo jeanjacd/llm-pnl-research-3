@@ -60201,7 +60201,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-07T07:01:27.070333+00:00",
+      "last_checked_at": "2026-09-07T10:01:10.095230+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60237,7 +60237,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-07T07:01:27.070333+00:00",
+      "last_checked_at": "2026-09-07T10:01:10.095230+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60273,7 +60273,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-07T07:01:27.070333+00:00",
+      "last_checked_at": "2026-09-07T10:01:10.095230+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65330,18 +65330,18 @@
       "reason": "Rennes enter as clear favorites with superior form, dominant H2H record (unbeaten in 6 meetings), early-season points advantage (4 vs 3), and key attacking threat from Lepaul. Angers face compounding disadvantages: a 7-match home winless streak, injury absences (Belkebla, Mouton), and vulnerability against Rennes' attacking setup. The sporting narrative strongly favors an away win."
     },
     "la_liga|Getafe|Celta Vigo|2026-09-07": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-07T01:07:14.741739+00:00",
-      "hours_to_kickoff": 15.9,
-      "ts": "2026-09-07T01:07:14.741762+00:00",
+      "hours_to_kickoff": 6.9,
+      "ts": "2026-09-07T10:06:10.901384+00:00",
       "action": "DEFER",
       "claim": "away_win",
       "home": "Getafe",
       "away": "Celta Vigo",
-      "markets_considered": 115,
+      "markets_considered": 116,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Celta Vigo is winless (0W-2D-2L) in La Liga 2026-27 with only 1-3 points and is in severe offensive crisis (1 goal in recent matches). Getafe, despite mixed form, has home advantage at the Coliseum Alfonso P\u00e9rez (9W-4L-6D record at home vs Celta), superior recent win rate (2W vs 0W), and significantly better underlying form. Celta's structural build-up play under Gir\u00e1ldez should struggle against G"
+      "reason": "Celta Vigo away win assumption is contradicted by: winless streak (0W-2D-2L in 4 matches), critical offensive injuries (Borja Iglesias unavailable), severe goal-scoring drought (1 goal in 4 matches), poor away form (0-0 at Real Sociedad, previous away losses), vs. Getafe home advantage at Coliseum, defensive solidity (lost only once in last 4 home meetings vs Celta), early season stability despite"
     },
     "la_liga|Elche|Real Sociedad|2026-09-07": {
       "attempts": 1,
@@ -65358,5 +65358,5 @@
       "reason": "p_lower (31.18%) falls below breakeven (38.93%); no edge even against lower-bound probability estimate. Negative EV persists through max_limit anchor. Depth (1871) is adequate but cannot overcome unfavorable odds."
     }
   },
-  "saved_at": "2026-09-07T07:03:10.450938+00:00"
+  "saved_at": "2026-09-07T10:06:10.969014+00:00"
 }
