@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 91541,
-  "reserved_cents": 2016,
+  "reserved_cents": 0,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -60232,11 +60232,11 @@
       "requested_size": 16.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1252,
+      "reserved_cents": 0,
       "created_at": "2026-09-07T04:15:39.623115+00:00",
       "expires_at": "2026-09-07T19:30:00+00:00",
       "events": [
@@ -60245,6 +60245,10 @@
           "event": "submitted",
           "key": "kalshi:KXLALIGASPREAD-26SEP07ELCRSO-RSO2:no|KXLALIGASPREAD-26SEP07ELCRSO-RSO2|no|77",
           "reserved_cents": 1252
+        },
+        {
+          "ts": "2026-09-07T21:33:04.459347+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60253,7 +60257,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-07T19:01:06.859237+00:00",
+      "last_checked_at": "2026-09-07T21:33:03.924413+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60268,11 +60272,11 @@
       "requested_size": 12.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 764,
+      "reserved_cents": 0,
       "created_at": "2026-09-07T04:15:39.623269+00:00",
       "expires_at": "2026-09-07T19:30:00+00:00",
       "events": [
@@ -60281,6 +60285,10 @@
           "event": "submitted",
           "key": "kalshi:KXLALIGA1H-26SEP07ELCRSO-RSO:no|KXLALIGA1H-26SEP07ELCRSO-RSO|no|62",
           "reserved_cents": 764
+        },
+        {
+          "ts": "2026-09-07T21:33:04.459357+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60289,7 +60297,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-07T19:01:06.859237+00:00",
+      "last_checked_at": "2026-09-07T21:33:03.924413+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -62877,13 +62885,13 @@
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-07T07:01:27.251965+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
-      "settled": false,
-      "result": null,
+      "closing_price_cents": 57.5,
+      "clv_cents": -1.5,
+      "clv_source": "kalshi",
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -304.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -62904,13 +62912,13 @@
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-07T19:01:06.928812+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
-      "settled": false,
-      "result": null,
+      "closing_price_cents": 11.5,
+      "clv_cents": -0.5,
+      "clv_source": "kalshi",
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -1325.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -64249,6 +64257,34 @@
       "pnl_cents": 4368.0,
       "league_id": "ligue_1",
       "case_id": "polymarket:0xf67fef311073dfbf1776f2266c9eee3cd407f8f642b45bbca2f22086071960a1:yes"
+    },
+    {
+      "ts": "2026-09-07T21:33:04.494861+00:00",
+      "instrument_id": "KXLALIGAGAME-26SEP07ELCRSO-RSO",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 5.0,
+      "avg_cost_cents": 59.0,
+      "fees_cents": 9,
+      "payout_cents": 0.0,
+      "pnl_cents": -304.0,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGAGAME-26SEP07ELCRSO-RSO:no"
+    },
+    {
+      "ts": "2026-09-07T21:33:04.497217+00:00",
+      "instrument_id": "KXLALIGASPREAD-26SEP07ELCRSO-ELC2",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 104.0,
+      "avg_cost_cents": 12.0,
+      "fees_cents": 77,
+      "payout_cents": 0.0,
+      "pnl_cents": -1325.0,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGASPREAD-26SEP07ELCRSO-ELC2:yes"
     }
   ],
   "boarded": {
@@ -65401,5 +65437,5 @@
       "reason": "p_lower (31.18%) falls below breakeven (38.93%); no edge even against lower-bound probability estimate. Negative EV persists through max_limit anchor. Depth (1871) is adequate but cannot overcome unfavorable odds."
     }
   },
-  "saved_at": "2026-09-07T19:01:57.702588+00:00"
+  "saved_at": "2026-09-07T21:33:04.564400+00:00"
 }
