@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 93170,
-  "reserved_cents": 3645,
+  "cash_cents": 92866,
+  "reserved_cents": 3341,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -60128,11 +60128,11 @@
       "requested_size": 5.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
-      "fees_cents": 0,
-      "reserved_cents": 304,
+      "status": "filled",
+      "filled_size": 5.0,
+      "avg_fill_price_cents": 59.0,
+      "fees_cents": 9,
+      "reserved_cents": 0,
       "created_at": "2026-09-07T04:15:39.622806+00:00",
       "expires_at": "2026-09-07T19:30:00+00:00",
       "events": [
@@ -60141,6 +60141,22 @@
           "event": "submitted",
           "key": "kalshi:KXLALIGAGAME-26SEP07ELCRSO-RSO:no|KXLALIGAGAME-26SEP07ELCRSO-RSO|no|59",
           "reserved_cents": 304
+        },
+        {
+          "ts": "2026-09-07T07:01:27.251922+00:00",
+          "event": "fill",
+          "size": 5.0,
+          "price_cents": 59.0,
+          "fee_cents": 9
+        },
+        {
+          "ts": "2026-09-07T07:01:27.251976+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "kalshi",
+          "observed_cents": 56.0,
+          "window_start": "2026-09-07T04:15:39.622806+00:00",
+          "window_end": "2026-09-07T07:01:27.070333+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -60149,7 +60165,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-07T07:01:27.070333+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60185,7 +60201,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-07T07:01:27.070333+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60221,7 +60237,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-07T07:01:27.070333+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60257,7 +60273,7 @@
       "away_team": "Real Sociedad",
       "kickoff_utc": "2026-09-07T19:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-07T07:01:27.070333+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -62828,6 +62844,33 @@
       "void": false,
       "void_reason": null,
       "voided_at": null
+    },
+    "KXLALIGAGAME-26SEP07ELCRSO-RSO|no": {
+      "position_id": "820fe34a-ba91-4d22-8fde-53eff92c15e5",
+      "venue": "kalshi",
+      "instrument_id": "KXLALIGAGAME-26SEP07ELCRSO-RSO",
+      "side": "no",
+      "size": 5.0,
+      "avg_cost_cents": 59.0,
+      "fees_cents": 9,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGAGAME-26SEP07ELCRSO-RSO:no",
+      "claim": "not_away_win",
+      "home_team": "Elche",
+      "away_team": "Real Sociedad",
+      "kickoff_utc": "2026-09-07T19:30:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-09-07T07:01:27.251965+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0,
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
     }
   },
   "ledger": [
@@ -65315,5 +65358,5 @@
       "reason": "p_lower (31.18%) falls below breakeven (38.93%); no edge even against lower-bound probability estimate. Negative EV persists through max_limit anchor. Depth (1871) is adequate but cannot overcome unfavorable odds."
     }
   },
-  "saved_at": "2026-09-07T04:15:39.687213+00:00"
+  "saved_at": "2026-09-07T07:03:10.450938+00:00"
 }
