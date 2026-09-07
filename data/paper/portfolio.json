@@ -65437,5 +65437,5 @@
       "reason": "p_lower (31.18%) falls below breakeven (38.93%); no edge even against lower-bound probability estimate. Negative EV persists through max_limit anchor. Depth (1871) is adequate but cannot overcome unfavorable odds."
     }
   },
-  "saved_at": "2026-09-07T21:33:04.564400+00:00"
+  "saved_at": "2026-09-07T22:02:04.659764+00:00"
 }
