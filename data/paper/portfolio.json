@@ -60333,7 +60333,7 @@
       "away_team": "Nashville SC",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T10:01:19.968103+00:00",
+      "last_checked_at": "2026-09-09T13:01:10.845105+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60369,7 +60369,7 @@
       "away_team": "Real Salt Lake",
       "kickoff_utc": "2026-09-10T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-09T13:01:10.845105+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60405,7 +60405,7 @@
       "away_team": "Real Salt Lake",
       "kickoff_utc": "2026-09-10T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-09T13:01:10.845105+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65755,5 +65755,5 @@
       "reason": "Critical missing information prevents confident sporting assessment of Austin home win assumption. Myrto Uzuni's availability status (Austin's top scorer with 5-6 goals) is listed as both 'out' and 'doubtful' across recent sources. Morgan Whittaker's readiness for Colorado's debut is contingent on visa arrival (P-1 pending). Paxten Aaronson's injury status in early September is ambiguous. Addition"
     }
   },
-  "saved_at": "2026-09-09T10:47:19.462382+00:00"
+  "saved_at": "2026-09-09T13:06:42.950840+00:00"
 }
