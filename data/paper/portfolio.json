@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 91361,
-  "reserved_cents": 6177,
+  "reserved_cents": 7232,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -60333,7 +60333,7 @@
       "away_team": "Nashville SC",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T16:01:29.413354+00:00",
+      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60369,7 +60369,7 @@
       "away_team": "Real Salt Lake",
       "kickoff_utc": "2026-09-10T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T16:01:29.413354+00:00",
+      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60405,7 +60405,7 @@
       "away_team": "Real Salt Lake",
       "kickoff_utc": "2026-09-10T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T16:01:29.413354+00:00",
+      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60441,7 +60441,7 @@
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60520,7 +60520,7 @@
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60556,7 +60556,7 @@
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60592,7 +60592,7 @@
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60627,6 +60627,42 @@
       "home_team": "D.C. United",
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
+    },
+    "0ec3df67-d3ba-486a-8cf8-a4af499d19d4": {
+      "order_id": "0ec3df67-d3ba-486a-8cf8-a4af499d19d4",
+      "case_id": "kalshi:KXMLSGAME-26SEP09SDSJ-SD:yes",
+      "venue": "kalshi",
+      "instrument_id": "KXMLSGAME-26SEP09SDSJ-SD",
+      "side": "yes",
+      "limit_price_cents": 51,
+      "requested_size": 20.0,
+      "league_id": "mls",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1055,
+      "created_at": "2026-09-09T19:28:05.166855+00:00",
+      "expires_at": "2026-09-10T02:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-09T19:28:05.166861+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXMLSGAME-26SEP09SDSJ-SD:yes|KXMLSGAME-26SEP09SDSJ-SD|yes|51",
+          "reserved_cents": 1055
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "home_win",
+      "home_team": "San Diego FC",
+      "away_team": "San Jose Earthquakes",
+      "kickoff_utc": "2026-09-10T02:30:00",
       "settles_on_regulation": true,
       "last_checked_at": null,
       "void": false,
@@ -65907,60 +65943,60 @@
       "reason": "FC Dallas away over 2.5 depends critically on Petar Musa availability (co-leading MLS scorer, 18 goals; questionable with shoulder injury as of Sept 9 16:07 UTC, 8 hours pre-kickoff). Musa's status was pending MRI results. Minnesota's home defense is typically solid (1.33 GC/match) but recently vulnerable (8 goals in last 2 home matches). Dallas' away scoring rate (~0.91 goals/game) is substantial"
     },
     "mls|Vancouver Whitecaps|LA Galaxy|2026-09-10": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-09T10:12:26.321084+00:00",
-      "hours_to_kickoff": 16.3,
-      "ts": "2026-09-09T10:12:26.321106+00:00",
+      "hours_to_kickoff": 7.3,
+      "ts": "2026-09-09T19:12:54.818054+00:00",
       "action": "DEFER",
       "claim": "not_home_win",
       "home": "Vancouver Whitecaps",
       "away": "LA Galaxy",
-      "markets_considered": 68,
+      "markets_considered": 62,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Material uncertainties prevent confident assessment of home-win assumption. Whitecaps maintain clear form and venue advantages, but recent data conflicts on key squad availability (Brian White USMNT call-up timing vs. match date; Veselinovic injury status evolution; fixture fatigue post-Canadian Championship semifinal on Sept 2) and Galaxy's recent momentum (2-1 home win Sep 5) creates asymmetric "
+      "reason": "Critical information gap on Brian White's status prevents confident assessment. White is Vancouver's top scorer (13 goals, 2 assists) and his absence would materially alter home offensive capacity. Secondary concern: Vancouver's recent form is weak (1W-4 in last 5), undermining home fortress reputation. LA Galaxy in desperation playoff mode with Marco Reus recently performing well. The case for NO"
     },
     "mls|San Diego FC|San Jose Earthquakes|2026-09-10": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-09T10:16:29.335945+00:00",
-      "hours_to_kickoff": 16.2,
-      "ts": "2026-09-09T10:16:29.335972+00:00",
-      "action": "DEFER",
+      "hours_to_kickoff": 7.0,
+      "ts": "2026-09-09T19:28:05.166472+00:00",
+      "action": "PAPER_PLACE_LIMIT",
       "claim": "home_win",
       "home": "San Diego FC",
       "away": "San Jose Earthquakes",
       "markets_considered": 119,
-      "markets_approved": 0,
-      "decided_by": "coach",
-      "reason": "Critical information gaps on confirmed lineups, managerial continuity at San Jose, and injury status depth prevent full assessment of home-win assumptions. Bruce Arena at San Jose has orchestrated historic start (10-3-2 in 15), but Timo Werner's injury status unclear (conflicting sources on return timing). San Diego's recent form mixed (lost 1-0 to Orlando after two-game win streak). Home advantag"
+      "markets_approved": 1,
+      "decided_by": "quant",
+      "reason": "Negative EV (-1.76\u00a2) despite favorable depth (5.0); p_lower (27.32%) undercuts breakeven (29.08%) indicating overpriced entry"
     },
     "mls|Portland Timbers|St. Louis CITY SC|2026-09-10": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-09T10:21:50.869764+00:00",
-      "hours_to_kickoff": 16.1,
-      "ts": "2026-09-09T10:21:50.869783+00:00",
+      "hours_to_kickoff": 7.0,
+      "ts": "2026-09-09T19:32:23.154836+00:00",
       "action": "DEFER",
       "claim": "home_win",
       "home": "Portland Timbers",
       "away": "St. Louis CITY SC",
-      "markets_considered": 117,
+      "markets_considered": 118,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Material data conflicts and gaps prevent confident sporting assessment. Key facts are contested: Portland's league position (reported as both 4th/33pts and 8th/31pts), the legitimacy and timing of the claimed 5-4 Minnesota victory, and St. Louis CITY SC's current injury status post-travel. The fixture is materially important (both teams chasing playoff position) and multiple critical inputs\u2014team s"
+      "reason": "Portland's home-win case is undermined by two structural problems: (1) Severe defensive vulnerability\u201428 goals conceded (2.0/match), only 1 clean sheet all season, goalkeeper Pantemis saving 4.9/match (2nd-highest in MLS but still leaking 2 goals per game). (2) St. Louis riding a 13-match unbeaten streak (9W-4D) with genuine road pedigree (3W-4D-4L away), arriving fresh off dominant 3-1 victory at"
     },
     "mls|LAFC|Red Bull New York|2026-09-10": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-09T10:25:22.102882+00:00",
-      "hours_to_kickoff": 16.1,
-      "ts": "2026-09-09T10:25:22.102901+00:00",
+      "hours_to_kickoff": 6.9,
+      "ts": "2026-09-09T19:35:29.101802+00:00",
       "action": "DEFER",
       "claim": "not_home_win",
       "home": "LAFC",
       "away": "Red Bull New York",
-      "markets_considered": 48,
+      "markets_considered": 41,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "LAFC are strong home favorites in sporting context (37 pts, 3rd place, 7-3-2 home record vs Red Bulls at 27 pts, 10th place, 3-5-3 away). However, critical gaps in match-day intelligence prevent confident assessment: confirmed lineups unavailable; Son Heung-min's availability unclear given World Cup preparation post-international break; extent of LAFC's ongoing defensive/set-piece vulnerabilities "
+      "reason": "Material discrepancies in the fixture details and incomplete coverage prevent confident assessment. Official sources confirm different match timing and placement in season (matchday 24 context), but conflicting standings data and uncertain injury/lineup status for key players unresolved. The 'no home win' position requires verification of current LAFC form trajectory, RBNY defensive resilience und"
     },
     "mls|Houston Dynamo FC|Real Salt Lake|2026-09-10": {
       "attempts": 1,
@@ -65991,19 +66027,19 @@
       "reason": "Critical gap: recent form trajectory diverges sharply from earlier September streak. Miami ended 5-game winless drought with dominant 7-1 victory over Montreal (Messi 4 goals), but most recent match reported is 2-2 draw vs Atlanta\u2014timestamp and recency unconfirmed. Chicago's 4-4 draw at Toronto is confirmed recent. Inter Miami defensively vulnerable in away fixtures (8 conceded in 9 games minimum)"
     },
     "mls|Austin FC|Colorado Rapids|2026-09-10": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-09T10:47:19.394449+00:00",
-      "hours_to_kickoff": 13.7,
-      "ts": "2026-09-09T10:47:19.394464+00:00",
+      "hours_to_kickoff": 4.8,
+      "ts": "2026-09-09T19:39:44.484441+00:00",
       "action": "DEFER",
       "claim": "home_win",
       "home": "Austin FC",
       "away": "Colorado Rapids",
-      "markets_considered": 120,
+      "markets_considered": 122,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Critical missing information prevents confident sporting assessment of Austin home win assumption. Myrto Uzuni's availability status (Austin's top scorer with 5-6 goals) is listed as both 'out' and 'doubtful' across recent sources. Morgan Whittaker's readiness for Colorado's debut is contingent on visa arrival (P-1 pending). Paxten Aaronson's injury status in early September is ambiguous. Addition"
+      "reason": "Critical information gaps on confirmed lineups, current injury status for Colorado (particularly Nico Hansen availability), and Austin's readiness under interim management contradict the claim's supporting factors. While Austin holds home advantage, recent form, and playoff desperation, Colorado's away pathology is severe (0 wins, 0 goals in 3 road matches since World Cup break) but cannot overcom"
     }
   },
-  "saved_at": "2026-09-09T17:04:21.297396+00:00"
+  "saved_at": "2026-09-09T19:39:44.536116+00:00"
 }
