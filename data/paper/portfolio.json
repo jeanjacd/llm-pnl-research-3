@@ -60333,7 +60333,7 @@
       "away_team": "Nashville SC",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
+      "last_checked_at": "2026-09-09T20:57:19.799735+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60369,7 +60369,7 @@
       "away_team": "Real Salt Lake",
       "kickoff_utc": "2026-09-10T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
+      "last_checked_at": "2026-09-09T20:57:19.799735+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60405,7 +60405,7 @@
       "away_team": "Real Salt Lake",
       "kickoff_utc": "2026-09-10T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
+      "last_checked_at": "2026-09-09T20:57:19.799735+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60441,7 +60441,7 @@
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
+      "last_checked_at": "2026-09-09T20:57:19.799735+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60520,7 +60520,7 @@
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
+      "last_checked_at": "2026-09-09T20:57:19.799735+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60556,7 +60556,7 @@
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
+      "last_checked_at": "2026-09-09T20:57:19.799735+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60592,7 +60592,7 @@
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
+      "last_checked_at": "2026-09-09T20:57:19.799735+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60628,7 +60628,7 @@
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T19:01:16.014305+00:00",
+      "last_checked_at": "2026-09-09T20:57:19.799735+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60664,7 +60664,7 @@
       "away_team": "San Jose Earthquakes",
       "kickoff_utc": "2026-09-10T02:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-09T20:57:19.799735+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66041,5 +66041,5 @@
       "reason": "Critical information gaps on confirmed lineups, current injury status for Colorado (particularly Nico Hansen availability), and Austin's readiness under interim management contradict the claim's supporting factors. While Austin holds home advantage, recent form, and playoff desperation, Colorado's away pathology is severe (0 wins, 0 goals in 3 road matches since World Cup break) but cannot overcom"
     }
   },
-  "saved_at": "2026-09-09T19:39:44.536116+00:00"
+  "saved_at": "2026-09-09T20:57:21.174697+00:00"
 }
