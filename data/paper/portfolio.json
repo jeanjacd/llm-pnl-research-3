@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 91541,
-  "reserved_cents": 0,
+  "reserved_cents": 1269,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -60301,6 +60301,42 @@
       "void": false,
       "void_reason": null,
       "voided_at": null
+    },
+    "bbf04016-e18d-4f45-ba1e-61069b0c2b4d": {
+      "order_id": "bbf04016-e18d-4f45-ba1e-61069b0c2b4d",
+      "case_id": "kalshi:KXMLSBTTS-26SEP09TORNSH-BTTS:no",
+      "venue": "kalshi",
+      "instrument_id": "KXMLSBTTS-26SEP09TORNSH-BTTS",
+      "side": "no",
+      "limit_price_cents": 38,
+      "requested_size": 32.0,
+      "league_id": "mls",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1269,
+      "created_at": "2026-09-09T07:17:24.082209+00:00",
+      "expires_at": "2026-09-09T23:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-09T07:17:24.082217+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXMLSBTTS-26SEP09TORNSH-BTTS:no|KXMLSBTTS-26SEP09TORNSH-BTTS|no|38",
+          "reserved_cents": 1269
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_btts",
+      "home_team": "Toronto FC",
+      "away_team": "Nashville SC",
+      "kickoff_utc": "2026-09-09T23:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null,
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
     }
   },
   "positions": {
@@ -65435,7 +65471,119 @@
       "markets_approved": 4,
       "decided_by": "quant",
       "reason": "p_lower (31.18%) falls below breakeven (38.93%); no edge even against lower-bound probability estimate. Negative EV persists through max_limit anchor. Depth (1871) is adequate but cannot overcome unfavorable odds."
+    },
+    "mls|Toronto FC|Nashville SC|2026-09-09": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-09T07:17:24.081787+00:00",
+      "hours_to_kickoff": 16.2,
+      "ts": "2026-09-09T07:17:24.081804+00:00",
+      "action": "PAPER_PLACE_LIMIT",
+      "claim": "not_home_win",
+      "home": "Toronto FC",
+      "away": "Nashville SC",
+      "markets_considered": 118,
+      "markets_approved": 1,
+      "decided_by": "quant",
+      "reason": "Negative EV of -1.27\u00a2 after fees. While smallest loss, model assesses 87.77% confidence Toronto \u22642.5; market requires 89.04% confidence to break even. Unfavorable risk/reward."
+    },
+    "mls|CF Montr\u00e9al|Charlotte FC|2026-09-09": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-09T07:23:20.805486+00:00",
+      "hours_to_kickoff": 16.1,
+      "ts": "2026-09-09T07:23:20.805508+00:00",
+      "action": "DEFER",
+      "claim": "away_win",
+      "home": "CF Montr\u00e9al",
+      "away": "Charlotte FC",
+      "markets_considered": 119,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Charlotte's away-win case rests on clear form and tactical advantages (5-game unbeaten, +11 goal differential, second-best defense), but Montreal's historical dominance in h2h (5-2 record including 4-1 win at Charlotte in Sept 2025), combined with critical missing information on final confirmed lineups, Westwood's suspension status, and Montreal's home-field response to recent catastrophic losses "
+    },
+    "mls|D.C. United|Columbus Crew|2026-09-09": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-09T07:27:54.639490+00:00",
+      "hours_to_kickoff": 16.0,
+      "ts": "2026-09-09T07:27:54.639509+00:00",
+      "action": "DEFER",
+      "claim": "away_win",
+      "home": "D.C. United",
+      "away": "Columbus Crew",
+      "markets_considered": 120,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Columbus Crew away-win thesis is materially undermined by Wessam Abou Ali's season-ending ACL+meniscus injury (April 2026), removing their primary attacking threat with 5 goals. However, critical simulation gaps prevent acceptance: (1) DC United's home record at Audi Field is not fully quantified; (2) Columbus's away/road-specific form is unconfirmed (5 straight home wins noted, but home-road spli"
+    },
+    "mls|Atlanta United FC|Orlando City SC|2026-09-09": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-09T07:31:07.250474+00:00",
+      "hours_to_kickoff": 16.0,
+      "ts": "2026-09-09T07:31:07.250493+00:00",
+      "action": "DEFER",
+      "claim": "away_win",
+      "home": "Atlanta United FC",
+      "away": "Orlando City SC",
+      "markets_considered": 120,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Orlando's away record (1-1-6) is systematically poor, but Atlanta's home-field advantage at Mercedes-Benz Stadium cannot be fully verified without home/away record split. Griezmann's current form unclear. Critical data gaps on home-field performance and Orlando's tactical adaptation to road play prevent confident assertion of whether underlying simulation is sound."
+    },
+    "mls|Philadelphia Union|FC Cincinnati|2026-09-09": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-09T07:35:05.272738+00:00",
+      "hours_to_kickoff": 16.2,
+      "ts": "2026-09-09T07:35:05.272756+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "Philadelphia Union",
+      "away": "FC Cincinnati",
+      "markets_considered": 117,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Critical standings discrepancies across sources prevent reliable assessment of team form context. Philadelphia's recent 8-game unbeaten run is confirmed, but current league position (ranging 4th-15th across sources) cannot be verified. Cincinnati's contemporary injury/suspension status for Acosta and current squad depth unclear. Home advantage and historical head-to-head favor Philadelphia, but si"
+    },
+    "mls|New York City FC|New England Revolution|2026-09-09": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-09T07:38:59.317482+00:00",
+      "hours_to_kickoff": 15.9,
+      "ts": "2026-09-09T07:38:59.317497+00:00",
+      "action": "DEFER",
+      "claim": "not_btts",
+      "home": "New York City FC",
+      "away": "New England Revolution",
+      "markets_considered": 31,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Critical roster gaps prevent reliable sporting assessment. NYCFC missing six players including midfield architects Moralez and Parks (status uncertain as of Sept 7). New England sharp defensively but fielding depth untested in this configuration. Recent BTTS rates (NYCFC 70%, NER 55% this season; 1-1 in H2H Aug 23) conflict with defensive baseline from Sept 4-5 form (0-0, 2-1). Insufficient clarit"
+    },
+    "mls|New York City FC|New England Revolution|2026-09-10": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-09T07:42:25.823330+00:00",
+      "hours_to_kickoff": 16.3,
+      "ts": "2026-09-09T07:42:25.823350+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "New York City FC",
+      "away": "New England Revolution",
+      "markets_considered": 88,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "NYCFC's home win assumption carries material sporting contradictions that preclude a clean verdict. While NYCFC has clear home-field advantage and New England's recent form shows travel struggles (1W-2D-4L away), NYCFC's current state is severely compromised: a 6-match winless run with only 3 draws in the last 3 games, significant injuries to attacking players (Talles Magno out weeks, Alonso Mart\u00ed"
+    },
+    "mls|Minnesota United FC|FC Dallas|2026-09-10": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-09T07:47:19.773957+00:00",
+      "hours_to_kickoff": 16.7,
+      "ts": "2026-09-09T07:47:19.773978+00:00",
+      "action": "DEFER",
+      "claim": "away_win",
+      "home": "Minnesota United FC",
+      "away": "FC Dallas",
+      "markets_considered": 116,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "FC Dallas away win is viable but rests on unconfirmed Petar Musa availability and Eric Quill's rotation strategy post-9-game road trip. Dallas's superior form and attacking quality support the proposition; however, material road fatigue, Minnesota home advantage, and Musa injury uncertainty create simulation incompleteness. Musa precaution-status (MRI Monday Sept 10) may not be resolved pre-kickof"
     }
   },
-  "saved_at": "2026-09-09T04:02:19.424514+00:00"
+  "saved_at": "2026-09-09T07:47:19.841337+00:00"
 }
