@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 91361,
-  "reserved_cents": 7232,
+  "reserved_cents": 1055,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -60312,11 +60312,11 @@
       "requested_size": 32.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1269,
+      "reserved_cents": 0,
       "created_at": "2026-09-09T07:17:24.082209+00:00",
       "expires_at": "2026-09-09T23:30:00+00:00",
       "events": [
@@ -60325,6 +60325,10 @@
           "event": "submitted",
           "key": "kalshi:KXMLSBTTS-26SEP09TORNSH-BTTS:no|KXMLSBTTS-26SEP09TORNSH-BTTS|no|38",
           "reserved_cents": 1269
+        },
+        {
+          "ts": "2026-09-10T01:01:27.215151+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60333,7 +60337,7 @@
       "away_team": "Nashville SC",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T22:01:30.169702+00:00",
+      "last_checked_at": "2026-09-10T01:01:25.781828+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60348,11 +60352,11 @@
       "requested_size": 20.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1273,
+      "reserved_cents": 0,
       "created_at": "2026-09-09T10:36:59.347184+00:00",
       "expires_at": "2026-09-10T00:30:00+00:00",
       "events": [
@@ -60361,6 +60365,10 @@
           "event": "submitted",
           "key": "kalshi:KXMLSTOTAL-26SEP09HOURSL-4:no|KXMLSTOTAL-26SEP09HOURSL-4|no|62",
           "reserved_cents": 1273
+        },
+        {
+          "ts": "2026-09-10T01:01:27.215162+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60369,7 +60377,7 @@
       "away_team": "Real Salt Lake",
       "kickoff_utc": "2026-09-10T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T22:01:30.169702+00:00",
+      "last_checked_at": "2026-09-10T01:01:25.781828+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60384,11 +60392,11 @@
       "requested_size": 15.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1232,
+      "reserved_cents": 0,
       "created_at": "2026-09-09T10:36:59.347492+00:00",
       "expires_at": "2026-09-10T00:30:00+00:00",
       "events": [
@@ -60397,6 +60405,10 @@
           "event": "submitted",
           "key": "kalshi:KXMLS1HTOTAL-26SEP09HOURSL-3:no|KXMLS1HTOTAL-26SEP09HOURSL-3|no|81",
           "reserved_cents": 1232
+        },
+        {
+          "ts": "2026-09-10T01:01:27.215166+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60405,7 +60417,7 @@
       "away_team": "Real Salt Lake",
       "kickoff_utc": "2026-09-10T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T22:01:30.169702+00:00",
+      "last_checked_at": "2026-09-10T01:01:25.781828+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60420,11 +60432,11 @@
       "requested_size": 1.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 18,
+      "reserved_cents": 0,
       "created_at": "2026-09-09T16:33:06.945106+00:00",
       "expires_at": "2026-09-09T23:30:00+00:00",
       "events": [
@@ -60433,6 +60445,10 @@
           "event": "submitted",
           "key": "kalshi:KXMLSTEAMTOTAL-26SEP09DCUCLB-CLB3:yes|KXMLSTEAMTOTAL-26SEP09DCUCLB-CLB3|yes|17",
           "reserved_cents": 18
+        },
+        {
+          "ts": "2026-09-10T01:01:27.215169+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60441,7 +60457,7 @@
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T22:01:30.169702+00:00",
+      "last_checked_at": "2026-09-10T01:01:25.781828+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60499,11 +60515,11 @@
       "requested_size": 2.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 9,
+      "reserved_cents": 0,
       "created_at": "2026-09-09T16:33:06.945484+00:00",
       "expires_at": "2026-09-09T23:30:00+00:00",
       "events": [
@@ -60512,6 +60528,10 @@
           "event": "submitted",
           "key": "kalshi:KXMLSSPREAD-26SEP09DCUCLB-CLB3:yes|KXMLSSPREAD-26SEP09DCUCLB-CLB3|yes|4",
           "reserved_cents": 9
+        },
+        {
+          "ts": "2026-09-10T01:01:27.215173+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60520,7 +60540,7 @@
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T22:01:30.169702+00:00",
+      "last_checked_at": "2026-09-10T01:01:25.781828+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60535,11 +60555,11 @@
       "requested_size": 24.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 682,
+      "reserved_cents": 0,
       "created_at": "2026-09-09T16:33:06.945627+00:00",
       "expires_at": "2026-09-09T23:30:00+00:00",
       "events": [
@@ -60548,6 +60568,10 @@
           "event": "submitted",
           "key": "kalshi:KXMLS1H-26SEP09DCUCLB-CLB:yes|KXMLS1H-26SEP09DCUCLB-CLB|yes|27",
           "reserved_cents": 682
+        },
+        {
+          "ts": "2026-09-10T01:01:27.215175+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60556,7 +60580,7 @@
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T22:01:30.169702+00:00",
+      "last_checked_at": "2026-09-10T01:01:25.781828+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60571,11 +60595,11 @@
       "requested_size": 22.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1270,
+      "reserved_cents": 0,
       "created_at": "2026-09-09T16:33:06.945778+00:00",
       "expires_at": "2026-09-09T23:30:00+00:00",
       "events": [
@@ -60584,6 +60608,10 @@
           "event": "submitted",
           "key": "kalshi:KXMLS1H-26SEP09DCUCLB-CLB:no|KXMLS1H-26SEP09DCUCLB-CLB|no|56",
           "reserved_cents": 1270
+        },
+        {
+          "ts": "2026-09-10T01:01:27.215179+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60592,7 +60620,7 @@
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T22:01:30.169702+00:00",
+      "last_checked_at": "2026-09-10T01:01:25.781828+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60607,11 +60635,11 @@
       "requested_size": 25.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 424,
+      "reserved_cents": 0,
       "created_at": "2026-09-09T16:33:06.945917+00:00",
       "expires_at": "2026-09-09T23:30:00+00:00",
       "events": [
@@ -60620,6 +60648,10 @@
           "event": "submitted",
           "key": "kalshi:KXMLS1H-26SEP09DCUCLB-DCU:yes|KXMLS1H-26SEP09DCUCLB-DCU|yes|16",
           "reserved_cents": 424
+        },
+        {
+          "ts": "2026-09-10T01:01:27.215183+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60628,7 +60660,7 @@
       "away_team": "Columbus Crew",
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T22:01:30.169702+00:00",
+      "last_checked_at": "2026-09-10T01:01:25.781828+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60664,7 +60696,7 @@
       "away_team": "San Jose Earthquakes",
       "kickoff_utc": "2026-09-10T02:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-09T22:01:30.169702+00:00",
+      "last_checked_at": "2026-09-10T01:01:25.781828+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -63306,9 +63338,9 @@
       "kickoff_utc": "2026-09-09T23:30:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-09T16:33:06.945338+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
+      "closing_price_cents": 16.5,
+      "clv_cents": -0.5,
+      "clv_source": "kalshi",
       "settled": false,
       "result": null,
       "payout_cents": 0.0,
@@ -66041,5 +66073,5 @@
       "reason": "Critical information gaps on confirmed lineups, current injury status for Colorado (particularly Nico Hansen availability), and Austin's readiness under interim management contradict the claim's supporting factors. While Austin holds home advantage, recent form, and playoff desperation, Colorado's away pathology is severe (0 wins, 0 goals in 3 road matches since World Cup break) but cannot overcom"
     }
   },
-  "saved_at": "2026-09-09T22:05:40.404648+00:00"
+  "saved_at": "2026-09-10T01:02:15.946309+00:00"
 }
