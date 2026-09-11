@@ -1,6 +1,6 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 90457,
+  "cash_cents": 91857,
   "reserved_cents": 0,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
@@ -63667,10 +63667,10 @@
       "closing_price_cents": 62.5,
       "clv_cents": 1.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "no",
+      "payout_cents": 1400.0,
+      "realized_pnl_cents": 522.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -63694,10 +63694,10 @@
       "closing_price_cents": 26.0,
       "clv_cents": 0.0,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -26.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65078,6 +65078,34 @@
       "pnl_cents": -180.0,
       "league_id": "mls",
       "case_id": "kalshi:KXMLSSPREAD-26SEP09DCUCLB-CLB2:yes"
+    },
+    {
+      "ts": "2026-09-11T21:00:14.937623+00:00",
+      "instrument_id": "KXBUNDESLIGA1HTOTAL-26SEP11UNISCH-2",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 14.0,
+      "avg_cost_cents": 61.0,
+      "fees_cents": 24,
+      "payout_cents": 1400.0,
+      "pnl_cents": 522.0,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGA1HTOTAL-26SEP11UNISCH-2:no"
+    },
+    {
+      "ts": "2026-09-11T21:00:14.939863+00:00",
+      "instrument_id": "0xece1d683f7c1903eb5239e651d84da6489c2ce4c56cdd200262c1711c5833f51",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 1.0,
+      "avg_cost_cents": 26.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -26.0,
+      "league_id": "bundesliga",
+      "case_id": "polymarket:0xece1d683f7c1903eb5239e651d84da6489c2ce4c56cdd200262c1711c5833f51:no"
     }
   ],
   "boarded": {
@@ -66496,5 +66524,5 @@
       "reason": "Alav\u00e9s are empirically strongest-form second-place team (10 pts from 4 matches, 3W-1D-0L) with elite attack (5 goals in last match, Lucas Boy\u00e9 hat-trick, 4 goals in 3 games) and best defense in La Liga (0.6 GA/90). Racing concede 1.50 GA/90 and sit 13th with 4 pts after losing 3-2 to Rayo Vallecano. Head-to-head: 0 Racing wins in last 7 meetings (3 Alav\u00e9s wins, 4 draws); Alav\u00e9s won 3-0 last meetin"
     }
   },
-  "saved_at": "2026-09-11T19:08:51.520605+00:00"
+  "saved_at": "2026-09-11T21:00:15.006448+00:00"
 }
