@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 90483,
-  "reserved_cents": 1023,
+  "cash_cents": 90457,
+  "reserved_cents": 997,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -60715,11 +60715,11 @@
       "requested_size": 1.0,
       "league_id": "bundesliga",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
+      "status": "filled",
+      "filled_size": 1.0,
+      "avg_fill_price_cents": 26.0,
       "fees_cents": 0,
-      "reserved_cents": 26,
+      "reserved_cents": 0,
       "created_at": "2026-09-11T10:20:52.514588+00:00",
       "expires_at": "2026-09-11T18:30:00+00:00",
       "events": [
@@ -60728,6 +60728,22 @@
           "event": "submitted",
           "key": "polymarket:0xece1d683f7c1903eb5239e651d84da6489c2ce4c56cdd200262c1711c5833f51:no|0xece1d683f7c1903eb5239e651d84da6489c2ce4c56cdd200262c1711c5833f51|no|26",
           "reserved_cents": 26
+        },
+        {
+          "ts": "2026-09-11T11:24:04.267541+00:00",
+          "event": "fill",
+          "size": 1.0,
+          "price_cents": 26.0,
+          "fee_cents": 0
+        },
+        {
+          "ts": "2026-09-11T11:24:04.267597+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "polymarket",
+          "observed_cents": 23.5,
+          "window_start": "2026-09-11T10:20:52.514588+00:00",
+          "window_end": "2026-09-11T11:24:03.834815+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -60736,7 +60752,7 @@
       "away_team": "Schalke 04",
       "kickoff_utc": "2026-09-11T18:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-11T11:24:03.834815+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60772,7 +60788,7 @@
       "away_team": "Schalke 04",
       "kickoff_utc": "2026-09-11T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-11T11:24:03.834815+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60851,7 +60867,7 @@
       "away_team": "Schalke 04",
       "kickoff_utc": "2026-09-11T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-11T11:24:03.834815+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60887,7 +60903,7 @@
       "away_team": "Schalke 04",
       "kickoff_utc": "2026-09-11T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-11T11:24:03.834815+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60923,7 +60939,7 @@
       "away_team": "Marseille",
       "kickoff_utc": "2026-09-11T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-11T11:24:03.834815+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60959,7 +60975,7 @@
       "away_team": "Marseille",
       "kickoff_utc": "2026-09-11T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-11T11:24:03.834815+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -63628,6 +63644,33 @@
       "kickoff_utc": "2026-09-11T18:30:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-11T10:20:52.515016+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0,
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
+    },
+    "0xece1d683f7c1903eb5239e651d84da6489c2ce4c56cdd200262c1711c5833f51|no": {
+      "position_id": "5d1c3411-9872-478b-a0ed-e8bab09d6c5e",
+      "venue": "polymarket",
+      "instrument_id": "0xece1d683f7c1903eb5239e651d84da6489c2ce4c56cdd200262c1711c5833f51",
+      "side": "no",
+      "size": 1.0,
+      "avg_cost_cents": 26.0,
+      "fees_cents": 0,
+      "league_id": "bundesliga",
+      "case_id": "polymarket:0xece1d683f7c1903eb5239e651d84da6489c2ce4c56cdd200262c1711c5833f51:no",
+      "claim": "not_away_over_0.5",
+      "home_team": "1. FC Union Berlin",
+      "away_team": "Schalke 04",
+      "kickoff_utc": "2026-09-11T18:30:00+00:00",
+      "settles_on_regulation": null,
+      "opened_at": "2026-09-11T11:24:04.267581+00:00",
       "closing_price_cents": null,
       "clv_cents": null,
       "clv_source": null,
@@ -66419,5 +66462,5 @@
       "reason": "approved 2 of 6 market(s): Thin positive EV (1.83% ROI = 0.54\u00a2/contract) does not overcome material model validation concerns. Analyst evidence overwhelmingly supports Rennes as home favorites (unbeaten at home, full squad, tactical continuity, Marseille missing Kondogbia/Nnadi, poor away form); this contradicts quantitative model's 31.13% away_win probability. Asymmetric pricing (yes=+0.54\u00a2 vs no"
     }
   },
-  "saved_at": "2026-09-11T10:44:04.547791+00:00"
+  "saved_at": "2026-09-11T11:24:05.046594+00:00"
 }
