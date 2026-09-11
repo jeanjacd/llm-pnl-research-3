@@ -66089,7 +66089,49 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Critical information gaps on confirmed lineups, current injury status for Colorado (particularly Nico Hansen availability), and Austin's readiness under interim management contradict the claim's supporting factors. While Austin holds home advantage, recent form, and playoff desperation, Colorado's away pathology is severe (0 wins, 0 goals in 3 road matches since World Cup break) but cannot overcom"
+    },
+    "bundesliga|1. FC Union Berlin|Schalke 04|2026-09-11": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-11T01:07:12.664693+00:00",
+      "hours_to_kickoff": 17.4,
+      "ts": "2026-09-11T01:07:12.664717+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "1. FC Union Berlin",
+      "away": "Schalke 04",
+      "markets_considered": 122,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Union Berlin home win claim lacks confirmed lineups 17.5 hours to kickoff, limiting assessment of how new manager Lustrinelli shapes response to 0-4 Leverkusen rout and whether union's defensive fragility (7 goals conceded in 2 games) persists. Schalke's suspension of midfield anchor Schallenberg is confirmed, and their 0-goal start is material, but their Bayern 0-0 draw shows tactical resilience."
+    },
+    "la_liga|Sevilla|Valencia|2026-09-11": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-11T01:11:24.570067+00:00",
+      "hours_to_kickoff": 17.8,
+      "ts": "2026-09-11T01:11:24.570085+00:00",
+      "action": "DEFER",
+      "claim": "away_win",
+      "home": "Sevilla",
+      "away": "Valencia",
+      "markets_considered": 116,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Valencia's away form is severely compromised by (1) a catastrophic 0-5 loss to Barcelona five days prior, (2) zero points from away matches this season, (3) ten unavailable squad players including key attacking depth, (4) a one-goal-in-five-games scoring crisis, (5) defensive frailty under new tactical setup, and (6) Sevilla's home advantage despite defensive gaps. While Sevilla has conceded freel"
+    },
+    "ligue_1|Stade Rennais|Marseille|2026-09-11": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-11T01:22:44.638700+00:00",
+      "hours_to_kickoff": 17.4,
+      "ts": "2026-09-11T01:22:44.638720+00:00",
+      "action": "DEFER",
+      "claim": "away_win",
+      "home": "Stade Rennais",
+      "away": "Marseille",
+      "markets_considered": 115,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "While Marseille has demonstrated attacking capacity (4-0 vs Strasbourg) and Rennes conceded 5 in 3 matches, critical gaps in current intelligence prevent confident assessment: (1) Marseille missing 4 key players (Kondogbia midfield control, Paix\u00e3o/Gomes attacking creation, Nnadi defense) \u2014 unclear lineup impact on attacking output; (2) Rennes' defensive trend unknown \u2014 whether 5 goals in 3 is stab"
     }
   },
-  "saved_at": "2026-09-10T22:02:19.098664+00:00"
+  "saved_at": "2026-09-11T01:22:44.750498+00:00"
 }
