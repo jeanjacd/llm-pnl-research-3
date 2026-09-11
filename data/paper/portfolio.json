@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 90457,
-  "reserved_cents": 997,
+  "reserved_cents": 0,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -60767,11 +60767,11 @@
       "requested_size": 1.0,
       "league_id": "bundesliga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 84,
+      "reserved_cents": 0,
       "created_at": "2026-09-11T10:20:52.514770+00:00",
       "expires_at": "2026-09-11T18:30:00+00:00",
       "events": [
@@ -60780,6 +60780,10 @@
           "event": "submitted",
           "key": "kalshi:KXBUNDESLIGATEAMTOTAL-26SEP11UNISCH-SCH3:no|KXBUNDESLIGATEAMTOTAL-26SEP11UNISCH-SCH3|no|83",
           "reserved_cents": 84
+        },
+        {
+          "ts": "2026-09-11T19:01:13.917680+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60788,7 +60792,7 @@
       "away_team": "Schalke 04",
       "kickoff_utc": "2026-09-11T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-11T16:01:36.012281+00:00",
+      "last_checked_at": "2026-09-11T19:01:12.531334+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60846,11 +60850,11 @@
       "requested_size": 20.0,
       "league_id": "bundesliga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 814,
+      "reserved_cents": 0,
       "created_at": "2026-09-11T10:20:52.515157+00:00",
       "expires_at": "2026-09-11T18:30:00+00:00",
       "events": [
@@ -60859,6 +60863,10 @@
           "event": "submitted",
           "key": "kalshi:KXBUNDESLIGA1H-26SEP11UNISCH-TIE:yes|KXBUNDESLIGA1H-26SEP11UNISCH-TIE|yes|39",
           "reserved_cents": 814
+        },
+        {
+          "ts": "2026-09-11T19:01:13.917697+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60867,7 +60875,7 @@
       "away_team": "Schalke 04",
       "kickoff_utc": "2026-09-11T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-11T16:01:36.012281+00:00",
+      "last_checked_at": "2026-09-11T19:01:12.531334+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60882,11 +60890,11 @@
       "requested_size": 1.0,
       "league_id": "bundesliga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 17,
+      "reserved_cents": 0,
       "created_at": "2026-09-11T10:20:52.515298+00:00",
       "expires_at": "2026-09-11T18:30:00+00:00",
       "events": [
@@ -60895,6 +60903,10 @@
           "event": "submitted",
           "key": "kalshi:KXBUNDESLIGA1H-26SEP11UNISCH-SCH:yes|KXBUNDESLIGA1H-26SEP11UNISCH-SCH|yes|16",
           "reserved_cents": 17
+        },
+        {
+          "ts": "2026-09-11T19:01:13.917703+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60903,7 +60915,7 @@
       "away_team": "Schalke 04",
       "kickoff_utc": "2026-09-11T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-11T16:01:36.012281+00:00",
+      "last_checked_at": "2026-09-11T19:01:12.531334+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60918,11 +60930,11 @@
       "requested_size": 1.0,
       "league_id": "ligue_1",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 29,
+      "reserved_cents": 0,
       "created_at": "2026-09-11T10:44:04.482223+00:00",
       "expires_at": "2026-09-11T18:45:00+00:00",
       "events": [
@@ -60931,6 +60943,10 @@
           "event": "submitted",
           "key": "kalshi:KXLIGUE11H-26SEP11RENOLM-REN:yes|KXLIGUE11H-26SEP11RENOLM-REN|yes|27",
           "reserved_cents": 29
+        },
+        {
+          "ts": "2026-09-11T19:01:13.917708+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60939,7 +60955,7 @@
       "away_team": "Marseille",
       "kickoff_utc": "2026-09-11T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-11T16:01:36.012281+00:00",
+      "last_checked_at": "2026-09-11T19:01:12.531334+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60954,11 +60970,11 @@
       "requested_size": 1.0,
       "league_id": "ligue_1",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 53,
+      "reserved_cents": 0,
       "created_at": "2026-09-11T10:44:04.482382+00:00",
       "expires_at": "2026-09-11T18:45:00+00:00",
       "events": [
@@ -60967,6 +60983,10 @@
           "event": "submitted",
           "key": "kalshi:KXLIGUE11H-26SEP11RENOLM-TIE:no|KXLIGUE11H-26SEP11RENOLM-TIE|no|51",
           "reserved_cents": 53
+        },
+        {
+          "ts": "2026-09-11T19:01:13.917713+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -60975,7 +60995,7 @@
       "away_team": "Marseille",
       "kickoff_utc": "2026-09-11T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-11T16:01:36.012281+00:00",
+      "last_checked_at": "2026-09-11T19:01:12.531334+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -63644,9 +63664,9 @@
       "kickoff_utc": "2026-09-11T18:30:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-11T10:20:52.515016+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
+      "closing_price_cents": 62.5,
+      "clv_cents": 1.5,
+      "clv_source": "kalshi",
       "settled": false,
       "result": null,
       "payout_cents": 0.0,
@@ -63671,9 +63691,9 @@
       "kickoff_utc": "2026-09-11T18:30:00+00:00",
       "settles_on_regulation": null,
       "opened_at": "2026-09-11T11:24:04.267581+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
+      "closing_price_cents": 26.0,
+      "clv_cents": 0.0,
+      "clv_source": "polymarket",
       "settled": false,
       "result": null,
       "payout_cents": 0.0,
@@ -66460,7 +66480,21 @@
       "markets_approved": 2,
       "decided_by": "judge",
       "reason": "approved 2 of 6 market(s): Thin positive EV (1.83% ROI = 0.54\u00a2/contract) does not overcome material model validation concerns. Analyst evidence overwhelmingly supports Rennes as home favorites (unbeaten at home, full squad, tactical continuity, Marseille missing Kondogbia/Nnadi, poor away form); this contradicts quantitative model's 31.13% away_win probability. Asymmetric pricing (yes=+0.54\u00a2 vs no"
+    },
+    "la_liga|Racing Santander|Alav\u00e9s|2026-09-12": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-11T19:08:51.456662+00:00",
+      "hours_to_kickoff": 16.9,
+      "ts": "2026-09-11T19:08:51.456686+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "Racing Santander",
+      "away": "Alav\u00e9s",
+      "markets_considered": 123,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Alav\u00e9s are empirically strongest-form second-place team (10 pts from 4 matches, 3W-1D-0L) with elite attack (5 goals in last match, Lucas Boy\u00e9 hat-trick, 4 goals in 3 games) and best defense in La Liga (0.6 GA/90). Racing concede 1.50 GA/90 and sit 13th with 4 pts after losing 3-2 to Rayo Vallecano. Head-to-head: 0 Racing wins in last 7 meetings (3 Alav\u00e9s wins, 4 draws); Alav\u00e9s won 3-0 last meetin"
     }
   },
-  "saved_at": "2026-09-11T16:03:51.918318+00:00"
+  "saved_at": "2026-09-11T19:08:51.520605+00:00"
 }
