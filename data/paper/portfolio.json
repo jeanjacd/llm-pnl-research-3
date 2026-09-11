@@ -60788,7 +60788,7 @@
       "away_team": "Schalke 04",
       "kickoff_utc": "2026-09-11T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-11T13:01:09.195956+00:00",
+      "last_checked_at": "2026-09-11T16:01:36.012281+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60867,7 +60867,7 @@
       "away_team": "Schalke 04",
       "kickoff_utc": "2026-09-11T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-11T13:01:09.195956+00:00",
+      "last_checked_at": "2026-09-11T16:01:36.012281+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60903,7 +60903,7 @@
       "away_team": "Schalke 04",
       "kickoff_utc": "2026-09-11T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-11T13:01:09.195956+00:00",
+      "last_checked_at": "2026-09-11T16:01:36.012281+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60939,7 +60939,7 @@
       "away_team": "Marseille",
       "kickoff_utc": "2026-09-11T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-11T13:01:09.195956+00:00",
+      "last_checked_at": "2026-09-11T16:01:36.012281+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -60975,7 +60975,7 @@
       "away_team": "Marseille",
       "kickoff_utc": "2026-09-11T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-11T13:01:09.195956+00:00",
+      "last_checked_at": "2026-09-11T16:01:36.012281+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66462,5 +66462,5 @@
       "reason": "approved 2 of 6 market(s): Thin positive EV (1.83% ROI = 0.54\u00a2/contract) does not overcome material model validation concerns. Analyst evidence overwhelmingly supports Rennes as home favorites (unbeaten at home, full squad, tactical continuity, Marseille missing Kondogbia/Nnadi, poor away form); this contradicts quantitative model's 31.13% away_win probability. Asymmetric pricing (yes=+0.54\u00a2 vs no"
     }
   },
-  "saved_at": "2026-09-11T13:03:07.019432+00:00"
+  "saved_at": "2026-09-11T16:03:51.918318+00:00"
 }
