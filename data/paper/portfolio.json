@@ -65151,7 +65151,7 @@
       "away_team": "Toronto FC",
       "kickoff_utc": "2026-09-12T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-12T19:01:06.443684+00:00",
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65239,7 +65239,7 @@
       "away_team": "Toronto FC",
       "kickoff_utc": "2026-09-12T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-12T19:01:06.443684+00:00",
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65275,7 +65275,7 @@
       "away_team": "Atlanta United FC",
       "kickoff_utc": "2026-09-12T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65311,7 +65311,7 @@
       "away_team": "Atlanta United FC",
       "kickoff_utc": "2026-09-12T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65347,7 +65347,7 @@
       "away_team": "Atlanta United FC",
       "kickoff_utc": "2026-09-12T23:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65383,7 +65383,7 @@
       "away_team": "Atlanta United FC",
       "kickoff_utc": "2026-09-12T23:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65419,7 +65419,7 @@
       "away_team": "Red Bull New York",
       "kickoff_utc": "2026-09-12T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65455,7 +65455,7 @@
       "away_team": "Red Bull New York",
       "kickoff_utc": "2026-09-12T23:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65491,7 +65491,7 @@
       "away_team": "Red Bull New York",
       "kickoff_utc": "2026-09-12T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65527,7 +65527,7 @@
       "away_team": "Red Bull New York",
       "kickoff_utc": "2026-09-12T23:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65563,7 +65563,7 @@
       "away_team": "Charlotte FC",
       "kickoff_utc": "2026-09-12T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65599,7 +65599,7 @@
       "away_team": "Charlotte FC",
       "kickoff_utc": "2026-09-12T23:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65635,7 +65635,7 @@
       "away_team": "Charlotte FC",
       "kickoff_utc": "2026-09-12T23:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65671,7 +65671,7 @@
       "away_team": "Charlotte FC",
       "kickoff_utc": "2026-09-12T23:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65707,7 +65707,7 @@
       "away_team": "Minnesota United FC",
       "kickoff_utc": "2026-09-13T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65743,7 +65743,7 @@
       "away_team": "Minnesota United FC",
       "kickoff_utc": "2026-09-13T00:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65779,7 +65779,7 @@
       "away_team": "Minnesota United FC",
       "kickoff_utc": "2026-09-13T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65815,7 +65815,7 @@
       "away_team": "Minnesota United FC",
       "kickoff_utc": "2026-09-13T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65851,7 +65851,7 @@
       "away_team": "LAFC",
       "kickoff_utc": "2026-09-13T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65887,7 +65887,7 @@
       "away_team": "LAFC",
       "kickoff_utc": "2026-09-13T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65923,7 +65923,7 @@
       "away_team": "LAFC",
       "kickoff_utc": "2026-09-13T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65959,7 +65959,7 @@
       "away_team": "LAFC",
       "kickoff_utc": "2026-09-13T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -65995,7 +65995,7 @@
       "away_team": "Portland Timbers",
       "kickoff_utc": "2026-09-13T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66031,7 +66031,7 @@
       "away_team": "Portland Timbers",
       "kickoff_utc": "2026-09-13T00:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66067,7 +66067,7 @@
       "away_team": "Portland Timbers",
       "kickoff_utc": "2026-09-13T00:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66103,7 +66103,7 @@
       "away_team": "Portland Timbers",
       "kickoff_utc": "2026-09-13T00:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66139,7 +66139,7 @@
       "away_team": "New York City FC",
       "kickoff_utc": "2026-09-13T01:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66175,7 +66175,7 @@
       "away_team": "New York City FC",
       "kickoff_utc": "2026-09-13T01:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66211,7 +66211,7 @@
       "away_team": "New York City FC",
       "kickoff_utc": "2026-09-13T01:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66247,7 +66247,7 @@
       "away_team": "New York City FC",
       "kickoff_utc": "2026-09-13T01:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-12T20:34:42.191283+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73487,105 +73487,7 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Sporting assumptions are partially intact but a material factual conflict prevents confidence: Gonzalo Lujan listed in confirmed starting lineup despite earlier reports of lower-leg injury recovery. Clarification required on his fitness. Separately, Sergio Reguilon (OUT, hamstring) creates defensive instability at left-back. Nashville's elite away defense (7 clean sheets, 19 GA) and recent form di"
-    },
-    "mls|D.C. United|Atlanta United FC|2026-09-12": {
-      "attempts": 1,
-      "first_boarded_at": "2026-09-12T19:08:37.997919+00:00",
-      "hours_to_kickoff": 4.4,
-      "ts": "2026-09-12T19:08:37.997938+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "not_draw",
-      "home": "D.C. United",
-      "away": "Atlanta United FC",
-      "markets_considered": 94,
-      "markets_approved": 94,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
-    },
-    "mls|Columbus Crew|Red Bull New York|2026-09-12": {
-      "attempts": 1,
-      "first_boarded_at": "2026-09-12T19:08:37.998849+00:00",
-      "hours_to_kickoff": 4.4,
-      "ts": "2026-09-12T19:08:37.998857+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "not_away_win",
-      "home": "Columbus Crew",
-      "away": "Red Bull New York",
-      "markets_considered": 95,
-      "markets_approved": 95,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
-    },
-    "mls|FC Cincinnati|Charlotte FC|2026-09-12": {
-      "attempts": 1,
-      "first_boarded_at": "2026-09-12T19:08:37.999547+00:00",
-      "hours_to_kickoff": 4.4,
-      "ts": "2026-09-12T19:08:37.999555+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "not_home_win",
-      "home": "FC Cincinnati",
-      "away": "Charlotte FC",
-      "markets_considered": 99,
-      "markets_approved": 99,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
-    },
-    "mls|St. Louis CITY SC|Minnesota United FC|2026-09-13": {
-      "attempts": 1,
-      "first_boarded_at": "2026-09-12T19:08:38.000177+00:00",
-      "hours_to_kickoff": 5.4,
-      "ts": "2026-09-12T19:08:38.000184+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "home_win",
-      "home": "St. Louis CITY SC",
-      "away": "Minnesota United FC",
-      "markets_considered": 111,
-      "markets_approved": 111,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
-    },
-    "mls|Sporting Kansas City|LAFC|2026-09-13": {
-      "attempts": 1,
-      "first_boarded_at": "2026-09-12T19:08:38.000740+00:00",
-      "hours_to_kickoff": 5.4,
-      "ts": "2026-09-12T19:08:38.000747+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "away_win",
-      "home": "Sporting Kansas City",
-      "away": "LAFC",
-      "markets_considered": 49,
-      "markets_approved": 49,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
-    },
-    "mls|FC Dallas|Portland Timbers|2026-09-13": {
-      "attempts": 1,
-      "first_boarded_at": "2026-09-12T19:08:38.001392+00:00",
-      "hours_to_kickoff": 5.4,
-      "ts": "2026-09-12T19:08:38.001398+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "away_win",
-      "home": "FC Dallas",
-      "away": "Portland Timbers",
-      "markets_considered": 110,
-      "markets_approved": 110,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
-    },
-    "mls|Real Salt Lake|New York City FC|2026-09-13": {
-      "attempts": 1,
-      "first_boarded_at": "2026-09-12T19:08:38.002007+00:00",
-      "hours_to_kickoff": 6.4,
-      "ts": "2026-09-12T19:08:38.002013+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "away_win",
-      "home": "Real Salt Lake",
-      "away": "New York City FC",
-      "markets_considered": 117,
-      "markets_approved": 117,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
     }
   },
-  "saved_at": "2026-09-12T19:08:38.059399+00:00"
+  "saved_at": "2026-09-12T20:34:48.448940+00:00"
 }
