@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 84858,
-  "reserved_cents": 49475,
+  "cash_cents": 80050,
+  "reserved_cents": 44667,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -66415,7 +66415,7 @@
       "away_team": "Brighton & Hove Albion",
       "kickoff_utc": "2026-09-13T13:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66451,7 +66451,7 @@
       "away_team": "Brighton & Hove Albion",
       "kickoff_utc": "2026-09-13T13:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66539,7 +66539,7 @@
       "away_team": "Brighton & Hove Albion",
       "kickoff_utc": "2026-09-13T13:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66575,7 +66575,7 @@
       "away_team": "Hamburg SV",
       "kickoff_utc": "2026-09-13T13:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66611,7 +66611,7 @@
       "away_team": "Hamburg SV",
       "kickoff_utc": "2026-09-13T13:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66647,7 +66647,7 @@
       "away_team": "Hamburg SV",
       "kickoff_utc": "2026-09-13T13:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66683,7 +66683,7 @@
       "away_team": "Hamburg SV",
       "kickoff_utc": "2026-09-13T13:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66891,7 +66891,7 @@
       "away_team": "Lens",
       "kickoff_utc": "2026-09-13T15:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66927,7 +66927,7 @@
       "away_team": "Lens",
       "kickoff_utc": "2026-09-13T15:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66963,7 +66963,7 @@
       "away_team": "Lens",
       "kickoff_utc": "2026-09-13T15:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -66999,7 +66999,7 @@
       "away_team": "Lens",
       "kickoff_utc": "2026-09-13T15:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67207,7 +67207,7 @@
       "away_team": "Manchester City",
       "kickoff_utc": "2026-09-13T15:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67243,7 +67243,7 @@
       "away_team": "Manchester City",
       "kickoff_utc": "2026-09-13T15:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67279,7 +67279,7 @@
       "away_team": "Manchester City",
       "kickoff_utc": "2026-09-13T15:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67315,7 +67315,7 @@
       "away_team": "Manchester City",
       "kickoff_utc": "2026-09-13T15:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67351,7 +67351,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67387,7 +67387,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67423,7 +67423,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67459,7 +67459,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67495,7 +67495,7 @@
       "away_team": "M\u00e1laga",
       "kickoff_utc": "2026-09-13T12:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67531,7 +67531,7 @@
       "away_team": "M\u00e1laga",
       "kickoff_utc": "2026-09-13T12:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67567,7 +67567,7 @@
       "away_team": "M\u00e1laga",
       "kickoff_utc": "2026-09-13T12:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67603,7 +67603,7 @@
       "away_team": "M\u00e1laga",
       "kickoff_utc": "2026-09-13T12:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67639,7 +67639,7 @@
       "away_team": "M\u00e1laga",
       "kickoff_utc": "2026-09-13T12:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67675,7 +67675,7 @@
       "away_team": "M\u00e1laga",
       "kickoff_utc": "2026-09-13T12:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67711,7 +67711,7 @@
       "away_team": "Troyes",
       "kickoff_utc": "2026-09-13T13:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67894,7 +67894,7 @@
       "away_team": "Lens",
       "kickoff_utc": "2026-09-13T15:15:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67930,7 +67930,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68052,7 +68052,7 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-09-13T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68088,7 +68088,7 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-09-13T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68124,7 +68124,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-13T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68160,7 +68160,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-13T19:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68196,7 +68196,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-13T19:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68232,7 +68232,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-13T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T10:01:07.870359+00:00",
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68311,7 +68311,7 @@
       "away_team": "Barcelona",
       "kickoff_utc": "2026-09-13T14:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68347,7 +68347,7 @@
       "away_team": "Barcelona",
       "kickoff_utc": "2026-09-13T14:15:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68362,11 +68362,11 @@
       "requested_size": 20.0,
       "league_id": "bundesliga",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
+      "status": "filled",
+      "filled_size": 20.0,
+      "avg_fill_price_cents": 49.0,
       "fees_cents": 0,
-      "reserved_cents": 980,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T10:44:48.804452+00:00",
       "expires_at": "2026-09-13T15:30:00+00:00",
       "events": [
@@ -68375,6 +68375,22 @@
           "event": "submitted",
           "key": "polymarket:0x414544e7b36df8a3ff71c764dc29d6f651679fa422c11fdcc2b6388be2a524c7:no|0x414544e7b36df8a3ff71c764dc29d6f651679fa422c11fdcc2b6388be2a524c7|no|49",
           "reserved_cents": 980
+        },
+        {
+          "ts": "2026-09-13T11:55:34.020261+00:00",
+          "event": "fill",
+          "size": 20.0,
+          "price_cents": 49.0,
+          "fee_cents": 0
+        },
+        {
+          "ts": "2026-09-13T11:55:34.020311+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "polymarket",
+          "observed_cents": 47.0,
+          "window_start": "2026-09-13T10:44:48.804452+00:00",
+          "window_end": "2026-09-13T11:55:28.077716+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -68383,7 +68399,7 @@
       "away_team": "Bayern Munich",
       "kickoff_utc": "2026-09-13T15:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68398,11 +68414,11 @@
       "requested_size": 20.0,
       "league_id": "bundesliga",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
-      "fees_cents": 0,
-      "reserved_cents": 1035,
+      "status": "filled",
+      "filled_size": 20.0,
+      "avg_fill_price_cents": 50.0,
+      "fees_cents": 35,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T10:44:48.804669+00:00",
       "expires_at": "2026-09-13T15:30:00+00:00",
       "events": [
@@ -68411,6 +68427,22 @@
           "event": "submitted",
           "key": "kalshi:KXBUNDESLIGATOTAL-26SEP13SVEBMU-5:no|KXBUNDESLIGATOTAL-26SEP13SVEBMU-5|no|50",
           "reserved_cents": 1035
+        },
+        {
+          "ts": "2026-09-13T11:55:34.052465+00:00",
+          "event": "fill",
+          "size": 20.0,
+          "price_cents": 50.0,
+          "fee_cents": 35
+        },
+        {
+          "ts": "2026-09-13T11:55:34.052504+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "kalshi",
+          "observed_cents": 48.0,
+          "window_start": "2026-09-13T10:44:48.804669+00:00",
+          "window_end": "2026-09-13T11:55:28.077716+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -68419,7 +68451,7 @@
       "away_team": "Bayern Munich",
       "kickoff_utc": "2026-09-13T15:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68434,11 +68466,11 @@
       "requested_size": 35.0,
       "league_id": "bundesliga",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
-      "fees_cents": 0,
-      "reserved_cents": 1102,
+      "status": "filled",
+      "filled_size": 35.0,
+      "avg_fill_price_cents": 30.0,
+      "fees_cents": 52,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T10:44:48.804833+00:00",
       "expires_at": "2026-09-13T15:30:00+00:00",
       "events": [
@@ -68447,6 +68479,22 @@
           "event": "submitted",
           "key": "kalshi:KXBUNDESLIGATOTAL-26SEP13SVEBMU-4:no|KXBUNDESLIGATOTAL-26SEP13SVEBMU-4|no|30",
           "reserved_cents": 1102
+        },
+        {
+          "ts": "2026-09-13T11:55:34.201739+00:00",
+          "event": "fill",
+          "size": 35.0,
+          "price_cents": 30.0,
+          "fee_cents": 52
+        },
+        {
+          "ts": "2026-09-13T11:55:34.201787+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "kalshi",
+          "observed_cents": 29.0,
+          "window_start": "2026-09-13T10:44:48.804833+00:00",
+          "window_end": "2026-09-13T11:55:28.077716+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -68455,7 +68503,7 @@
       "away_team": "Bayern Munich",
       "kickoff_utc": "2026-09-13T15:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68470,11 +68518,11 @@
       "requested_size": 35.0,
       "league_id": "bundesliga",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
+      "status": "filled",
+      "filled_size": 35.0,
+      "avg_fill_price_cents": 30.0,
       "fees_cents": 0,
-      "reserved_cents": 1050,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T10:44:48.804982+00:00",
       "expires_at": "2026-09-13T15:30:00+00:00",
       "events": [
@@ -68483,6 +68531,22 @@
           "event": "submitted",
           "key": "polymarket:0x779b2dae0c8fb3aac56ad87c9d2eeb1b3f47f7723b9aeca8a3073d1a97489da5:no|0x779b2dae0c8fb3aac56ad87c9d2eeb1b3f47f7723b9aeca8a3073d1a97489da5|no|30",
           "reserved_cents": 1050
+        },
+        {
+          "ts": "2026-09-13T11:55:34.485809+00:00",
+          "event": "fill",
+          "size": 35.0,
+          "price_cents": 30.0,
+          "fee_cents": 0
+        },
+        {
+          "ts": "2026-09-13T11:55:34.485869+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "polymarket",
+          "observed_cents": 29.0,
+          "window_start": "2026-09-13T10:44:48.804982+00:00",
+          "window_end": "2026-09-13T11:55:28.077716+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -68491,7 +68555,7 @@
       "away_team": "Bayern Munich",
       "kickoff_utc": "2026-09-13T15:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68506,11 +68570,11 @@
       "requested_size": 15.0,
       "league_id": "bundesliga",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
-      "fees_cents": 0,
-      "reserved_cents": 641,
+      "status": "filled",
+      "filled_size": 15.0,
+      "avg_fill_price_cents": 41.0,
+      "fees_cents": 26,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T10:44:48.805137+00:00",
       "expires_at": "2026-09-13T15:30:00+00:00",
       "events": [
@@ -68519,6 +68583,22 @@
           "event": "submitted",
           "key": "kalshi:KXBUNDESLIGASPREAD-26SEP13SVEBMU-BMU2:no|KXBUNDESLIGASPREAD-26SEP13SVEBMU-BMU2|no|41",
           "reserved_cents": 641
+        },
+        {
+          "ts": "2026-09-13T11:55:34.514966+00:00",
+          "event": "fill",
+          "size": 15.0,
+          "price_cents": 41.0,
+          "fee_cents": 26
+        },
+        {
+          "ts": "2026-09-13T11:55:34.515042+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "kalshi",
+          "observed_cents": 30.0,
+          "window_start": "2026-09-13T10:44:48.805137+00:00",
+          "window_end": "2026-09-13T11:55:28.077716+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -68527,7 +68607,7 @@
       "away_team": "Bayern Munich",
       "kickoff_utc": "2026-09-13T15:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68563,7 +68643,7 @@
       "away_team": "Bayern Munich",
       "kickoff_utc": "2026-09-13T15:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68599,7 +68679,7 @@
       "away_team": "Manchester City",
       "kickoff_utc": "2026-09-13T15:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68635,7 +68715,7 @@
       "away_team": "Manchester City",
       "kickoff_utc": "2026-09-13T15:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68671,7 +68751,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68707,7 +68787,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68743,7 +68823,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68779,7 +68859,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-13T11:55:28.077716+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -72889,6 +72969,141 @@
       "void": false,
       "void_reason": null,
       "voided_at": null
+    },
+    "0x414544e7b36df8a3ff71c764dc29d6f651679fa422c11fdcc2b6388be2a524c7|no": {
+      "position_id": "3cba84bc-2f50-4324-82bf-59b6a9209fcf",
+      "venue": "polymarket",
+      "instrument_id": "0x414544e7b36df8a3ff71c764dc29d6f651679fa422c11fdcc2b6388be2a524c7",
+      "side": "no",
+      "size": 20.0,
+      "avg_cost_cents": 49.0,
+      "fees_cents": 0,
+      "league_id": "bundesliga",
+      "case_id": "polymarket:0x414544e7b36df8a3ff71c764dc29d6f651679fa422c11fdcc2b6388be2a524c7:no",
+      "claim": "not_total_over_4.5",
+      "home_team": "SV Elversberg",
+      "away_team": "Bayern Munich",
+      "kickoff_utc": "2026-09-13T15:30:00+00:00",
+      "settles_on_regulation": null,
+      "opened_at": "2026-09-13T11:55:34.020298+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0,
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
+    },
+    "KXBUNDESLIGATOTAL-26SEP13SVEBMU-5|no": {
+      "position_id": "f0ba095d-f806-4b92-80c0-9357408e9ba7",
+      "venue": "kalshi",
+      "instrument_id": "KXBUNDESLIGATOTAL-26SEP13SVEBMU-5",
+      "side": "no",
+      "size": 20.0,
+      "avg_cost_cents": 50.0,
+      "fees_cents": 35,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGATOTAL-26SEP13SVEBMU-5:no",
+      "claim": "not_total_over_4.5",
+      "home_team": "SV Elversberg",
+      "away_team": "Bayern Munich",
+      "kickoff_utc": "2026-09-13T15:30:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-09-13T11:55:34.052493+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0,
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
+    },
+    "KXBUNDESLIGATOTAL-26SEP13SVEBMU-4|no": {
+      "position_id": "94129ea8-0e9b-47c6-9b9d-43d13940b1c2",
+      "venue": "kalshi",
+      "instrument_id": "KXBUNDESLIGATOTAL-26SEP13SVEBMU-4",
+      "side": "no",
+      "size": 35.0,
+      "avg_cost_cents": 30.0,
+      "fees_cents": 52,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGATOTAL-26SEP13SVEBMU-4:no",
+      "claim": "not_total_over_3.5",
+      "home_team": "SV Elversberg",
+      "away_team": "Bayern Munich",
+      "kickoff_utc": "2026-09-13T15:30:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-09-13T11:55:34.201776+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0,
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
+    },
+    "0x779b2dae0c8fb3aac56ad87c9d2eeb1b3f47f7723b9aeca8a3073d1a97489da5|no": {
+      "position_id": "064577a2-0ef1-4497-a78f-d365b75de812",
+      "venue": "polymarket",
+      "instrument_id": "0x779b2dae0c8fb3aac56ad87c9d2eeb1b3f47f7723b9aeca8a3073d1a97489da5",
+      "side": "no",
+      "size": 35.0,
+      "avg_cost_cents": 30.0,
+      "fees_cents": 0,
+      "league_id": "bundesliga",
+      "case_id": "polymarket:0x779b2dae0c8fb3aac56ad87c9d2eeb1b3f47f7723b9aeca8a3073d1a97489da5:no",
+      "claim": "not_total_over_3.5",
+      "home_team": "SV Elversberg",
+      "away_team": "Bayern Munich",
+      "kickoff_utc": "2026-09-13T15:30:00+00:00",
+      "settles_on_regulation": null,
+      "opened_at": "2026-09-13T11:55:34.485855+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0,
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
+    },
+    "KXBUNDESLIGASPREAD-26SEP13SVEBMU-BMU2|no": {
+      "position_id": "27310170-e21b-4345-b43a-fe17392b96dd",
+      "venue": "kalshi",
+      "instrument_id": "KXBUNDESLIGASPREAD-26SEP13SVEBMU-BMU2",
+      "side": "no",
+      "size": 15.0,
+      "avg_cost_cents": 41.0,
+      "fees_cents": 26,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGASPREAD-26SEP13SVEBMU-BMU2:no",
+      "claim": "not_away_wins_by_over_1.5",
+      "home_team": "SV Elversberg",
+      "away_team": "Bayern Munich",
+      "kickoff_utc": "2026-09-13T15:30:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-09-13T11:55:34.515027+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0,
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
     }
   },
   "ledger": [
@@ -76774,35 +76989,7 @@
       "markets_approved": 16,
       "decided_by": "judge",
       "reason": "approved 16 of 37 market(s): Consolidating to Kalshi #3 (same p_lower 0.3802, better max 32\u00a2 vs 33\u00a2, superior depth 79.9k). Avoid redundant home-win expressions across venues."
-    },
-    "ligue_1|Brest|Paris Saint-Germain|2026-09-13": {
-      "attempts": 1,
-      "first_boarded_at": "2026-09-13T11:11:48.651984+00:00",
-      "hours_to_kickoff": 7.6,
-      "ts": "2026-09-13T11:11:48.651996+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "not_away_win",
-      "home": "Brest",
-      "away": "Paris Saint-Germain",
-      "markets_considered": 48,
-      "markets_approved": 48,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
-    },
-    "la_liga|Real Sociedad|Atl\u00e9tico Madrid|2026-09-13": {
-      "attempts": 1,
-      "first_boarded_at": "2026-09-13T11:11:48.652744+00:00",
-      "hours_to_kickoff": 7.8,
-      "ts": "2026-09-13T11:11:48.652755+00:00",
-      "action": "PAPER_PLACE_LIMIT",
-      "claim": "not_away_win",
-      "home": "Real Sociedad",
-      "away": "Atl\u00e9tico Madrid",
-      "markets_considered": 122,
-      "markets_approved": 122,
-      "decided_by": "deterministic",
-      "reason": "board disabled"
     }
   },
-  "saved_at": "2026-09-13T11:11:48.727486+00:00"
+  "saved_at": "2026-09-13T11:55:35.806553+00:00"
 }
