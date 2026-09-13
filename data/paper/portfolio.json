@@ -69520,7 +69520,7 @@
       "away_team": "Austin FC",
       "kickoff_utc": "2026-09-13T22:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
+      "last_checked_at": "2026-09-13T20:52:05.709068+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69556,7 +69556,7 @@
       "away_team": "Austin FC",
       "kickoff_utc": "2026-09-13T22:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
+      "last_checked_at": "2026-09-13T20:52:05.709068+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69592,7 +69592,7 @@
       "away_team": "New England Revolution",
       "kickoff_utc": "2026-09-13T21:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
+      "last_checked_at": "2026-09-13T20:52:05.709068+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69628,7 +69628,7 @@
       "away_team": "New England Revolution",
       "kickoff_utc": "2026-09-13T21:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
+      "last_checked_at": "2026-09-13T20:52:05.709068+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69664,7 +69664,7 @@
       "away_team": "New England Revolution",
       "kickoff_utc": "2026-09-13T21:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
+      "last_checked_at": "2026-09-13T20:52:05.709068+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69700,7 +69700,7 @@
       "away_team": "New England Revolution",
       "kickoff_utc": "2026-09-13T21:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
+      "last_checked_at": "2026-09-13T20:52:05.709068+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73722,10 +73722,10 @@
       "closing_price_cents": 19.5,
       "clv_cents": -2.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -905.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73749,10 +73749,10 @@
       "closing_price_cents": 6.5,
       "clv_cents": -1.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -886.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -76528,6 +76528,34 @@
       "pnl_cents": 2421.0,
       "league_id": "premier_league",
       "case_id": "kalshi:KXEPLBTTS-26SEP13MUNMCI-BTTS:no"
+    },
+    {
+      "ts": "2026-09-13T20:52:07.044111+00:00",
+      "instrument_id": "KXLIGUE1GAME-26SEP13STBPSG-PSG",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 39.0,
+      "avg_cost_cents": 22.0,
+      "fees_cents": 47,
+      "payout_cents": 0.0,
+      "pnl_cents": -905.0,
+      "league_id": "ligue_1",
+      "case_id": "kalshi:KXLIGUE1GAME-26SEP13STBPSG-PSG:no"
+    },
+    {
+      "ts": "2026-09-13T20:52:07.045641+00:00",
+      "instrument_id": "KXLIGUE1GAME-26SEP13STBPSG-STB",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 104.0,
+      "avg_cost_cents": 8.0,
+      "fees_cents": 54,
+      "payout_cents": 0.0,
+      "pnl_cents": -886.0,
+      "league_id": "ligue_1",
+      "case_id": "kalshi:KXLIGUE1GAME-26SEP13STBPSG-STB:yes"
     }
   ],
   "boarded": {
@@ -78534,5 +78562,5 @@
       "reason": "Chicago Fire hold clear technical superiority (unbeaten 9/10 vs NE, 4-game home unbeaten run, Lewandowski + Zinckernagel attacking threat, superior pressing intensity, tactical flexibility, strong away record). However, critical simulation gaps block confident assessment: (1) Hugo Cuypers\u2014Chicago's leading scorer at 13 goals in 11 early-season matches\u2014was transferred to Monterrey in July 2026, mat"
     }
   },
-  "saved_at": "2026-09-13T19:18:44.893653+00:00"
+  "saved_at": "2026-09-13T20:52:07.111477+00:00"
 }
