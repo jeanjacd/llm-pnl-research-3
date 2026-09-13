@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 64221,
-  "reserved_cents": 26534,
+  "cash_cents": 93721,
+  "reserved_cents": 7572,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -67441,11 +67441,11 @@
       "requested_size": 39.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1308,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T01:05:49.377595+00:00",
       "expires_at": "2026-09-13T16:30:00+00:00",
       "events": [
@@ -67454,6 +67454,10 @@
           "event": "submitted",
           "key": "kalshi:KXLALIGAGAME-26SEP13GETDEP-GET:yes|KXLALIGAGAME-26SEP13GETDEP-GET|yes|32",
           "reserved_cents": 1308
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636321+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -67462,7 +67466,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67477,11 +67481,11 @@
       "requested_size": 37.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1221,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T01:05:49.377734+00:00",
       "expires_at": "2026-09-13T16:30:00+00:00",
       "events": [
@@ -67490,6 +67494,10 @@
           "event": "submitted",
           "key": "polymarket:0xa42a1ca78beaee21a7ee0505f05fb59cd9fa8f1f60c6c1e015142afc3c5c05af:yes|0xa42a1ca78beaee21a7ee0505f05fb59cd9fa8f1f60c6c1e015142afc3c5c05af|yes|33",
           "reserved_cents": 1221
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636333+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -67498,7 +67506,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67513,11 +67521,11 @@
       "requested_size": 21.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1275,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T01:05:49.377881+00:00",
       "expires_at": "2026-09-13T16:30:00+00:00",
       "events": [
@@ -67526,6 +67534,10 @@
           "event": "submitted",
           "key": "kalshi:KXLALIGAGAME-26SEP13GETDEP-TIE:no|KXLALIGAGAME-26SEP13GETDEP-TIE|no|59",
           "reserved_cents": 1275
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636338+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -67534,7 +67546,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -67549,11 +67561,11 @@
       "requested_size": 19.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1247,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T01:05:49.378029+00:00",
       "expires_at": "2026-09-13T16:30:00+00:00",
       "events": [
@@ -67562,6 +67574,10 @@
           "event": "submitted",
           "key": "kalshi:KXLALIGAGAME-26SEP13GETDEP-DEP:no|KXLALIGAGAME-26SEP13GETDEP-DEP|no|64",
           "reserved_cents": 1247
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636342+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -67570,7 +67586,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68064,11 +68080,11 @@
       "requested_size": 19.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1266,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T07:08:22.751172+00:00",
       "expires_at": "2026-09-13T16:30:00+00:00",
       "events": [
@@ -68077,6 +68093,10 @@
           "event": "submitted",
           "key": "kalshi:KXLALIGAGAME-26SEP13GETDEP-DEP:no|KXLALIGAGAME-26SEP13GETDEP-DEP|no|65",
           "reserved_cents": 1266
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636349+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -68085,7 +68105,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68186,11 +68206,11 @@
       "requested_size": 96.0,
       "league_id": "ligue_1",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1325,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T07:08:22.752168+00:00",
       "expires_at": "2026-09-13T18:45:00+00:00",
       "events": [
@@ -68199,6 +68219,10 @@
           "event": "submitted",
           "key": "kalshi:KXLIGUE1GAME-26SEP13STBPSG-TIE:yes|KXLIGUE1GAME-26SEP13STBPSG-TIE|yes|13",
           "reserved_cents": 1325
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636353+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -68207,7 +68231,7 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-09-13T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68222,11 +68246,11 @@
       "requested_size": 17.0,
       "league_id": "ligue_1",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1232,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T07:08:22.752326+00:00",
       "expires_at": "2026-09-13T18:45:00+00:00",
       "events": [
@@ -68235,6 +68259,10 @@
           "event": "submitted",
           "key": "kalshi:KXLIGUE1GAME-26SEP13STBPSG-TIE:no|KXLIGUE1GAME-26SEP13STBPSG-TIE|no|71",
           "reserved_cents": 1232
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636358+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -68243,7 +68271,7 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-09-13T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68258,11 +68286,11 @@
       "requested_size": 24.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1266,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T07:08:22.752661+00:00",
       "expires_at": "2026-09-13T19:00:00+00:00",
       "events": [
@@ -68271,6 +68299,10 @@
           "event": "submitted",
           "key": "kalshi:KXLALIGAGAME-26SEP13RSOATM-ATM:no|KXLALIGAGAME-26SEP13RSOATM-ATM|no|51",
           "reserved_cents": 1266
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636364+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -68279,7 +68311,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-13T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68294,11 +68326,11 @@
       "requested_size": 23.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1219,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T07:08:22.752809+00:00",
       "expires_at": "2026-09-13T19:00:00+00:00",
       "events": [
@@ -68307,6 +68339,10 @@
           "event": "submitted",
           "key": "polymarket:0x7ff05d2100fc27e00cf00aef5e56525c5bc87fb2cdbb4ca86113010749d8dbcf:no|0x7ff05d2100fc27e00cf00aef5e56525c5bc87fb2cdbb4ca86113010749d8dbcf|no|53",
           "reserved_cents": 1219
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636368+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -68315,7 +68351,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-13T19:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68330,11 +68366,11 @@
       "requested_size": 48.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1248,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T07:08:22.752953+00:00",
       "expires_at": "2026-09-13T19:00:00+00:00",
       "events": [
@@ -68343,6 +68379,10 @@
           "event": "submitted",
           "key": "polymarket:0xc3733dda9524b72df53d5415990b2beae35474b49025a4e1c9c69e4a3d643fbb:yes|0xc3733dda9524b72df53d5415990b2beae35474b49025a4e1c9c69e4a3d643fbb|yes|26",
           "reserved_cents": 1248
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636372+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -68351,7 +68391,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-13T19:00:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68366,11 +68406,11 @@
       "requested_size": 52.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1315,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T07:08:22.753136+00:00",
       "expires_at": "2026-09-13T19:00:00+00:00",
       "events": [
@@ -68379,6 +68419,10 @@
           "event": "submitted",
           "key": "kalshi:KXLALIGAGAME-26SEP13RSOATM-RSO:yes|KXLALIGAGAME-26SEP13RSOATM-RSO|yes|24",
           "reserved_cents": 1315
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636375+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -68387,7 +68431,7 @@
       "away_team": "Atl\u00e9tico Madrid",
       "kickoff_utc": "2026-09-13T19:00:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68917,11 +68961,11 @@
       "requested_size": 20.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1220,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T11:11:48.651339+00:00",
       "expires_at": "2026-09-13T16:30:00+00:00",
       "events": [
@@ -68930,6 +68974,10 @@
           "event": "submitted",
           "key": "polymarket:0x5b02ccbe243e3ecc81fe3ada0f727e0e028c7761368a52b101458f68849f5631:no|0x5b02ccbe243e3ecc81fe3ada0f727e0e028c7761368a52b101458f68849f5631|no|61",
           "reserved_cents": 1220
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636382+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -68938,7 +68986,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68953,11 +69001,11 @@
       "requested_size": 23.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1260,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T11:11:48.651529+00:00",
       "expires_at": "2026-09-13T16:30:00+00:00",
       "events": [
@@ -68966,6 +69014,10 @@
           "event": "submitted",
           "key": "kalshi:KXLALIGATOTAL-26SEP13GETDEP-2:yes|KXLALIGATOTAL-26SEP13GETDEP-2|yes|53",
           "reserved_cents": 1260
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636385+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -68974,7 +69026,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -68989,11 +69041,11 @@
       "requested_size": 13.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1191,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T11:11:48.651720+00:00",
       "expires_at": "2026-09-13T16:30:00+00:00",
       "events": [
@@ -69002,6 +69054,10 @@
           "event": "submitted",
           "key": "kalshi:KXLALIGATOTAL-26SEP13GETDEP-6:no|KXLALIGATOTAL-26SEP13GETDEP-6|no|91",
           "reserved_cents": 1191
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636388+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -69010,7 +69066,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69025,11 +69081,11 @@
       "requested_size": 1.0,
       "league_id": "la_liga",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 87,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T11:11:48.651879+00:00",
       "expires_at": "2026-09-13T16:30:00+00:00",
       "events": [
@@ -69038,6 +69094,10 @@
           "event": "submitted",
           "key": "kalshi:KXLALIGATEAMTOTAL-26SEP13GETDEP-DEP3:no|KXLALIGATEAMTOTAL-26SEP13GETDEP-DEP3|no|86",
           "reserved_cents": 87
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636392+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -69046,7 +69106,7 @@
       "away_team": "Deportivo",
       "kickoff_utc": "2026-09-13T16:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69061,11 +69121,11 @@
       "requested_size": 23.0,
       "league_id": "ligue_1",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1282,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T13:06:15.670071+00:00",
       "expires_at": "2026-09-13T18:45:00+00:00",
       "events": [
@@ -69074,6 +69134,10 @@
           "event": "submitted",
           "key": "kalshi:KXLIGUE1BTTS-26SEP13STBPSG-BTTS:yes|KXLIGUE1BTTS-26SEP13STBPSG-BTTS|yes|54",
           "reserved_cents": 1282
+        },
+        {
+          "ts": "2026-09-13T19:01:15.636395+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -69082,7 +69146,7 @@
       "away_team": "Paris Saint-Germain",
       "kickoff_utc": "2026-09-13T18:45:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69456,7 +69520,7 @@
       "away_team": "Austin FC",
       "kickoff_utc": "2026-09-13T22:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69492,7 +69556,7 @@
       "away_team": "Austin FC",
       "kickoff_utc": "2026-09-13T22:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69528,7 +69592,7 @@
       "away_team": "New England Revolution",
       "kickoff_utc": "2026-09-13T21:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69564,7 +69628,7 @@
       "away_team": "New England Revolution",
       "kickoff_utc": "2026-09-13T21:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69600,7 +69664,7 @@
       "away_team": "New England Revolution",
       "kickoff_utc": "2026-09-13T21:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69636,7 +69700,7 @@
       "away_team": "New England Revolution",
       "kickoff_utc": "2026-09-13T21:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T16:01:27.389750+00:00",
+      "last_checked_at": "2026-09-13T19:01:12.015483+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73388,10 +73452,10 @@
       "closing_price_cents": 16.5,
       "clv_cents": 2.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -713.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73415,10 +73479,10 @@
       "closing_price_cents": 17.5,
       "clv_cents": 2.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -720.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73442,10 +73506,10 @@
       "closing_price_cents": 10.5,
       "clv_cents": 1.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -996.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73469,10 +73533,10 @@
       "closing_price_cents": 5.5,
       "clv_cents": 0.11,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -1472.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73496,10 +73560,10 @@
       "closing_price_cents": 16.5,
       "clv_cents": 0.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -949.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73523,10 +73587,10 @@
       "closing_price_cents": 16.5,
       "clv_cents": 0.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -896.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73550,10 +73614,10 @@
       "closing_price_cents": 6.5,
       "clv_cents": 0.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -1139.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73577,10 +73641,10 @@
       "closing_price_cents": 6.5,
       "clv_cents": 0.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -1068.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73655,9 +73719,9 @@
       "kickoff_utc": "2026-09-13T18:45:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-13T07:08:22.751782+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
+      "closing_price_cents": 19.5,
+      "clv_cents": -2.5,
+      "clv_source": "kalshi",
       "settled": false,
       "result": null,
       "payout_cents": 0.0,
@@ -73682,9 +73746,9 @@
       "kickoff_utc": "2026-09-13T18:45:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-13T07:08:22.751984+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
+      "closing_price_cents": 6.5,
+      "clv_cents": -1.5,
+      "clv_source": "kalshi",
       "settled": false,
       "result": null,
       "payout_cents": 0.0,
@@ -73766,10 +73830,10 @@
       "closing_price_cents": 52.5,
       "clv_cents": 3.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "no",
+      "payout_cents": 2000.0,
+      "realized_pnl_cents": 1020.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73793,10 +73857,10 @@
       "closing_price_cents": 52.5,
       "clv_cents": 2.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "no",
+      "payout_cents": 2000.0,
+      "realized_pnl_cents": 965.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73820,10 +73884,10 @@
       "closing_price_cents": 32.5,
       "clv_cents": 2.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "no",
+      "payout_cents": 3500.0,
+      "realized_pnl_cents": 2398.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73847,10 +73911,10 @@
       "closing_price_cents": 32.5,
       "clv_cents": 2.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "no",
+      "payout_cents": 3500.0,
+      "realized_pnl_cents": 2450.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73874,10 +73938,10 @@
       "closing_price_cents": 32.5,
       "clv_cents": -8.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "no",
+      "payout_cents": 1500.0,
+      "realized_pnl_cents": 859.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73901,10 +73965,10 @@
       "closing_price_cents": 40.5,
       "clv_cents": -2.0,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "no",
+      "payout_cents": 5800.0,
+      "realized_pnl_cents": 3335.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -73928,10 +73992,10 @@
       "closing_price_cents": 40.5,
       "clv_cents": -1.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "no",
+      "payout_cents": 2900.0,
+      "realized_pnl_cents": 1632.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -74117,10 +74181,10 @@
       "closing_price_cents": 18.5,
       "clv_cents": -0.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -1235.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -74144,10 +74208,10 @@
       "closing_price_cents": 43.5,
       "clv_cents": -0.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "yes",
+      "payout_cents": 2800.0,
+      "realized_pnl_cents": 1568.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -74171,10 +74235,10 @@
       "closing_price_cents": 68.5,
       "clv_cents": 0.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "no",
+      "payout_cents": 1800.0,
+      "realized_pnl_cents": 576.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -74198,10 +74262,10 @@
       "closing_price_cents": 31.5,
       "clv_cents": -1.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "no",
+      "payout_cents": 3700.0,
+      "realized_pnl_cents": 2421.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -76198,6 +76262,272 @@
       "pnl_cents": -1225.0,
       "league_id": "premier_league",
       "case_id": "polymarket:0x0b184fcc44113e957a83f76d6d0833f9b8fbacc8ea8340e16c44ddc2b5fccaec:no"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.831135+00:00",
+      "instrument_id": "KXLALIGAGAME-26SEP13LEVBAR-BAR",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 48.0,
+      "avg_cost_cents": 14.0,
+      "fees_cents": 41,
+      "payout_cents": 0.0,
+      "pnl_cents": -713.0,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGAGAME-26SEP13LEVBAR-BAR:no"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.833146+00:00",
+      "instrument_id": "0x9db068aee7f73522b83e40711fffe5cb490182e354846933dcf29a28f1b72082",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 48.0,
+      "avg_cost_cents": 15.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -720.0,
+      "league_id": "la_liga",
+      "case_id": "polymarket:0x9db068aee7f73522b83e40711fffe5cb490182e354846933dcf29a28f1b72082:no"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.835034+00:00",
+      "instrument_id": "KXLALIGAGAME-26SEP13LEVBAR-TIE",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 104.0,
+      "avg_cost_cents": 9.0,
+      "fees_cents": 60,
+      "payout_cents": 0.0,
+      "pnl_cents": -996.0,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGAGAME-26SEP13LEVBAR-TIE:yes"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.836991+00:00",
+      "instrument_id": "KXLALIGAGAME-26SEP13LEVBAR-LEV",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 256.0,
+      "avg_cost_cents": 5.390625,
+      "fees_cents": 92,
+      "payout_cents": 0.0,
+      "pnl_cents": -1472.0,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGAGAME-26SEP13LEVBAR-LEV:yes"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.838587+00:00",
+      "instrument_id": "KXBUNDESLIGAGAME-26SEP13SVEBMU-BMU",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 56.0,
+      "avg_cost_cents": 16.0,
+      "fees_cents": 53,
+      "payout_cents": 0.0,
+      "pnl_cents": -949.0,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGAGAME-26SEP13SVEBMU-BMU:no"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.840159+00:00",
+      "instrument_id": "0xca8e577e4d50c2acd7889371648b9f66c3cfc6ad332aea4fbec79b9d5fb40ed7",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 56.0,
+      "avg_cost_cents": 16.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -896.0,
+      "league_id": "bundesliga",
+      "case_id": "polymarket:0xca8e577e4d50c2acd7889371648b9f66c3cfc6ad332aea4fbec79b9d5fb40ed7:no"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.841659+00:00",
+      "instrument_id": "KXBUNDESLIGAGAME-26SEP13SVEBMU-SVE",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 178.0,
+      "avg_cost_cents": 6.0,
+      "fees_cents": 71,
+      "payout_cents": 0.0,
+      "pnl_cents": -1139.0,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGAGAME-26SEP13SVEBMU-SVE:yes"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.843223+00:00",
+      "instrument_id": "0x74ceac037c98184cbf6dddc4701bc4af2a0db375e104b681b77b6290237d0706",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 178.0,
+      "avg_cost_cents": 6.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -1068.0,
+      "league_id": "bundesliga",
+      "case_id": "polymarket:0x74ceac037c98184cbf6dddc4701bc4af2a0db375e104b681b77b6290237d0706:yes"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.848592+00:00",
+      "instrument_id": "0x414544e7b36df8a3ff71c764dc29d6f651679fa422c11fdcc2b6388be2a524c7",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 20.0,
+      "avg_cost_cents": 49.0,
+      "fees_cents": 0,
+      "payout_cents": 2000.0,
+      "pnl_cents": 1020.0,
+      "league_id": "bundesliga",
+      "case_id": "polymarket:0x414544e7b36df8a3ff71c764dc29d6f651679fa422c11fdcc2b6388be2a524c7:no"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.850155+00:00",
+      "instrument_id": "KXBUNDESLIGATOTAL-26SEP13SVEBMU-5",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 20.0,
+      "avg_cost_cents": 50.0,
+      "fees_cents": 35,
+      "payout_cents": 2000.0,
+      "pnl_cents": 965.0,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGATOTAL-26SEP13SVEBMU-5:no"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.851667+00:00",
+      "instrument_id": "KXBUNDESLIGATOTAL-26SEP13SVEBMU-4",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 35.0,
+      "avg_cost_cents": 30.0,
+      "fees_cents": 52,
+      "payout_cents": 3500.0,
+      "pnl_cents": 2398.0,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGATOTAL-26SEP13SVEBMU-4:no"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.853298+00:00",
+      "instrument_id": "0x779b2dae0c8fb3aac56ad87c9d2eeb1b3f47f7723b9aeca8a3073d1a97489da5",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 35.0,
+      "avg_cost_cents": 30.0,
+      "fees_cents": 0,
+      "payout_cents": 3500.0,
+      "pnl_cents": 2450.0,
+      "league_id": "bundesliga",
+      "case_id": "polymarket:0x779b2dae0c8fb3aac56ad87c9d2eeb1b3f47f7723b9aeca8a3073d1a97489da5:no"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.854798+00:00",
+      "instrument_id": "KXBUNDESLIGASPREAD-26SEP13SVEBMU-BMU2",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 15.0,
+      "avg_cost_cents": 41.0,
+      "fees_cents": 26,
+      "payout_cents": 1500.0,
+      "pnl_cents": 859.0,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGASPREAD-26SEP13SVEBMU-BMU2:no"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.856491+00:00",
+      "instrument_id": "0x302fc57175510027958372622021374fadb7dac4bf27cb94639a7c519cdd1afa",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 58.0,
+      "avg_cost_cents": 42.5,
+      "fees_cents": 0,
+      "payout_cents": 5800.0,
+      "pnl_cents": 3335.0,
+      "league_id": "ligue_1",
+      "case_id": "polymarket:0x302fc57175510027958372622021374fadb7dac4bf27cb94639a7c519cdd1afa:no"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.858101+00:00",
+      "instrument_id": "KXLIGUE1GAME-26SEP13MANRCL-RCL",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 29.0,
+      "avg_cost_cents": 42.0,
+      "fees_cents": 50,
+      "payout_cents": 2900.0,
+      "pnl_cents": 1632.0,
+      "league_id": "ligue_1",
+      "case_id": "kalshi:KXLIGUE1GAME-26SEP13MANRCL-RCL:no"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.871397+00:00",
+      "instrument_id": "0x762132563bd8159e32b6afd79a5eb717645e900f90c8c5c9dc7b1fc1583ebefb",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 65.0,
+      "avg_cost_cents": 19.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -1235.0,
+      "league_id": "ligue_1",
+      "case_id": "polymarket:0x762132563bd8159e32b6afd79a5eb717645e900f90c8c5c9dc7b1fc1583ebefb:yes"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.873392+00:00",
+      "instrument_id": "0xfea1799a95cf212c9128cf905f498bc2d9addfa8003f3729630d60f4e657d600",
+      "side": "yes",
+      "result": "yes",
+      "won": true,
+      "size": 28.0,
+      "avg_cost_cents": 44.0,
+      "fees_cents": 0,
+      "payout_cents": 2800.0,
+      "pnl_cents": 1568.0,
+      "league_id": "premier_league",
+      "case_id": "polymarket:0xfea1799a95cf212c9128cf905f498bc2d9addfa8003f3729630d60f4e657d600:yes"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.875310+00:00",
+      "instrument_id": "0xb28000f3db74c4e892a9b8bafb5b66d1a7815aeee9689864a1ec644f32bb4c9b",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 18.0,
+      "avg_cost_cents": 68.0,
+      "fees_cents": 0,
+      "payout_cents": 1800.0,
+      "pnl_cents": 576.0,
+      "league_id": "premier_league",
+      "case_id": "polymarket:0xb28000f3db74c4e892a9b8bafb5b66d1a7815aeee9689864a1ec644f32bb4c9b:no"
+    },
+    {
+      "ts": "2026-09-13T19:03:12.877221+00:00",
+      "instrument_id": "KXEPLBTTS-26SEP13MUNMCI-BTTS",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 37.0,
+      "avg_cost_cents": 33.0,
+      "fees_cents": 58,
+      "payout_cents": 3700.0,
+      "pnl_cents": 2421.0,
+      "league_id": "premier_league",
+      "case_id": "kalshi:KXEPLBTTS-26SEP13MUNMCI-BTTS:no"
     }
   ],
   "boarded": {
@@ -78162,47 +78492,47 @@
       "reason": "PSG defence and squad-depth assumptions are uncertain due to conflicting injury reports on key defenders (Pacho, Hakimi, Mendes). Official PSG sources name Pacho, Hakimi, Mendes as unavailable with thigh injuries; other sources report them available or rotated out by choice. Brest defensive absences (7 players out including captain Chardonnet) are well-confirmed, materially weakening their structu"
     },
     "mls|San Diego FC|Philadelphia Union|2026-09-14": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-13T16:15:58.356428+00:00",
-      "hours_to_kickoff": 8.7,
-      "ts": "2026-09-13T16:15:58.356448+00:00",
+      "hours_to_kickoff": 5.9,
+      "ts": "2026-09-13T19:06:42.716242+00:00",
       "action": "DEFER",
       "claim": "home_win",
       "home": "San Diego FC",
       "away": "Philadelphia Union",
-      "markets_considered": 115,
+      "markets_considered": 107,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Multiple significant goalkeeper availability questions and conflicting suspension reporting require clarification before assessing home win thesis. San Diego's defensive frailty (34GA in 23M, 26.77xGA) is material context. Philadelphia's 9-match unbeaten run (7-0-2 MLS post-break, 10-1 GF in last 3) and strong road form create structural headwinds. Cannot assign conviction to home assumption witho"
+      "reason": "Material sporting assumptions cannot be verified with sufficient confidence. San Diego FC's home form is undermined by confirmed defensive injuries (Oscar Verhoeven listed as unavailable despite predicted lineup inclusion) and fresh momentum loss (3-2 home defeat to San Jose 5 days before match, including 10-man finish). Philadelphia Union's strong recent form (7 wins/2 draws in 9 games) conflicts"
     },
     "mls|Vancouver Whitecaps|Austin FC|2026-09-13": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-13T16:20:26.576462+00:00",
-      "hours_to_kickoff": 6.2,
-      "ts": "2026-09-13T16:20:26.576481+00:00",
+      "hours_to_kickoff": 3.3,
+      "ts": "2026-09-13T19:11:59.671964+00:00",
       "action": "DEFER",
       "claim": "not_home_win",
       "home": "Vancouver Whitecaps",
       "away": "Austin FC",
-      "markets_considered": 98,
+      "markets_considered": 86,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Research reveals material contradictions between sources and inconsistent squad data that prevent confident assessment. Ryan Gauld is stated both as knee-injured (ruled out in predictions) and as scoring in the LA Galaxy match (3-0, Sept 10), creating uncertainty about current availability. Jayden Nelson transferred to Bolton in August, eliminating him from Austin's roster before this match\u2014contra"
+      "reason": "The bet against a Vancouver home win carries unacceptable risk. Vancouver is the conference leader (46 pts, 14W-5L-4D) with a formidable home record at BC Place and commanding head-to-head advantage. Austin sits 14th, winless on the road (0-8-3 in ten away matches, -20 GD), and has lost 6 of their last 7 meetings with Vancouver. Vancouver won 3-0 vs LA Galaxy midweek, while Austin drew 1-1 at Colo"
     },
     "mls|Chicago Fire FC|New England Revolution|2026-09-13": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-13T16:28:59.599793+00:00",
-      "hours_to_kickoff": 5.0,
-      "ts": "2026-09-13T16:28:59.599813+00:00",
+      "hours_to_kickoff": 2.2,
+      "ts": "2026-09-13T19:18:44.815177+00:00",
       "action": "DEFER",
       "claim": "home_win",
       "home": "Chicago Fire FC",
       "away": "New England Revolution",
-      "markets_considered": 119,
+      "markets_considered": 99,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "New England's injury status as of matchday remains unconfirmed. Yusuf and Sands (both key contributors to attacking/creative play) picked up injuries in the September 9 NYCFC match and were 'being evaluated' with no clearance announced. Losing either or both would materially reduce away scoring capacity. Chicago's home form is solid (7 goals in recent stretch, strong defense) but New England has s"
+      "reason": "Chicago Fire hold clear technical superiority (unbeaten 9/10 vs NE, 4-game home unbeaten run, Lewandowski + Zinckernagel attacking threat, superior pressing intensity, tactical flexibility, strong away record). However, critical simulation gaps block confident assessment: (1) Hugo Cuypers\u2014Chicago's leading scorer at 13 goals in 11 early-season matches\u2014was transferred to Monterrey in July 2026, mat"
     }
   },
-  "saved_at": "2026-09-13T16:28:59.679947+00:00"
+  "saved_at": "2026-09-13T19:18:44.893653+00:00"
 }
