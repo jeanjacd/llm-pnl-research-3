@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 93721,
-  "reserved_cents": 7572,
+  "reserved_cents": 2573,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -69520,7 +69520,7 @@
       "away_team": "Austin FC",
       "kickoff_utc": "2026-09-13T22:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T20:52:05.709068+00:00",
+      "last_checked_at": "2026-09-13T22:01:33.925634+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69556,7 +69556,7 @@
       "away_team": "Austin FC",
       "kickoff_utc": "2026-09-13T22:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T20:52:05.709068+00:00",
+      "last_checked_at": "2026-09-13T22:01:33.925634+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69571,11 +69571,11 @@
       "requested_size": 27.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1242,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T13:06:15.673263+00:00",
       "expires_at": "2026-09-13T21:30:00+00:00",
       "events": [
@@ -69584,6 +69584,10 @@
           "event": "submitted",
           "key": "polymarket:0xb9d7a95c07792a4dca5e4f09fcbaca9b524ab8af887a08f3a711fadba8bef59f:yes|0xb9d7a95c07792a4dca5e4f09fcbaca9b524ab8af887a08f3a711fadba8bef59f|yes|46",
           "reserved_cents": 1242
+        },
+        {
+          "ts": "2026-09-13T22:01:35.610057+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -69592,7 +69596,7 @@
       "away_team": "New England Revolution",
       "kickoff_utc": "2026-09-13T21:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T20:52:05.709068+00:00",
+      "last_checked_at": "2026-09-13T22:01:33.925634+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69607,11 +69611,11 @@
       "requested_size": 28.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1281,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T13:06:15.673430+00:00",
       "expires_at": "2026-09-13T21:30:00+00:00",
       "events": [
@@ -69620,6 +69624,10 @@
           "event": "submitted",
           "key": "kalshi:KXMLSGAME-26SEP13CHINE-CHI:yes|KXMLSGAME-26SEP13CHINE-CHI|yes|44",
           "reserved_cents": 1281
+        },
+        {
+          "ts": "2026-09-13T22:01:35.610066+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -69628,7 +69636,7 @@
       "away_team": "New England Revolution",
       "kickoff_utc": "2026-09-13T21:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T20:52:05.709068+00:00",
+      "last_checked_at": "2026-09-13T22:01:33.925634+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69643,11 +69651,11 @@
       "requested_size": 18.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1269,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T13:06:15.673628+00:00",
       "expires_at": "2026-09-13T21:30:00+00:00",
       "events": [
@@ -69656,6 +69664,10 @@
           "event": "submitted",
           "key": "kalshi:KXMLSGAME-26SEP13CHINE-TIE:no|KXMLSGAME-26SEP13CHINE-TIE|no|69",
           "reserved_cents": 1269
+        },
+        {
+          "ts": "2026-09-13T22:01:35.610070+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -69664,7 +69676,7 @@
       "away_team": "New England Revolution",
       "kickoff_utc": "2026-09-13T21:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T20:52:05.709068+00:00",
+      "last_checked_at": "2026-09-13T22:01:33.925634+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69679,11 +69691,11 @@
       "requested_size": 17.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1207,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T13:06:15.673780+00:00",
       "expires_at": "2026-09-13T21:30:00+00:00",
       "events": [
@@ -69692,6 +69704,10 @@
           "event": "submitted",
           "key": "polymarket:0x6cf7e169296c6a30b7cc13b505723bcf7748557383ce5ec18c9843d22f4118d2:no|0x6cf7e169296c6a30b7cc13b505723bcf7748557383ce5ec18c9843d22f4118d2|no|71",
           "reserved_cents": 1207
+        },
+        {
+          "ts": "2026-09-13T22:01:35.610073+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -69700,7 +69716,7 @@
       "away_team": "New England Revolution",
       "kickoff_utc": "2026-09-13T21:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T20:52:05.709068+00:00",
+      "last_checked_at": "2026-09-13T22:01:33.925634+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -78562,5 +78578,5 @@
       "reason": "Chicago Fire hold clear technical superiority (unbeaten 9/10 vs NE, 4-game home unbeaten run, Lewandowski + Zinckernagel attacking threat, superior pressing intensity, tactical flexibility, strong away record). However, critical simulation gaps block confident assessment: (1) Hugo Cuypers\u2014Chicago's leading scorer at 13 goals in 11 early-season matches\u2014was transferred to Monterrey in July 2026, mat"
     }
   },
-  "saved_at": "2026-09-13T20:52:07.111477+00:00"
+  "saved_at": "2026-09-13T22:02:55.055213+00:00"
 }
