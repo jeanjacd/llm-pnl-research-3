@@ -74043,10 +74043,10 @@
       "closing_price_cents": 33.5,
       "clv_cents": -1.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -1171.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -74070,10 +74070,10 @@
       "closing_price_cents": 33.5,
       "clv_cents": -1.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -1120.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -74097,10 +74097,10 @@
       "closing_price_cents": 56.5,
       "clv_cents": -4.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -1254.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -74124,10 +74124,10 @@
       "closing_price_cents": 56.5,
       "clv_cents": -4.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -1220.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -76608,6 +76608,62 @@
       "pnl_cents": 3450.0,
       "league_id": "mls",
       "case_id": "polymarket:0xef05ae6f3ce4282b9e4d5fdc02f337b09517f492f5114daa1a45a84c534d1b9f:no"
+    },
+    {
+      "ts": "2026-09-14T04:03:18.919990+00:00",
+      "instrument_id": "KXMLSGAME-26SEP13SDPHI-SD",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 32.0,
+      "avg_cost_cents": 35.0,
+      "fees_cents": 51,
+      "payout_cents": 0.0,
+      "pnl_cents": -1171.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSGAME-26SEP13SDPHI-SD:yes"
+    },
+    {
+      "ts": "2026-09-14T04:03:18.922076+00:00",
+      "instrument_id": "0xb2e42a94016cb32d468231bcec157f6f57d6e2ffa198e05cdf8afe007e72da20",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 32.0,
+      "avg_cost_cents": 35.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -1120.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xb2e42a94016cb32d468231bcec157f6f57d6e2ffa198e05cdf8afe007e72da20:yes"
+    },
+    {
+      "ts": "2026-09-14T04:03:18.924147+00:00",
+      "instrument_id": "KXMLSGAME-26SEP13SDPHI-PHI",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 20.0,
+      "avg_cost_cents": 61.0,
+      "fees_cents": 34,
+      "payout_cents": 0.0,
+      "pnl_cents": -1254.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSGAME-26SEP13SDPHI-PHI:no"
+    },
+    {
+      "ts": "2026-09-14T04:03:18.926223+00:00",
+      "instrument_id": "0x9a5f68aed8d15685d8b44e1a838bf9fdfcbf661640e1143459d1a19b436b6ec7",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 20.0,
+      "avg_cost_cents": 61.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -1220.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x9a5f68aed8d15685d8b44e1a838bf9fdfcbf661640e1143459d1a19b436b6ec7:no"
     }
   ],
   "boarded": {
@@ -78642,5 +78698,5 @@
       "reason": "Newcastle's defensive crisis (Burn out 4-6 weeks, Dedic major doubt with hamstring, Jaouen injured) creates genuine uncertainty about their XI composition and defensive solidity, which is material to away-win chances. Combined with Jaissle's first month in post (appointed 5 Aug), their actual tactical setup and cohesion remain untested. Leeds' strong home record (76% of points at Elland Road last "
     }
   },
-  "saved_at": "2026-09-14T01:12:08.840070+00:00"
+  "saved_at": "2026-09-14T04:03:19.038793+00:00"
 }
