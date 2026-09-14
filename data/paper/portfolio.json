@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 93721,
-  "reserved_cents": 2573,
+  "cash_cents": 102921,
+  "reserved_cents": 0,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -69499,11 +69499,11 @@
       "requested_size": 156.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1248,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T13:06:15.672770+00:00",
       "expires_at": "2026-09-13T22:30:00+00:00",
       "events": [
@@ -69512,6 +69512,10 @@
           "event": "submitted",
           "key": "polymarket:0x079190e4150d7b600f82621959edd4ca0eed46952e341e0e4d9ac39895ba43a9:yes|0x079190e4150d7b600f82621959edd4ca0eed46952e341e0e4d9ac39895ba43a9|yes|8",
           "reserved_cents": 1248
+        },
+        {
+          "ts": "2026-09-14T01:01:16.551801+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -69520,7 +69524,7 @@
       "away_team": "Austin FC",
       "kickoff_utc": "2026-09-13T22:30:00+00:00",
       "settles_on_regulation": null,
-      "last_checked_at": "2026-09-13T22:01:33.925634+00:00",
+      "last_checked_at": "2026-09-14T01:01:14.443503+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -69535,11 +69539,11 @@
       "requested_size": 96.0,
       "league_id": "mls",
       "kind": "limit",
-      "status": "open",
+      "status": "expired",
       "filled_size": 0.0,
       "avg_fill_price_cents": 0.0,
       "fees_cents": 0,
-      "reserved_cents": 1325,
+      "reserved_cents": 0,
       "created_at": "2026-09-13T13:06:15.672929+00:00",
       "expires_at": "2026-09-13T22:30:00+00:00",
       "events": [
@@ -69548,6 +69552,10 @@
           "event": "submitted",
           "key": "kalshi:KXMLSGAME-26SEP13VANATX-TIE:yes|KXMLSGAME-26SEP13VANATX-TIE|yes|13",
           "reserved_cents": 1325
+        },
+        {
+          "ts": "2026-09-14T01:01:16.551813+00:00",
+          "event": "expired"
         }
       ],
       "cancel_triggers": [],
@@ -69556,7 +69564,7 @@
       "away_team": "Austin FC",
       "kickoff_utc": "2026-09-13T22:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": "2026-09-13T22:01:33.925634+00:00",
+      "last_checked_at": "2026-09-14T01:01:14.443503+00:00",
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -74032,9 +74040,9 @@
       "kickoff_utc": "2026-09-14T01:00:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-13T13:06:15.671434+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
+      "closing_price_cents": 33.5,
+      "clv_cents": -1.5,
+      "clv_source": "kalshi",
       "settled": false,
       "result": null,
       "payout_cents": 0.0,
@@ -74059,9 +74067,9 @@
       "kickoff_utc": "2026-09-14T01:00:00+00:00",
       "settles_on_regulation": null,
       "opened_at": "2026-09-13T13:06:15.671643+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
+      "closing_price_cents": 33.5,
+      "clv_cents": -1.5,
+      "clv_source": "polymarket",
       "settled": false,
       "result": null,
       "payout_cents": 0.0,
@@ -74086,9 +74094,9 @@
       "kickoff_utc": "2026-09-14T01:00:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-13T13:06:15.671853+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
+      "closing_price_cents": 56.5,
+      "clv_cents": -4.5,
+      "clv_source": "kalshi",
       "settled": false,
       "result": null,
       "payout_cents": 0.0,
@@ -74113,9 +74121,9 @@
       "kickoff_utc": "2026-09-14T01:00:00+00:00",
       "settles_on_regulation": null,
       "opened_at": "2026-09-13T13:06:15.672029+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
+      "closing_price_cents": 56.5,
+      "clv_cents": -4.5,
+      "clv_source": "polymarket",
       "settled": false,
       "result": null,
       "payout_cents": 0.0,
@@ -74140,13 +74148,13 @@
       "kickoff_utc": "2026-09-13T22:30:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-13T13:06:15.672417+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "closing_price_cents": 23.5,
+      "clv_cents": -1.5,
+      "clv_source": "kalshi",
+      "settled": true,
+      "result": "no",
+      "payout_cents": 4600.0,
+      "realized_pnl_cents": 3389.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -74167,13 +74175,13 @@
       "kickoff_utc": "2026-09-13T22:30:00+00:00",
       "settles_on_regulation": null,
       "opened_at": "2026-09-13T13:06:15.672630+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "closing_price_cents": 23.5,
+      "clv_cents": -1.5,
+      "clv_source": "polymarket",
+      "settled": true,
+      "result": "no",
+      "payout_cents": 4600.0,
+      "realized_pnl_cents": 3450.0,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -76572,6 +76580,34 @@
       "pnl_cents": -886.0,
       "league_id": "ligue_1",
       "case_id": "kalshi:KXLIGUE1GAME-26SEP13STBPSG-STB:yes"
+    },
+    {
+      "ts": "2026-09-14T01:03:01.471894+00:00",
+      "instrument_id": "KXMLSGAME-26SEP13VANATX-VAN",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 46.0,
+      "avg_cost_cents": 25.0,
+      "fees_cents": 61,
+      "payout_cents": 4600.0,
+      "pnl_cents": 3389.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSGAME-26SEP13VANATX-VAN:no"
+    },
+    {
+      "ts": "2026-09-14T01:03:01.474420+00:00",
+      "instrument_id": "0xef05ae6f3ce4282b9e4d5fdc02f337b09517f492f5114daa1a45a84c534d1b9f",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 46.0,
+      "avg_cost_cents": 25.0,
+      "fees_cents": 0,
+      "payout_cents": 4600.0,
+      "pnl_cents": 3450.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xef05ae6f3ce4282b9e4d5fdc02f337b09517f492f5114daa1a45a84c534d1b9f:no"
     }
   ],
   "boarded": {
@@ -78576,7 +78612,35 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Chicago Fire hold clear technical superiority (unbeaten 9/10 vs NE, 4-game home unbeaten run, Lewandowski + Zinckernagel attacking threat, superior pressing intensity, tactical flexibility, strong away record). However, critical simulation gaps block confident assessment: (1) Hugo Cuypers\u2014Chicago's leading scorer at 13 goals in 11 early-season matches\u2014was transferred to Monterrey in July 2026, mat"
+    },
+    "la_liga|Villarreal|Real Betis|2026-09-14": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-14T01:09:09.402217+00:00",
+      "hours_to_kickoff": 17.8,
+      "ts": "2026-09-14T01:09:09.402237+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "Villarreal",
+      "away": "Real Betis",
+      "markets_considered": 127,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Sporting fundamentals strongly favor Real Betis. Villarreal faces severe structural disadvantages: new manager (2 weeks in post) managing winless 4-game run from 16th place, 5+ key injuries, international call-ups, and defensive vulnerabilities. Real Betis demonstrates exceptional form (4W in 5), traveling well post-Champions League, higher average team rating (7.77 vs 7.02), and has just beaten R"
+    },
+    "premier_league|Leeds United|Newcastle United|2026-09-14": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-14T01:12:08.758040+00:00",
+      "hours_to_kickoff": 17.8,
+      "ts": "2026-09-14T01:12:08.758059+00:00",
+      "action": "DEFER",
+      "claim": "away_win",
+      "home": "Leeds United",
+      "away": "Newcastle United",
+      "markets_considered": 119,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Newcastle's defensive crisis (Burn out 4-6 weeks, Dedic major doubt with hamstring, Jaouen injured) creates genuine uncertainty about their XI composition and defensive solidity, which is material to away-win chances. Combined with Jaissle's first month in post (appointed 5 Aug), their actual tactical setup and cohesion remain untested. Leeds' strong home record (76% of points at Elland Road last "
     }
   },
-  "saved_at": "2026-09-13T22:02:55.055213+00:00"
+  "saved_at": "2026-09-14T01:12:08.840070+00:00"
 }
