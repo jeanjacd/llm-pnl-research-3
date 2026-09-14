@@ -78670,33 +78670,33 @@
       "reason": "Chicago Fire hold clear technical superiority (unbeaten 9/10 vs NE, 4-game home unbeaten run, Lewandowski + Zinckernagel attacking threat, superior pressing intensity, tactical flexibility, strong away record). However, critical simulation gaps block confident assessment: (1) Hugo Cuypers\u2014Chicago's leading scorer at 13 goals in 11 early-season matches\u2014was transferred to Monterrey in July 2026, mat"
     },
     "la_liga|Villarreal|Real Betis|2026-09-14": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-14T01:09:09.402217+00:00",
-      "hours_to_kickoff": 17.8,
-      "ts": "2026-09-14T01:09:09.402237+00:00",
+      "hours_to_kickoff": 8.9,
+      "ts": "2026-09-14T10:06:46.794545+00:00",
       "action": "DEFER",
       "claim": "not_away_win",
       "home": "Villarreal",
       "away": "Real Betis",
-      "markets_considered": 127,
+      "markets_considered": 126,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Sporting fundamentals strongly favor Real Betis. Villarreal faces severe structural disadvantages: new manager (2 weeks in post) managing winless 4-game run from 16th place, 5+ key injuries, international call-ups, and defensive vulnerabilities. Real Betis demonstrates exceptional form (4W in 5), traveling well post-Champions League, higher average team rating (7.77 vs 7.02), and has just beaten R"
+      "reason": "Position bets AGAINST away win; Betis won 2-0 away. Cannot assess whether the 'no' verdict on this binary (rejecting away_win) was well-founded pre-kick, as the match has already been played and the outcome contradicts the position. The sporting facts in isolation\u2014Betis form (4 in 5), Villarreal crisis (winless 5), Pellegrini's record 7-7 vs this opponent\u2014all supported an away Betis win, which mat"
     },
     "premier_league|Leeds United|Newcastle United|2026-09-14": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-14T01:12:08.758040+00:00",
-      "hours_to_kickoff": 17.8,
-      "ts": "2026-09-14T01:12:08.758059+00:00",
+      "hours_to_kickoff": 8.8,
+      "ts": "2026-09-14T10:10:50.498366+00:00",
       "action": "DEFER",
       "claim": "away_win",
       "home": "Leeds United",
       "away": "Newcastle United",
-      "markets_considered": 119,
+      "markets_considered": 121,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Newcastle's defensive crisis (Burn out 4-6 weeks, Dedic major doubt with hamstring, Jaouen injured) creates genuine uncertainty about their XI composition and defensive solidity, which is material to away-win chances. Combined with Jaissle's first month in post (appointed 5 Aug), their actual tactical setup and cohesion remain untested. Leeds' strong home record (76% of points at Elland Road last "
+      "reason": "Match is 2026-09-14 (future event). Required data\u2014confirmed lineups, injury status, recent form, weather, fixture congestion\u2014does not exist. Research cutoff is February 2025; no reliable sources available for September 2026 match intelligence."
     }
   },
-  "saved_at": "2026-09-14T07:03:15.251568+00:00"
+  "saved_at": "2026-09-14T10:10:50.559138+00:00"
 }
