@@ -119,22 +119,64 @@ class IngestReport:
 # --------------------------------------------------------------------------- #
 # fetching
 # --------------------------------------------------------------------------- #
+def months_in(start: str, end: str) -> list:
+    """Every `YYYYMM` a `YYYYMMDD`..`YYYYMMDD` window touches, inclusive."""
+    first = dt.date(int(start[:4]), int(start[4:6]), 1)
+    last = dt.date(int(end[:4]), int(end[4:6]), 1)
+    out = []
+    while first <= last:
+        out.append("%04d%02d" % (first.year, first.month))
+        first = (dt.date(first.year + 1, 1, 1) if first.month == 12
+                 else dt.date(first.year, first.month + 1, 1))
+    return out
+
+
 def fetch_window(slug: str, start: str, end: str, session=None,
                  timeout: int = 60) -> list:
-    """Raw events for a provider date window. Raises on a truncated response."""
+    """Raw events for a provider date window. Raises on a truncated response.
+
+    FETCHED A MONTH AT A TIME, BECAUSE THE RANGE FORM IS GONE. ESPN accepted
+    `dates=YYYYMMDD-YYYYMMDD` until 2026-09-15 and now answers 400 to every
+    range, of any length -- two days fails as surely as a season, and the
+    current season fails as surely as 2014. `dates=YYYYMM` still returns the
+    whole month, and `dates=YYYYMMDD` a single day, so the window is walked
+    month by month and stitched back together.
+
+    It took the pipeline down rather than degrading it: every league's refresh
+    aborts on its first window, so no NEW results were ingested for any league,
+    settlement stalled behind them, and `paper-maintenance` went red twice
+    before anyone looked.
+
+    A MONTH IS A SUPERSET OF THE WINDOW IT SERVES -- asking for July 2014 to
+    June 2015 also returns the rest of June 2014. That is safe here and always
+    was: `ingest_league` dedupes on the event id and drops anything whose
+    provider season year is not the season being built, which is the same
+    protection that already made the spec's own overlapping windows work.
+    """
     sess = session or requests
-    resp = sess.get(SCOREBOARD.format(slug=slug),
-                    params={"dates": "%s-%s" % (start, end),
-                            "limit": str(PROVIDER_PAGE_LIMIT)},
-                    timeout=timeout)
-    resp.raise_for_status()
-    payload = resp.json()
-    events = payload.get("events", [])
-    if len(events) >= PROVIDER_PAGE_LIMIT:
-        raise IngestError(
-            "%s %s-%s: hit the %d-event response cap; window may be truncated. "
-            "Chunk the request before trusting it."
-            % (slug, start, end, PROVIDER_PAGE_LIMIT))
+    seen: set = set()
+    events: list = []
+    for month in months_in(start, end):
+        resp = sess.get(SCOREBOARD.format(slug=slug),
+                        params={"dates": month,
+                                "limit": str(PROVIDER_PAGE_LIMIT)},
+                        timeout=timeout)
+        resp.raise_for_status()
+        batch = resp.json().get("events", [])
+        if len(batch) >= PROVIDER_PAGE_LIMIT:
+            raise IngestError(
+                "%s %s: hit the %d-event response cap; the month may be "
+                "truncated. Chunk the request before trusting it."
+                % (slug, month, PROVIDER_PAGE_LIMIT))
+        for event in batch:
+            key = str(event.get("id") or "")
+            # A fixture can be returned by two adjacent months, and the caller
+            # dedupes too -- but a duplicate here would also inflate the cap
+            # check above, so it is dropped at the source.
+            if key and key in seen:
+                continue
+            seen.add(key)
+            events.append(event)
     return events
 
 

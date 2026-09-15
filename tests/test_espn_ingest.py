@@ -11,6 +11,7 @@ from wc2026.data.espn import (
     IngestError,
     IngestReport,
     fetch_window,
+    months_in,
     parse_event,
     validate_season,
 )
@@ -326,3 +327,68 @@ def test_the_tolerance_is_a_handful_and_a_fraction_not_a_blank_cheque():
     assert 0 < MALFORMED_FRACTION <= 0.05
     # A full Premier League season is 380 events; the bar stays proportional.
     assert max(MALFORMED_ALLOWANCE, MALFORMED_FRACTION * 380) < 20
+
+
+# ── the provider dropped date ranges ──────────────────────────────────────────
+# 2026-09-15: ESPN began answering 400 to `dates=YYYYMMDD-YYYYMMDD` for every
+# range of every length -- two days as surely as a season, the current season
+# as surely as 2014. `dates=YYYYMM` still returns the whole month. Every
+# league's refresh aborted on its first window, so no new results reached the
+# pipeline at all, settlement stalled behind them and `paper-maintenance` went
+# red twice before anyone looked.
+#
+# The suite could not have caught it: the fakes accept any URL. So the guard is
+# on the SHAPE of the request, which is the part that broke.
+class _RecordingSession:
+    def __init__(self, per_call=1):
+        self.calls = []
+        self.per_call = per_call
+
+    def get(self, url, params=None, timeout=None):
+        self.calls.append(dict(params or {}))
+        month = (params or {}).get("dates", "")
+        return _Resp({"events": [event(eid="%s-%d" % (month, i))
+                                 for i in range(self.per_call)]})
+
+
+def test_the_window_is_walked_month_by_month():
+    assert months_in("20140701", "20150630") == [
+        "201407", "201408", "201409", "201410", "201411", "201412",
+        "201501", "201502", "201503", "201504", "201505", "201506"]
+    assert months_in("20260901", "20260930") == ["202609"]
+    assert months_in("20251201", "20260201") == ["202512", "202601", "202602"]
+
+
+def test_no_request_ever_asks_for_a_date_range_again():
+    """The exact shape the provider now refuses."""
+    sess = _RecordingSession()
+    fetch_window("eng.1", "20240801", "20250630", session=sess)
+    assert sess.calls, "it has to ask for something"
+    for call in sess.calls:
+        dates = call["dates"]
+        assert "-" not in dates, "a range is a 400 now: %r" % dates
+        assert len(dates) == 6 and dates.isdigit(), dates
+
+
+def test_one_request_per_month_covering_the_whole_window():
+    sess = _RecordingSession()
+    fetch_window("eng.1", "20240801", "20250630", session=sess)
+    assert [c["dates"] for c in sess.calls] == months_in("20240801", "20250630")
+
+
+def test_a_fixture_returned_by_two_months_is_kept_once():
+    """Adjacent months overlap at the boundary, and a duplicate would also
+    inflate the response-cap check."""
+    class _Overlapping(_RecordingSession):
+        def get(self, url, params=None, timeout=None):
+            self.calls.append(dict(params or {}))
+            return _Resp({"events": [event(eid="same")]})
+
+    evs = fetch_window("eng.1", "20240801", "20241031", session=_Overlapping())
+    assert len(evs) == 1
+
+
+def test_the_page_cap_is_checked_per_month():
+    with pytest.raises(IngestError, match="response cap"):
+        fetch_window("eng.1", "20240801", "20240831",
+                     session=_RecordingSession(per_call=PROVIDER_PAGE_LIMIT))
