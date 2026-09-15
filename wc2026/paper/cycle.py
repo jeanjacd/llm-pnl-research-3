@@ -32,7 +32,13 @@ from ..eval.tune import effective_model
 from ..leagues import all_leagues, get_league
 from ..venues.base import changed_since, snapshot_record
 from .broker import PaperPortfolio
-from .clv import capture_closing_lines, clv_summary, pnl_summary
+from .clv import (
+    capture_closing_lines,
+    capture_expired_closing_lines,
+    clv_summary,
+    counterfactual_summary,
+    pnl_summary,
+)
 from .fills import KalshiFillProbe, PolymarketFillProbe, replay_fills
 from .outcomes import is_first_half
 from .selection import (
@@ -257,6 +263,12 @@ def run_maintenance(state_path: str | None = None,
         stats["fills"] = replay["filled"]
         stats["fill_replay"] = replay
         stats["clv_capture"] = capture_closing_lines(portfolio, probes)
+        # Run AFTER `expire_due` below has had a previous cycle to mark them,
+        # so today's expiries are picked up on the next pass rather than not
+        # at all. The unfilled orders are the unselected sample -- see
+        # `capture_expired_closing_lines`.
+        stats["counterfactual_capture"] = capture_expired_closing_lines(
+            portfolio, probes)
 
     stats["expired"] = len(portfolio.expire_due())
 
@@ -279,6 +291,10 @@ def run_maintenance(state_path: str | None = None,
         stats["settlement"] = settled
 
     stats["clv"] = clv_summary(portfolio)
+    # The same question asked of the orders that never filled, which is the
+    # only reading of the model's direction that the fill selection cannot
+    # touch. Reported beside CLV so the two are read together.
+    stats["counterfactual_clv"] = counterfactual_summary(portfolio)
     stats["pnl"] = pnl_summary(portfolio)
     portfolio.save(state_path)
     stats["portfolio"] = portfolio.summary()
@@ -398,6 +414,12 @@ def run_cycle(league_ids=None, state_path: str | None = None,
         # whereas the result may not be ingested for hours, and CLV is the
         # faster-converging of the two measurements.
         stats["clv_capture"] = capture_closing_lines(portfolio, probes)
+        # Run AFTER `expire_due` below has had a previous cycle to mark them,
+        # so today's expiries are picked up on the next pass rather than not
+        # at all. The unfilled orders are the unselected sample -- see
+        # `capture_expired_closing_lines`.
+        stats["counterfactual_capture"] = capture_expired_closing_lines(
+            portfolio, probes)
 
     # 6. revalue: expire anything past its deadline before anything new.
     stats["expired"] = len(portfolio.expire_due())
@@ -674,7 +696,13 @@ def run_cycle(league_ids=None, state_path: str | None = None,
                     # name matching weeks on.
                     claim=cand.claim, home_team=cand.leg.home,
                     away_team=cand.leg.away, kickoff_utc=cand.leg.kickoff_utc,
-                    settles_on_regulation=cand.instrument.settles_on_regulation)
+                    settles_on_regulation=cand.instrument.settles_on_regulation,
+                    # What the model said and what the screen said, at the
+                    # moment of the decision. CLV alone is `close - fill`,
+                    # which sums forecast error, execution and drift; these two
+                    # are what split it back apart afterwards.
+                    p_model=cand.case.p_calibrated,
+                    decision_price_cents=cand.case.touch_cents)
             except Exception as exc:                          # noqa: BLE001
                 league_stats.setdefault("errors", []).append(
                     "submit: %s" % str(exc)[:80])
@@ -690,6 +718,10 @@ def run_cycle(league_ids=None, state_path: str | None = None,
                 stats["limit_orders"] = stats.get("limit_orders", 0) + 1
 
     stats["clv"] = clv_summary(portfolio)
+    # The same question asked of the orders that never filled, which is the
+    # only reading of the model's direction that the fill selection cannot
+    # touch. Reported beside CLV so the two are read together.
+    stats["counterfactual_clv"] = counterfactual_summary(portfolio)
     stats["pnl"] = pnl_summary(portfolio)
     portfolio.save(state_path)
     stats["portfolio"] = portfolio.summary()

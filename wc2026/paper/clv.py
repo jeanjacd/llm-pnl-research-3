@@ -78,6 +78,82 @@ def capture_closing_lines(portfolio, probes: dict, now=None) -> dict:
     return stats
 
 
+def capture_expired_closing_lines(portfolio, probes: dict, now=None) -> dict:
+    """Record the closing line for every order that expired unfilled.
+
+    THE UNFILLED ORDERS ARE THE UNSELECTED SAMPLE. `capture_closing_lines`
+    scores the positions, and positions exist only where the market came to
+    our price -- which is precisely when it was moving against us. Measured on
+    the live book, 74% of fills closed below what they paid, against a fill
+    rate of 10.6%. Those two numbers together say the filled set is not a
+    sample of our opinions, it is a sample of the times the market disagreed.
+
+    An expired order cannot be selected that way, because nothing selected it.
+    `counterfactual_clv_cents` is `close - limit`: positive means the limit was
+    on the right side of the close and the opinion was good, whether or not it
+    ever traded. It carries no claim that the order would have filled.
+
+    Separate from settlement and from the position path for the same reason
+    `capture_closing_lines` is: the closing line exists at kick-off, and a slow
+    result feed must not cost us the faster measurement.
+    """
+    now = now or dt.datetime.now(dt.timezone.utc)
+    stats = {"captured": 0, "already_had": 0, "not_kicked_off": 0,
+             "no_probe": 0, "no_history": 0, "not_expired": 0}
+    for order in portfolio.orders.values():
+        # A partial fill already has a position, and that position carries the
+        # real reading. Scoring it here as well would double-count it.
+        if getattr(order, "status", None) != "expired" or order.filled_size > 0:
+            stats["not_expired"] += 1
+            continue
+        if order.closing_price_cents is not None:
+            stats["already_had"] += 1
+            continue
+        kickoff = _parse(order.kickoff_utc)
+        if kickoff is None or kickoff > now:
+            stats["not_kicked_off"] += 1
+            continue
+        probe = probes.get(order.venue)
+        if probe is None:
+            stats["no_probe"] += 1
+            continue
+        price = probe.closing_price_cents(order.instrument_id, order.side,
+                                          kickoff)
+        if price is None:
+            stats["no_history"] += 1
+            continue
+        order.closing_price_cents = round(float(price), 2)
+        order.counterfactual_clv_cents = round(
+            order.closing_price_cents - order.limit_price_cents, 2)
+        stats["captured"] += 1
+    return stats
+
+
+def counterfactual_summary(portfolio) -> dict:
+    """What the orders that never filled say about the model's direction.
+
+    Reported per FIXTURE for the same reason every other rate here is: a
+    hundred limits on one match are one opinion written a hundred ways.
+    """
+    scored = [o for o in portfolio.orders.values()
+              if getattr(o, "counterfactual_clv_cents", None) is not None
+              and not getattr(o, "void", False)]
+    if not scored:
+        return {"mean_cents": None, "n_orders": 0, "n_fixtures": 0,
+                "beat": 0, "beat_rate": None}
+    by_fixture = {}
+    for order in scored:
+        key = (order.league_id, order.home_team, order.away_team,
+               str(order.kickoff_utc or "")[:10])
+        by_fixture.setdefault(key, []).append(
+            float(order.counterfactual_clv_cents))
+    means = [sum(v) / len(v) for v in by_fixture.values()]
+    beat = sum(1 for v in means if v > 0)
+    return {"mean_cents": sum(means) / len(means),
+            "n_orders": len(scored), "n_fixtures": len(means),
+            "beat": beat, "beat_rate": beat / len(means)}
+
+
 def clv_summary(portfolio) -> dict:
     """Headline CLV, computed per FIXTURE so 34 bets on one match count once.
 

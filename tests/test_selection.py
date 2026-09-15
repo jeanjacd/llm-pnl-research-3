@@ -88,7 +88,7 @@ def test_a_fixture_yields_ONE_slate_containing_every_market():
     Boarding one and discarding the rest confused the two."""
     cands = [Cand("away_over_%s" % x) for x in ("0.5", "1.5", "2.5")]
     cands += [Cand("away_win"), Cand("btts"), Cand("draw")]
-    slates, skipped = select_fixture_slates(cands)
+    slates, skipped = select_fixture_slates(cands, max_claim_rank=None)
     assert len(slates) == 1, "one fixture"
     assert len(next(iter(slates.values()))) == len(cands), "every market kept"
     assert skipped == []
@@ -98,7 +98,8 @@ def test_the_best_validated_family_leads_the_slate():
     """Both are kept, but 1X2 leads the prompt and survives any cap; a 40c EV
     on an exact scoreline must not displace a 1c EV on 1X2."""
     slates, _ = select_fixture_slates([Cand("score_4-3", ev=40.0),
-                                       Cand("home_win", ev=1.0)])
+                                       Cand("home_win", ev=1.0)],
+                                      max_claim_rank=None)
     slate = next(iter(slates.values()))
     assert [c.claim for c in slate] == ["home_win", "score_4-3"]
 
@@ -113,11 +114,14 @@ def test_ev_orders_within_a_family():
 def test_nothing_is_discarded_however_many_markets_a_fixture_has():
     """The 40 used to be a CAP and silently dropped 63% of candidates at the
     real distribution -- median 109 per fixture -- cutting mid-family through
-    team totals. It is a batch size now."""
+    team totals. It is a batch size now.
+
+    Uncapped here on purpose: this is about the BATCHING, and the separate
+    claim-rank cap is exercised below."""
     cands = ([Cand("home_win"), Cand("draw"), Cand("away_win")]
              + [Cand("score_%d-%d" % (i, j), instrument_id="s%d%d" % (i, j))
                 for i in range(8) for j in range(8)])
-    slates, skipped = select_fixture_slates(cands)
+    slates, skipped = select_fixture_slates(cands, max_claim_rank=None)
     slate = next(iter(slates.values()))
     assert len(slate) == len(cands), "every market survives"
     assert skipped == []
@@ -144,7 +148,8 @@ def test_batches_keep_the_family_ordering_so_each_is_coherent():
     cands = ([Cand("home_win"), Cand("draw"), Cand("away_win"), Cand("btts")]
              + [Cand("score_%d-%d" % (i, j), instrument_id="s%d%d" % (i, j))
                 for i in range(8) for j in range(8)])
-    slate = next(iter(select_fixture_slates(cands)[0].values()))
+    slate = next(iter(select_fixture_slates(cands,
+                                            max_claim_rank=None)[0].values()))
     first = chunk_slate(slate)[0]
     assert all(claim_rank(c.claim) <= claim_rank(slate[-1].claim) for c in first)
     assert claim_rank(first[0].claim) == 0
@@ -490,3 +495,50 @@ def test_no_cap_boards_everything():
              for i in range(12)]
     slates, _ = select_fixture_slates(cands, max_fixtures=None)
     assert len(slates) == 12
+
+
+# --- the claim-rank cap -------------------------------------------------------
+# Live CLV by family, 52 settled fixtures: 1X2 -0.18c, totals -2.76c, team
+# totals -2.61c, spreads -3.58c, first half -4.11c. Four of those are
+# significantly negative after a Holm correction and survive leave-one-out.
+def test_the_cap_keeps_the_validated_families_and_drops_the_rest():
+    cands = [Cand("home_win"), Cand("btts"), Cand("total_over_2.5"),
+             Cand("home_over_1.5"), Cand("home_wins_by_over_1.5"),
+             Cand("score_2-1"), Cand("1h_home_win")]
+    slates, skipped = select_fixture_slates(cands, max_claim_rank=2)
+    kept = {c.claim for c in next(iter(slates.values()))}
+    assert kept == {"home_win", "btts", "total_over_2.5"}
+    assert {c.claim for c, _ in skipped} == {
+        "home_over_1.5", "home_wins_by_over_1.5", "score_2-1", "1h_home_win"}
+
+
+def test_every_drop_is_counted_with_a_reason_rather_than_vanishing():
+    _, skipped = select_fixture_slates([Cand("home_wins_by_over_1.5")],
+                                       max_claim_rank=2)
+    assert len(skipped) == 1
+    assert "ranks below the cap" in skipped[0][1]
+
+
+def test_a_first_half_claim_falls_below_any_cap():
+    """It matches no family, so it takes the fallback rank. That is currently
+    the outcome we want and it is an accident of the `1h_` prefix surviving --
+    see the note on BOARD_MAX_CLAIM_RANK."""
+    assert claim_rank("1h_draw") > claim_rank("score_2-1")
+    slates, _ = select_fixture_slates([Cand("1h_draw")], max_claim_rank=2)
+    assert slates == {}
+
+
+def test_a_fixture_whose_every_market_is_capped_is_never_boarded():
+    """It must not be marked decided on the strength of markets we were never
+    going to trade."""
+    slates, skipped = select_fixture_slates(
+        [Cand("score_1-0"), Cand("score_2-0", instrument_id="s20")],
+        max_claim_rank=2)
+    assert slates == {}
+    assert len(skipped) == 2
+
+
+def test_passing_none_considers_every_family():
+    slates, skipped = select_fixture_slates([Cand("score_2-1")],
+                                            max_claim_rank=None)
+    assert skipped == [] and len(next(iter(slates.values()))) == 1

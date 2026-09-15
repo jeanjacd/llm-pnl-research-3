@@ -59,6 +59,32 @@ BOARD_WINDOW_HOURS = 4.0
 # missed entirely is let go rather than boarded at the whistle.
 BOARD_MIN_HOURS = 2.0
 
+# The deepest claim family the board is allowed to trade, as a rank into
+# CLAIM_PRIORITY above. Everything below it is dropped from the slate before
+# the board ever sees it.
+#
+# MEASURED, NOT ASSUMED. The ordering in CLAIM_PRIORITY was written a priori
+# from book depth and which families the evaluation actually scores. 52 settled
+# fixtures later the market has graded it, and the ranking holds almost
+# monotonically -- mean closing line value by rank: 1X2 -0.18c, totals -2.76c,
+# team totals -2.61c, spreads -3.58c, first half -4.11c, corr(rank, CLV) -0.35.
+# Four families come out significantly negative after a Holm correction across
+# all eight and survive leave-one-fixture-out: spreads, team totals, first-half
+# results and first-half totals. A cap at 2 drops every one of them and keeps
+# the only family whose CLV is indistinguishable from zero.
+#
+# A SECOND, SEPARATE EFFECT IS NOT ADDRESSED HERE. Fixtures where the book took
+# one market averaged +0.56c; fixtures where it took two or more averaged
+# -0.68c, corr -0.40. That is a correlation problem rather than a price-quality
+# one and wants a per-fixture COUNT cap, which is a different knob.
+#
+# NOTE: first-half claims reach `claim_rank` as `1h_...` and match no entry in
+# CLAIM_PRIORITY, so they take the fallback rank and are excluded by any cap
+# below it. That is currently the desired outcome but it is an accident of the
+# prefix not being stripped -- if `claim_rank` is ever taught about `1h_`, the
+# first-half families will re-enter the slate at their parent family's rank.
+BOARD_MAX_CLAIM_RANK = 2
+
 # --- deferral retries ---------------------------------------------------------
 # A DEFER is the board saying it LACKED INFORMATION -- the coach returns
 # `required_reruns`, literally asking to be run again once the team news lands.
@@ -272,7 +298,8 @@ def actionable_fixtures(fixtures, now=None):
 
 def select_fixture_slates(candidates, already_boarded=None, now=None,
                           use_lead_time: bool = True,
-                          max_fixtures=BOARD_MAX_FIXTURES_PER_RUN):
+                          max_fixtures=BOARD_MAX_FIXTURES_PER_RUN,
+                          max_claim_rank=BOARD_MAX_CLAIM_RANK):
     """Every candidate market, grouped by the fixture it belongs to.
 
     Returns (slates, skipped) where `slates` maps fixture_key -> [candidate].
@@ -287,6 +314,9 @@ def select_fixture_slates(candidates, already_boarded=None, now=None,
 
     Within a fixture the slate is ordered by claim family then EV, so the most
     validated markets lead the prompt and the ordering is stable across runs.
+
+    `max_claim_rank` truncates that ordering before the board sees it -- see
+    BOARD_MAX_CLAIM_RANK. Pass None to consider every family.
     """
     # Accepts the boarded LEDGER (key -> record). A bare set of keys is still
     # honoured -- an entry with no recorded action reads as "already decided",
@@ -295,6 +325,13 @@ def select_fixture_slates(candidates, already_boarded=None, now=None,
     ledger = dict(raw) if isinstance(raw, dict) else {key: {} for key in raw}
     slates, skipped = {}, []
     for cand in candidates:
+        # Dropped BEFORE the lead-time check, so a fixture is not marked
+        # boarded on the strength of markets we were never going to trade.
+        if (max_claim_rank is not None
+                and claim_rank(cand.claim) > max_claim_rank):
+            skipped.append((cand, "claim family ranks below the cap (%d)"
+                            % max_claim_rank))
+            continue
         key = cand.fixture_key
         if use_lead_time:
             ok, reason = board_state(ledger.get(key), cand.leg.kickoff_utc, now)

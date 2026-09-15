@@ -128,6 +128,41 @@ class PaperOrder:
     # How far the fill replay has already looked. Without it a re-run would
     # re-scan the same window, and a gap between runs would go unexamined.
     last_checked_at: str | None = None
+    # --- what the model actually said, at the moment it said it ------------
+    # WITHOUT THESE, CLV IS ONE NUMBER WITH THREE CAUSES IN IT. Closing line
+    # value is `close - fill`, which is the sum of the model's forecast error,
+    # what resting earned or cost, and how the market drifted after we decided.
+    # Recording the model's probability and the price on the screen at decision
+    # time splits them: `p_model - close` is alpha, `decision_price - fill` is
+    # execution, `close - decision_price` is drift. They have different fixes
+    # and the book could not previously tell them apart.
+    p_model: float | None = None
+    decision_price_cents: float | None = None
+    # When the market actually traded through, from the venue tape -- NOT when
+    # the cron noticed. `opened_at` is stamped at replay, so a three-hourly
+    # schedule and a rebuild both overwrite it, and execution timing is the one
+    # dimension an adverse-selection diagnosis needs.
+    filled_at: str | None = None
+    # --- the counterfactual, for an order that never filled ----------------
+    # AN EXPIRED ORDER IS NOT A NON-EVENT. 1,521 of the live book's 1,701
+    # resolved orders expired unfilled and carried no information at all,
+    # while the 180 that did fill are the most selected sample available: a
+    # resting bid is reached when the market comes to it, and the market comes
+    # to it when the news is bad. 74% of those fills closed below what they
+    # paid.
+    #
+    # The orders that never filled cannot be adversely selected, because
+    # nothing selected them. Asking of each one "was my limit on the right
+    # side of the close?" is therefore the model's direction measured with the
+    # execution removed -- the same question CLV asks, on nine times the
+    # sample, and free.
+    #
+    # It is NOT a claim that the order would have filled at that price. It is
+    # the price we named against the price the market finished at, and nothing
+    # more.
+    closing_price_cents: float | None = None
+    counterfactual_clv_cents: float | None = None
+
     # --- voided out of the measurement -----------------------------------
     # Set by `paper.void` when a trade turns out to have been made on a
     # defective input and cannot be evidence about the model in either
@@ -187,6 +222,21 @@ class PaperPosition:
     result: str | None = None
     payout_cents: float = 0.0
     realized_pnl_cents: float = 0.0
+    # --- what the model actually said, at the moment it said it ------------
+    # WITHOUT THESE, CLV IS ONE NUMBER WITH THREE CAUSES IN IT. Closing line
+    # value is `close - fill`, which is the sum of the model's forecast error,
+    # what resting earned or cost, and how the market drifted after we decided.
+    # Recording the model's probability and the price on the screen at decision
+    # time splits them: `p_model - close` is alpha, `decision_price - fill` is
+    # execution, `close - decision_price` is drift. They have different fixes
+    # and the book could not previously tell them apart.
+    p_model: float | None = None
+    decision_price_cents: float | None = None
+    # When the market actually traded through, from the venue tape -- NOT when
+    # the cron noticed. `opened_at` is stamped at replay, so a three-hourly
+    # schedule and a rebuild both overwrite it, and execution timing is the one
+    # dimension an adverse-selection diagnosis needs.
+    filled_at: str | None = None
     # --- voided out of the measurement -----------------------------------
     # Set by `paper.void` when a trade turns out to have been made on a
     # defective input and cannot be evidence about the model in either
@@ -236,7 +286,9 @@ class PaperPortfolio:
                claim: str | None = None, home_team: str | None = None,
                away_team: str | None = None,
                kickoff_utc: str | None = None,
-               settles_on_regulation: bool | None = None) -> PaperOrder:
+               settles_on_regulation: bool | None = None,
+               p_model: float | None = None,
+               decision_price_cents: float | None = None) -> PaperOrder:
         """Submit a paper limit order, reserving the cash it could consume."""
         if not 0 < limit_price_cents < 100:
             raise BrokerError("limit price must be 1..99")
@@ -265,7 +317,9 @@ class PaperPortfolio:
                            cancel_triggers=list(cancel_triggers or []),
                            claim=claim, home_team=home_team,
                            away_team=away_team, kickoff_utc=kickoff_utc,
-                           settles_on_regulation=settles_on_regulation)
+                           settles_on_regulation=settles_on_regulation,
+                           p_model=p_model,
+                           decision_price_cents=decision_price_cents)
         order.log("submitted", key=key, reserved_cents=need)
         self.orders[order.order_id] = order
         return order
@@ -309,7 +363,8 @@ class PaperPortfolio:
             raise BrokerError("unknown order %r" % order_id) from None
 
     # ---- fills ----
-    def fill_marketable(self, order_id: str, book) -> PaperOrder:
+    def fill_marketable(self, order_id: str, book,
+                        filled_at: str | None = None) -> PaperOrder:
         """Fill a BUY_NOW against the CAPTURED book, capped by real depth."""
         order = self._order(order_id)
         if order.terminal:
@@ -325,11 +380,12 @@ class PaperPortfolio:
             order.log("no_fill", reason="book empty")
             return order
         avg, filled, _worst = walked
-        self._book_fill(order, filled, avg)
+        self._book_fill(order, filled, avg, filled_at)
         return order
 
     def try_fill_resting(self, order_id: str, later_book,
-                         require_trade_through: bool = True) -> PaperOrder:
+                         require_trade_through: bool = True,
+                         filled_at: str | None = None) -> PaperOrder:
         """Attempt to fill a RESTING order against a LATER observation.
 
         Conservative by design: a resting buy is filled only when the market
@@ -360,10 +416,11 @@ class PaperPortfolio:
         avg, filled, _worst = walked
         # never worse than our limit
         avg = min(avg, order.limit_price_cents)
-        self._book_fill(order, filled, avg)
+        self._book_fill(order, filled, avg, filled_at)
         return order
 
-    def _book_fill(self, order: PaperOrder, size: float, avg_price: float):
+    def _book_fill(self, order: PaperOrder, size: float, avg_price: float,
+                   filled_at: str | None = None):
         fee = fee_cents(order.venue, max(int(size), 1), int(round(avg_price)))
         cost = int(avg_price * size + fee)
         # release the proportional reservation, then pay actual cost
@@ -382,7 +439,11 @@ class PaperPortfolio:
         if order.status == FILLED and order.reserved_cents:
             self._release(order.reserved_cents)
             order.reserved_cents = 0
-        order.log("fill", size=size, price_cents=avg_price, fee_cents=fee)
+        # The tape's moment when it has one; the wall clock only as a fallback,
+        # and only for a fill happening right now.
+        order.filled_at = order.filled_at or filled_at or _iso()
+        order.log("fill", size=size, price_cents=avg_price, fee_cents=fee,
+                  filled_at=order.filled_at)
 
         key = "%s|%s" % (order.instrument_id, order.side)
         pos = self.positions.get(key)
@@ -394,7 +455,10 @@ class PaperPortfolio:
                 league_id=order.league_id, case_id=order.case_id,
                 claim=order.claim, home_team=order.home_team,
                 away_team=order.away_team, kickoff_utc=order.kickoff_utc,
-                settles_on_regulation=order.settles_on_regulation)
+                settles_on_regulation=order.settles_on_regulation,
+                p_model=order.p_model,
+                decision_price_cents=order.decision_price_cents,
+                filled_at=order.filled_at)
         else:
             grand = pos.size + size
             pos.avg_cost_cents = ((pos.avg_cost_cents * pos.size
