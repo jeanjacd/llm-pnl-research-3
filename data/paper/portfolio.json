@@ -78696,7 +78696,35 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Match is 2026-09-14 (future event). Required data\u2014confirmed lineups, injury status, recent form, weather, fixture congestion\u2014does not exist. Research cutoff is February 2025; no reliable sources available for September 2026 match intelligence."
+    },
+    "la_liga|Alav\u00e9s|Valencia|2026-09-15": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-15T01:08:08.885471+00:00",
+      "hours_to_kickoff": 16.9,
+      "ts": "2026-09-15T01:08:08.885487+00:00",
+      "action": "DEFER",
+      "claim": "away_win",
+      "home": "Alav\u00e9s",
+      "away": "Valencia",
+      "markets_considered": 123,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Valencia's away win thesis collapses across every material dimension. Home form shows Alav\u00e9s undefeated in seven home games vs Valencia (W4 D3). Valencia are in crisis: 1 point from 5 matches, bottom of table, four consecutive defeats, just suffered 5-0 thrashing at Barcelona, manager sacked mid-week, and nine players unavailable (six confirmed out, Foulquier doubtful). Alav\u00e9s are strong at home: "
+    },
+    "la_liga|Rayo Vallecano|Espanyol|2026-09-15": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-15T01:11:59.983862+00:00",
+      "hours_to_kickoff": 15.8,
+      "ts": "2026-09-15T01:11:59.983882+00:00",
+      "action": "DEFER",
+      "claim": "not_away_win",
+      "home": "Rayo Vallecano",
+      "away": "Espanyol",
+      "markets_considered": 126,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Critical squad availability data incomplete. Rayo face acute personnel crisis (10+ unavailable) including suspended de Frutos affecting right-wing solidity, while Espanyol's injury list remains vague despite referenced long-term absences. Combined with extreme heat (35\u00b0C) at unfamiliar fixture time, absence of confirmed manager status for Espanyol (conflicting references to Manolo Gonz\u00e1lez vs Luis"
     }
   },
-  "saved_at": "2026-09-14T22:02:14.052642+00:00"
+  "saved_at": "2026-09-15T01:12:00.062488+00:00"
 }
