@@ -63,7 +63,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Results have to be ingested before anything can settle against them.
+      # A LEAGUE THAT FAILS TO REFRESH IS STALE, NOT ABSENT: its previous
+      # matches.csv is still on disk. `update --all` attempts every league and
+      # exits non-zero only to REPORT which ones did not refresh, so this step
+      # is allowed to fail without taking the run with it -- the same guard
+      # `matchday-board` and `paper-rebuild` already carry. Without it, an
+      # upstream ESPN change on 2026-09-15 stopped settlement, closing-line
+      # capture and the counterfactual capture, none of which needed fresh
+      # results to be useful.
       - name: Refresh results
+        continue-on-error: true
         run: python -m wc2026 update --all
 
       - name: Settle, fill and price the paper book
