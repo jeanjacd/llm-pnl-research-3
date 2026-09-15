@@ -297,17 +297,44 @@ def adverse_selection(cfg: CalcConfig, spread_cents, hours_to_kickoff) -> float:
     return min(reserve, cfg.adverse_selection_max_cents)
 
 
+def reserve_for_role(reserve_cents: float, role: str) -> float:
+    """The adverse-selection reserve a given liquidity role actually bears.
+
+    ADVERSE SELECTION IS A MAKER'S COST AND ONLY A MAKER'S COST. A resting
+    order fills because the market came to it, and the market comes to a
+    resting bid when information arrives that makes that side less likely --
+    so the fill is correlated with being wrong. A taker crosses the spread and
+    gets the price on the screen: there is no resting period, nothing to be
+    picked off by, and nothing to reserve against. The taker already pays for
+    immediacy in the spread and the taker fee.
+
+    CHARGING IT TO BOTH SUPPRESSED EVERY IMMEDIATE TRADE. `build_case`
+    computed one reserve per case and subtracted it at every rung of the
+    ladder and from the headline EV at the touch, which is exactly the number
+    that gates BUY_NOW. At 1.0c base plus 0.02c per hour that is 1.2-2c of a
+    cost that cannot be incurred, subtracted from every crossing trade. Across
+    the live book it showed up as an absolute: 1,702 orders placed, 1,702 of
+    them resting, and not one BUY_NOW in the entire record. Every position the
+    book has ever held was therefore taken passively, and 74% of those fills
+    closed BELOW what they paid -- the adverse selection the reserve exists to
+    model, arrived at by a route the reserve itself forced.
+    """
+    return float(reserve_cents) if role == "maker" else 0.0
+
+
 def ev_at_price(p: float, price_cents: int, venue: str, count: int,
                 reserve_cents: float, fee_model=None,
                 role: str = "taker") -> tuple:
     """(ev_per_contract_cents, roi, fee_cents) for buying at `price_cents`.
 
     EV = conservative expected payout - price - fee share - adverse-selection
-    reserve. A binary contract pays 100c.
+    reserve, and the reserve applies only when RESTING (see
+    `reserve_for_role`). A binary contract pays 100c.
     """
     fee = fee_cents(venue, count, price_cents, fee_model, role)
     fee_share = fee / count if count else 0.0
-    ev = 100.0 * p - price_cents - fee_share - reserve_cents
+    ev = 100.0 * p - price_cents - fee_share - reserve_for_role(reserve_cents,
+                                                                role)
     cost = price_cents + fee_share
     roi = ev / cost if cost > 0 else 0.0
     return ev, roi, fee
@@ -423,7 +450,8 @@ def build_case(instrument, p_raw: float | None, p_calibrated: float | None,
         if ev <= 0 or roi < cfg.min_roi:
             continue
         breakeven = (price + fee / reference_size
-                     + case.adverse_selection_cents) / 100.0
+                     + reserve_for_role(case.adverse_selection_cents,
+                                        role)) / 100.0
         if case.p_lower - breakeven < cfg.min_edge:
             continue
         max_limit = price
@@ -444,8 +472,12 @@ def build_case(instrument, p_raw: float | None, p_calibrated: float | None,
         reference_size, case.adverse_selection_cents, instrument.fee_model)
     case.ev_per_contract = ev_now
     case.roi = roi_now
+    # The touch is crossed, so this is a TAKER's breakeven and carries no
+    # resting reserve. `case.adverse_selection_cents` stays on the case as the
+    # maker's cost, which is what the ladder below the touch is priced against.
     case.breakeven_prob = (price_now + fee_now / reference_size
-                           + case.adverse_selection_cents) / 100.0
+                           + reserve_for_role(case.adverse_selection_cents,
+                                              "taker")) / 100.0
     case.uncertainty_adjusted_ev = ev_now      # already uses the lower bound
 
     # --- decide ------------------------------------------------------------

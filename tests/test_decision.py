@@ -24,7 +24,11 @@ from wc2026.decision import (
     joint_probability,
     naive_independent_probability,
 )
-from wc2026.decision.calculator import CalcConfig, adverse_selection
+from wc2026.decision.calculator import (
+    CalcConfig,
+    adverse_selection,
+    reserve_for_role,
+)
 from wc2026.sim.match import score_matrix
 from wc2026.venues.base import (
     KIND_BINARY,
@@ -74,10 +78,30 @@ def test_polymarket_zero_base_fee_is_zero_but_unknown_venue_is_conservative():
     assert fee_cents("mystery_venue", 100, 50) == 175
 
 
-def test_ev_subtracts_fee_and_reserve():
-    ev, roi, fee = ev_at_price(0.60, 50, "kalshi", 100, 1.0)
+def test_ev_subtracts_the_fee_and_a_resting_order_also_the_reserve():
+    """A maker bears the adverse-selection reserve; a taker does not."""
+    ev, roi, fee = ev_at_price(0.60, 50, "kalshi", 100, 1.0, role="maker")
     assert ev == pytest.approx(60 - 50 - 1.75 - 1.0)
     assert roi == pytest.approx(ev / (50 + 1.75))
+
+
+def test_crossing_the_spread_is_not_charged_a_resting_cost():
+    """ADVERSE SELECTION IS WHAT YOU PAY FOR RESTING. Charging it to a taker
+    subtracted 1-2c from every immediate trade, and the live book shows the
+    consequence as an absolute: 1,702 orders, 1,702 of them resting, zero
+    BUY_NOW ever."""
+    taker, _, _ = ev_at_price(0.60, 50, "kalshi", 100, 1.0, role="taker")
+    maker, _, _ = ev_at_price(0.60, 50, "kalshi", 100, 1.0, role="maker")
+    assert taker == pytest.approx(maker + 1.0)
+    assert reserve_for_role(1.0, "taker") == 0.0
+    assert reserve_for_role(1.0, "maker") == 1.0
+
+
+def test_the_reserve_still_reaches_every_resting_rung_of_the_ladder():
+    """The fix must not disarm the reserve where it genuinely applies."""
+    cheap, _, _ = ev_at_price(0.60, 40, "kalshi", 100, 3.0, role="maker")
+    free, _, _ = ev_at_price(0.60, 40, "kalshi", 100, 0.0, role="maker")
+    assert free - cheap == pytest.approx(3.0)
 
 
 def test_adverse_selection_grows_with_spread_and_time_and_is_capped():

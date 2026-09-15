@@ -56,6 +56,17 @@ TICK_CENTS = 1
 POLY_MID_TO_ASK_CENTS = 0.5
 
 
+def _iso_from_ts(value) -> str | None:
+    """A venue epoch second as an ISO instant, or None if it is not one."""
+    try:
+        seconds = int(value)
+    except (TypeError, ValueError):
+        return None
+    if seconds <= 0:
+        return None
+    return dt.datetime.fromtimestamp(seconds, dt.timezone.utc).isoformat()
+
+
 def _ts(value) -> int | None:
     if value is None:
         return None
@@ -96,6 +107,22 @@ class FillProbe:
     def best_executable_cents(self, order, since, until):
         raise NotImplementedError
 
+    def best_executable(self, order, since, until):
+        """(best price, ISO moment it printed) -- the moment may be None.
+
+        WHEN A FILL HAPPENED IS NOT RECOVERABLE AFTER THE FACT. The tape knows
+        it and nothing downstream did: `opened_at` is stamped when the replay
+        runs, so a three-hourly cron rounds every fill to its own schedule and
+        a rebuild rewrites all of them at once. Adverse selection is a claim
+        about WHEN you were filled relative to the information arriving, so
+        without this the one diagnosis that matters cannot be made.
+
+        Default-implemented against `best_executable_cents`, so a probe or a
+        test double that only knows how to price a window keeps working and
+        simply reports no moment.
+        """
+        return self.best_executable_cents(order, since, until), None
+
     def closing_price_cents(self, venue_id: str, side: str, kickoff):
         """Price of `side` at kick-off -- the closing line -- or None."""
         raise NotImplementedError
@@ -122,9 +149,30 @@ class KalshiFillProbe(FillProbe):
                 order.instrument_id, start, end, period_interval=1)
         except Exception:                                     # noqa: BLE001
             return None
-        best = None
+        best, _when = self._best_with_time(candles, order.side)
+        return best
+
+    def best_executable(self, order, since, until):
+        candles = self._candles(order, since, until)
+        if candles is None:
+            return None, None
+        return self._best_with_time(candles, order.side)
+
+    def _candles(self, order, since, until):
+        start, end = _ts(since), _ts(until)
+        if start is None or end is None or end <= start:
+            return None
+        try:
+            return self.client.get_candlesticks(
+                order.instrument_id, start, end, period_interval=1)
+        except Exception:                                     # noqa: BLE001
+            return None
+
+    @staticmethod
+    def _best_with_time(candles, side):
+        best, when = None, None
         for candle in candles or ():
-            if order.side == "yes":
+            if side == "yes":
                 low = _dollars(candle, "yes_ask", "low_dollars")
                 price = None if low is None else low * 100.0
             else:
@@ -132,8 +180,9 @@ class KalshiFillProbe(FillProbe):
                 price = None if high is None else 100.0 - high * 100.0
             if price is None or not 0 < price < 100:
                 continue
-            best = price if best is None else min(best, price)
-        return best
+            if best is None or price < best:
+                best, when = price, _iso_from_ts(candle.get("end_period_ts"))
+        return best, when
 
     def closing_price_cents(self, venue_id: str, side: str, kickoff,
                             lookback_hours: int = 6):
@@ -197,7 +246,7 @@ class PolymarketFillProbe(FillProbe):
         index = 0 if side == "yes" else 1
         return ids[index] if len(ids) > index else None
 
-    def best_executable_cents(self, order, since, until):
+    def _history(self, order, since, until):
         start, end = _ts(since), _ts(until)
         if start is None or end is None or end <= start:
             return None
@@ -210,10 +259,26 @@ class PolymarketFillProbe(FillProbe):
                 params={"market": token, "startTs": start, "endTs": end,
                         "fidelity": 1},
                 timeout=self.timeout)
-            history = resp.json().get("history", []) if resp.status_code == 200 else []
+            return resp.json().get("history", []) if resp.status_code == 200 else []
         except (requests.RequestException, ValueError):
             return None
-        lowest_mid = None
+
+    def best_executable_cents(self, order, since, until):
+        history = self._history(order, since, until)
+        if history is None:
+            return None
+        best, _when = self._best_with_time(history)
+        return best
+
+    def best_executable(self, order, since, until):
+        history = self._history(order, since, until)
+        if history is None:
+            return None, None
+        return self._best_with_time(history)
+
+    @staticmethod
+    def _best_with_time(history):
+        lowest_mid, when = None, None
         for point in history or ():
             try:
                 mid = float(point.get("p")) * 100.0
@@ -221,12 +286,13 @@ class PolymarketFillProbe(FillProbe):
                 continue
             if not 0 < mid < 100:
                 continue
-            lowest_mid = mid if lowest_mid is None else min(lowest_mid, mid)
+            if lowest_mid is None or mid < lowest_mid:
+                lowest_mid, when = mid, _iso_from_ts(point.get("t"))
         if lowest_mid is None:
-            return None
+            return None, None
         # The published price is the mid; the ask we would have paid sits at
         # least half a tick above it.
-        return lowest_mid + POLY_MID_TO_ASK_CENTS
+        return lowest_mid + POLY_MID_TO_ASK_CENTS, when
 
     def closing_price_cents(self, venue_id: str, side: str, kickoff,
                             lookback_hours: int = 6):
@@ -293,6 +359,20 @@ def _expiry(order):
     return _parse_dt(getattr(order, "expires_at", None), None)
 
 
+def _best_executable(probe, order, since, until):
+    """(price, moment) from whichever method the probe actually implements.
+
+    A probe is anything with the venue plumbing, not necessarily a `FillProbe`
+    subclass -- the test doubles are plain objects. One that predates
+    `best_executable` still answers the only question that decides a fill, and
+    reports no moment.
+    """
+    ask = getattr(probe, "best_executable", None)
+    if ask is None:
+        return probe.best_executable_cents(order, since, until), None
+    return ask(order, since, until)
+
+
 def replay_fills(portfolio, probes: dict, now=None) -> dict:
     """Fill every resting order the tape says traded through. Counted, never guessed."""
     now = now or dt.datetime.now(dt.timezone.utc)
@@ -335,7 +415,11 @@ def replay_fills(portfolio, probes: dict, now=None) -> dict:
             stats["expired_before_check"] = stats.get(
                 "expired_before_check", 0) + 1
             continue
-        best = probe.best_executable_cents(order, since, until)
+        # `best_executable` carries the moment the price printed. The tape is
+        # the only thing that knows it, and `opened_at` is stamped at replay
+        # time -- so without this a three-hourly cron rounds every fill to its
+        # own schedule and the execution timing is gone.
+        best, printed_at = _best_executable(probe, order, since, until)
         order.last_checked_at = now.isoformat()
         if best is None:
             stats["no_history"] += 1
@@ -350,7 +434,8 @@ def replay_fills(portfolio, probes: dict, now=None) -> dict:
                               order.remaining)
         before = order.filled_size
         portfolio.try_fill_resting(order.order_id, book,
-                                   require_trade_through=False)
+                                   require_trade_through=False,
+                                   filled_at=printed_at)
         if order.filled_size > before:
             stats["filled"] += 1
             order.log("fill_basis", basis="history", venue=order.venue,
