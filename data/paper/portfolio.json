@@ -83425,13 +83425,13 @@
       "kickoff_utc": "2026-09-15T19:30:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-15T13:15:43.011664+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
-      "settled": false,
-      "result": null,
+      "closing_price_cents": 18.5,
+      "clv_cents": 0.5,
+      "clv_source": "kalshi",
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -743.0,
       "p_model": 0.38762363075344575,
       "decision_price_cents": 18,
       "filled_at": "2026-09-15T13:15:43.011642+00:00",
@@ -83455,13 +83455,13 @@
       "kickoff_utc": "2026-09-15T19:30:00+00:00",
       "settles_on_regulation": null,
       "opened_at": "2026-09-15T13:15:43.011874+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
-      "settled": false,
-      "result": null,
+      "closing_price_cents": 18.5,
+      "clv_cents": 0.5,
+      "clv_source": "polymarket",
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -720.0,
       "p_model": 0.38762363075344575,
       "decision_price_cents": 18,
       "filled_at": "2026-09-15T13:15:43.011855+00:00",
@@ -85839,6 +85839,34 @@
       "pnl_cents": -1220.0,
       "league_id": "mls",
       "case_id": "polymarket:0x9a5f68aed8d15685d8b44e1a838bf9fdfcbf661640e1143459d1a19b436b6ec7:no"
+    },
+    {
+      "ts": "2026-09-16T11:40:10.639691+00:00",
+      "instrument_id": "KXLALIGAGAME-26SEP15ELCRMA-RMA",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 39.0,
+      "avg_cost_cents": 18.0,
+      "fees_cents": 41,
+      "payout_cents": 0.0,
+      "pnl_cents": -743.0,
+      "league_id": "la_liga",
+      "case_id": "kalshi:KXLALIGAGAME-26SEP15ELCRMA-RMA:no"
+    },
+    {
+      "ts": "2026-09-16T11:40:10.642026+00:00",
+      "instrument_id": "0x205438b8dba2e694e38292de16c929f10c7de57278054c8bde1f7e2c633a92ba",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 40.0,
+      "avg_cost_cents": 18.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -720.0,
+      "league_id": "la_liga",
+      "case_id": "polymarket:0x205438b8dba2e694e38292de16c929f10c7de57278054c8bde1f7e2c633a92ba:no"
     }
   ],
   "boarded": {
@@ -87915,5 +87943,5 @@
       "reason": "approved 2 of 16 market(s): Away win severely underpriced at 18\u00a2 vs p_lower=36.76%. Analyst confirms Madrid's overpricing is defensible despite favorites status due to rotation constraints and Mbapp\u00e9 injury management. Strong EV (17.72\u00a2) with 93% ROI and deep liquidity (99k). Clearest expression of thesis."
     }
   },
-  "saved_at": "2026-09-15T19:01:57.303804+00:00"
+  "saved_at": "2026-09-16T11:40:10.735327+00:00"
 }
