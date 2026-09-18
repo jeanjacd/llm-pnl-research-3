@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
   "cash_cents": 98290,
-  "reserved_cents": 0,
+  "reserved_cents": 1269,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -78702,6 +78702,47 @@
       "void": false,
       "void_reason": null,
       "voided_at": null
+    },
+    "6273e17f-fa06-42f4-b1eb-d99c870938d3": {
+      "order_id": "6273e17f-fa06-42f4-b1eb-d99c870938d3",
+      "case_id": "kalshi:KXBUNDESLIGATOTAL-26SEP18BMUUNI-5:no",
+      "venue": "kalshi",
+      "instrument_id": "KXBUNDESLIGATOTAL-26SEP18BMUUNI-5",
+      "side": "no",
+      "limit_price_cents": 49,
+      "requested_size": 25.0,
+      "league_id": "bundesliga",
+      "kind": "limit",
+      "status": "open",
+      "filled_size": 0.0,
+      "avg_fill_price_cents": 0.0,
+      "fees_cents": 0,
+      "reserved_cents": 1269,
+      "created_at": "2026-09-18T04:11:07.066846+00:00",
+      "expires_at": "2026-09-18T18:30:00+00:00",
+      "events": [
+        {
+          "ts": "2026-09-18T04:11:07.066855+00:00",
+          "event": "submitted",
+          "key": "kalshi:KXBUNDESLIGATOTAL-26SEP18BMUUNI-5:no|KXBUNDESLIGATOTAL-26SEP18BMUUNI-5|no|49",
+          "reserved_cents": 1269
+        }
+      ],
+      "cancel_triggers": [],
+      "claim": "not_total_over_4.5",
+      "home_team": "Bayern Munich",
+      "away_team": "1. FC Union Berlin",
+      "kickoff_utc": "2026-09-18T18:30:00",
+      "settles_on_regulation": true,
+      "last_checked_at": null,
+      "p_model": 0.5579390084273987,
+      "decision_price_cents": 45,
+      "filled_at": null,
+      "closing_price_cents": null,
+      "counterfactual_clv_cents": null,
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
     }
   },
   "positions": {
@@ -88585,7 +88626,63 @@
       "markets_approved": 7,
       "decided_by": "judge",
       "reason": "approved 7 of 11 market(s): Analyst verdict strongly supports NO home-win view: M\u00e1laga crippled by 5+ injuries, abysmal offense (0.4 goals/game, 67% blanks), vs Villarreal's superior squad health & H2H record (12-10). p_lower 77.81% > breakeven 76.32%. Deep liquidity (20440) supports resting limit."
+    },
+    "bundesliga|Bayern Munich|1. FC Union Berlin|2026-09-18": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-18T04:11:07.066395+00:00",
+      "hours_to_kickoff": 14.3,
+      "ts": "2026-09-18T04:11:07.066413+00:00",
+      "action": "PAPER_PLACE_LIMIT",
+      "claim": "not_home_win",
+      "home": "Bayern Munich",
+      "away": "1. FC Union Berlin",
+      "markets_considered": 33,
+      "markets_approved": 1,
+      "decided_by": "judge",
+      "reason": "approved 1 of 9 market(s): Analyst verdict strongly favors Bayern home win; betting against requires Union to not lose (draw/win). Probability cushion between p_lower (11.1%) and breakeven (8.5%) is only 2.6%, magnifying model risk. Counterargument is stronger here."
+    },
+    "la_liga|Espanyol|Elche|2026-09-18": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-18T04:15:19.283179+00:00",
+      "hours_to_kickoff": 14.7,
+      "ts": "2026-09-18T04:15:19.283195+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "Espanyol",
+      "away": "Elche",
+      "markets_considered": 38,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Material fixture congestion and managerial instability at Elche create uncertainty about competitive readiness. Espanyol shows structured defensive setup and home advantage, but recent form (1-0 loss to Rayo Vallecano on Sep 15) contradicts historical dominance vs Elche. Critical unknowns: Elche's new manager Mart\u00edn Anselmi's tactical adjustment (only 3 months tenure), whether the team's survival "
+    },
+    "ligue_1|AS Monaco|Lens|2026-09-18": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-18T04:19:23.357778+00:00",
+      "hours_to_kickoff": 14.4,
+      "ts": "2026-09-18T04:19:23.357795+00:00",
+      "action": "DEFER",
+      "claim": "not_home_win",
+      "home": "AS Monaco",
+      "away": "Lens",
+      "markets_considered": 38,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Monaco's pre-match superiority is material and intact. Strong form (3W-1D unbeaten, second place on 10 points), robust defensive profile (0.5 goals conceded/match), tactical continuity under Pocognoli's 3-4-1-2 system, and Lens managerial instability (Cahuzac's first match in charge, unlicensed, paying \u20ac25k/match fines) all favor the home side decisively. While both squads carry injury burdens, Mo"
+    },
+    "premier_league|Brentford|Chelsea|2026-09-18": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-18T04:23:07.113775+00:00",
+      "hours_to_kickoff": 14.6,
+      "ts": "2026-09-18T04:23:07.113792+00:00",
+      "action": "DEFER",
+      "claim": "home_win",
+      "home": "Brentford",
+      "away": "Chelsea",
+      "markets_considered": 38,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Home win assumption cannot be validated. Brentford's recent form (1W-3D in last 4) and Chelsea's defensive fragility are both supported. However, critical contradictions exist: recent H2H history shows 4 consecutive draws at Gtech (0-0, 2-2, 0-0, 2-2), contradicting any home-win bias. Chelsea's away record (1W from 6) is fragile but their attack ranks high. Brentford's unbeaten run (6 matches, but"
     }
   },
-  "saved_at": "2026-09-17T22:04:03.806147+00:00"
+  "saved_at": "2026-09-18T04:23:07.242994+00:00"
 }
