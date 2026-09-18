@@ -1,7 +1,7 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 98290,
-  "reserved_cents": 1269,
+  "cash_cents": 97021,
+  "reserved_cents": 0,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
       "order_id": "76049aa8-05cd-4552-a013-ed5a1161d525",
@@ -78713,11 +78713,11 @@
       "requested_size": 25.0,
       "league_id": "bundesliga",
       "kind": "limit",
-      "status": "open",
-      "filled_size": 0.0,
-      "avg_fill_price_cents": 0.0,
-      "fees_cents": 0,
-      "reserved_cents": 1269,
+      "status": "filled",
+      "filled_size": 25.0,
+      "avg_fill_price_cents": 49.0,
+      "fees_cents": 44,
+      "reserved_cents": 0,
       "created_at": "2026-09-18T04:11:07.066846+00:00",
       "expires_at": "2026-09-18T18:30:00+00:00",
       "events": [
@@ -78726,6 +78726,23 @@
           "event": "submitted",
           "key": "kalshi:KXBUNDESLIGATOTAL-26SEP18BMUUNI-5:no|KXBUNDESLIGATOTAL-26SEP18BMUUNI-5|no|49",
           "reserved_cents": 1269
+        },
+        {
+          "ts": "2026-09-18T07:03:01.899026+00:00",
+          "event": "fill",
+          "size": 25.0,
+          "price_cents": 49.0,
+          "fee_cents": 44,
+          "filled_at": "2026-09-18T06:36:00+00:00"
+        },
+        {
+          "ts": "2026-09-18T07:03:01.899073+00:00",
+          "event": "fill_basis",
+          "basis": "history",
+          "venue": "kalshi",
+          "observed_cents": 42.0,
+          "window_start": "2026-09-18T04:11:07.066846+00:00",
+          "window_end": "2026-09-18T07:03:01.831487+00:00"
         }
       ],
       "cancel_triggers": [],
@@ -78734,10 +78751,10 @@
       "away_team": "1. FC Union Berlin",
       "kickoff_utc": "2026-09-18T18:30:00",
       "settles_on_regulation": true,
-      "last_checked_at": null,
+      "last_checked_at": "2026-09-18T07:03:01.831487+00:00",
       "p_model": 0.5579390084273987,
       "decision_price_cents": 45,
-      "filled_at": null,
+      "filled_at": "2026-09-18T06:36:00+00:00",
       "closing_price_cents": null,
       "counterfactual_clv_cents": null,
       "void": false,
@@ -84055,6 +84072,36 @@
       "void": false,
       "void_reason": null,
       "voided_at": null
+    },
+    "KXBUNDESLIGATOTAL-26SEP18BMUUNI-5|no": {
+      "position_id": "a2a87e9a-e80a-4f07-be90-160c60d747ad",
+      "venue": "kalshi",
+      "instrument_id": "KXBUNDESLIGATOTAL-26SEP18BMUUNI-5",
+      "side": "no",
+      "size": 25.0,
+      "avg_cost_cents": 49.0,
+      "fees_cents": 44,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGATOTAL-26SEP18BMUUNI-5:no",
+      "claim": "not_total_over_4.5",
+      "home_team": "Bayern Munich",
+      "away_team": "1. FC Union Berlin",
+      "kickoff_utc": "2026-09-18T18:30:00",
+      "settles_on_regulation": true,
+      "opened_at": "2026-09-18T07:03:01.899061+00:00",
+      "closing_price_cents": null,
+      "clv_cents": null,
+      "clv_source": null,
+      "settled": false,
+      "result": null,
+      "payout_cents": 0.0,
+      "realized_pnl_cents": 0.0,
+      "p_model": 0.5579390084273987,
+      "decision_price_cents": 45,
+      "filled_at": "2026-09-18T06:36:00+00:00",
+      "void": false,
+      "void_reason": null,
+      "voided_at": null
     }
   },
   "ledger": [
@@ -88682,7 +88729,21 @@
       "markets_approved": 0,
       "decided_by": "coach",
       "reason": "Home win assumption cannot be validated. Brentford's recent form (1W-3D in last 4) and Chelsea's defensive fragility are both supported. However, critical contradictions exist: recent H2H history shows 4 consecutive draws at Gtech (0-0, 2-2, 0-0, 2-2), contradicting any home-win bias. Chelsea's away record (1W from 6) is fragile but their attack ranks high. Brentford's unbeaten run (6 matches, but"
+    },
+    "mls|New York City FC|Red Bull New York|2026-09-18": {
+      "attempts": 1,
+      "first_boarded_at": "2026-09-18T07:10:04.271573+00:00",
+      "hours_to_kickoff": 16.3,
+      "ts": "2026-09-18T07:10:04.271593+00:00",
+      "action": "DEFER",
+      "claim": "draw",
+      "home": "New York City FC",
+      "away": "Red Bull New York",
+      "markets_considered": 32,
+      "markets_approved": 0,
+      "decided_by": "coach",
+      "reason": "Critical match context intact but material research gaps prevent confident sporting assessment. NYCFC possesses recent form advantage (beat RSL, 3-1-1 in last 5 derbies) and set-piece proficiency demonstrated vs RBNY in April 2026. Red Bulls show defensive solidity (2 GA in 3 matches) and strong goalkeeper form. Both teams employ similar high-pressing tactics with similar vulnerabilities. However:"
     }
   },
-  "saved_at": "2026-09-18T04:23:07.242994+00:00"
+  "saved_at": "2026-09-18T07:10:04.362651+00:00"
 }
