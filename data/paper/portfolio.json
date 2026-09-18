@@ -88689,46 +88689,46 @@
       "reason": "approved 1 of 9 market(s): Analyst verdict strongly favors Bayern home win; betting against requires Union to not lose (draw/win). Probability cushion between p_lower (11.1%) and breakeven (8.5%) is only 2.6%, magnifying model risk. Counterargument is stronger here."
     },
     "la_liga|Espanyol|Elche|2026-09-18": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-18T04:15:19.283179+00:00",
-      "hours_to_kickoff": 14.7,
-      "ts": "2026-09-18T04:15:19.283195+00:00",
+      "hours_to_kickoff": 8.8,
+      "ts": "2026-09-18T10:13:07.656798+00:00",
       "action": "DEFER",
       "claim": "not_home_win",
       "home": "Espanyol",
       "away": "Elche",
-      "markets_considered": 38,
+      "markets_considered": 40,
       "markets_approved": 0,
-      "decided_by": "coach",
-      "reason": "Material fixture congestion and managerial instability at Elche create uncertainty about competitive readiness. Espanyol shows structured defensive setup and home advantage, but recent form (1-0 loss to Rayo Vallecano on Sep 15) contradicts historical dominance vs Elche. Critical unknowns: Elche's new manager Mart\u00edn Anselmi's tactical adjustment (only 3 months tenure), whether the team's survival "
+      "decided_by": "judge",
+      "reason": "approved 0 of 2 market(s): Soccer analyst's evidence for home win is overwhelming: Espanyol 8th (7 pts) vs Elche 20th (2 pts); unbeaten 6 h2h; Elche 0-6 winless with defensive fragility. Quant's p_lower of 49.5% for NO side (implying 50.5% home win) is insufficient to override analyst's structural case. Margin too thin to justify betting against the baseline."
     },
     "ligue_1|AS Monaco|Lens|2026-09-18": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-18T04:19:23.357778+00:00",
-      "hours_to_kickoff": 14.4,
-      "ts": "2026-09-18T04:19:23.357795+00:00",
+      "hours_to_kickoff": 8.5,
+      "ts": "2026-09-18T10:17:04.222908+00:00",
       "action": "DEFER",
-      "claim": "not_home_win",
+      "claim": "away_win",
       "home": "AS Monaco",
       "away": "Lens",
-      "markets_considered": 38,
+      "markets_considered": 40,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Monaco's pre-match superiority is material and intact. Strong form (3W-1D unbeaten, second place on 10 points), robust defensive profile (0.5 goals conceded/match), tactical continuity under Pocognoli's 3-4-1-2 system, and Lens managerial instability (Cahuzac's first match in charge, unlicensed, paying \u20ac25k/match fines) all favor the home side decisively. While both squads carry injury burdens, Mo"
+      "reason": "Lens away win is contradicted by multiple material factors: Monaco unbeaten (3 wins, 1 draw) with strong home form; Lens in 10th place (1W-2L-1D), winless away, multiple key injuries (Baidoo, Chavez, Nawrocki, Titraoui sidelined or doubtful), and critically disrupted by manager Toppm\u00f6ller's departure on Sept 15 with Cahuzac promoted to permanent role 3 days before fixture. Lens showed resilience v"
     },
     "premier_league|Brentford|Chelsea|2026-09-18": {
-      "attempts": 1,
+      "attempts": 2,
       "first_boarded_at": "2026-09-18T04:23:07.113775+00:00",
-      "hours_to_kickoff": 14.6,
-      "ts": "2026-09-18T04:23:07.113792+00:00",
+      "hours_to_kickoff": 8.6,
+      "ts": "2026-09-18T10:21:23.998720+00:00",
       "action": "DEFER",
       "claim": "home_win",
       "home": "Brentford",
       "away": "Chelsea",
-      "markets_considered": 38,
+      "markets_considered": 40,
       "markets_approved": 0,
       "decided_by": "coach",
-      "reason": "Home win assumption cannot be validated. Brentford's recent form (1W-3D in last 4) and Chelsea's defensive fragility are both supported. However, critical contradictions exist: recent H2H history shows 4 consecutive draws at Gtech (0-0, 2-2, 0-0, 2-2), contradicting any home-win bias. Chelsea's away record (1W from 6) is fragile but their attack ranks high. Brentford's unbeaten run (6 matches, but"
+      "reason": "Critical managerial and structural information is obscured or insufficient to assess a home-win claim with confidence. Brentford have a materially altered setup under new manager Keith Andrews (appointed June 2026, replacing Thomas Frank), yet recent form shows mixed results (1W-3D in league, with earlier 3-0 rout of Tottenham not representative of current trajectory). Chelsea face significant abs"
     },
     "mls|New York City FC|Red Bull New York|2026-09-18": {
       "attempts": 1,
@@ -88745,5 +88745,5 @@
       "reason": "Critical match context intact but material research gaps prevent confident sporting assessment. NYCFC possesses recent form advantage (beat RSL, 3-1-1 in last 5 derbies) and set-piece proficiency demonstrated vs RBNY in April 2026. Red Bulls show defensive solidity (2 GA in 3 matches) and strong goalkeeper form. Both teams employ similar high-pressing tactics with similar vulnerabilities. However:"
     }
   },
-  "saved_at": "2026-09-18T07:10:04.362651+00:00"
+  "saved_at": "2026-09-18T10:21:24.067902+00:00"
 }
