@@ -84089,13 +84089,13 @@
       "kickoff_utc": "2026-09-18T18:30:00",
       "settles_on_regulation": true,
       "opened_at": "2026-09-18T07:03:01.899061+00:00",
-      "closing_price_cents": null,
-      "clv_cents": null,
-      "clv_source": null,
-      "settled": false,
-      "result": null,
+      "closing_price_cents": 39.5,
+      "clv_cents": -9.5,
+      "clv_source": "kalshi",
+      "settled": true,
+      "result": "yes",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -1269.0,
       "p_model": 0.5579390084273987,
       "decision_price_cents": 45,
       "filled_at": "2026-09-18T06:36:00+00:00",
@@ -86585,6 +86585,20 @@
       "pnl_cents": -180.0,
       "league_id": "la_liga",
       "case_id": "polymarket:0xcef3b3cbbaa1d301c6dc038ce57ba667493db46fd5c771798627c32b9c292706:no"
+    },
+    {
+      "ts": "2026-09-18T20:57:54.753350+00:00",
+      "instrument_id": "KXBUNDESLIGATOTAL-26SEP18BMUUNI-5",
+      "side": "no",
+      "result": "yes",
+      "won": false,
+      "size": 25.0,
+      "avg_cost_cents": 49.0,
+      "fees_cents": 44,
+      "payout_cents": 0.0,
+      "pnl_cents": -1269.0,
+      "league_id": "bundesliga",
+      "case_id": "kalshi:KXBUNDESLIGATOTAL-26SEP18BMUUNI-5:no"
     }
   ],
   "boarded": {
@@ -88745,5 +88759,5 @@
       "reason": "Critical match context intact but material research gaps prevent confident sporting assessment. NYCFC possesses recent form advantage (beat RSL, 3-1-1 in last 5 derbies) and set-piece proficiency demonstrated vs RBNY in April 2026. Red Bulls show defensive solidity (2 GA in 3 matches) and strong goalkeeper form. Both teams employ similar high-pressing tactics with similar vulnerabilities. However:"
     }
   },
-  "saved_at": "2026-09-18T13:05:10.488933+00:00"
+  "saved_at": "2026-09-18T20:57:54.844737+00:00"
 }
