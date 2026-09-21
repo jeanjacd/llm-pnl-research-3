@@ -1,6 +1,6 @@
 {
   "starting_cash_cents": 100000,
-  "cash_cents": 72494,
+  "cash_cents": 79594,
   "reserved_cents": 0,
   "orders": {
     "76049aa8-05cd-4552-a013-ed5a1161d525": {
@@ -87031,8 +87031,8 @@
       "p_model": 0.2263996360459746,
       "decision_price_cents": 17,
       "filled_at": null,
-      "closing_price_cents": null,
-      "counterfactual_clv_cents": null,
+      "closing_price_cents": 13.5,
+      "counterfactual_clv_cents": -1.5,
       "void": false,
       "void_reason": null,
       "voided_at": null
@@ -94436,10 +94436,10 @@
       "closing_price_cents": 28.5,
       "clv_cents": -4.5,
       "clv_source": "kalshi",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "no",
+      "payout_cents": 3500.0,
+      "realized_pnl_cents": 2290.0,
       "p_model": 0.4165874378909835,
       "decision_price_cents": 33,
       "filled_at": "2026-09-20T13:26:11.299586+00:00",
@@ -94466,10 +94466,10 @@
       "closing_price_cents": 28.5,
       "clv_cents": -5.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
-      "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "settled": true,
+      "result": "no",
+      "payout_cents": 3600.0,
+      "realized_pnl_cents": 2376.0,
       "p_model": 0.4165874378909835,
       "decision_price_cents": 34,
       "filled_at": "2026-09-20T13:26:11.299834+00:00",
@@ -94556,10 +94556,10 @@
       "closing_price_cents": 13.5,
       "clv_cents": -2.5,
       "clv_source": "polymarket",
-      "settled": false,
-      "result": null,
+      "settled": true,
+      "result": "no",
       "payout_cents": 0.0,
-      "realized_pnl_cents": 0.0,
+      "realized_pnl_cents": -1248.0,
       "p_model": 0.2263996360459746,
       "decision_price_cents": 16,
       "filled_at": "2026-09-20T20:26:12+00:00",
@@ -98015,6 +98015,48 @@
       "pnl_cents": -890.0,
       "league_id": "ligue_1",
       "case_id": "kalshi:KXLIGUE1GAME-26SEP20OLMPSG-OLM:yes"
+    },
+    {
+      "ts": "2026-09-21T12:55:16.589356+00:00",
+      "instrument_id": "KXMLSGAME-26SEP20MIASD-MIA",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 35.0,
+      "avg_cost_cents": 33.0,
+      "fees_cents": 55,
+      "payout_cents": 3500.0,
+      "pnl_cents": 2290.0,
+      "league_id": "mls",
+      "case_id": "kalshi:KXMLSGAME-26SEP20MIASD-MIA:no"
+    },
+    {
+      "ts": "2026-09-21T12:55:16.591520+00:00",
+      "instrument_id": "0xb6049c7226917a6e80f5f6db19cbfeecc0a8d4165ee044c2784537c1611f41e5",
+      "side": "no",
+      "result": "no",
+      "won": true,
+      "size": 36.0,
+      "avg_cost_cents": 34.0,
+      "fees_cents": 0,
+      "payout_cents": 3600.0,
+      "pnl_cents": 2376.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0xb6049c7226917a6e80f5f6db19cbfeecc0a8d4165ee044c2784537c1611f41e5:no"
+    },
+    {
+      "ts": "2026-09-21T12:55:16.593626+00:00",
+      "instrument_id": "0x34eeb25db62038ae9ce84cd11660c372a18ddae4cc9d09a855e540b77e2b566a",
+      "side": "yes",
+      "result": "no",
+      "won": false,
+      "size": 78.0,
+      "avg_cost_cents": 16.0,
+      "fees_cents": 0,
+      "payout_cents": 0.0,
+      "pnl_cents": -1248.0,
+      "league_id": "mls",
+      "case_id": "polymarket:0x34eeb25db62038ae9ce84cd11660c372a18ddae4cc9d09a855e540b77e2b566a:yes"
     }
   ],
   "boarded": {
@@ -100693,5 +100735,5 @@
       "reason": "Sporting fundamentals strongly favor Inter Miami home win. Form differential extreme (trophy-winning streak vs 5-0 loss + losing streak); Miami undefeated at home vs Western Conference this season; San Diego 9th place, only 2 road wins all year, missing top scorer Ingvartsen (lower-body injury), Oscar Verhoeven suspended; Miami have depth despite injuries (Silvetti, Morales, Allende). First-ever m"
     }
   },
-  "saved_at": "2026-09-21T01:05:36.148992+00:00"
+  "saved_at": "2026-09-21T12:55:16.699820+00:00"
 }
